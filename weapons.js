@@ -1,0 +1,41 @@
+var weapon = {};
+var projectile = [];
+function createWeapon(designation, texture, alpha, pen, reload, ammo){
+	var neueWaffe = {};
+	neueWaffe.designation = designation;
+	neueWaffe.texture = texture;
+	neueWaffe.alpha = alpha;
+	neueWaffe.pen = pen;
+	neueWaffe.reload = reload;
+	neueWaffe.ammo = ammo;
+	weapon[designation] = neueWaffe;
+}
+
+function spawnProjectile(from, size){
+	neuesProjektil = {};
+	neuesProjektil.texture = from[size+"Wp"].texture;
+	neuesProjektil.pen = from[size+"Wp"].pen;
+	neuesProjektil.alpha = from[size+"Wp"].alpha;
+	neuesProjektil.angle = from.angle
+	neuesProjektil.x = from.x;
+	neuesProjektil.y = from.y;
+	neuesProjektil.v = from[size+"Wp"].pen * 10;
+	projectile[projectile.length] = neuesProjektil;
+	console.log(projectile);
+}
+
+function displayProjectiles(){
+	for (i = 0; i < projectile.length; i++){
+		Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2, projectile[i].y + projectile[i].texture.naturalWidth/2); // Drehung
+		Game.ctx.rotate(projectile[i].angle * Math.PI / 180);
+		Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2), -(projectile[i].y + projectile[i].texture.naturalWidth/2));
+		Game.ctx.drawImage(projectile[i].texture, projectile[i].x, projectile[i].y); // Display
+		Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2, projectile[i].y + projectile[i].texture.naturalWidth/2); // Rückdrehung
+		Game.ctx.rotate(-projectile[i].angle * Math.PI / 180);
+		Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2), -(projectile[i].y + projectile[i].texture.naturalWidth/2));
+	}
+}
+
+function setupWeapons(){
+	createWeapon("5nm machinegun", image.ship_testarrow, 1, 1, 100, 100);
+}

@@ -1,0 +1,3 @@
+﻿var npc = {};
+function setupNpcs(){
+}
