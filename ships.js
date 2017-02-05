@@ -31,7 +31,7 @@ function displayShips(){
 		Game.ctx.translate(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2, ship.onField[i].y + ship.onField[i].skin.naturalWidth/2); // Drehung
 		Game.ctx.rotate(ship.onField[i].angle * Math.PI / 180);
 		Game.ctx.translate(-(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2), -(ship.onField[i].y + ship.onField[i].skin.naturalWidth/2));
-		Game.ctx.drawImage(ship.onField[i].skin, ship.onField[i].x, ship.onField[i].y); // Display
+		Game.ctx.drawImage(ship.onField[i].skin, ship.onField[i].x - frame.x, ship.onField[i].y - frame.y); // Display
 		Game.ctx.translate(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2, ship.onField[i].y + ship.onField[i].skin.naturalWidth/2); // Rückdrehung
 		Game.ctx.rotate(-ship.onField[i].angle * Math.PI / 180);
 		Game.ctx.translate(-(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2), -(ship.onField[i].y + ship.onField[i].skin.naturalWidth/2));

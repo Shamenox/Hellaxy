@@ -6,4 +6,5 @@
     "black": "ress/black.png",
 	"cursor" : "ress/cursor.png",
 	"ship_testarrow" : "ress/ships/testarrow.png",
+	"testmap" : "ress/testmap.png",
 }

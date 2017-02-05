@@ -28,7 +28,7 @@ window.onload = function() {
 	setupNpcs();
 	setupScenes();
 	console.log(frame);
-	background = image.blackscreen;
+	background = image.testmap;
 	spawnShip("testarrow", 0, 0, 0, "player1");
 	console.log(ship.onField[0]);
 
@@ -38,7 +38,7 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
-	Game.ctx.drawImage(background, frame.x * -1, frame.y *-1);
+	Game.ctx.drawImage(background, -frame.x, -frame.y);
 	physik();
 	displayShips();
 	displayProjectiles();
