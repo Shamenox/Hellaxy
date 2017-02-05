@@ -76,6 +76,14 @@ function delay() {
 	if (!next[state]) normalize();
 }
 
+function portal(x, y, width, height, to, atx, aty) {
+	if (ship.onField[0].x.between(x, x + width) && ship.onField[0].y.between(y, y + height)) {
+		sector.at = to;
+		ship.onField[0].x = atx;
+		ship.onField[0].y = aty;
+	}
+}
+
 
 function die() {
 	normalize();
