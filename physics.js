@@ -1,6 +1,5 @@
 ﻿// Eingabeverarbeitung
 function physik() {
-
 	for (i = 0; i < ship.onField.length; i++){
 		ship.onField[i].y -= ship.onField[i].vy;
 		ship.onField[i].x += ship.onField[i].vx;

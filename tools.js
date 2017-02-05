@@ -18,6 +18,7 @@ function button(posx, posy, width, height, tag, colour, action){
 	}
 	Game.ctx.fillStyle = "black";
 	Game.ctx.fillText(tag, posx + ((width - Game.ctx.measureText(tag).width)*0.5), textY);
+	Game.ctx.fillStyle = "yellow";
 }
 
 function createSkin(declaration){
@@ -68,24 +69,6 @@ function intervalReact(trigger, delay, ID){
 	return false;
 }
 	
-
-function labelFont(){
-	Game.ctx.strokeStyle = 'black';
-    Game.ctx.fillStyle = "black";
-    Game.ctx.font = "100px Calibri";
-	Game.ctx.lineWidth = 10;
-    Game.ctx.beginPath();
-	Game.ctx.stroke();
-}
-
-function standartFont(){
-	Game.ctx.strokeStyle = 'black';
-    Game.ctx.fillStyle = "black";
-    Game.ctx.font = "24px Calibri";
-	Game.ctx.lineWidth = 4;
-    Game.ctx.beginPath();
-	Game.ctx.stroke();
-}
 
 var Animation = function(){
   this.isRunning = false;

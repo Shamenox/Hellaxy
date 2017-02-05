@@ -2,15 +2,14 @@
 
 // Setup
 
-var player1 = {};
-var state = 0;
 var next = [];
 var background = new Image();
-var use = "false";
+var infoScreen = false;
 var frame = {
 	x : 0,
 	y : 0
 };
+
 
 // Canvas-Initialisierung
 window.onload = function() {
@@ -38,13 +37,29 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
-	console.log(frame.x ,frame.y);
 	Game.ctx.drawImage(background, -frame.x, -frame.y);
 	sector.act()
 	physik();
 	displayShips();
 	displayProjectiles();
+	infoScreening();
 	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y );
 	requestAnimationFrame(draw);
+}
+
+function infoScreening(){
+	if (intervalReact(key.i && infoScreen)) infoScreen = false;
+	if (intervalReact(key.i && !infoScreen)) infoScreen = true;
+	if (infoScreen){
+		Game.ctx.lineWidth = 20;
+		Game.ctx.fillStyle = "Yellow";
+		Game.ctx.strokeStyle = "orange";
+		Game.ctx.fillRect(0, 0, 1280, 720);
+		Game.ctx.strokeRect(5, 5, 1260, 710);
+		
+		Game.ctx.strokeStyle = "yellow";
+		Game.ctx.fillStyle = "yellow";
+		Game.ctx.lineWidth = 1;
+	}
 }
 // Scripted by Shamenox with a lot of help by Miterosan
