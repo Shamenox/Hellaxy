@@ -28,13 +28,13 @@ function spawnShip(declaration, x, y, angle,  ctrl){
 
 function displayShips(){
 	for (i = 0; i < ship.onField.length; i++){
-		Game.ctx.translate(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2, ship.onField[i].y + ship.onField[i].skin.naturalWidth/2); // Drehung
+		Game.ctx.translate(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2 - frame.x, ship.onField[i].y + ship.onField[i].skin.naturalWidth/2 - frame.y); // Drehung
 		Game.ctx.rotate(ship.onField[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2), -(ship.onField[i].y + ship.onField[i].skin.naturalWidth/2));
+		Game.ctx.translate(-(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2 - frame.x), -(ship.onField[i].y + ship.onField[i].skin.naturalWidth/2 - frame.y));
 		Game.ctx.drawImage(ship.onField[i].skin, ship.onField[i].x - frame.x, ship.onField[i].y - frame.y); // Display
-		Game.ctx.translate(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2, ship.onField[i].y + ship.onField[i].skin.naturalWidth/2); // Rückdrehung
+		Game.ctx.translate(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2 - frame.x, ship.onField[i].y + ship.onField[i].skin.naturalWidth/2 -frame.y); // Rückdrehung
 		Game.ctx.rotate(-ship.onField[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2), -(ship.onField[i].y + ship.onField[i].skin.naturalWidth/2));
+		Game.ctx.translate(-(ship.onField[i].x + ship.onField[i].skin.naturalWidth/2 - frame.x), -(ship.onField[i].y + ship.onField[i].skin.naturalWidth/2 - frame.y));
 	}
 }
 	
