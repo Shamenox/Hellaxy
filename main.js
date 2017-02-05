@@ -18,6 +18,7 @@ window.onload = function() {
     Game.ctx = canvas.getContext("2d");
 	Game.ctx.font = "24px Calibri";
 	Game.ctx.strokeStyle = "yellow";
+	Game.ctx.fillStyle = "yellow";
 
 	setupInput();
 	loadImages();
@@ -26,10 +27,9 @@ window.onload = function() {
 	setupWeapons();
 	setupShips();
 	setupNpcs();
-	setupScenes();
+	setupSectors();
 	console.log(frame);
 	background = image.testmap;
-	spawnShip("testarrow", 0, 0, 0, "player1");
 	console.log(ship.onField[0]);
 
 	//start drawloop
@@ -40,6 +40,7 @@ window.onload = function() {
 function draw() {
 	console.log(frame.x ,frame.y);
 	Game.ctx.drawImage(background, -frame.x, -frame.y);
+	sector.act()
 	physik();
 	displayShips();
 	displayProjectiles();
