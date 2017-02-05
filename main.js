@@ -38,6 +38,7 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
+	console.log(frame.x ,frame.y);
 	Game.ctx.drawImage(background, -frame.x, -frame.y);
 	physik();
 	displayShips();

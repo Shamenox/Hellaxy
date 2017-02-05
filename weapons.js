@@ -26,13 +26,13 @@ function spawnProjectile(from, size){
 
 function displayProjectiles(){
 	for (i = 0; i < projectile.length; i++){
-		Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2, projectile[i].y + projectile[i].texture.naturalWidth/2); // Drehung
+		Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x, projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y); // Drehung
 		Game.ctx.rotate(projectile[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2), -(projectile[i].y + projectile[i].texture.naturalWidth/2));
-		Game.ctx.drawImage(projectile[i].texture, projectile[i].x, projectile[i].y); // Display
-		Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2, projectile[i].y + projectile[i].texture.naturalWidth/2); // Rückdrehung
+		Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x), -(projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y));
+		Game.ctx.drawImage(projectile[i].texture, projectile[i].x - frame.x, projectile[i].y - frame.y); // Display
+		Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x, projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y); // Rückdrehung
 		Game.ctx.rotate(-projectile[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2), -(projectile[i].y + projectile[i].texture.naturalWidth/2));
+		Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x), -(projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y));
 	}
 }
 
