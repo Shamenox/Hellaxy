@@ -1,4 +1,7 @@
-﻿var Game = {event : {}};
+﻿
+var Game = {
+	event: {}
+};
 
 // Setup
 
@@ -6,15 +9,15 @@ var next = [];
 var background = new Image();
 var infoScreen = false;
 var frame = {
-	x : 0,
-	y : 0
+	x: 0,
+	y: 0
 };
 
 
 // Canvas-Initialisierung
 window.onload = function() {
-    var canvas = document.getElementById("Canvas");
-    Game.ctx = canvas.getContext("2d");
+	var canvas = document.getElementById("Canvas");
+	Game.ctx = canvas.getContext("2d");
 	Game.ctx.font = "24px Calibri";
 	Game.ctx.strokeStyle = "yellow";
 	Game.ctx.fillStyle = "yellow";
@@ -32,7 +35,7 @@ window.onload = function() {
 	console.log(ship.onField[0]);
 
 	//start drawloop
-    draw();
+	draw();
 };
 
 // Tatsaechliche Abbildung
@@ -43,20 +46,51 @@ function draw() {
 	displayShips();
 	displayProjectiles();
 	infoScreening();
-	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y );
+	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);
 	requestAnimationFrame(draw);
 }
 
-function infoScreening(){
+function infoScreening() {
 	if (intervalReact(key.i && infoScreen)) infoScreen = false;
 	if (intervalReact(key.i && !infoScreen)) infoScreen = true;
-	if (infoScreen){
+	if (infoScreen) {
 		Game.ctx.lineWidth = 20;
 		Game.ctx.fillStyle = "Yellow";
 		Game.ctx.strokeStyle = "orange";
 		Game.ctx.fillRect(0, 0, 1280, 720);
 		Game.ctx.strokeRect(5, 5, 1260, 710);
-		
+		Game.ctx.fillStyle = "black";
+		Game.ctx.drawImage(ship.onField[0].skin, 1000, 100, 240, 240);
+		Game.ctx.fillText("Ship Specifications:", 100, 100);
+		Game.ctx.fillText("Designation:" + ship.onField[0].designation, 100, 150);
+		Game.ctx.fillText("Fraction:" + ship.onField[0].fraction, 100, 200);
+		Game.ctx.fillText("Structure:" + ship.onField[0].hp, 100, 250);
+		Game.ctx.fillText("Armour:" + ship.onField[0].armour, 100, 300);
+		Game.ctx.fillText("Structure:" + ship.onField[0].hp, 100, 350);
+		Game.ctx.fillText("Weapons:", 100, 400);
+		if (ship.onField[0].lightWp !== undefined) {
+			Game.ctx.fillText("Light:", 300, 400);
+			Game.ctx.fillText(ship.onField[0].lightWp.designation, 300, 425);
+			Game.ctx.fillText("Ammunition: " + ship.onField[0].lightWp.ammo, 300, 450);
+			Game.ctx.fillText("Alpha-Damage: " + ship.onField[0].lightWp.alpha, 300, 475);
+			Game.ctx.fillText("Penetration: " + ship.onField[0].lightWp.pen, 300, 500);
+		}
+		if (ship.onField[0].mediumWp !== undefined) {
+			Game.ctx.fillText("Medium:", 500, 400);
+			Game.ctx.fillText(ship.onField[0].mediumWp.designation, 500, 425);
+			Game.ctx.fillText("Ammunition: " + ship.onField[0].mediumWp.ammo, 500, 450);
+			Game.ctx.fillText("Alpha-Damage: " + ship.onField[0].mediumWp.alpha, 500, 475);
+			Game.ctx.fillText("Penetration: " + ship.onField[0].mediumWp.pen, 500, 500);
+		}
+		if (ship.onField[0].heavyWp !== undefined) {
+			Game.ctx.fillText("Heavy:", 700, 400);
+			Game.ctx.fillText(ship.onField[0].heavyWp.designation, 700, 425);
+			Game.ctx.fillText("Ammunition: " + ship.onField[0].heavyWp.ammo, 700, 450);
+			Game.ctx.fillText("Alpha-Damage: " + ship.onField[0].heavyWp.alpha, 700, 475);
+			Game.ctx.fillText("Penetration: " + ship.onField[0].heavyWp.pen, 700, 500);
+		}
+
+
 		Game.ctx.strokeStyle = "yellow";
 		Game.ctx.fillStyle = "yellow";
 		Game.ctx.lineWidth = 1;
