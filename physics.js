@@ -45,9 +45,11 @@ function physik() {
 		}
 	}
 	for (i = 0; i < projectile.length; i++) {
-		projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
-		projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
-		if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > background.naturalWidth || projectile[i].y > background.naturalHeight) projectile[i].texture = image.blank, projectile[i].v = 0;
+		if (projectile[i].active){
+			projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
+			projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
+			if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > background.naturalWidth || projectile[i].y > background.naturalHeight) projectile[i].active = false;
+		}
 	}
 	if (frame.y < 0) frame.y = 0;
 	if (frame.y > background.naturalHeight - 720) frame.y = background.naturalHeight - 721;

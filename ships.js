@@ -12,7 +12,18 @@ function createShip(declaration, fraction, texture, hp, armour, acc, wp1, wp2, w
 	if (wp1 !== undefined) neuesSchiff.lightWp = weapon[wp1];
 	if (wp2 !== undefined) neuesSchiff.mediumWp = weapon[wp2];
 	if (wp3 !== undefined) neuesSchiff.heavyWp = weapon[wp3];
-	//console.log(neuesSchiff);
+	neuesSchiff.collidesWith = function (obj) {
+		var collision = false;
+		if (this.x.between(obj.x, obj.x + obj.skin.naturalWidth)){
+			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
+			if ((this.y + this.skin.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
+		}
+		if ((this.x + this.skin.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
+			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
+			if ((this.y + this.skin.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
+		}
+		return collision;
+	}
 	ship[declaration] = neuesSchiff;
 }
 
