@@ -1,6 +1,6 @@
 var weapon = {};
 var projectile = [];
-function createWeapon(designation, texture, alpha, pen, reload, ammo){
+function createWeapon(designation, texture, alpha, pen, reload, ammo, sound){
 	var neueWaffe = {};
 	neueWaffe.designation = designation;
 	neueWaffe.texture = texture;
@@ -8,6 +8,7 @@ function createWeapon(designation, texture, alpha, pen, reload, ammo){
 	neueWaffe.pen = pen;
 	neueWaffe.reload = reload;
 	neueWaffe.ammo = ammo;
+	neueWaffe.sound = audio[sound];
 	weapon[designation] = neueWaffe;
 }
 
@@ -21,7 +22,8 @@ function spawnProjectile(from, size){
 	neuesProjektil.y = from.y;
 	neuesProjektil.v = from[size+"Wp"].pen * 10;
 	projectile[projectile.length] = neuesProjektil;
-	console.log(projectile);
+	from[size+"Wp"].sound.pause();
+	from[size+"Wp"].sound.play();
 }
 
 function displayProjectiles(){
@@ -37,5 +39,5 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){
-	createWeapon("5nm machinegun", image.ship_testarrow, 1, 1, 100, 100);
+	createWeapon("5nm machinegun", image.shot_light1, 1, 1, 100, 100, "shot_light");
 }

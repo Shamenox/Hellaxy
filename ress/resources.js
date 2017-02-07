@@ -7,4 +7,5 @@
 	"cursor" : "ress/cursor.png",
 	"ship_testarrow" : "ress/ships/testarrow.png",
 	"testmap" : "ress/testmap.png",
+	"shot_light1" : "ress/projectiles/shot_light1.png",
 }

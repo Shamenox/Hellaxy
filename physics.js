@@ -5,8 +5,8 @@ function physik() {
 		sector[sector.at].ships[i].x += sector[sector.at].ships[i].vx;
 		if (sector[sector.at].ships[i].angle > 360) sector[sector.at].ships[i].angle = 0; //Einhalten der 360°
 		if (sector[sector.at].ships[i].angle < 0) sector[sector.at].ships[i].angle = 360;
-		if (sector[sector.at].ships[i].vx > 10) sector[sector.at].ships[i].vx = 10; //Geschwindigkeitsobergrenze
-		if (sector[sector.at].ships[i].vy > 10) sector[sector.at].ships[i].vy = 10;
+		if (sector[sector.at].ships[i].vx > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vx = sector[sector.at].ships[i].a * 100; //Geschwindigkeitsobergrenze
+		if (sector[sector.at].ships[i].vy > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vy = sector[sector.at].ships[i].a * 100;
 		if (sector[sector.at].ships[i].x < 0) sector[sector.at].ships[i].x = 0, sector[sector.at].ships[i].vx = 0; //Zurücksetzen der Pos und V bei Randkollision
 		if (sector[sector.at].ships[i].y < 0) sector[sector.at].ships[i].y = 0, sector[sector.at].ships[i].vy = 0;
 		if (sector[sector.at].ships[i].x > background.naturalWidth - 32) sector[sector.at].ships[i].x = background.naturalWidth - 32, sector[sector.at].ships[i].vx = 0;

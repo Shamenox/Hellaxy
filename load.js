@@ -1,5 +1,8 @@
 ﻿var audio = {};
 function loadAudio(){
+audio.shot_light = new Audio("ress/audio/shot_light.mp3");
+audio.engine1 = new Audio("ress/audio/engine1.mp3");
+
 }
 
 var image = {
