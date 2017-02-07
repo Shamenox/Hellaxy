@@ -4,6 +4,7 @@ function createSector (options) {
 	var neuersector = {};
 	neuersector.background = image[options.bg];
 	neuersector.ships = [];
+	neuersector.isSetup = false;
 	if (options.theme !== "none") neuersector.theme = audio[options.theme];
 	if (options.theme === "none") neuersector.theme = "none";
 	sector[options.name] = neuersector;
@@ -18,7 +19,7 @@ sector.act = function(){
 	if (sector[sector.at].theme !== "none") sector[sector.at].theme.play();
 	if (sector[sector.at].events !== undefined) sector[sector.at].events();
 	if (sector[sector.at].setup !== undefined){
-		if (sector[sector.at].isSetup === false || sector[sector.at].isSetup === undefined){ 
+		if (!sector[sector.at].isSetup){ 
 			sector[sector.at].setup();
 			sector[sector.at].isSetup = true;	
 		}
@@ -63,7 +64,9 @@ createSector({ name : "testmap",
 	theme : "none"});
 sector.testmap.setup = function(){
 	spawnShip("testarrow", 0, 0, 0, "player1");
+	spawnShip("testarrow", 600, 400, 90, "none");
 }
+
 
 /*createScene({ name: "credits",
 	bg: "whitescreen",
@@ -82,6 +85,6 @@ scene.credits.events = function() {
 	Game.ctx.fillText("Programming : Shamenox, Miterosan",100,500);
 	button(400, 600, 480, 100, "Back", "yellow", function(){scene.at = "menue"})
 } */
-console.log(sector);
+
 }// No touchy!
 // :p hehe ~miterosan
