@@ -1,11 +1,12 @@
 ﻿var sector = {};
 function createSector (options) {
 	//declaration, bg, theme
-	var neueszene = {};
-	neueszene.background = image[options.bg];
-	if (options.theme !== "none") neueszene.theme = audio[options.theme];
-	if (options.theme === "none") neueszene.theme = "none";
-	sector[options.name] = neueszene;
+	var neuersector = {};
+	neuersector.background = image[options.bg];
+	neuersector.ships = [];
+	if (options.theme !== "none") neuersector.theme = audio[options.theme];
+	if (options.theme === "none") neuersector.theme = "none";
+	sector[options.name] = neuersector;
 }
 
 function setupSectors () {
@@ -81,6 +82,6 @@ scene.credits.events = function() {
 	Game.ctx.fillText("Programming : Shamenox, Miterosan",100,500);
 	button(400, 600, 480, 100, "Back", "yellow", function(){scene.at = "menue"})
 } */
-
+console.log(sector);
 }// No touchy!
 // :p hehe ~miterosan

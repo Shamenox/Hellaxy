@@ -32,7 +32,7 @@ window.onload = function() {
 	setupSectors();
 	console.log(frame);
 	background = image.testmap;
-	console.log(ship.onField[0]);
+	console.log(sector[sector.at].ships[0]);
 
 	//start drawloop
 	draw();
@@ -40,11 +40,12 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
+	console.log(sector[sector.at]);
 	Game.ctx.drawImage(background, -frame.x, -frame.y);
 	sector.act()
 	physik();
-	displayShips();
 	displayProjectiles();
+	displayShips();
 	infoScreening();
 	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);
 	requestAnimationFrame(draw);
