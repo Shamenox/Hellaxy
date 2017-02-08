@@ -5,6 +5,7 @@ audio.hit_light = new Audio("ress/audio/hit_light.mp3");
 audio.bounce_light = new Audio("ress/audio/bounce_light.mp3");
 audio.engine1 = new Audio("ress/audio/engine1.mp3");
 audio.theme1 = new Audio("ress/audio/theme1.mp3");
+audio.explosion1 = new Audio("ress/audio/bomb 3-soundbible.com-1260663209.wav");
 
 }
 

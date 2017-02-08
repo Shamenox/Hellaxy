@@ -31,9 +31,9 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		return collision;
 	}
 	neuesSchiff.explode = function(){
-		var diameter = this.skin.natrualWidth;
-		Game.ctx.drawImage(image.explosion, this.x, this.x, diameter, diameter);	
-		setTimeout(this.fadeOut, 2500);
+		setTimeout(this.fadeOut, 1000);
+		this.active = "explosion";
+		audio.explosion1.play();
 	}
 	neuesSchiff.fadeOut = function(){
 		this.active = false;
@@ -52,13 +52,16 @@ function spawnShip(declaration, x, y, angle,  ctrl){
 
 function displayShips(){
 	for (i = 0; i < sector[sector.at].ships.length; i++){
-		Game.ctx.translate(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x, sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y); // Drehung
-		Game.ctx.rotate(sector[sector.at].ships[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x), -(sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y));
-		Game.ctx.drawImage(sector[sector.at].ships[i].skin, sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - frame.y); // Display
-		Game.ctx.translate(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x, sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 -frame.y); // Rückdrehung
-		Game.ctx.rotate(-sector[sector.at].ships[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x), -(sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y));
+		if (sector[sector.at].ships[i].active === "explosion") Game.ctx.drawImage(image.explosion, sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - frame.y, sector[sector.at].ships[i].skin.naturalWidth, sector[sector.at].ships[i].skin.naturalWidth);
+		if (sector[sector.at].ships[i].active === true){
+			Game.ctx.translate(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x, sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y); // Drehung
+			Game.ctx.rotate(sector[sector.at].ships[i].angle * Math.PI / 180);
+			Game.ctx.translate(-(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x), -(sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y));
+			Game.ctx.drawImage(sector[sector.at].ships[i].skin, sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - frame.y); // Display
+			Game.ctx.translate(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x, sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 -frame.y); // Rückdrehung
+			Game.ctx.rotate(-sector[sector.at].ships[i].angle * Math.PI / 180);
+			Game.ctx.translate(-(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x), -(sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y));
+		}
 	}
 }
 	

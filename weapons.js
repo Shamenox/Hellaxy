@@ -57,5 +57,5 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){
-	createWeapon("5nm machinegun", image.shot_light1, 1, 1, 100, 200, "shot_light");
+	createWeapon("5nm machinegun", image.shot_light1, 10, 1, 100, 200, "shot_light");
 }
