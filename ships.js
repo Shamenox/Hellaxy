@@ -54,6 +54,7 @@ function displayShips(){
 }
 	
 function setupShips(){
-	createShip("testarrow", "none", "testarrow", 100, 100, 1, 0.1, "5nm machinegun");
+	createShip("testarrow", "none", "testarrow", 100, 100, 0.5, 0.1, "5nm machinegun");
+	createShip("humanian_shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.1, "5nm machinegun");
 	createShip("republic base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
 }

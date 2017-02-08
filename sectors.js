@@ -37,11 +37,23 @@ sector.loading.events = function() {
 	Game.ctx.stroke();
 }
 
+createSector({ name : "title",
+	bg : "blackscreen",
+	theme : "theme1",
+	});
+sector.title.events = function(){
+	Game.ctx.font = "144px Consolas";
+	Game.ctx.fillText("Hellaxy", 350, 240);
+	Game.ctx.font = "24px Consolas";
+	if (!intervalReact(true, 1000, "title")) Game.ctx.fillText("> Press Space <", 540, 540);
+	if (key.space) sector.at = "menue";
+}
+
 createSector({ name: "menue",
 		bg: "blackscreen",
 		theme: "none"});
 sector.menue.events = function() {
-    button(400, 100, 480, 100, "Start", "yellow", function(){sector.at = "testmap"})
+    button(400, 100, 480, 100, "Test Mode", "yellow", function(){sector.at = "testmap"})
 	button(400, 250, 480, 100, "Controls", "yellow", function(){sector.at = "controls"})
 }
 
@@ -63,7 +75,8 @@ createSector({ name : "testmap",
 	bg : "testmap",
 	theme : "none"});
 sector.testmap.setup = function(){
-	spawnShip("testarrow", 100, 100, 0, "player1");
+	spawnShip("humanian_shuttle", 200, 100, 0, "player1");
+	spawnShip("testarrow", 100, 100, 0, "none");
 	spawnShip("republic base", 600, 400, 90, "none");
 }
 

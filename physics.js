@@ -27,7 +27,7 @@ function physik() {
 			if (key.a) sector[sector.at].ships[i].angle -= 12 * sector[sector.at].ships[i].a; //Drehung
 			if (key.d) sector[sector.at].ships[i].angle += 12 * sector[sector.at].ships[i].a;
 			if (sector[sector.at].ships[i].lightWp !== undefined) {              //EXPERIMENTELL: Anzeigen der vorhandenen Munition
-				Game.ctx.strokeText(sector[sector.at].ships[i].lightWp.designation + " :", 10, 600);
+				Game.ctx.strokeText(sector[sector.at].ships[i].lightWp.designation + ":", 10, 600);
 				Game.ctx.strokeText(sector[sector.at].ships[i].lightWp.ammo, 20 + Game.ctx.measureText(sector[sector.at].ships[i].lightWp.designation).width, 600);
 				if (intervalReact(key.space && sector[sector.at].ships[i].lightWp.ammo > 0, sector[sector.at].ships[i].lightWp.reload, sector[sector.at].ships[i].lightWp.designation + String(i))) {
 					sector[sector.at].ships[i].lightWp.ammo -= 1;
@@ -51,13 +51,23 @@ function physik() {
 			if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > background.naturalWidth || projectile[i].y > background.naturalHeight) projectile[i].active = false;
 			for (h = 0; h < sector[sector.at].ships.length; h++){ //Prozess bei Treffer
 				if (projectile[i].hits(sector[sector.at].ships[h])) {
-					projectile[i].vx = 0;
-					projectile[i].vy = 0;
 					if (projectile[i].pen > sector[sector.at].ships[h].armour){
+						projectile[i].v = 0;
+						projectile[i].v = 0;
 						if (sector[sector.at].ships[h].shield > 0) sector[sector.at].ships[h].shield -= projectile[i].alpha;
 						if (sector[sector.at].ships[h].shield < 0) sector[sector.at].ships[h].hp -= projectile[i].alpha;
+						audio["hit_" + projectile[i].size].play();
+						projectile[i].active = false;
 					}
 					if (projectile[i].pen < sector[sector.at].ships[h].armour){
+					for (j = 180; j > 0; j--){
+						projectile[i].angle -=1;
+						if (projectile[i].angle === -1) projectile[i].angle = 359;
+					}
+					projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
+					projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
+					audio["bounce_" + projectile[i].size].play();
+					if (projectile[i].hits(sector[sector.at].ships[h])) projectile[i].active = false;
 					}
 				}
 			}

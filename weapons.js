@@ -15,6 +15,7 @@ function createWeapon(designation, texture, alpha, pen, reload, ammo, sound){
 function spawnProjectile(from, size){
 	neuesProjektil = {};
 	neuesProjektil.active = true;
+	neuesProjektil.size = size;
 	neuesProjektil.texture = from[size+"Wp"].texture;
 	neuesProjektil.pen = from[size+"Wp"].pen;
 	neuesProjektil.alpha = from[size+"Wp"].alpha;
@@ -56,5 +57,5 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){
-	createWeapon("5nm machinegun", image.shot_light1, 1, 1, 100, 100, "shot_light");
+	createWeapon("5nm machinegun", image.shot_light1, 1, 1, 100, 200, "shot_light");
 }

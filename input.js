@@ -7,7 +7,8 @@
 	q : false,
 	i : false,
 	space : false,
-	esc : false
+	esc : false,
+	enter : false,
 };
 var cursor = { x : 0, y : 0};
 var click = false;
@@ -22,6 +23,7 @@ addEventListener("keydown", function(w) {
 	if (w.keyCode === 73) key.i = true;
 	if (w.keyCode === 32) key.space = true;
     if (w.keyCode === 27) key.esc = true;
+	if (w.keycode === 13) key.enter = true;
 
     w.preventDefault();
     w.stopPropagation();
@@ -36,6 +38,7 @@ addEventListener("keyup", function(w) {
 	if (w.keyCode === 73) key.i = false;
 	if (w.keyCode === 32) key.space = false;
     if (w.keyCode === 27) key.esc = false;
+	if (w.keycode === 13) key.enter = false;
 }, false);
 
 document.onmousedown = function(trigger) {

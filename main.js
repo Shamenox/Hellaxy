@@ -18,7 +18,7 @@ var frame = {
 window.onload = function() {
 	var canvas = document.getElementById("Canvas");
 	Game.ctx = canvas.getContext("2d");
-	Game.ctx.font = "24px Calibri";
+	Game.ctx.font = "24px Consolas";
 	Game.ctx.strokeStyle = "yellow";
 	Game.ctx.fillStyle = "yellow";
 
