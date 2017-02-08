@@ -9,6 +9,7 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	neuesSchiff.ctrl = "none";
 	neuesSchiff.designation = declaration;
 	neuesSchiff.fraction = fraction;
+	neuesSchiff.active = true;
 	neuesSchiff.hp = hp;
 	neuesSchiff.shield = shield;
 	neuesSchiff.armour = armour;
@@ -28,6 +29,14 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 			if ((this.y + this.skin.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
 		}
 		return collision;
+	}
+	neuesSchiff.explode = function(){
+		var diameter = this.skin.natrualWidth;
+		Game.ctx.drawImage(image.explosion, this.x, this.x, diameter, diameter);	
+		setTimeout(this.fadeOut, 2500);
+	}
+	neuesSchiff.fadeOut = function(){
+		this.active = false;
 	}
 	ship[declaration] = neuesSchiff;
 }
