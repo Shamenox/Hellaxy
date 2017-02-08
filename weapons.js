@@ -32,8 +32,10 @@ function spawnProjectile(from, size){
 			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
 			if ((this.y + this.texture.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
 		}
+		if (this.emitter === obj) hit = false; //Prüfen ob Ziel das eigene Schiff ist
 		return hit;
 	}
+	neuesProjektil.emitter = from;
 	projectile[projectile.length] = neuesProjektil;
 	from[size+"Wp"].sound.pause();
 	from[size+"Wp"].sound.play();
