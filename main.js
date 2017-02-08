@@ -39,6 +39,7 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
+	console.log(ship["republic base"]);
 	Game.ctx.drawImage(background, -frame.x, -frame.y);
 	sector.act()
 	physik();

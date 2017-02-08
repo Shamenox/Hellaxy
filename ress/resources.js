@@ -8,4 +8,5 @@
 	"ship_testarrow" : "ress/ships/testarrow.png",
 	"testmap" : "ress/testmap.png",
 	"shot_light1" : "ress/projectiles/shot_light1.png",
+	"ship_rep_hq" : "ress/ships/rep hq.png",
 }

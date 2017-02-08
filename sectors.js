@@ -63,8 +63,8 @@ createSector({ name : "testmap",
 	bg : "testmap",
 	theme : "none"});
 sector.testmap.setup = function(){
-	spawnShip("testarrow", 0, 0, 0, "player1");
-	spawnShip("testarrow", 600, 400, 90, "none");
+	spawnShip("testarrow", 100, 100, 0, "player1");
+	spawnShip("republic base", 600, 400, 90, "none");
 }
 
 

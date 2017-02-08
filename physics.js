@@ -49,6 +49,18 @@ function physik() {
 			projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
 			projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
 			if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > background.naturalWidth || projectile[i].y > background.naturalHeight) projectile[i].active = false;
+			for (h = 0; h < sector[sector.at].ships.length; h++){ //Prozess bei Treffer
+				if (projectile[i].hits(sector[sector.at].ships[h])) {
+					projectile[i].vx = 0;
+					projectile[i].vy = 0;
+					if (projectile[i].pen > sector[sector.at].ships[h].armour){
+						if (sector[sector.at].ships[h].shield > 0) sector[sector.at].ships[h].shield -= projectile[i].alpha;
+						if (sector[sector.at].ships[h].shield < 0) sector[sector.at].ships[h].hp -= projectile[i].alpha;
+					}
+					if (projectile[i].pen < sector[sector.at].ships[h].armour){
+					}
+				}
+			}
 		}
 	}
 	if (frame.y < 0) frame.y = 0;

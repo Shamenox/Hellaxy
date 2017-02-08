@@ -1,13 +1,16 @@
 var ship = {};
-function createShip(declaration, fraction, texture, hp, armour, acc, wp1, wp2, wp3){
+function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1, wp2, wp3){
 	var neuesSchiff = {};
 	neuesSchiff.x = 0;
 	neuesSchiff.y = 0;
 	neuesSchiff.vx = 0;
 	neuesSchiff.vy = 0;
+	neuesSchiff.angle = 0;
+	neuesSchiff.ctrl = "none";
 	neuesSchiff.designation = declaration;
 	neuesSchiff.fraction = fraction;
 	neuesSchiff.hp = hp;
+	neuesSchiff.shield = shield;
 	neuesSchiff.armour = armour;
 	neuesSchiff.a = acc;
 	neuesSchiff.skin = image["ship_" + texture];
@@ -30,21 +33,12 @@ function createShip(declaration, fraction, texture, hp, armour, acc, wp1, wp2, w
 }
 
 function spawnShip(declaration, x, y, angle,  ctrl){
-	neuesSchiff = ship[declaration];
-	neuesSchiff.x = x;
-	neuesSchiff.y = y;
-	neuesSchiff.angle = angle;
-	neuesSchiff.ctrl = ctrl;
-	
-	console.log(neuesSchiff);
-	console.log(ship[declaration]);
-	console.log(sector[sector.at].ships[sector[sector.at].ships.length]);
-	
-	sector[sector.at].ships[sector[sector.at].ships.length] = neuesSchiff;
-	
-	console.log(neuesSchiff);
-	console.log(ship[declaration]);
-	console.log(sector[sector.at].ships[sector[sector.at].ships.length]);
+	var neuerSpawn = ship[declaration];
+	neuerSpawn.x = x;
+	neuerSpawn.y = y;
+	neuerSpawn.angle = angle;
+	neuerSpawn.ctrl = ctrl;
+	sector[sector.at].ships[sector[sector.at].ships.length] = neuerSpawn;
 }
 
 function displayShips(){
@@ -60,5 +54,6 @@ function displayShips(){
 }
 	
 function setupShips(){
-	createShip("testarrow", "none", "testarrow", 100, 1, 0.1, "5nm machinegun");
+	createShip("testarrow", "none", "testarrow", 100, 100, 1, 0.1, "5nm machinegun");
+	createShip("republic base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
 }
