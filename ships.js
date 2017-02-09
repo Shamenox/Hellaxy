@@ -41,13 +41,14 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	ship[declaration] = neuesSchiff;
 }
 
-function spawnShip(declaration, x, y, angle,  ctrl){
-	var neuerSpawn = ship[declaration];
-	neuerSpawn.x = x;
-	neuerSpawn.y = y;
-	neuerSpawn.angle = angle;
-	neuerSpawn.ctrl = ctrl;
+function spawnShip(thatOne, atX, atY, atAngle,  withCtrl){
+	var neuerSpawn = ship[thatOne];
+	neuerSpawn.x = atX;
+	neuerSpawn.y = atY;
+	neuerSpawn.angle = atAngle;
+	neuerSpawn.ctrl = withCtrl;
 	sector[sector.at].ships[sector[sector.at].ships.length] = neuerSpawn;
+	setupShips();
 }
 
 function displayShips(){

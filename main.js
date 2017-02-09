@@ -6,6 +6,7 @@ var Game = {
 // Setup
 
 var next = [];
+var collision = {};
 var background = new Image();
 var infoScreen = false;
 var frame = {

@@ -13,6 +13,12 @@ function physik() {
 			if (sector[sector.at].ships[i].y < 0) sector[sector.at].ships[i].y = 0, sector[sector.at].ships[i].vy = 0;
 			if (sector[sector.at].ships[i].x > background.naturalWidth - 32) sector[sector.at].ships[i].x = background.naturalWidth - 32, sector[sector.at].ships[i].vx = 0;
 			if (sector[sector.at].ships[i].y > background.naturalHeight - 32) sector[sector.at].ships[i].y = background.naturalHeight - 32, sector[sector.at].ships[i].vy = 0;
+			for (h = 0; h < sector[sector.at].ships.length; h++){ //Rammsimulation
+				if (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h])){
+					collision.Vx = Math.abs(sector[sector.at].ships[i].vx) + Math.abs(sector[sector.at].ships[h].vx);
+					collision.Vy = Math.abs(sector[sector.at].ships[i].vy) + Math.abs(sector[sector.at].ships[h].vy);
+				}
+			}
 			if (sector[sector.at].ships[i].ctrl === "player1") {
 				if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
 				if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < background.naturalWidth - 1280) frame.x = sector[sector.at].ships[i].x - 1080;

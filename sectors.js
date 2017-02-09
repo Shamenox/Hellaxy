@@ -76,7 +76,10 @@ createSector({ name : "testmap",
 	theme : "none"});
 sector.testmap.setup = function(){
 	spawnShip("humanian_shuttle", 200, 100, 0, "player1");
+	spawnShip("humanian_shuttle", 300, 100, 0, "none");
+	spawnShip("humanian_shuttle", 400, 100, 0, "none");
 	spawnShip("testarrow", 100, 100, 0, "none");
+	spawnShip("testarrow", 100, 200, 180, "none");
 	spawnShip("republic base", 600, 400, 90, "none");
 }
 
