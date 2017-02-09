@@ -20,11 +20,8 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	if (wp3 !== undefined) neuesSchiff.heavyWp = weapon[wp3];
 	neuesSchiff.collidesWith = function (obj) {
 		var collision = false;
-		if (this.x.between(obj.x, obj.x + obj.skin.naturalWidth)){
-			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
-			if ((this.y + this.skin.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
-		}
-		if ((this.x + this.skin.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
+		if (this.x === obj.x || this.x.between(obj.x, obj.x + obj.skin.naturalWidth) || (this.x + this.skin.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
+			if (this.y === obj.y) collision = true;
 			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
 			if ((this.y + this.skin.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
 		}

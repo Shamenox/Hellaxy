@@ -13,10 +13,20 @@ function physik() {
 			if (sector[sector.at].ships[i].y < 0) sector[sector.at].ships[i].y = 0, sector[sector.at].ships[i].vy = 0;
 			if (sector[sector.at].ships[i].x > background.naturalWidth - 32) sector[sector.at].ships[i].x = background.naturalWidth - 32, sector[sector.at].ships[i].vx = 0;
 			if (sector[sector.at].ships[i].y > background.naturalHeight - 32) sector[sector.at].ships[i].y = background.naturalHeight - 32, sector[sector.at].ships[i].vy = 0;
-			for (h = 0; h < sector[sector.at].ships.length; h++){ //Rammsimulation
-				if (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h])){
-					collision.Vx = Math.abs(sector[sector.at].ships[i].vx) + Math.abs(sector[sector.at].ships[h].vx);
-					collision.Vy = Math.abs(sector[sector.at].ships[i].vy) + Math.abs(sector[sector.at].ships[h].vy);
+			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Rammsimulation
+				if (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
+					collision.vx = sector[sector.at].ships[i].vx + sector[sector.at].ships[h].vx;
+					collision.vy = sector[sector.at].ships[i].vy + sector[sector.at].ships[h].vy;
+					if (sector[sector.at].ships[i].vx > 0) sector[sector.at].ships[h].vx = - (collision.vx / 2), sector[sector.at].ships[i].vx = collision.vx / 2;
+					if (sector[sector.at].ships[i].vy > 0) sector[sector.at].ships[h].vy = - (collision.vy / 2), sector[sector.at].ships[i].vy = collision.vy / 2;
+					if (sector[sector.at].ships[i].vx < 0) sector[sector.at].ships[h].vx = collision.vx / 2, sector[sector.at].ships[i].vx = - (collision.vx / 2);
+					if (sector[sector.at].ships[i].vy < 0) sector[sector.at].ships[h].vy = collision.vy / 2, sector[sector.at].ships[i].vy = - (collision.vy / 2);
+					while (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h])){
+						sector[sector.at].ships[i].y -= sector[sector.at].ships[i].vy; 
+						sector[sector.at].ships[i].x += sector[sector.at].ships[i].vx;
+						sector[sector.at].ships[h].y -= sector[sector.at].ships[h].vy; 
+						sector[sector.at].ships[h].x += sector[sector.at].ships[h].vx;
+					}
 				}
 			}
 			if (sector[sector.at].ships[i].ctrl === "player1") {
