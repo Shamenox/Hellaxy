@@ -38,6 +38,7 @@ function physik() {
 				}
 			}
 			if (sector[sector.at].ships[i].ctrl === "player1") {
+				player1Pos = i;
 				if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
 				if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < background.naturalWidth - 1280) frame.x = sector[sector.at].ships[i].x - 1080;
 				if (sector[sector.at].ships[i].y < frame.y + 200 && frame.y > 0) frame.y = sector[sector.at].ships[i].y - 200;
@@ -52,29 +53,23 @@ function physik() {
 				}
 				if (key.a) sector[sector.at].ships[i].angle -= 12 * sector[sector.at].ships[i].a; //Drehung
 				if (key.d) sector[sector.at].ships[i].angle += 12 * sector[sector.at].ships[i].a;
-				if (sector[sector.at].ships[i].lightWp !== undefined) {              //EXPERIMENTELL: Anzeigen der vorhandenen Munition
-					Game.ctx.strokeText(sector[sector.at].ships[i].lightWp.designation + ":", 10, 600);
-					Game.ctx.strokeText(sector[sector.at].ships[i].lightWp.ammo, 20 + Game.ctx.measureText(sector[sector.at].ships[i].lightWp.designation).width, 600);
+				if (sector[sector.at].ships[player1Pos].lightWp !== undefined) {              //Feuern
 					if (intervalReact(key.space && sector[sector.at].ships[i].lightWp.ammo > 0, sector[sector.at].ships[i].lightWp.reload, sector[sector.at].ships[i].lightWp.designation + String(i))) {
 						sector[sector.at].ships[i].lightWp.ammo -= 1;
 						spawnProjectile(sector[sector.at].ships[i], "light");
 					}
 				}
-				if (sector[sector.at].ships[i].mediumWp !== undefined) {
-					Game.ctx.strokeText(sector[sector.at].ships[i].mediumWp.designation + " :", 10, 600);
-					Game.ctx.strokeText(sector[sector.at].ships[i].mediumWp.ammo, 20 + Game.ctx.measureText(sector[sector.at].ships[i].mediumWp.designation).width, 600);
-				}
-				if (sector[sector.at].ships[i].heavyWp !== undefined) {
-					Game.ctx.strokeText(sector[sector.at].ships[i].heavyWp.designation + " :", 10, 600);
-					Game.ctx.strokeText(sector[sector.at].ships[i].heavyWp.ammo, 20 + Game.ctx.measureText(sector[sector.at].ships[i].heavyWp.designation).width, 600);
-				}
 			}
-		Game.ctx.strokeStyle = "red";//infotafel
-		Game.ctx.fillStyle = "green";
-		Game.ctx.strokeRect(sector[sector.at].ships[i].x, sector[sector.at].ships[i].y + 10, sector[sector.at].ships[i].skin.naturalWidth, 4);
-		Game.ctx.fillRect(sector[sector.at].ships[i].x, sector[sector.at].ships[i].y + 10, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].hp / ship[sector[sector.at].ships[i].designation].hp), 4);
-		Game.ctx.strokeStyle = "yellow";
-		Game.ctx.fillStyle = "yellow";
+			if (sector[sector.at].ships[i].ctrl !== "player1"){
+				Game.ctx.strokeStyle = "red";//infotafel
+				Game.ctx.fillStyle = "green";
+				Game.ctx.strokeRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth, 6);
+				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].hp / ship[sector[sector.at].ships[i].designation].hp), 6);
+				Game.ctx.fillStyle = "blue";
+				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].shield / ship[sector[sector.at].ships[i].designation].shield), 6);
+				Game.ctx.strokeStyle = "yellow";
+				Game.ctx.fillStyle = "yellow";
+			}
 		}
 	}
 	for (i = 0; i < projectile.length; i++) {
