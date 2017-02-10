@@ -69,6 +69,12 @@ function physik() {
 					Game.ctx.strokeText(sector[sector.at].ships[i].heavyWp.ammo, 20 + Game.ctx.measureText(sector[sector.at].ships[i].heavyWp.designation).width, 600);
 				}
 			}
+		Game.ctx.strokeStyle = "red";//infotafel
+		Game.ctx.fillStyle = "green";
+		Game.ctx.strokeRect(sector[sector.at].ships[i].x, sector[sector.at].ships[i].y + 10, sector[sector.at].ships[i].skin.naturalWidth, 4);
+		Game.ctx.fillRect(sector[sector.at].ships[i].x, sector[sector.at].ships[i].y + 10, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].hp / ship[sector[sector.at].ships[i].designation].hp), 4);
+		Game.ctx.strokeStyle = "yellow";
+		Game.ctx.fillStyle = "yellow";
 		}
 	}
 	for (i = 0; i < projectile.length; i++) {
