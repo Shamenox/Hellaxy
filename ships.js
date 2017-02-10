@@ -44,7 +44,7 @@ function spawnShip(thatOne, atX, atY, atAngle,  withCtrl){
 	neuerSpawn.y = atY;
 	neuerSpawn.angle = atAngle;
 	neuerSpawn.ctrl = withCtrl;
-	sector[sector.at].ships[sector[sector.at].ships.length] = neuerSpawn;
+	sector[sector.at].ships.push(neuerSpawn);
 	setupShips();
 }
 
