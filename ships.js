@@ -44,22 +44,12 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		audio.explosion1.play();
 	}
 	neuesSchiff.pointAt = function(target){
-		if (target.x <= this.x && target.y <= this.y) {
-			if (this.angle < 45 && this.angle > 225) this.angle += this.a * 100;
-			if (this.angle < 225 && this.angle > 45) this.angle -= this.a * 100;
+		var aim;
+		for (deg = 0; deg < 361; deg += 0.1){
+			if (((Math.tan(deg) * Math.PI / 180) * (target.x - this.x) + this.y ).between(target.y - 40, target.y + 40)) aim = deg;
 		}
-		if (target.x <= this.x && target.y > this.y) {
-			if (this.angle < 135 && this.angle > 315) this.angle += this.a * 100;
-			if (this.angle < 315 && this.angle > 135) this.angle -= this.a * 100;
-		}
-		if (target.x > this.x && target.y <= this.y) {
-			if (this.angle < 315 && this.angle > 135) this.angle += this.a * 100;
-			if (this.angle < 135 && this.angle > 315) this.angle -= this.a * 100;
-		}
-		if (target.x > this.x && target.y > this.y) {
-			if (this.angle < 225 && this.angle > 45) this.angle += this.a * 100;
-			if (this.angle < 45 && this.angle > 225) this.angle -= this.a * 100;
-		}
+		if (this.angle < aim || this.angle > aim + 180) this.angle += this.a * 100;
+		if (this.angle > aim || this.angle < aim + 180) this.angle -= this.a * 100;
 	}
 	neuesSchiff.nextShip = function(search, range){
 		var pot;
