@@ -18,6 +18,14 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	if (wp1 !== undefined) neuesSchiff.lightWp = weapon[wp1];
 	if (wp2 !== undefined) neuesSchiff.mediumWp = weapon[wp2];
 	if (wp3 !== undefined) neuesSchiff.heavyWp = weapon[wp3];
+	neuesSchiff.acc = function(){
+		sector[sector.at].ships[i].vy += Math.cos(sector[sector.at].ships[i].angle * Math.PI / 180) * sector[sector.at].ships[i].a;
+		sector[sector.at].ships[i].vx += Math.cos((sector[sector.at].ships[i].angle - 90) * Math.PI / 180) * sector[sector.at].ships[i].a;
+	}
+	neuesSchiff.dec = function(){
+		sector[sector.at].ships[i].vy -= Math.cos(sector[sector.at].ships[i].angle * Math.PI / 180) * sector[sector.at].ships[i].a;
+		sector[sector.at].ships[i].vx -= Math.cos((sector[sector.at].ships[i].angle - 90) * Math.PI / 180) * sector[sector.at].ships[i].a;
+	}
 	neuesSchiff.collidesWith = function (obj) {
 		var collision = false;
 		if (this.x === obj.x || this.x.between(obj.x, obj.x + obj.skin.naturalWidth) || (this.x + this.skin.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
@@ -27,13 +35,48 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		}
 		return collision;
 	}
+	neuesSchiff.killSwitch = function(){
+		this.active = false;
+	}
 	neuesSchiff.explode = function(){
-		setTimeout(this.fadeOut, 1000);
+		setTimeout(this.killSwitch, 1000);
 		this.active = "explosion";
 		audio.explosion1.play();
 	}
-	neuesSchiff.fadeOut = function(){
-		this.active = false;
+	neuesSchiff.pointAt = function(target){
+		if (target.x <= this.x && target.y <= this.y) {
+			if (this.angle < 45 && this.angle > 225) this.angle += this.a * 100;
+			if (this.angle < 225 && this.angle > 45) this.angle -= this.a * 100;
+		}
+		if (target.x <= this.x && target.y > this.y) {
+			if (this.angle < 135 && this.angle > 315) this.angle += this.a * 100;
+			if (this.angle < 315 && this.angle > 135) this.angle -= this.a * 100;
+		}
+		if (target.x > this.x && target.y <= this.y) {
+			if (this.angle < 315 && this.angle > 135) this.angle += this.a * 100;
+			if (this.angle < 135 && this.angle > 315) this.angle -= this.a * 100;
+		}
+		if (target.x > this.x && target.y > this.y) {
+			if (this.angle < 225 && this.angle > 45) this.angle += this.a * 100;
+			if (this.angle < 45 && this.angle > 225) this.angle -= this.a * 100;
+		}
+	}
+	neuesSchiff.nextShip = function(search, range){
+		var pot;
+		for (h = 1; h <= range; h++){
+			for (k = 0; k < h; k++){
+				for (j = 0; j < sector[sector.at].ships.length; j++){
+					if (sector[sector.at].ships[j].x === this.x - h && sector[sector.at].ships[j].y === this.y - k) sector[sector.at].ships[j] = pot;
+					if (sector[sector.at].ships[j].x === this.x - h && sector[sector.at].ships[j].y === this.y + k) sector[sector.at].ships[j] = pot;
+					if (sector[sector.at].ships[j].x === this.x + h && sector[sector.at].ships[j].y === this.y - k) sector[sector.at].ships[j] = pot;
+					if (sector[sector.at].ships[j].x === this.x + h && sector[sector.at].ships[j].y === this.y + k) sector[sector.at].ships[j] = pot;
+					if (pot !== undefined){
+						if (search === "anything") return pot;
+						if (sector[sector.at].ships[j].fraction === search) return pot;
+					}
+				}
+			}
+		}
 	}
 	ship[declaration] = neuesSchiff;
 }
@@ -64,7 +107,8 @@ function displayShips(){
 }
 	
 function setupShips(){
-	createShip("testarrow", "none", "testarrow", 100, 100, 0.5, 0.1, "5nm machinegun");
-	createShip("humanian_shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.1, "5nm machinegun");
-	createShip("republic base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
+	createShip("Testarrow", "none", "testarrow", 100, 100, 0.5, 0.1, "5nm machinegun");
+	createShip("Humanian Shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.1, "5nm machinegun");
+	createShip("Humanian Protobaseship Helonia","humanian", "protobaseship_helonia", 8000, 0, 5, 0.03, "1.4 mm kolexial gun");
+	createShip("Republic Base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
 }

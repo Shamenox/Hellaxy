@@ -7,7 +7,6 @@ var Game = {
 
 var next = [];
 var player1Pos;
-var collision = {};
 var background = new Image();
 var infoScreen = false;
 var frame = {
@@ -27,10 +26,11 @@ window.onload = function() {
 	setupInput();
 	loadImages();
 	loadAudio();
-	setupEvents();
 	setupWeapons();
-	setupShips();
+	console.log(weapon);
 	setupNpcs();
+	setupShips();
+	console.log(ship);
 	setupSectors();
 	console.log(frame);
 	background = image.testmap;
@@ -46,12 +46,12 @@ function draw() {
 	physik();
 	displayProjectiles();
 	displayShips();
-	infoScreening();
+	GUI();
 	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);
 	requestAnimationFrame(draw);
 }
 
-function infoScreening() {
+function GUI() {
 	if (sector[sector.at].ships[player1Pos] !== undefined){
 	Game.ctx.fillStyle = "grey";
 	Game.ctx.fillRect(0,600,1280,120);
@@ -63,25 +63,33 @@ function infoScreening() {
 	Game.ctx.strokeRect(9,609,102,102);
 	Game.ctx.drawImage(sector[sector.at].ships[player1Pos].skin, 14, 614, 92, 92);
 	Game.ctx.fillStyle = "black";
-	Game.ctx.fillText("Shield:", 120, 645);
+	if (sector[sector.at].ships[player1Pos].shield !== 0) Game.ctx.fillText("Shield:", 120, 645);
 	Game.ctx.fillText("Structure:", 120, 685);
 	Game.ctx.fillStyle = "red";
-	Game.ctx.fillRect(260, 625, 200, 24);
+	if (sector[sector.at].ships[player1Pos].shield !== 0) Game.ctx.fillRect(260, 625, 200, 24);
 	Game.ctx.fillRect(260, 665, 200, 24);
 	Game.ctx.fillStyle = "blue";
-	Game.ctx.fillRect(260, 625, 200 * (sector[sector.at].ships[player1Pos].shield / ship[sector[sector.at].ships[player1Pos].designation].shield), 24);
+	if (sector[sector.at].ships[player1Pos].shield !== 0) Game.ctx.fillRect(260, 625, 200 * (sector[sector.at].ships[player1Pos].shield / ship[sector[sector.at].ships[player1Pos].designation].shield), 24);
 	Game.ctx.fillStyle = "green";
 	Game.ctx.fillRect(260, 665, 200 * (sector[sector.at].ships[player1Pos].hp / ship[sector[sector.at].ships[player1Pos].designation].hp), 24);
 	Game.ctx.lineWidth = 4;
-	Game.ctx.strokeRect(260, 625, 200, 24);
+	if (sector[sector.at].ships[player1Pos].shield !== 0) Game.ctx.strokeRect(260, 625, 200, 24);
 	Game.ctx.strokeRect(260, 665, 200, 24);
 	Game.ctx.lineWidth = 2;
 	Game.ctx.fillStyle = "black";
-	Game.ctx.fillText(sector[sector.at].ships[player1Pos].shield, 270, 645);
+	if (sector[sector.at].ships[player1Pos].shield !== 0) Game.ctx.fillText(sector[sector.at].ships[player1Pos].shield, 270, 645);
 	Game.ctx.fillText(sector[sector.at].ships[player1Pos].hp, 270, 685);
 	if (sector[sector.at].ships[player1Pos].lightWp !== undefined) {
-		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.designation + ":", 470, 645);
-		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.ammo, 490 + Game.ctx.measureText(sector[sector.at].ships[player1Pos].lightWp.designation).width, 645);
+		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.designation + ":", 470, 635);
+		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.ammo, 490 + Game.ctx.measureText(sector[sector.at].ships[player1Pos].lightWp.designation).width, 635);
+	}
+	if (sector[sector.at].ships[player1Pos].mediumWp !== undefined) {
+		Game.ctx.fillText(sector[sector.at].ships[player1Pos].mediumWp.designation + ":", 470, 665);
+		Game.ctx.fillText(sector[sector.at].ships[player1Pos].mediumWp.ammo, 490 + Game.ctx.measureText(sector[sector.at].ships[player1Pos].mediumWp.designation).width, 665);
+	}
+	if (sector[sector.at].ships[player1Pos].heavyWp !== undefined) {
+		Game.ctx.fillText(sector[sector.at].ships[player1Pos].heavyWp.designation + ":", 470, 695);
+		Game.ctx.fillText(sector[sector.at].ships[player1Pos].heavyWp.ammo, 490 + Game.ctx.measureText(sector[sector.at].ships[player1Pos].heavyWp.designation).width, 695);
 	}
 	Game.ctx.strokeStyle = "yellow";
 	}

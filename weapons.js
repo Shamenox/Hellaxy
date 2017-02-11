@@ -8,7 +8,7 @@ function createWeapon(designation, texture, alpha, pen, reload, ammo, sound){
 	neueWaffe.pen = pen;
 	neueWaffe.reload = reload;
 	neueWaffe.ammo = ammo;
-	neueWaffe.sound = audio[sound];
+	neueWaffe.sound = sound;
 	weapon[designation] = neueWaffe;
 }
 
@@ -20,8 +20,8 @@ function spawnProjectile(from, size){
 	neuesProjektil.pen = from[size+"Wp"].pen;
 	neuesProjektil.alpha = from[size+"Wp"].alpha;
 	neuesProjektil.angle = from.angle
-	neuesProjektil.x = from.x;
-	neuesProjektil.y = from.y;
+	neuesProjektil.x = from.x + 0.5 * (from.skin.naturalWidth - from[size+"Wp"].texture.naturalWidth);
+	neuesProjektil.y = from.y + 0.5* (from.skin.naturalHeight - from[size+"Wp"].texture.naturalHeight);
 	neuesProjektil.v = from[size+"Wp"].pen * 10;
 	neuesProjektil.hits = function (obj) {
 		var hit = false;
@@ -57,5 +57,6 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){
-	createWeapon("5nm machinegun", image.shot_light1, 10, 1, 100, 200, "shot_light");
+	createWeapon("5nm machinegun", image.shot_light1, 10, 1, 100, 200, audio.shot_light);
+	createWeapon("1.4 mm kolexial gun", image.shot_light1, 36, 10, 200, 600, audio.shot_light);
 }

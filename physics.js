@@ -2,7 +2,8 @@
 function physik() {
 	for (i = 0; i < sector[sector.at].ships.length; i++) { //Schiffberechnung
 		if (sector[sector.at].ships[i].active === true){
-			if (sector[sector.at].ships[i].hp < 0) sector[sector.at].ships[i].explode();
+			if (sector[sector.at].ships[i].hp < 0 && sector[sector.at].ships[i].active !== "explosion") sector[sector.at].ships[i].explode();
+			if (sector[sector.at].ships[i].ctrl !== "player1" && sector[sector.at].ships[i].ctrl !== "none") npc[sector[sector.at].ships[i].ctrl](sector[sector.at].ships[i]); // Zugriff durch KIs
 			sector[sector.at].ships[i].y -= sector[sector.at].ships[i].vy; //Bewegung durch Geschwindigkeit
 			sector[sector.at].ships[i].x += sector[sector.at].ships[i].vx;
 			if (sector[sector.at].ships[i].angle > 360) sector[sector.at].ships[i].angle = 0; //Einhalten der 360°
@@ -15,26 +16,7 @@ function physik() {
 			if (sector[sector.at].ships[i].y > background.naturalHeight - 32) sector[sector.at].ships[i].y = background.naturalHeight - 32, sector[sector.at].ships[i].vy = 0;
 			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Rammsimulation
 				if (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
-					collision.ix = sector[sector.at].ships[i].vx + sector[sector.at].ships[h].vx;
-					collision.iy = sector[sector.at].ships[i].vy + sector[sector.at].ships[h].vy;
-					collision.sucess = false;
-					collision.q = ship[sector[sector.at].ships[h].designation].hp / ship[sector[sector.at].ships[i].designation].hp;
-					collision.q2 = ship[sector[sector.at].ships[i].designation].hp / ship[sector[sector.at].ships[h].designation].hp;
-					if (collision.q > 1) collision.q = 1;
-					if (collision.q2 > 1) collision.q2 = 1;
-					if (sector[sector.at].ships[i].vx > 0 && !collision.sucess) sector[sector.at].ships[i].vx = - collision.ix * collision.q, sector[sector.at].ships[h].vx = collision.ix * collision.q2, collision.sucess = true;
-					if (sector[sector.at].ships[i].vy > 0 && !collision.sucess) sector[sector.at].ships[i].vy = - collision.iy * collision.q, sector[sector.at].ships[h].vy = collision.iy * collision.q2, collision.sucess = true;
-					if (sector[sector.at].ships[i].vx < 0 && !collision.sucess) sector[sector.at].ships[i].vx = collision.ix * collision.q, sector[sector.at].ships[h].vx = - collision.ix * collision.q2, collision.sucess = true;
-					if (sector[sector.at].ships[i].vy < 0 && !collision.sucess) sector[sector.at].ships[i].vy = collision.iy * collision.q, sector[sector.at].ships[h].vy = - collision.iy * collision.q2, collision.sucess = true;
-					if (sector[sector.at].ships[i].vx !== 0 || sector[sector.at].ships[h].vx !== 0 || sector[sector.at].ships[i].vy !== 0 || sector[sector.at].ships[h].vy !== 0){
-						while (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h])){
-							sector[sector.at].ships[i].y -= sector[sector.at].ships[i].vy; 
-							sector[sector.at].ships[i].x += sector[sector.at].ships[i].vx;
-							sector[sector.at].ships[h].y -= sector[sector.at].ships[h].vy; 
-							sector[sector.at].ships[h].x += sector[sector.at].ships[h].vx;
-						}
-					}
-				console.log(collision.q ,sector[sector.at].ships[h]);
+				collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
 				}
 			}
 			if (sector[sector.at].ships[i].ctrl === "player1") {
@@ -42,14 +24,12 @@ function physik() {
 				if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
 				if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < background.naturalWidth - 1280) frame.x = sector[sector.at].ships[i].x - 1080;
 				if (sector[sector.at].ships[i].y < frame.y + 200 && frame.y > 0) frame.y = sector[sector.at].ships[i].y - 200;
-				if (sector[sector.at].ships[i].y > frame.y + 520 && frame.y < background.naturalHeight - 720) frame.y = sector[sector.at].ships[i].y - 520;
+				if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < background.naturalHeight - 720) frame.y = sector[sector.at].ships[i].y - 400;
 				if (key.w) {
-					sector[sector.at].ships[i].vy += Math.cos(sector[sector.at].ships[i].angle * Math.PI / 180) * sector[sector.at].ships[i].a;  //Umsetzung der Teilgeschwindigkeiten
-					sector[sector.at].ships[i].vx += Math.cos((sector[sector.at].ships[i].angle - 90) * Math.PI / 180) * sector[sector.at].ships[i].a;
+					sector[sector.at].ships[i].acc();
 				}
 				if (key.s) {
-					sector[sector.at].ships[i].vy -= Math.cos(sector[sector.at].ships[i].angle * Math.PI / 180) * sector[sector.at].ships[i].a;
-					sector[sector.at].ships[i].vx -= Math.cos((sector[sector.at].ships[i].angle - 90) * Math.PI / 180) * sector[sector.at].ships[i].a;
+					sector[sector.at].ships[i].dec();
 				}
 				if (key.a) sector[sector.at].ships[i].angle -= 12 * sector[sector.at].ships[i].a; //Drehung
 				if (key.d) sector[sector.at].ships[i].angle += 12 * sector[sector.at].ships[i].a;
@@ -107,20 +87,15 @@ function physik() {
 	if (frame.x < 0) frame.x = 0;
 }
 
-
-function normalize(target) {
-	use = "false";
-	state = 0;
-	if (target === "skin") clothes = next["clothes"];
-	for (var i = 0; i < next.length; i++) {
-		next[i] = false;
-	}
-}
-
-function fadeout() {
-	use = "black";
-	changeSkin("blank");
-	setTimeout(normalize, 1000, "skin");
+function collide(a, b){
+	var collision = {};
+	collision.potX = a.vx + b.vx;
+	collision.potY = a.vy + b.vy;
+	collision.potM = ship[a.designation].hp + ship[b.designation].hp;
+	a.vx = -collision.potX * (ship[b.designation].hp / collision.potM);
+	a.vy = -collision.potY * (ship[b.designation].hp / collision.potM);
+	b.vx = collision.potX * (ship[a.designation].hp / collision.potM);
+	b.vy = collision.potY * (ship[a.designation].hp / collision.potM);
 }
 
 function delay() {
@@ -139,10 +114,3 @@ function portal(x, y, width, height, to, atx, aty) {
 	}
 }
 
-
-function die() {
-	normalize();
-	fadeout();
-	audio.snap.play();
-	player1.x = 740;
-}

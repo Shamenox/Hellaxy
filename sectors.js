@@ -54,7 +54,9 @@ createSector({ name: "menue",
 		theme: "none"});
 sector.menue.events = function() {
     button(400, 100, 480, 100, "Test Mode", "yellow", function(){sector.at = "testmap"})
-	button(400, 250, 480, 100, "Controls", "yellow", function(){sector.at = "controls"})
+	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){/sector.at = "campaigns"/})
+	button(400, 400, 480, 100, "Free-Roam Mode (experimental)", "yellow", function(){})
+	button(400, 550, 480, 100, "Controls", "yellow", function(){sector.at = "controls"})
 }
 
 createSector({ name: "controls",
@@ -63,11 +65,13 @@ createSector({ name: "controls",
 sector.controls.events = function() {
 	Game.ctx.fillText("Forwards = W", 100,100);
 	Game.ctx.fillText("Turn Left = A", 100,150);
-	Game.ctx.fillText(" Turn Right = D", 100,200);
+	Game.ctx.fillText("Turn Right = D", 100,200);
 	Game.ctx.fillText("Backwards = S", 100,250);
 	Game.ctx.fillText("Light Weapon = Space", 100,300);
 	Game.ctx.fillText("Medium Weapon = E", 100,350);
 	Game.ctx.fillText("Heavy Weapon = Q", 100,400);
+	Game.ctx.fillText("Info-Screen = I", 100,450);
+	Game.ctx.fillText("Special Abilities = 1 - 4", 100,500);
 	button(400, 600, 480, 100, "Back", "yellow", function(){sector.at = "menue"})
 }
 
@@ -75,12 +79,12 @@ createSector({ name : "testmap",
 	bg : "testmap",
 	theme : "none"});
 sector.testmap.setup = function(){
-	spawnShip("humanian_shuttle", 200, 100, 0, "player1");
-	spawnShip("humanian_shuttle", 300, 100, 0, "none");
-	spawnShip("humanian_shuttle", 400, 100, 0, "none");
-	spawnShip("testarrow", 100, 100, 0, "none");
-	spawnShip("testarrow", 100, 200, 180, "none");
-	spawnShip("republic base", 600, 400, 90, "none");
+	spawnShip("Humanian Protobaseship Helonia", 200, 250, 180, "player1");
+	spawnShip("Humanian Shuttle", 300, 100, 0, "none");
+	spawnShip("Humanian Shuttle", 400, 100, 0, "none");
+	spawnShip("Testarrow", 100, 100, 0, "none");
+	spawnShip("Testarrow", 100, 200, 180, "simpleRoamer");
+	spawnShip("Republic Base", 600, 400, 90, "none");
 }
 
 

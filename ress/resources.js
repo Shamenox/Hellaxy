@@ -11,4 +11,5 @@
 	"shot_light1" : "ress/projectiles/shot_light1.png",
 	"ship_rep_hq" : "ress/ships/rep hq.png",
 	"ship_humanian_shuttle" : "ress/ships/humanian shuttle.png",
+	"ship_protobaseship_helonia" : "ress/ships/protobaseship helonia.png",
 }
