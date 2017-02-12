@@ -3,8 +3,10 @@
     max = Math.max.apply(Math, [a, b]);
   return this > min && this < max;
 }
-function checkCrash(){
-console.log(player1.x, clothes, player1.step, state, Game.event.items);
+function get360(input){
+if (input < 0) input += 360;
+if (input > 360) input -= 360;
+return input;
 }
 function button(posx, posy, width, height, tag, colour, action){
 	var textY = parseInt(Game.ctx.font.split('p')[0]) + posy + 0.4*((height - 2*Game.ctx.lineWidth) - parseInt(Game.ctx.font.split('p')[0]));
@@ -102,6 +104,7 @@ var Animation = function(){
   this.reset = (function() { //does not stop the animation
     this.step = 0;
   }).bind(this);
+  
 
   /*
 
