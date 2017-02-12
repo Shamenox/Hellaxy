@@ -84,7 +84,8 @@ sector.testmap.setup = function(){
 	spawnShip("Humanian Shuttle", 400, 100, 0, "none");
 	spawnShip("Testarrow", 100, 100, 0, "none");
 	spawnShip("Testarrow", 250, 450, 180, "simpleRoamer");
-	spawnShip("Republic Base", 600, 400, 90, "none");
+	//spawnShip("Republic Base", 600, 400, 90, "none");
+	spawnShip("Fat Man", 700, 300, 90, "simpleRoamer");
 }
 
 

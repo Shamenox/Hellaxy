@@ -33,12 +33,7 @@ function physik() {
 				}
 				if (key.a) sector[sector.at].ships[i].angle -= 12 * sector[sector.at].ships[i].a; //Drehung
 				if (key.d) sector[sector.at].ships[i].angle += 12 * sector[sector.at].ships[i].a;
-				if (sector[sector.at].ships[player1Pos].lightWp !== undefined) {              //Feuern
-					if (intervalReact(key.space && sector[sector.at].ships[i].lightWp.ammo > 0, sector[sector.at].ships[i].lightWp.reload, sector[sector.at].ships[i].lightWp.designation + String(i))) {
-						sector[sector.at].ships[i].lightWp.ammo -= 1;
-						spawnProjectile(sector[sector.at].ships[i], "light");
-					}
-				}
+				if (key.space) sector[sector.at].ships[i].fireSmall();
 			}
 			if (sector[sector.at].ships[i].ctrl !== "player1"){
 				sector[sector.at].ships[i].turn();

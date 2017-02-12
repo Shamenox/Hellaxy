@@ -26,6 +26,14 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		sector[sector.at].ships[i].vy -= Math.cos(sector[sector.at].ships[i].angle * Math.PI / 180) * sector[sector.at].ships[i].a;
 		sector[sector.at].ships[i].vx -= Math.cos((sector[sector.at].ships[i].angle - 90) * Math.PI / 180) * sector[sector.at].ships[i].a;
 	}
+	neuesSchiff.fireSmall = function(){
+		if (this.lightWp !== undefined) {              //Feuern
+			if (intervalReact(this.lightWp.ammo > 0, this.lightWp.reload, this.lightWp.designation + this.ID)) {
+				this.lightWp.ammo -= 1;
+				spawnProjectile(sector[sector.at].ships[this.ID], "light");
+			}
+		}
+	}
 	neuesSchiff.collidesWith = function (obj) {
 		var collision = false;
 		if (this.x === obj.x || this.x.between(obj.x, obj.x + obj.skin.naturalWidth) || (this.x + this.skin.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
@@ -48,18 +56,11 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		this.aim = get360(this.aim + 90);
 	}
 	neuesSchiff.turnArround = function(){ // Initialisieren einer 180° Drehung
-		if (this.turnRef === undefined) this.turnRef = this.angle;
-		this.aim = get360(this.turnRef - 180);
-		if (this.angle === this.aim && this.turnOver === undefined) setTimeout(this.endTurn, 4000), this. turnOver = true;;
-	}
-	neuesSchiff.endTurn = function(){
-		this.turnRef = undefined;
-		this.turnOver = undefined;
+		this.aim = get360(this.angle - 180);
 	}
 	neuesSchiff.turn = function(){ // Richtungsfindung
 		if (this.aim !== undefined){ 
 			if (this.angle <= 180){
-				console.log(this.aim.between(this.angle, this.angle + 180));
 				if (this.aim.between(this.angle, this.angle + 180)) this.angle += this.a * 100;
 				if (!this.aim.between(this.angle, this.angle + 180)) this.angle -= this.a * 100;
 			}
@@ -86,6 +87,7 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 				}
 			}
 		}
+		return false;
 	}
 	ship[declaration] = neuesSchiff;
 }
@@ -96,6 +98,7 @@ function spawnShip(thatOne, atX, atY, atAngle,  withCtrl){
 	neuerSpawn.y = atY;
 	neuerSpawn.angle = atAngle;
 	neuerSpawn.ctrl = withCtrl;
+	neuerSpawn.ID = sector[sector.at].ships.length;
 	sector[sector.at].ships.push(neuerSpawn);
 	setupShips();
 }
@@ -120,4 +123,5 @@ function setupShips(){
 	createShip("Humanian Shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.1, "5nm machinegun");
 	createShip("Humanian Protobaseship Helonia","humanian", "protobaseship_helonia", 8000, 0, 5, 0.03, "1.4 mm kolexial gun");
 	createShip("Republic Base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
+	createShip("Fat Man", "none", "fat dude", 1000, 500, 2, 0.02, "5nm machinegun");
 }
