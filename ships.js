@@ -43,11 +43,32 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		this.active = "explosion";
 		audio.explosion1.play();
 	}
-	neuesSchiff.pointAt = function(target){
-		var aim = Math.atan((target.y -this.y) / (target.x - this. x) * 180 / Math.PI) / Math.PI * 180;
-		aim = get360(aim + 90);
-		if (this.angle <= aim && get360(this.angle + 180) >= aim) this.angle += this.a * 100;
-		if (this.angle > aim && get360(this.angle + 180) < aim) this.angle -= this.a * 100;
+	neuesSchiff.pointAt = function(target){ // Festlegen eines Zielwinkels
+		this.aim = Math.atan((target.y -this.y) / (target.x - this. x) * 180 / Math.PI) / Math.PI * 180;
+		this.aim = get360(this.aim + 90);
+	}
+	neuesSchiff.turnArround = function(){ // Initialisieren einer 180° Drehung
+		if (this.turnRef === undefined) this.turnRef = this.angle;
+		this.aim = get360(this.turnRef - 180);
+		if (this.angle === this.aim && this.turnOver === undefined) setTimeout(this.endTurn, 4000), this. turnOver = true;;
+	}
+	neuesSchiff.endTurn = function(){
+		this.turnRef = undefined;
+		this.turnOver = undefined;
+	}
+	neuesSchiff.turn = function(){ // Richtungsfindung
+		if (this.aim !== undefined){ 
+			if (this.angle <= 180){
+				console.log(this.aim.between(this.angle, this.angle + 180));
+				if (this.aim.between(this.angle, this.angle + 180)) this.angle += this.a * 100;
+				if (!this.aim.between(this.angle, this.angle + 180)) this.angle -= this.a * 100;
+			}
+			else{
+				if (!this.aim.between(this.angle, this.angle - 180)) this.angle += this.a * 100;
+				if (this.aim.between(this.angle, this.angle - 180)) this.angle -= this.a * 100;
+			}
+			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
+		}
 	}
 	neuesSchiff.nextShip = function(search, range){
 		var pot;

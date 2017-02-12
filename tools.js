@@ -5,7 +5,7 @@
 }
 function get360(input){
 if (input < 0) input += 360;
-if (input > 360) input -= 360;
+if (input > 359) input -= 360;
 return input;
 }
 function button(posx, posy, width, height, tag, colour, action){

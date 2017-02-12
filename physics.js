@@ -6,8 +6,8 @@ function physik() {
 			if (sector[sector.at].ships[i].ctrl !== "player1" && sector[sector.at].ships[i].ctrl !== "none") npc[sector[sector.at].ships[i].ctrl](sector[sector.at].ships[i]); // Zugriff durch KIs
 			sector[sector.at].ships[i].y -= sector[sector.at].ships[i].vy; //Bewegung durch Geschwindigkeit
 			sector[sector.at].ships[i].x += sector[sector.at].ships[i].vx;
-			if (sector[sector.at].ships[i].angle > 360) sector[sector.at].ships[i].angle = 0; //Einhalten der 360°
-			if (sector[sector.at].ships[i].angle < 0) sector[sector.at].ships[i].angle = 360;
+			if (sector[sector.at].ships[i].angle > 359) sector[sector.at].ships[i].angle = 0; //Einhalten der 360°
+			if (sector[sector.at].ships[i].angle < 0) sector[sector.at].ships[i].angle = 359;
 			if (sector[sector.at].ships[i].vx > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vx = sector[sector.at].ships[i].a * 100; //Geschwindigkeitsobergrenze
 			if (sector[sector.at].ships[i].vy > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vy = sector[sector.at].ships[i].a * 100;
 			if (sector[sector.at].ships[i].x < 0) sector[sector.at].ships[i].x = 0, sector[sector.at].ships[i].vx = 0; //Zurücksetzen der Pos und V bei Randkollision
@@ -41,6 +41,7 @@ function physik() {
 				}
 			}
 			if (sector[sector.at].ships[i].ctrl !== "player1"){
+				sector[sector.at].ships[i].turn();
 				Game.ctx.strokeStyle = "red";//infotafel
 				Game.ctx.fillStyle = "green";
 				Game.ctx.strokeRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth, 6);
