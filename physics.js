@@ -62,8 +62,9 @@ function physik() {
 					if (projectile[i].pen > sector[sector.at].ships[h].armour){
 						projectile[i].v = 0;
 						projectile[i].v = 0;
-						if (sector[sector.at].ships[h].shield <= 0) sector[sector.at].ships[h].hp -= projectile[i].alpha;
-						if (sector[sector.at].ships[h].shield > 0) sector[sector.at].ships[h].shield -= projectile[i].alpha;
+						if (sector[sector.at].ships[h].shield <= 0 && sector[sector.at].ships[h].shield < 1) sector[sector.at].ships[h].hp -= projectile[i].alpha;
+						if (sector[sector.at].ships[h].shield > 0 && sector[sector.at].ships[h].shield > 1) sector[sector.at].ships[h].shield -= projectile[i].alpha;
+						if (sector[sector.at].ships[h].shield > 0 && sector[sector.at].ships[h].shield < 1) sector[sector.at].ships[h].hp -= projectile[i].alpha * sector[sector.at].ships[h].shield;
 						audio["hit_" + projectile[i].size].play();
 						projectile[i].active = false;
 					}
