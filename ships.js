@@ -51,6 +51,21 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		this.active = "explosion";
 		audio.explosion1.play();
 	}
+	neuesSchiff.turn = function(){ // Richtungsfindung
+		if (this.aim !== undefined){ 
+			if (this.angle <= 180){
+				if (this.aim.between(this.angle, this.angle + 180)){ this.angle += this.a * 100;} else {this.angle -= this.a * 100;}
+			} else {
+				if (this.aim.between(this.angle, this.angle - 180)){ this.angle -= this.a * 100;} else {this.angle += this.a * 100;}
+			}
+			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
+		}
+	}
+	neuesSchiff.distanceTo = function(obj){
+		var distance;
+		distance = Math.sqrt((Math.abs(obj.x - this.x))^2 + (Math.abs(obj.x - this.x))^2);
+		return distance;
+	}
 	neuesSchiff.pointAt = function(target){ // Festlegen eines Zielwinkels
 		this.aim = Math.atan((target.y -this.y) / (target.x - this. x) * 180 / Math.PI) / Math.PI * 180;
 		this.aim = get360(this.aim + 90);
@@ -58,36 +73,29 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	neuesSchiff.turnArround = function(){ // Initialisieren einer 180° Drehung
 		this.aim = get360(this.angle - 180);
 	}
-	neuesSchiff.turn = function(){ // Richtungsfindung
-		if (this.aim !== undefined){ 
-			if (this.angle <= 180){
-				if (this.aim.between(this.angle, this.angle + 180)) this.angle += this.a * 100;
-				if (!this.aim.between(this.angle, this.angle + 180)) this.angle -= this.a * 100;
-			}
-			else{
-				if (!this.aim.between(this.angle, this.angle - 180)) this.angle += this.a * 100;
-				if (this.aim.between(this.angle, this.angle - 180)) this.angle -= this.a * 100;
-			}
-			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
-		}
-	}
 	neuesSchiff.nextShip = function(search, range){
 		var pot;
+		if (search === undefined) search = "anything";
+		if (range === undefined) range = 1000;
 		for (h = 1; h <= range; h++){
 			for (k = 0; k < h; k++){
-				for (j = 0; j < sector[sector.at].ships.length; j++){
-					if (sector[sector.at].ships[j].x === this.x - h && sector[sector.at].ships[j].y === this.y - k) sector[sector.at].ships[j] = pot;
-					if (sector[sector.at].ships[j].x === this.x - h && sector[sector.at].ships[j].y === this.y + k) sector[sector.at].ships[j] = pot;
-					if (sector[sector.at].ships[j].x === this.x + h && sector[sector.at].ships[j].y === this.y - k) sector[sector.at].ships[j] = pot;
-					if (sector[sector.at].ships[j].x === this.x + h && sector[sector.at].ships[j].y === this.y + k) sector[sector.at].ships[j] = pot;
+				for (u = 0; u < sector[sector.at].ships.length; u++){
+					if (sector[sector.at].ships[u].x === this.x - h && sector[sector.at].ships[u].y === this.y - k) sector[sector.at].ships[u] = pot;
+					if (sector[sector.at].ships[u].x === this.x - h && sector[sector.at].ships[u].y === this.y + k) sector[sector.at].ships[u] = pot;
+					if (sector[sector.at].ships[u].x === this.x + h && sector[sector.at].ships[u].y === this.y - k) sector[sector.at].ships[u] = pot;
+					if (sector[sector.at].ships[u].x === this.x + h && sector[sector.at].ships[u].y === this.y + k) sector[sector.at].ships[u] = pot;
 					if (pot !== undefined){
 						if (search === "anything") return pot;
-						if (sector[sector.at].ships[j].fraction === search) return pot;
+						if (pot.fraction === search) return pot;
 					}
 				}
 			}
 		}
 		return false;
+	}
+	neuesSchiff.follow = function(obj, atDistance){
+		this.pointAt (obj);
+		if (this.a > obj.a && this.distanceTo(obj) <= atDistance) this.vx = ob.vx, this.vy = obj.vy;
 	}
 	ship[declaration] = neuesSchiff;
 }
