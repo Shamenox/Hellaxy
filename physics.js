@@ -3,7 +3,7 @@ function physik() {
 	for (i = 0; i < sector[sector.at].ships.length; i++) { //Schiffberechnung
 		if (sector[sector.at].ships[i].active === true){
 			if (sector[sector.at].ships[i].hp < 0 && sector[sector.at].ships[i].active !== "explosion") sector[sector.at].ships[i].explode();
-			if (sector[sector.at].ships[i].ctrl !== "player1" && sector[sector.at].ships[i].ctrl !== "none") npc[sector[sector.at].ships[i].ctrl](sector[sector.at].ships[i]); // Zugriff durch KIs
+			if (sector[sector.at].ships[i].ctrl !== "player1" && sector[sector.at].ships[i].ctrl !== "none") sector[sector.at].ships[i].ctrl(); // Zugriff durch KIs
 			sector[sector.at].ships[i].y -= sector[sector.at].ships[i].vy; //Bewegung durch Geschwindigkeit
 			sector[sector.at].ships[i].x += sector[sector.at].ships[i].vx;
 			if (sector[sector.at].ships[i].angle > 359) sector[sector.at].ships[i].angle = 0; //Einhalten der 360°

@@ -34,12 +34,12 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 			}
 		}
 	}
-	neuesSchiff.collidesWith = function (obj) {
+	neuesSchiff.collidesWith = function (Suspect) {
 		var collision = false;
-		if (this.x === obj.x || this.x.between(obj.x, obj.x + obj.skin.naturalWidth) || (this.x + this.skin.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
-			if (this.y === obj.y) collision = true;
-			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
-			if ((this.y + this.skin.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) collision = true;
+		if (this.x === Suspect.x || this.x.between(Suspect.x, Suspect.x + Suspect.skin.naturalWidth) || (this.x + this.skin.naturalWidth).between(Suspect.x, Suspect.x + Suspect.skin.naturalWidth)){
+			if (this.y === Suspect.y) collision = true;
+			if (this.y.between(Suspect.y, Suspect.y + Suspect.skin.naturalHeight)) collision = true;
+			if ((this.y + this.skin.naturalHeight).between(Suspect.y, Suspect.y + Suspect.skin.naturalHeight)) collision = true;
 		}
 		return collision;
 	}
@@ -61,51 +61,41 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
 		}
 	}
-	neuesSchiff.distanceTo = function(obj){
-		var distance;
-		distance = Math.sqrt((Math.abs(obj.x - this.x))^2 + (Math.abs(obj.x - this.x))^2);
-		return distance;
+	neuesSchiff.distanceTo = function(distanced){
+		return Math.sqrt((distanced.x - this.x)*(distanced.x - this.x) + (distanced.x - this.x)*(distanced.x - this.x));
 	}
-	neuesSchiff.pointAt = function(target){ // Festlegen eines Zielwinkels
-		this.aim = Math.atan((target.y -this.y) / (target.x - this. x) * 180 / Math.PI) / Math.PI * 180;
+	neuesSchiff.pointAt = function(toPointAt){ // Festlegen eines Zielwinkels
+		this.aim = Math.atan((toPointAt.y -this.y) / (toPointAt.x - this. x) * 180 / Math.PI) / Math.PI * 180;
 		this.aim = get360(this.aim + 90);
 	}
 	neuesSchiff.turnArround = function(){ // Initialisieren einer 180° Drehung
 		this.aim = get360(this.angle - 180);
 	}
 	neuesSchiff.nextShip = function(search, range){
-		var pot;
 		if (search === undefined) search = "anything";
 		if (range === undefined) range = 1000;
-		for (h = 1; h <= range; h++){
-			for (k = 0; k < h; k++){
-				for (u = 0; u < sector[sector.at].ships.length; u++){
-					if (sector[sector.at].ships[u].x === this.x - h && sector[sector.at].ships[u].y === this.y - k) sector[sector.at].ships[u] = pot;
-					if (sector[sector.at].ships[u].x === this.x - h && sector[sector.at].ships[u].y === this.y + k) sector[sector.at].ships[u] = pot;
-					if (sector[sector.at].ships[u].x === this.x + h && sector[sector.at].ships[u].y === this.y - k) sector[sector.at].ships[u] = pot;
-					if (sector[sector.at].ships[u].x === this.x + h && sector[sector.at].ships[u].y === this.y + k) sector[sector.at].ships[u] = pot;
-					if (pot !== undefined){
-						if (search === "anything") return pot;
-						if (pot.fraction === search) return pot;
-					}
+		for (h = 0; h <= range; h ++){
+			for (k = 0; k < sector[sector.at].ships.length; k++){
+				if (this.distanceTo(sector[sector.at].ships[k]) <= h && k !== this.ID){
+					if (search === "anything" || sector[sector.at].ships[k].fraction === search) return sector[sector.at].ships[k];
 				}
 			}
 		}
 		return false;
 	}
-	neuesSchiff.follow = function(obj, atDistance){
-		this.pointAt (obj);
-		if (this.a > obj.a && this.distanceTo(obj) <= atDistance) this.vx = ob.vx, this.vy = obj.vy;
+	neuesSchiff.follow = function(toFollow, atDistance){
+		this.pointAt (toFollow);
+		if (this.a > toFollow.a && this.distanceTo(toFollow) <= atDistance) this.vx = ob.vx, this.vy = toFollow.vy;
 	}
 	ship[declaration] = neuesSchiff;
 }
 
-function spawnShip(thatOne, atX, atY, atAngle,  withCtrl){
+function spawnShip(thatOne, atX, atY, atAngle, ctrl){
 	var neuerSpawn = ship[thatOne];
 	neuerSpawn.x = atX;
 	neuerSpawn.y = atY;
 	neuerSpawn.angle = atAngle;
-	neuerSpawn.ctrl = withCtrl;
+	neuerSpawn.ctrl = ctrl;
 	neuerSpawn.ID = sector[sector.at].ships.length;
 	sector[sector.at].ships.push(neuerSpawn);
 	setupShips();
