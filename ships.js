@@ -68,6 +68,15 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		this.aim = Math.atan((toPointAt.y -this.y) / (toPointAt.x - this. x) * 180 / Math.PI) / Math.PI * 180;
 		this.aim = get360(this.aim + 90);
 	}
+	neuesSchiff.pointFrom = function(toPointFrom){ // Festlegen eines Zielwinkels
+		this.aim = Math.atan((toPointFrom.y -this.y) / (toPointFrom.x - this. x) * 180 / Math.PI) / Math.PI * 180;
+		this.aim = get360(this.aim + 270);
+	}
+	neuesSchiff.pointsAt = function(Suspect){
+		console.log(this.angle, (Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +85, (Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +95);
+		if (this.angle.between((Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +85, (Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +95)) return true;
+		return false;
+	}
 	neuesSchiff.turnArround = function(){ // Initialisieren einer 180° Drehung
 		this.aim = get360(this.angle - 180);
 	}

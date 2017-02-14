@@ -12,8 +12,8 @@ function physik() {
 			if (sector[sector.at].ships[i].vy > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vy = sector[sector.at].ships[i].a * 100;
 			if (sector[sector.at].ships[i].x < 0) sector[sector.at].ships[i].x = 0, sector[sector.at].ships[i].vx = 0; //Zurücksetzen der Pos und V bei Randkollision
 			if (sector[sector.at].ships[i].y < 0) sector[sector.at].ships[i].y = 0, sector[sector.at].ships[i].vy = 0;
-			if (sector[sector.at].ships[i].x > background.naturalWidth - 32) sector[sector.at].ships[i].x = background.naturalWidth - 32, sector[sector.at].ships[i].vx = 0;
-			if (sector[sector.at].ships[i].y > background.naturalHeight - 32) sector[sector.at].ships[i].y = background.naturalHeight - 32, sector[sector.at].ships[i].vy = 0;
+			if (sector[sector.at].ships[i].x > background.naturalWidth - sector[sector.at].ships[i].skin.naturalWidth) sector[sector.at].ships[i].x = background.naturalWidth - sector[sector.at].ships[i].skin.naturalWidth, sector[sector.at].ships[i].vx = 0;
+			if (sector[sector.at].ships[i].y > background.naturalHeight - sector[sector.at].ships[i].skin.naturalHeight - 120) sector[sector.at].ships[i].y = background.naturalHeight - sector[sector.at].ships[i].skin.naturalHeight - 120, sector[sector.at].ships[i].vy = 0;
 			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Rammsimulation
 				if (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
 				collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
