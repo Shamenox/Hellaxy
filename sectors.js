@@ -87,7 +87,7 @@ sector.testmap.setup = function(){
 	//spawnShip("Testarrow", 600, 450, 180, npc.simpleRoamer);
 	//spawnShip("Testarrow", 700, 500, 90, npc.simpleRoamer);
 	//spawnShip("Testarrow", 800, 500, 180, npc.simpleRoamer);
-	//spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
+	spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
 	//spawnShip("Republic Base", 600, 400, 90, "none");
 	//spawnShip("Fat Man", 700, 300, 90, npc.simpleRoamer);
 }

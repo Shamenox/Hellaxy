@@ -64,17 +64,18 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	neuesSchiff.distanceTo = function(distanced){
 		return Math.sqrt((distanced.x - this.x)*(distanced.x - this.x) + (distanced.x - this.x)*(distanced.x - this.x));
 	}
+	neuesSchiff.angleTowards = function (angled){
+		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
+		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
+	}
 	neuesSchiff.pointAt = function(toPointAt){ // Festlegen eines Zielwinkels
-		this.aim = Math.atan((toPointAt.y -this.y) / (toPointAt.x - this. x) * 180 / Math.PI) / Math.PI * 180;
-		this.aim = get360(this.aim + 90);
+		this.aim = this.angleTowards(toPointAt);
 	}
 	neuesSchiff.pointFrom = function(toPointFrom){ // Festlegen eines Zielwinkels
-		this.aim = Math.atan((toPointFrom.y -this.y) / (toPointFrom.x - this. x) * 180 / Math.PI) / Math.PI * 180;
-		this.aim = get360(this.aim + 270);
+		this.aim = get360(this.angleTowards(toPointFrom) + 180);
 	}
 	neuesSchiff.pointsAt = function(Suspect){
-		console.log(this.angle, (Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +85, (Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +95);
-		if (this.angle.between((Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +85, (Math.atan((Suspect.y -this.y) / (Suspect.x - this. x) * 180 / Math.PI) / Math.PI * 180) +95)) return true;
+		if (this.angle.between(this.angleTowards(Suspect) + 3, this.angleTowards(Suspect) - 3)) return true;
 		return false;
 	}
 	neuesSchiff.turnArround = function(){ // Initialisieren einer 180° Drehung
@@ -86,7 +87,7 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		for (h = 0; h <= range; h ++){
 			for (k = 0; k < sector[sector.at].ships.length; k++){
 				if (this.distanceTo(sector[sector.at].ships[k]) <= h && k !== this.ID){
-					if (search === "anything" || sector[sector.at].ships[k].fraction === search) return sector[sector.at].ships[k];
+					if (search === "anything" && sector[sector.at].ships[k].active === true || sector[sector.at].ships[k].fraction === search && sector[sector.at].ships[k].active === true) return sector[sector.at].ships[k];
 				}
 			}
 		}
@@ -126,7 +127,7 @@ function displayShips(){
 }
 	
 function setupShips(){
-	createShip("Testarrow", "none", "testarrow", 100, 100, 0.5, 0.1, "5nm machinegun");
+	createShip("Testarrow", "none", "testarrow", 100, 100, 1, 0.1, "5nm machinegun");
 	createShip("Humanian Shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.1, "5nm machinegun");
 	createShip("Humanian Protobaseship Helonia","humanian", "protobaseship_helonia", 8000, 0, 5, 0.03, "1.4 mm kolexial gun");
 	createShip("Republic Base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");

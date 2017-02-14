@@ -14,8 +14,8 @@ function setupNpcs(){
 		}
 	}
 	npc.test = function(){
-		//if (intervalReact(true, 3000, "testturn"))this.turnArround();
-		this.pointAt(sector[sector.at].ships[0]);
-		console.log(this.pointsAt(sector[sector.at].ships[0]));
+		if (intervalReact(true, 3000, "testturn"))this.turnArround();
+		//this.pointAt(sector[sector.at].ships[0]);
+		if (this.pointsAt(sector[sector.at].ships[0])) this.fireSmall();
 	}
 }
