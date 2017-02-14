@@ -55,7 +55,7 @@ function physik() {
 			if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > background.naturalWidth || projectile[i].y > background.naturalHeight) projectile[i].active = false;
 			for (h = 0; h < sector[sector.at].ships.length; h++){ //Prozess bei Treffer
 				if (projectile[i].hits(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true) {
-					if (projectile[i].pen > sector[sector.at].ships[h].armour){
+					if (projectile[i].pen >= sector[sector.at].ships[h].armour){
 						projectile[i].v = 0;
 						projectile[i].v = 0;
 						if (sector[sector.at].ships[h].shield <= 0 && sector[sector.at].ships[h].shield < 1) sector[sector.at].ships[h].hp -= projectile[i].alpha;

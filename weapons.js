@@ -25,15 +25,12 @@ function spawnProjectile(from, size){
 	neuesProjektil.v = from[size+"Wp"].pen * 10;
 	neuesProjektil.hits = function (obj) {
 		var hit = false;
-		if (this.x.between(obj.x, obj.x + obj.skin.naturalWidth)){
+		if (this.x === obj.x || this.x.between(obj.x, obj.x + obj.skin.naturalWidth) || (this.x + this.texture.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
+			if (this.y === obj.y) hit = true;
 			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
 			if ((this.y + this.texture.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
 		}
-		if ((this.x + this.texture.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
-			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
-			if ((this.y + this.texture.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
-		}
-		if (this.emitter === obj) hit = false; //Prüfen ob Ziel das eigene Schiff ist
+		if (this.emitter.fraction === obj.fraction) return false; //Prüfen ob Ziel das eigene Schiff ist
 		return hit;
 	}
 	neuesProjektil.emitter = from;
