@@ -57,10 +57,22 @@ createSector({ name: "menue",
 		bg: "blackscreen",
 		theme: "none"});
 sector.menue.events = function() {
-    button(400, 100, 480, 100, "Test Mode", "yellow", function(){campaign.at = "humanian"})
-	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){/sector.at = "campaigns"/})
-	button(400, 400, 480, 100, "Free-Roam Mode (experimental)", "yellow", function(){})
-	button(400, 550, 480, 100, "Controls", "yellow", function(){sector.at = "controls"})
+    button(400, 100, 480, 100, "Test Mode", "yellow", function(){sector.at = "testmap";})
+	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){sector.at = "campaign";})
+	button(400, 400, 480, 100, "Free-Roam Mode (coming later)", "yellow", function(){})
+	button(400, 550, 480, 100, "Controls", "yellow", function(){sector.at = "controls";})
+}
+
+createSector({ name: "campaign",
+		bg: "blackscreen",
+		theme: "theme1"});
+sector.campaign.events = function() {
+	Game.ctx.fillText("Campaign Mode", 540, 50);
+	Game.ctx.fillText("Select your campaign:", 490, 80);
+	Game.ctx.fillText("Humanian:   Lvl " + campaign.humanian.at, 200, 150);
+	if (campaign.humanian.levels[campaign.humanian.at] !== undefined) {button(500, 115, 130, 50, "Continue", "yellow", function(){campaign.at = "humanian"});} else {Game.ctx.fillText("Complete!", 500, 150);}
+	button(700, 115, 130, 50, "New", "yellow", function(){campaign.humanian.at = 0; campaign.at = "humanian";});
+    button(400, 650, 480, 50, "Back", "yellow", function(){sector.at = "menue";})
 }
 
 createSector({ name: "controls",
@@ -76,7 +88,7 @@ sector.controls.events = function() {
 	Game.ctx.fillText("Heavy Weapon = Q", 100,400);
 	Game.ctx.fillText("Info-Screen = I", 100,450);
 	Game.ctx.fillText("Special Abilities = 1 - 4", 100,500);
-	button(400, 600, 480, 100, "Back", "yellow", function(){sector.at = "menue"})
+	  button(400, 650, 480, 50, "Back", "yellow", function(){sector.at = "menue";});
 }
 
 createSector({ name : "testmap",

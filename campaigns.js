@@ -31,17 +31,20 @@ function setupCampaigns(){
 	});
 }
 
+function endLevel(){
+	campaign[campaign.at].at += 1;
+	campaign.at = "completed";
+}
+
 function checkCampaign(){
 	if (campaign.at !== "none" && campaign.at !== "completed"){
 		if (!campaign[campaign.at].levels[campaign[campaign.at].at].isSetup) campaign[campaign.at].levels[campaign[campaign.at].at].setup();
 		if (campaign[campaign.at].levels[campaign[campaign.at].at].condition === true) {
-			while(!key.space){
-				Game.ctx.fillText("Mission completed!!!", 450, 200);
-				Game.ctx.fillText("Press Space to continue", 450, 250);
-			}
-		campaign[campaign.at].at ++;
-		campaign.at = "completed";
+			Game.ctx.fillStyle = "yellow";
+			Game.ctx.fillText("Mission completed!!!", 450, 200);
+			Game.ctx.fillText("Press Space to continue", 450, 250);
+			if (key.space) endLevel();
 		}
 	}
-	if (campaign.at === "completed") sector.at = "title", campaign.at = "none";
+	if (campaign.at === "completed") sector.at = "campaign", campaign.at = "none";
 }
