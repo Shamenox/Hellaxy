@@ -55,5 +55,5 @@ function displayProjectiles(){
 
 function setupWeapons(){
 	createWeapon("5nm machinegun", image.shot_light1, 10, 1, 100, 200, audio.shot_light);
-	createWeapon("1.4 mm kolexial gun", image.shot_light1, 36, 10, 200, 600, audio.shot_light);
+	createWeapon("1.4 mm kolexial gun", image.shot_light_tripple, 36, 10, 200, 600, audio.shot_light);
 }

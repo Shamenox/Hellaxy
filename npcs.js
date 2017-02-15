@@ -17,7 +17,7 @@ function setupNpcs(){
 		var of = sector[sector.at].ships[this.relationShipID];
 		if (of.active === true){
 			if (of.nextShip("anythingElse", 400) === false){
-				this.follow(of, 100);
+				this.follow(of, 50);
 			} else {
 				this.follow(of.nextShip("anythingElse", 400), 20);
 				if (this.pointsAt(of.nextShip("anythingElse", 400))) this.fireSmall();

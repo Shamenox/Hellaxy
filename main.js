@@ -32,6 +32,7 @@ window.onload = function() {
 	setupShips();
 	console.log(ship);
 	setupSectors();
+	setupCampaigns();
 	console.log(frame);
 	background = image.blackscreen;
 
@@ -42,9 +43,10 @@ window.onload = function() {
 // Tatsaechliche Abbildung
 function draw() {
 	displayBg();
+	displayPlanets();
+	checkCampaign();
 	sector.act();
 	physik();
-	displayPlanets();
 	displayProjectiles();
 	displayShips();
 	GUI();

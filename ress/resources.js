@@ -10,9 +10,11 @@
 	"testmap" : "ress/bgs/testmap.png",
 	"central_sector" : "ress/bgs/central.png",
 	"shot_light1" : "ress/projectiles/shot_light1.png",
+	"shot_light_tripple" : "ress/projectiles/shot_light_tripple.png",
 	"ship_rep_hq" : "ress/ships/rep hq.png",
 	"ship_humanian_shuttle" : "ress/ships/humanian shuttle.png",
 	"ship_protobaseship_helonia" : "ress/ships/protobaseship helonia.png",
 	"ship_fat dude" : "ress/ships/fatman.png",
 	"testMoon" : "ress/planets/test.png",
+	"humania" : "ress/planets/humania.png",
 }

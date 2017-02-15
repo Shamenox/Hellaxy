@@ -57,7 +57,7 @@ createSector({ name: "menue",
 		bg: "blackscreen",
 		theme: "none"});
 sector.menue.events = function() {
-    button(400, 100, 480, 100, "Test Mode", "yellow", function(){sector.at = "Central_Sector"})
+    button(400, 100, 480, 100, "Test Mode", "yellow", function(){campaign.at = "humanian"})
 	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){/sector.at = "campaigns"/})
 	button(400, 400, 480, 100, "Free-Roam Mode (experimental)", "yellow", function(){})
 	button(400, 550, 480, 100, "Controls", "yellow", function(){sector.at = "controls"})
@@ -105,10 +105,9 @@ createSector({ name : "Central_Sector",
 	width : 4500,
 	height : 3700});
 sector.Central_Sector.setup = function(){
-	createPlanet("testMoon", "testMoon", "testmap", 900, 400);
-	spawnShip("Humanian Protobaseship Helonia", 200, 250, 180, "player1");
-	spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
-	spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
+	createPlanet("Humania", "humania", "Central_Sector", 1000, 1000);
+	spawnShip("Humanian Shuttle", 1300, 1100, 0, npc.defender, 0);
+	spawnShip("Humanian Shuttle", 1400, 1100, 0, npc.defender, 0);
 }
 
 

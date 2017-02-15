@@ -23,8 +23,8 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
 	}
 	neuesSchiff.dec = function(){
-		if (this.vx > 0) this.vx -= Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
-		if (this.vy > 0) this.vy -= Math.cos(this.angle * Math.PI / 180) * this.a;
+		if (this.angle < 180 && this.vx > 0 || this.angle > 180 && this.vx < 0) this.vx -= Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+		if (this.angle.between(90, 270) && this.vy < 0 || !this.angle.between(90, 270) && this.vy > 0) this.vy -= Math.cos(this.angle * Math.PI / 180) * this.a;
 	}
 	neuesSchiff.fireSmall = function(){
 		if (this.lightWp !== undefined) {              //Feuern
@@ -132,7 +132,7 @@ function displayShips(){
 	
 function setupShips(){
 	createShip("Testarrow", "none", "testarrow", 100, 100, 1, 0.1, "5nm machinegun");
-	createShip("Humanian Shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.1, "5nm machinegun");
+	createShip("Humanian Shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.05, "5nm machinegun");
 	createShip("Humanian Protobaseship Helonia","humanian", "protobaseship_helonia", 8000, 0, 5, 0.03, "1.4 mm kolexial gun");
 	createShip("Republic Base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
 	createShip("Fat Man", "none", "fat dude", 1000, 500, 2, 0.02, "5nm machinegun");
