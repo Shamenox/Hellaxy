@@ -33,7 +33,7 @@ window.onload = function() {
 	console.log(ship);
 	setupSectors();
 	console.log(frame);
-	background = image.testmap;
+	background = image.blackscreen;
 
 	//start drawloop
 	draw();
@@ -41,14 +41,22 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
-	Game.ctx.drawImage(background, -frame.x, -frame.y);
-	sector.act()
+	displayBg();
+	sector.act();
 	physik();
 	displayProjectiles();
 	displayShips();
 	GUI();
 	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);
 	requestAnimationFrame(draw);
+}
+
+function displayBg(){
+	for (posY = 0; posY < sector[sector.at].height; posY += 100){
+		for (posX = 0; posX < sector[sector.at].width; posX += 100){
+			Game.ctx.drawImage(background, posX - frame.x, posY - frame.y);
+		}
+	}
 }
 
 function GUI() {
@@ -79,6 +87,7 @@ function GUI() {
 	Game.ctx.fillStyle = "black";
 	if (sector[sector.at].ships[player1Pos].shield !== 0) Game.ctx.fillText(sector[sector.at].ships[player1Pos].shield, 270, 645);
 	Game.ctx.fillText(sector[sector.at].ships[player1Pos].hp, 270, 685);
+	Game.ctx.fillText("=>  " + sector.at, 1100 , 635);
 	if (sector[sector.at].ships[player1Pos].lightWp !== undefined) {
 		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.designation + ":", 470, 635);
 		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.ammo, 490 + Game.ctx.measureText(sector[sector.at].ships[player1Pos].lightWp.designation).width, 635);

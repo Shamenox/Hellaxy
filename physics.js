@@ -12,8 +12,8 @@ function physik() {
 			if (sector[sector.at].ships[i].vy > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vy = sector[sector.at].ships[i].a * 100;
 			if (sector[sector.at].ships[i].x < 0) sector[sector.at].ships[i].x = 0, sector[sector.at].ships[i].vx = 0; //Zurücksetzen der Pos und V bei Randkollision
 			if (sector[sector.at].ships[i].y < 0) sector[sector.at].ships[i].y = 0, sector[sector.at].ships[i].vy = 0;
-			if (sector[sector.at].ships[i].x > background.naturalWidth - sector[sector.at].ships[i].skin.naturalWidth) sector[sector.at].ships[i].x = background.naturalWidth - sector[sector.at].ships[i].skin.naturalWidth, sector[sector.at].ships[i].vx = 0;
-			if (sector[sector.at].ships[i].y > background.naturalHeight - sector[sector.at].ships[i].skin.naturalHeight - 120) sector[sector.at].ships[i].y = background.naturalHeight - sector[sector.at].ships[i].skin.naturalHeight - 120, sector[sector.at].ships[i].vy = 0;
+			if (sector[sector.at].ships[i].x > sector[sector.at].width - sector[sector.at].ships[i].skin.naturalWidth) sector[sector.at].ships[i].x = sector[sector.at].width - sector[sector.at].ships[i].skin.naturalWidth, sector[sector.at].ships[i].vx = 0;
+			if (sector[sector.at].ships[i].y > sector[sector.at].height - sector[sector.at].ships[i].skin.naturalHeight - 120) sector[sector.at].ships[i].y = sector[sector.at].height - sector[sector.at].ships[i].skin.naturalHeight - 120, sector[sector.at].ships[i].vy = 0;
 			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Rammsimulation
 				if (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
 				collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
@@ -22,9 +22,9 @@ function physik() {
 			if (sector[sector.at].ships[i].ctrl === "player1") {
 				player1Pos = i;
 				if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
-				if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < background.naturalWidth - 1280) frame.x = sector[sector.at].ships[i].x - 1080;
+				if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < sector[sector.at].width - 1280) frame.x = sector[sector.at].ships[i].x - 1080;
 				if (sector[sector.at].ships[i].y < frame.y + 200 && frame.y > 0) frame.y = sector[sector.at].ships[i].y - 200;
-				if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < background.naturalHeight - 720) frame.y = sector[sector.at].ships[i].y - 400;
+				if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < sector[sector.at].height - 720) frame.y = sector[sector.at].ships[i].y - 400;
 				if (key.w) {
 					sector[sector.at].ships[i].acc();
 				}
@@ -52,7 +52,7 @@ function physik() {
 		if (projectile[i].active){
 			projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
 			projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
-			if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > background.naturalWidth || projectile[i].y > background.naturalHeight) projectile[i].active = false;
+			if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > sector[sector.at].width || projectile[i].y > sector[sector.at].height) projectile[i].active = false;
 			for (h = 0; h < sector[sector.at].ships.length; h++){ //Prozess bei Treffer
 				if (projectile[i].hits(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true) {
 					if (projectile[i].pen >= sector[sector.at].ships[h].armour){
@@ -79,8 +79,8 @@ function physik() {
 		}
 	}
 	if (frame.y < 0) frame.y = 0;
-	if (frame.y > background.naturalHeight - 720) frame.y = background.naturalHeight - 721;
-	if (frame.x > background.naturalWidth - 1280) frame.x = background.naturalWidth - 1281;
+	if (frame.y > sector[sector.at].height - 720) frame.y = sector[sector.at].height - 721;
+	if (frame.x > sector[sector.at].width - 1280) frame.x = sector[sector.at].width - 1281;
 	if (frame.x < 0) frame.x = 0;
 }
 

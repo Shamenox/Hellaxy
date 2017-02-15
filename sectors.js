@@ -3,6 +3,9 @@ function createSector (options) {
 	//declaration, bg, theme
 	var neuersector = {};
 	neuersector.background = image[options.bg];
+	if (options.width === undefined) options.width = 1280, options.height = 720;
+	neuersector.width = options.width;
+	neuersector.height = options.height;
 	neuersector.ships = [];
 	neuersector.isSetup = false;
 	if (options.theme !== "none") neuersector.theme = audio[options.theme];
@@ -77,7 +80,9 @@ sector.controls.events = function() {
 
 createSector({ name : "testmap",
 	bg : "testmap",
-	theme : "none"});
+	theme : "none",
+	width : 2200,
+	height : 2200});
 sector.testmap.setup = function(){
 	spawnShip("Humanian Protobaseship Helonia", 200, 250, 180, "player1");
 	spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
