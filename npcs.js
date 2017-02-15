@@ -16,13 +16,17 @@ function setupNpcs(){
 	npc.defender = function(){
 		var of = sector[sector.at].ships[this.relationShipID];
 		if (of.active === true){
-			if (of.nextShip("anythingElse", 400) === false){
+			if (of.nextShip("anythingElse", 300) === false){
 				this.follow(of, 50);
 			} else {
-				this.follow(of.nextShip("anythingElse", 400), 20);
-				if (this.pointsAt(of.nextShip("anythingElse", 400))) this.fireSmall();
+				this.follow(of.nextShip("anythingElse", 300), 20);
+				if (this.pointsAt(of.nextShip("anythingElse", 300))) this.fireSmall();
 			}
 		} else {this.ctrl = npc.simpleRoamer;}
+	}
+	npc.striver = function(){
+		this.acc();
+		if (this.hp < ship[this.designation].hp / 2) this.turnArround();
 	}
 	npc.test = function(){
 		if (intervalReact(true, 3000, "testturn"))this.turnArround();

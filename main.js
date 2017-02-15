@@ -90,7 +90,7 @@ function GUI() {
 	Game.ctx.fillStyle = "black";
 	if (sector[sector.at].ships[player1Pos].shield !== 0) Game.ctx.fillText(sector[sector.at].ships[player1Pos].shield, 270, 645);
 	Game.ctx.fillText(sector[sector.at].ships[player1Pos].hp, 270, 685);
-	Game.ctx.fillText("=>  " + sector.at, 1100 , 635);
+	Game.ctx.fillText("=>" + sector.at, 1050 , 635);
 	if (sector[sector.at].ships[player1Pos].lightWp !== undefined) {
 		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.designation + ":", 470, 635);
 		Game.ctx.fillText(sector[sector.at].ships[player1Pos].lightWp.ammo, 490 + Game.ctx.measureText(sector[sector.at].ships[player1Pos].lightWp.designation).width, 635);

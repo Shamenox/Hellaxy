@@ -106,8 +106,6 @@ createSector({ name : "Central_Sector",
 	height : 3700});
 sector.Central_Sector.setup = function(){
 	createPlanet("Humania", "humania", "Central_Sector", 1000, 1000);
-	spawnShip("Humanian Shuttle", 1300, 1100, 0, npc.defender, 0);
-	spawnShip("Humanian Shuttle", 1400, 1100, 0, npc.defender, 0);
 }
 
 

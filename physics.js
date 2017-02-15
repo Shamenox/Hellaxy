@@ -31,8 +31,8 @@ function physik() {
 				if (key.s) {
 					sector[sector.at].ships[i].dec();
 				}
-				if (key.a) sector[sector.at].ships[i].angle -= 12 * sector[sector.at].ships[i].a; //Drehung
-				if (key.d) sector[sector.at].ships[i].angle += 12 * sector[sector.at].ships[i].a;
+				if (key.a) sector[sector.at].ships[i].angle -= 40 * sector[sector.at].ships[i].a; //Drehung
+				if (key.d) sector[sector.at].ships[i].angle += 40 * sector[sector.at].ships[i].a;
 				if (key.space) sector[sector.at].ships[i].fireSmall();
 			}
 			if (sector[sector.at].ships[i].ctrl !== "player1"){

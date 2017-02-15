@@ -12,6 +12,19 @@ function createWeapon(designation, texture, alpha, pen, reload, ammo, sound){
 	weapon[designation] = neueWaffe;
 }
 
+function cloneWeapon(designation){
+	if (designation === "none") return undefined;
+	clonedWeapon = {};
+	clonedWeapon.designation = designation;
+	clonedWeapon.texture = weapon[designation].texture;
+	clonedWeapon.alpha = weapon[designation].alpha;
+	clonedWeapon.pen = weapon[designation].pen;
+	clonedWeapon.reload = weapon[designation].reload;
+	clonedWeapon.ammo = weapon[designation].ammo;
+	clonedWeapon.sound = weapon[designation].sound;
+	return clonedWeapon;
+}
+
 function spawnProjectile(from, size){
 	neuesProjektil = {};
 	neuesProjektil.active = true;
@@ -54,6 +67,6 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){
-	createWeapon("5nm machinegun", image.shot_light1, 10, 1, 100, 200, audio.shot_light);
+	createWeapon("5nm machinegun", image.shot_light1, 4, 1, 100, 200, audio.shot_light);
 	createWeapon("1.4 mm kolexial gun", image.shot_light_tripple, 36, 10, 200, 600, audio.shot_light);
 }

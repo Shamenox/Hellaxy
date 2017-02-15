@@ -14,10 +14,10 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	neuesSchiff.shield = shield;
 	neuesSchiff.armour = armour;
 	neuesSchiff.a = acc;
-	neuesSchiff.skin = image["ship_" + texture];
-	if (wp1 !== undefined) neuesSchiff.lightWp = weapon[wp1];
-	if (wp2 !== undefined) neuesSchiff.mediumWp = weapon[wp2];
-	if (wp3 !== undefined) neuesSchiff.heavyWp = weapon[wp3];
+	neuesSchiff.skin = image[texture];
+	if (wp1 !== undefined) neuesSchiff.lightWp = cloneWeapon(wp1);
+	if (wp2 !== undefined) neuesSchiff.mediumWp = cloneWeapon(wp2);
+	if (wp3 !== undefined) neuesSchiff.heavyWp = cloneWeapon(wp3);
 	neuesSchiff.acc = function(){
 		this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
 		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
@@ -51,13 +51,14 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		setTimeout(this.killSwitch, 1000);
 		this.active = "explosion";
 		audio.explosion1.play();
+		if (this.abgang !== undefined) this.abgang();
 	}
 	neuesSchiff.turn = function(){ // Richtungsfindung
 		if (this.aim !== undefined){ 
 			if (this.angle <= 180){
-				if (this.aim.between(this.angle, this.angle + 180)){ this.angle += this.a * 100;} else {this.angle -= this.a * 100;}
+				if (this.aim.between(this.angle, this.angle + 180)){ this.angle += this.a * 100;} else {this.angle -= this.a * 40;}
 			} else {
-				if (this.aim.between(this.angle, this.angle - 180)){ this.angle -= this.a * 100;} else {this.angle += this.a * 100;}
+				if (this.aim.between(this.angle, this.angle - 180)){ this.angle -= this.a * 100;} else {this.angle += this.a * 40;}
 			}
 			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
 		}
@@ -103,13 +104,14 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	ship[declaration] = neuesSchiff;
 }
 
-function spawnShip(thatOne, atX, atY, atAngle, ctrl, relationShip){
+function spawnShip(thatOne, atX, atY, atAngle, ctrl, relationShip, abgang){
 	var neuerSpawn = ship[thatOne];
 	neuerSpawn.x = atX;
 	neuerSpawn.y = atY;
 	neuerSpawn.angle = atAngle;
 	neuerSpawn.ctrl = ctrl;
 	neuerSpawn.relationShipID = relationShip;
+	neuerSpawn.abgang = abgang;
 	neuerSpawn.ID = sector[sector.at].ships.length;
 	sector[sector.at].ships.push(neuerSpawn);
 	setupShips();
@@ -136,4 +138,5 @@ function setupShips(){
 	createShip("Humanian Protobaseship Helonia","humanian", "protobaseship_helonia", 8000, 0, 5, 0.03, "1.4 mm kolexial gun");
 	createShip("Republic Base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
 	createShip("Fat Man", "none", "fat dude", 1000, 500, 2, 0.02, "5nm machinegun");
+	createShip("Qubanic Colonizer","qubanic", "qubanic colonizer", 2800, 0, 1, 0.001,"none");
 }
