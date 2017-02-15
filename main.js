@@ -44,6 +44,7 @@ function draw() {
 	displayBg();
 	sector.act();
 	physik();
+	displayPlanets();
 	displayProjectiles();
 	displayShips();
 	GUI();

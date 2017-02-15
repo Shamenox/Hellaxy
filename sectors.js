@@ -7,6 +7,7 @@ function createSector (options) {
 	neuersector.width = options.width;
 	neuersector.height = options.height;
 	neuersector.ships = [];
+	neuersector.planets = [];
 	neuersector.isSetup = false;
 	if (options.theme !== "none") neuersector.theme = audio[options.theme];
 	if (options.theme === "none") neuersector.theme = "none";
@@ -56,7 +57,7 @@ createSector({ name: "menue",
 		bg: "blackscreen",
 		theme: "none"});
 sector.menue.events = function() {
-    button(400, 100, 480, 100, "Test Mode", "yellow", function(){sector.at = "testmap"})
+    button(400, 100, 480, 100, "Test Mode", "yellow", function(){sector.at = "Central_Sector"})
 	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){/sector.at = "campaigns"/})
 	button(400, 400, 480, 100, "Free-Roam Mode (experimental)", "yellow", function(){})
 	button(400, 550, 480, 100, "Controls", "yellow", function(){sector.at = "controls"})
@@ -84,6 +85,7 @@ createSector({ name : "testmap",
 	width : 2200,
 	height : 2200});
 sector.testmap.setup = function(){
+	createPlanet("testMoon", "testMoon", "testmap", 900, 400);
 	spawnShip("Humanian Protobaseship Helonia", 200, 250, 180, "player1");
 	spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
 	spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
@@ -95,6 +97,18 @@ sector.testmap.setup = function(){
 	spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
 	//spawnShip("Republic Base", 600, 400, 90, "none");
 	//spawnShip("Fat Man", 700, 300, 90, npc.simpleRoamer);
+}
+
+createSector({ name : "Central_Sector",
+	bg : "central_sector",
+	theme : "none",
+	width : 4500,
+	height : 3700});
+sector.Central_Sector.setup = function(){
+	createPlanet("testMoon", "testMoon", "testmap", 900, 400);
+	spawnShip("Humanian Protobaseship Helonia", 200, 250, 180, "player1");
+	spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
+	spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
 }
 
 
