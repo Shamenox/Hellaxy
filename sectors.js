@@ -80,8 +80,8 @@ createSector({ name : "testmap",
 	theme : "none"});
 sector.testmap.setup = function(){
 	spawnShip("Humanian Protobaseship Helonia", 200, 250, 180, "player1");
-	spawnShip("Humanian Shuttle", 300, 100, 0, npc.test);
-	spawnShip("Humanian Shuttle", 400, 100, 0, "none");
+	spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
+	spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
 	spawnShip("Testarrow", 100, 100, 0, "none");
 	//spawnShip("Testarrow", 500, 450, 90, npc.simpleRoamer);
 	//spawnShip("Testarrow", 600, 450, 180, npc.simpleRoamer);

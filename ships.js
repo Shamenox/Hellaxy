@@ -19,12 +19,12 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	if (wp2 !== undefined) neuesSchiff.mediumWp = weapon[wp2];
 	if (wp3 !== undefined) neuesSchiff.heavyWp = weapon[wp3];
 	neuesSchiff.acc = function(){
-		sector[sector.at].ships[i].vy += Math.cos(sector[sector.at].ships[i].angle * Math.PI / 180) * sector[sector.at].ships[i].a;
-		sector[sector.at].ships[i].vx += Math.cos((sector[sector.at].ships[i].angle - 90) * Math.PI / 180) * sector[sector.at].ships[i].a;
+		this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
+		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
 	}
 	neuesSchiff.dec = function(){
-		sector[sector.at].ships[i].vy -= Math.cos(sector[sector.at].ships[i].angle * Math.PI / 180) * sector[sector.at].ships[i].a;
-		sector[sector.at].ships[i].vx -= Math.cos((sector[sector.at].ships[i].angle - 90) * Math.PI / 180) * sector[sector.at].ships[i].a;
+		if (this.vx > 0) this.vx -= Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+		if (this.vy > 0) this.vy -= Math.cos(this.angle * Math.PI / 180) * this.a;
 	}
 	neuesSchiff.fireSmall = function(){
 		if (this.lightWp !== undefined) {              //Feuern
@@ -35,6 +35,7 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		}
 	}
 	neuesSchiff.collidesWith = function (Suspect) {
+		if (this.fraction === Suspect.fraction) return false;
 		var collision = false;
 		if (this.x === Suspect.x || this.x.between(Suspect.x, Suspect.x + Suspect.skin.naturalWidth) || (this.x + this.skin.naturalWidth).between(Suspect.x, Suspect.x + Suspect.skin.naturalWidth)){
 			if (this.y === Suspect.y) collision = true;
@@ -87,25 +88,28 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		for (h = 0; h <= range; h ++){
 			for (k = 0; k < sector[sector.at].ships.length; k++){
 				if (this.distanceTo(sector[sector.at].ships[k]) <= h && k !== this.ID){
-					if (search === "anything" && sector[sector.at].ships[k].active === true || sector[sector.at].ships[k].fraction === search && sector[sector.at].ships[k].active === true) return sector[sector.at].ships[k];
+					if (search === "anything" && sector[sector.at].ships[k].active === true || search === "anythingElse" && sector[sector.at].ships[k].fraction !== this.fraction && sector[sector.at].ships[k].active === true || sector[sector.at].ships[k].fraction === search && sector[sector.at].ships[k].active === true) return sector[sector.at].ships[k];
 				}
 			}
 		}
 		return false;
 	}
 	neuesSchiff.follow = function(toFollow, atDistance){
-		this.pointAt (toFollow);
-		if (this.a > toFollow.a && this.distanceTo(toFollow) <= atDistance) this.vx = ob.vx, this.vy = toFollow.vy;
+		if (this.distanceTo(toFollow) > atDistance) {
+			this.pointAt (toFollow);
+			if (this.pointsAt(toFollow)) this.acc();
+		} else {this.dec();}
 	}
 	ship[declaration] = neuesSchiff;
 }
 
-function spawnShip(thatOne, atX, atY, atAngle, ctrl){
+function spawnShip(thatOne, atX, atY, atAngle, ctrl, relationShip){
 	var neuerSpawn = ship[thatOne];
 	neuerSpawn.x = atX;
 	neuerSpawn.y = atY;
 	neuerSpawn.angle = atAngle;
 	neuerSpawn.ctrl = ctrl;
+	neuerSpawn.relationShipID = relationShip;
 	neuerSpawn.ID = sector[sector.at].ships.length;
 	sector[sector.at].ships.push(neuerSpawn);
 	setupShips();
