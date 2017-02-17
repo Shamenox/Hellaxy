@@ -69,5 +69,5 @@ function displayProjectiles(){
 function setupWeapons(){
 	createWeapon("5nm machinegun", image.shot_light1, 4, 1, 100, 200, audio.shot_light);
 	createWeapon("1.4 mm kolexial gun", image.shot_light_tripple, 36, 10, 200, 600, audio.shot_light);
-	createWeapon("Ophianic Beam (H)", image.beam_ophianic_h, 1000, 4, 4000, 66, audio.shot_light);
+	createWeapon("Ophianian Beam (H)", image.beam_ophianian_h, 1000, 4, 4000, 66, audio.shot_light);
 }

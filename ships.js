@@ -1,5 +1,5 @@
 var ship = {};
-function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1, wp2, wp3){
+function createShip(specs){
 	var neuesSchiff = {};
 	neuesSchiff.x = 0;
 	neuesSchiff.y = 0;
@@ -7,17 +7,21 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 	neuesSchiff.vy = 0;
 	neuesSchiff.angle = 0;
 	neuesSchiff.ctrl = "none";
-	neuesSchiff.designation = declaration;
-	neuesSchiff.fraction = fraction;
+	neuesSchiff.designation = specs.designation;
+	neuesSchiff.fraction = specs.fraction;
 	neuesSchiff.active = true;
-	neuesSchiff.hp = hp;
-	neuesSchiff.shield = shield;
-	neuesSchiff.armour = armour;
-	neuesSchiff.a = acc;
-	neuesSchiff.skin = image[texture];
-	if (wp1 !== undefined) neuesSchiff.lightWp = cloneWeapon(wp1);
-	if (wp2 !== undefined) neuesSchiff.mediumWp = cloneWeapon(wp2);
-	if (wp3 !== undefined) neuesSchiff.heavyWp = cloneWeapon(wp3);
+	neuesSchiff.hp = specs.hp;
+	neuesSchiff.shield = specs.shield;
+	neuesSchiff.armour = specs.armour;
+	neuesSchiff.a = specs.acc;
+	neuesSchiff.skin = image[specs.texture];
+	if (specs.wp1 !== undefined) neuesSchiff.lightWp = cloneWeapon(specs.wp1);
+	if (specs.wp2 !== undefined) neuesSchiff.mediumWp = cloneWeapon(specs.wp2);
+	if (specs.wp3 !== undefined) neuesSchiff.heavyWp = cloneWeapon(specs.wp3);
+	if (specs.sp1 !== undefined) neuesSchiff.special1 = cloneSpecial(specs.sp1);
+	if (specs.sp2 !== undefined) neuesSchiff.special2 = cloneSpecial(specs.sp2);
+	if (specs.sp3 !== undefined) neuesSchiff.special3 = cloneSpecial(specs.sp3);
+	if (specs.sp4 !== undefined) neuesSchiff.special4 = cloneSpecial(specs.sp4);
 	neuesSchiff.acc = function(){
 		this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
 		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
@@ -101,7 +105,7 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 			if (this.pointsAt(toFollow)) this.acc();
 		} else {this.dec();}
 	}
-	ship[declaration] = neuesSchiff;
+	ship[specs.designation] = neuesSchiff;
 }
 
 function spawnShip(thatOne, atX, atY, atAngle, ctrl, relationShip, abgang){
@@ -143,12 +147,14 @@ function displayShips(){
 	}
 }
 	
-function setupShips(){
-	createShip("Testarrow", "none", "testarrow", 100, 100, 1, 0.1, "5nm machinegun");
-	createShip("Humanian Shuttle", "humanian", "humanian_shuttle", 100, 0, 1, 0.05, "5nm machinegun");
-	createShip("Humanian Protobaseship Helonia","humanian", "protobaseship_helonia", 8000, 0, 5, 0.03, "1.4 mm kolexial gun");
-	createShip("Republic Base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
-	createShip("Fat Man", "none", "fat dude", 1000, 500, 2, 0.02, "5nm machinegun");
-	createShip("Qubanic Colonizer","qubanic", "qubanic colonizer", 2800, 0, 1, 0.001,"none");
-	createShip("Ophianic Annector-Star","ophianic", "ophianic annector-star", 10000, 0, 2, 0.01,"none");
+function setupShips(){  //declaration, fraction, texture, hp, shield, armour, acc, wp1, wp2, wp3
+	createShip({designation : "Testarrow", fraction : "none", texture : "testarrow", hp : 100, shield : 100, armour : 1, acc : 0.1, wp1 : "5nm machinegun"});
+	createShip({designation : "Humanian Shuttle", fraction : "humanian", texture : "humanian_shuttle", hp : 100, shield : 0, armour : 1, acc : 0.1, wp1 : "5nm machinegun"});
+	createShip({designation : "Humanian Protobaseship Helonia", fraction : "humanian", texture : "protobaseship_helonia", hp : 8000, shield : 0, armour : 5, acc : 0.03, wp1 : "1.4 mm kolexial gun"});
+	createShip({designation : "Fat Man", fraction : "none", texture : "fat dude", hp : 1000, shield : 500, armour : 2, acc : 0.02, wp1 : "5nm machinegun"});
+	createShip({designation : "Republic Base", fraction : "republic", texture : "rep_hq", hp : 1000000, shield : 2000000, armour : 3, acc : 0, wp1 : "none"});
+	createShip({designation : "Qubanic Colonizer", fraction : "qubanic", texture : "qubanic colonizer", hp : 2800, shield : 0, armour : 1, acc : 0.001});
+	createShip({designation : "Ophianian Annector-Star", fraction : "ophianian", texture : "ophianian annector-star", hp : 10000, shield : 0, armour : 2, acc : 0.01, wp1 : "Ophianian Beam (H)", sp1 : "spawn_ophianianChunk",});
+	createShip({designation : "Ophianian Chunk", fraction : "ophianian", texture : "ophianian chunk", hp : 300, shield : 0, armour : 1, acc : 0.07, wp1 : "none"});
+	
 }

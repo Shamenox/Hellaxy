@@ -28,6 +28,7 @@ window.onload = function() {
 	loadImages();
 	loadAudio();
 	setupWeapons();
+	setupSpecials();
 	console.log(weapon);
 	setupNpcs();
 	setupShips();
