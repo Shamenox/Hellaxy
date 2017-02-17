@@ -26,15 +26,17 @@ function setupCampaigns(){
 		spawnShip("Humanian Shuttle", 1300, 1200, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1400, 1100, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1400, 1000, 0, npc.defender, 0);
-		spawnShip("Qubanic Colonizer", 400, 400, 115, function(){this.follow({x : 1000, y : 1000}, 200);}, undefined, function(){campaign[campaign.at].levels[campaign[campaign.at].at].condition = true;});
+		spawnShip("Qubanic Colonizer", 400, 400, 135, function(){this.follow({x : 1000, y : 1000}, 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); campaign.humanian.levels[0].condition = true;});
 		addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
 		addMsg("According to your Intruments you five should all be fine out there.");
 		addMsg("Dont get carried away. The Reason we starded the Mission early");
-		addMsg("was because that unknown trabant that appeared on our radars one month ago");
+		addMsg("was because that unknown trabant");
+		addMsg("that appeared on our radars one month ago");
 		addMsg("has suddenly moving towards Humania.");
-		addMsg("Your mission is to guard our Orbit and eliminate said Object if necessary.");
+		addMsg("Your mission is to guard our Orbit");
+		addMsg("and eliminate said Object if necessary.");
 		addMsg("You control your Shuttle via the WASD interface.");
 		addMsg("The Space bar triggers your high-tech 5nm machinegun twin.");
 		addMsg("Good luck out there!");
@@ -44,8 +46,10 @@ function setupCampaigns(){
 
 function endLevel(){
 	campaign[campaign.at].levels[campaign[campaign.at].at].condition = false;
+	campaign[campaign.at].levels[campaign[campaign.at].at].isSetup = false;
 	campaign[campaign.at].at += 1;
 	campaign.at = "completed";
+	setupSectors();
 }
 
 function checkCampaign(){

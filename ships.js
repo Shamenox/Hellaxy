@@ -150,4 +150,5 @@ function setupShips(){
 	createShip("Republic Base", "republic", "rep_hq", 2000000, 1000000, 3, 0, "5nm machinegun");
 	createShip("Fat Man", "none", "fat dude", 1000, 500, 2, 0.02, "5nm machinegun");
 	createShip("Qubanic Colonizer","qubanic", "qubanic colonizer", 2800, 0, 1, 0.001,"none");
+	createShip("Ophianic Annector-Star","ophianic", "ophianic annector-star", 10000, 0, 2, 0.01,"none");
 }

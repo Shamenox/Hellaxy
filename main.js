@@ -46,7 +46,7 @@ function draw() {
 	displayBg();
 	displayPlanets();
 	sector.act();
-	checkCampaign();
+	if (!stop) checkCampaign();
 	if (!stop) physik();
 	displayProjectiles();
 	displayShips();
@@ -173,15 +173,15 @@ function displayMsgs(){
 		Game.ctx.lineWidth = 2;
 		Game.ctx.fillStyle = "black";
 		Game.ctx.fillText("Intercom", 15, 50);
-		Game.ctx.fillText("Continue(E)", 1120, 50);
+		Game.ctx.fillText("Continue(E)", 1115, 50);
 		
-		Game.ctx.fillText(msg[0].content, 150, 50);
+		Game.ctx.fillText(msg[0].content, 145, 50);
 		
 		Game.ctx.strokeStyle = "yellow";
 		Game.ctx.fillStyle = "yellow";
 		Game.ctx.lineWidth = 1;
 	}
-	if (intervalReact(key.e, 1000, "msgDelay")){
+	if (intervalReact(key.e, 500, "msgDelay")){
 		for (i = 1; i < msg.length; i++){
 			msg[i-1] = msg[i];
 		}

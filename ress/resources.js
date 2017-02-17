@@ -18,4 +18,6 @@
 	"testMoon" : "ress/planets/test.png",
 	"humania" : "ress/planets/humania.png",
 	"qubanic colonizer" : "ress/ships/qubanic colonizer.png",
+	"ophianic annector-star" : "ress/ships/ophianic annector-star.png",
+	"beam_ophianic_h" : "ress/projectiles/ophianic beam.png",
 }
