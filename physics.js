@@ -1,50 +1,24 @@
 ﻿ // Eingabeverarbeitung
 function physik() {
 	for (i = 0; i < sector[sector.at].ships.length; i++) { //Schiffberechnung
-		if (sector[sector.at].ships[i].active === true){
-			if (sector[sector.at].ships[i].hp < 0 && sector[sector.at].ships[i].active !== "explosion") sector[sector.at].ships[i].explode();
-			if (sector[sector.at].ships[i].ctrl !== "player1" && sector[sector.at].ships[i].ctrl !== "none") sector[sector.at].ships[i].ctrl(); // Zugriff durch KIs
-			sector[sector.at].ships[i].y -= sector[sector.at].ships[i].vy; //Bewegung durch Geschwindigkeit
-			sector[sector.at].ships[i].x += sector[sector.at].ships[i].vx;
-			if (sector[sector.at].ships[i].angle > 359) sector[sector.at].ships[i].angle = 0; //Einhalten der 360°
-			if (sector[sector.at].ships[i].angle < 0) sector[sector.at].ships[i].angle = 359;
-			if (sector[sector.at].ships[i].vx > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vx = sector[sector.at].ships[i].a * 100; //Geschwindigkeitsobergrenze
-			if (sector[sector.at].ships[i].vy > sector[sector.at].ships[i].a * 100) sector[sector.at].ships[i].vy = sector[sector.at].ships[i].a * 100;
-			if (sector[sector.at].ships[i].x < 0) sector[sector.at].ships[i].x = 0, sector[sector.at].ships[i].vx = 0; //Zurücksetzen der Pos und V bei Randkollision
-			if (sector[sector.at].ships[i].y < 0) sector[sector.at].ships[i].y = 0, sector[sector.at].ships[i].vy = 0;
-			if (sector[sector.at].ships[i].x > sector[sector.at].width - sector[sector.at].ships[i].skin.naturalWidth) sector[sector.at].ships[i].x = sector[sector.at].width - sector[sector.at].ships[i].skin.naturalWidth, sector[sector.at].ships[i].vx = 0;
-			if (sector[sector.at].ships[i].y > sector[sector.at].height - sector[sector.at].ships[i].skin.naturalHeight - 120) sector[sector.at].ships[i].y = sector[sector.at].height - sector[sector.at].ships[i].skin.naturalHeight - 120, sector[sector.at].ships[i].vy = 0;
-			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Rammsimulation
-				if (sector[sector.at].ships[i].collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
+		var SHIP = sector[sector.at].ships[i];
+		if (SHIP.active === true){
+			if (SHIP.hp < 0 && SHIP.active !== "explosion") SHIP.explode(); //Abfrage ob noch aktiv
+			if (SHIP.ctrl !== "none") SHIP.ctrl(); // Zugriff durch Spieler/KIs
+			SHIP.y -= SHIP.vy; //Bewegung durch Geschwindigkeit
+			SHIP.x += SHIP.vx;
+			if (SHIP.vx > SHIP.a * 100)SHIP.vx = SHIP.a * 100; //Geschwindigkeitsobergrenze
+			if (SHIP.vy > SHIP.a * 100) SHIP.vy = SHIP.a * 100;
+			if (SHIP.angle > 359) SHIP.angle = 0; //Einhalten der 360°
+			if (SHIP.angle < 0) SHIP.angle = 359;
+			if (SHIP.x < 0) SHIP.x = 0, SHIP.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
+			if (SHIP.y < 0) SHIP.y = 0, SHIP.vy = 0;
+			if (SHIP.x > sector[sector.at].width - SHIP.skin.naturalWidth) SHIP.x = sector[sector.at].width - SHIP.skin.naturalWidth, SHIP.vx = 0;
+			if (SHIP.y > sector[sector.at].height - SHIP.skin.naturalHeight - 120) SHIP.y = sector[sector.at].height -SHIP.skin.naturalHeight - 120, SHIP.vy = 0;
+			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Kollisionsüberprüfung
+				if (SHIP.collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
 				collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
 				}
-			}
-			if (sector[sector.at].ships[i].ctrl === "player1") {
-				player1Pos = i;
-				if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
-				if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < sector[sector.at].width - 1280) frame.x = sector[sector.at].ships[i].x - 1080;
-				if (sector[sector.at].ships[i].y < frame.y + 200 && frame.y > 0) frame.y = sector[sector.at].ships[i].y - 200;
-				if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < sector[sector.at].height - 720) frame.y = sector[sector.at].ships[i].y - 400;
-				if (key.w) {
-					sector[sector.at].ships[i].acc();
-				}
-				if (key.s) {
-					sector[sector.at].ships[i].dec();
-				}
-				if (key.a) sector[sector.at].ships[i].angle -= 40 * sector[sector.at].ships[i].a; //Drehung
-				if (key.d) sector[sector.at].ships[i].angle += 40 * sector[sector.at].ships[i].a;
-				if (key.space) sector[sector.at].ships[i].fireSmall();
-			}
-			if (sector[sector.at].ships[i].ctrl !== "player1"){
-				sector[sector.at].ships[i].turn();
-				Game.ctx.strokeStyle = "red";//infotafel
-				Game.ctx.fillStyle = "green";
-				Game.ctx.strokeRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth, 6);
-				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].hp / ship[sector[sector.at].ships[i].designation].hp), 6);
-				Game.ctx.fillStyle = "blue";
-				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].shield / ship[sector[sector.at].ships[i].designation].shield), 6);
-				Game.ctx.strokeStyle = "yellow";
-				Game.ctx.fillStyle = "yellow";
 			}
 		}
 	}
@@ -93,11 +67,6 @@ function collide(a, b){
 	a.vy = -collision.potY * (ship[b.designation].hp / collision.potM);
 	b.vx = collision.potX * (ship[a.designation].hp / collision.potM);
 	b.vy = collision.potY * (ship[a.designation].hp / collision.potM);
-}
-
-function delay() {
-	state += 1;
-	if (!next[state]) normalize();
 }
 
 function portal(x, y, width, height, to, atx, aty) {

@@ -1,4 +1,21 @@
-﻿var npc = {};
+﻿function player1(){
+	player1Pos = i;
+	if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
+	if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < sector[sector.at].width - 1280) frame.x = sector[sector.at].ships[i].x - 1080;
+	if (sector[sector.at].ships[i].y < frame.y + 200 && frame.y > 0) frame.y = sector[sector.at].ships[i].y - 200;
+	if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < sector[sector.at].height - 720) frame.y = sector[sector.at].ships[i].y - 400;
+	if (key.w) {
+		sector[sector.at].ships[i].acc();
+	}
+	if (key.s) {
+		sector[sector.at].ships[i].dec();
+	}
+	if (key.a) sector[sector.at].ships[i].angle -= 40 * sector[sector.at].ships[i].a; //Drehung
+	if (key.d) sector[sector.at].ships[i].angle += 40 * sector[sector.at].ships[i].a;
+	if (key.space) sector[sector.at].ships[i].fireSmall();
+}
+
+var npc = {};
 function setupNpcs(){
 	npc.simpleRoamer = function(){
 		this.acc();

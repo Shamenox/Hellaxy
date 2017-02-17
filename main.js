@@ -13,6 +13,7 @@ var frame = {
 	x: 0,
 	y: 0
 };
+var stop = false;
 
 
 // Canvas-Initialisierung
@@ -44,12 +45,13 @@ window.onload = function() {
 function draw() {
 	displayBg();
 	displayPlanets();
-	checkCampaign();
 	sector.act();
-	physik();
+	checkCampaign();
+	if (!stop) physik();
 	displayProjectiles();
 	displayShips();
 	GUI();
+	displayMsgs();
 	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);
 	requestAnimationFrame(draw);
 }
@@ -150,4 +152,40 @@ function GUI() {
 		Game.ctx.lineWidth = 1;
 	}
 }
-// Scripted by Shamenox with a lot of help by Miterosan
+
+msg = []
+function addMsg(content){
+	neueMsg = {};
+	neueMsg.content = content;
+	msg[msg.length] = neueMsg;
+}
+function displayMsgs(){
+	if (msg[0] !== undefined){
+		stop = true;
+		Game.ctx.fillStyle = "grey";
+		Game.ctx.fillRect(0,0,1280,80);
+		Game.ctx.fillStyle = "white";
+		Game.ctx.fillRect(130,10,1140,60);
+		Game.ctx.strokeStyle = "black";
+		Game.ctx.lineWidth = 10;
+		Game.ctx.strokeRect(10,10,1255,60);
+		Game.ctx.strokeRect(10,10,120,60);
+		Game.ctx.lineWidth = 2;
+		Game.ctx.fillStyle = "black";
+		Game.ctx.fillText("Intercom", 15, 50);
+		Game.ctx.fillText("Continue(E)", 1120, 50);
+		
+		Game.ctx.fillText(msg[0].content, 150, 50);
+		
+		Game.ctx.strokeStyle = "yellow";
+		Game.ctx.fillStyle = "yellow";
+		Game.ctx.lineWidth = 1;
+	}
+	if (intervalReact(key.e, 1000, "msgDelay")){
+		for (i = 1; i < msg.length; i++){
+			msg[i-1] = msg[i];
+		}
+		msg[msg.length] = undefined;
+		stop = false;
+	}
+}

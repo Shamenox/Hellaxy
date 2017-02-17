@@ -48,7 +48,7 @@ function createShip(declaration, fraction, texture, hp, shield, armour, acc, wp1
 		this.active = false;
 	}
 	neuesSchiff.explode = function(){
-		setTimeout(this.killSwitch, 1000);
+		setTimeout(this.killSwitch, 2000);
 		this.active = "explosion";
 		audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
@@ -128,6 +128,17 @@ function displayShips(){
 			Game.ctx.translate(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x, sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 -frame.y); // Rückdrehung
 			Game.ctx.rotate(-sector[sector.at].ships[i].angle * Math.PI / 180);
 			Game.ctx.translate(-(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x), -(sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y));
+			if (sector[sector.at].ships[i].ctrl !== player1){
+				sector[sector.at].ships[i].turn();
+				Game.ctx.strokeStyle = "red";  //infotafel
+				Game.ctx.fillStyle = "green";
+				Game.ctx.strokeRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth, 6);
+				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].hp / ship[sector[sector.at].ships[i].designation].hp), 6);
+				Game.ctx.fillStyle = "blue";
+				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].shield / ship[sector[sector.at].ships[i].designation].shield), 6);
+				Game.ctx.strokeStyle = "yellow";
+				Game.ctx.fillStyle = "yellow";
+			}
 		}
 	}
 }
