@@ -21,4 +21,5 @@
 	"ophianian annector-star" : "ress/ships/ophianic annector-star.png",
 	"ophianian chunk" : "ress/ships/ophianic chunk.png",
 	"beam_ophianian_h" : "ress/projectiles/ophianian beam.png",
+	"pontes" : "ress/planets/pontes.png",
 }

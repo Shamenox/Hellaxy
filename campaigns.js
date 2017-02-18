@@ -9,11 +9,12 @@ function createCampaign(designation){
 	campaign[designation] = neueKampagne;
 }
 
-function createLevel(tree, setup){
+function createLevel(tree, setup, events){
 	neuesLevel = {};
 	neuesLevel.setup = setup;
 	neuesLevel.isSetup = false;
 	neuesLevel.condition = false;
+	if (events !== undefined) neuesLevel.events = events;
 	campaign[tree].levels.push(neuesLevel);
 }
 
@@ -62,6 +63,14 @@ function setupCampaigns(){
 		addMsg("try to take care of your Squadron.");
 		addMsg("For Humania!");
 		campaign.humanian.levels[1].isSetup = true;
+	}, function(){
+		if (sector[sector.at].ships[player1Pos].hp < 2400){
+			addMsg("Thats it, there is no hope for the Planet...");
+			addMsg("We have no other choice, please forgive us.");
+			addMsg("Start the FTL-engines!");
+			sector[sector.at].ships[player1Pos].ctrl = function(){this.aim = 45; this.a = 1; this.turn(); if (this.angle === 45) this.acc(); if (this.y < frame.y) endLevel();};
+			campaign.humanian.levels[1].events = undefined;
+		}
 	});
 }
 
@@ -76,6 +85,7 @@ function endLevel(){
 function checkCampaign(){
 	if (campaign.at !== "none" && campaign.at !== "completed"){
 		if (!campaign[campaign.at].levels[campaign[campaign.at].at].isSetup) campaign[campaign.at].levels[campaign[campaign.at].at].setup();
+		if (campaign[campaign.at].levels[campaign[campaign.at].at].events !== undefined) campaign[campaign.at].levels[campaign[campaign.at].at].events();
 		if (campaign[campaign.at].levels[campaign[campaign.at].at].condition === true) {
 			Game.ctx.fillStyle = "yellow";
 			Game.ctx.fillText("Mission completed!!!", 450, 200);

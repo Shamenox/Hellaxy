@@ -1,9 +1,11 @@
 ﻿function player1(){
 	player1Pos = i;
-	if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
+	/*if (sector[sector.at].ships[i].x < frame.x + 200 && frame.x > 0) frame.x = sector[sector.at].ships[i].x - 200; //Folgen des Spielers des Screens
 	if (sector[sector.at].ships[i].x > frame.x + 1080 && frame.x < sector[sector.at].width - 1280) frame.x = sector[sector.at].ships[i].x - 1080;
 	if (sector[sector.at].ships[i].y < frame.y + 200 && frame.y > 0) frame.y = sector[sector.at].ships[i].y - 200;
-	if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < sector[sector.at].height - 720) frame.y = sector[sector.at].ships[i].y - 400;
+	if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < sector[sector.at].height - 720) frame.y = sector[sector.at].ships[i].y - 400; */
+	frame.x = SHIP.x - 640;
+	frame.y = SHIP.y - 360;
 	if (key.w) {
 		sector[sector.at].ships[i].acc();
 	}
@@ -56,10 +58,10 @@ function setupNpcs(){
 	
 	npc.ophianian = function(){
 		if (intervalReact(this.x < 150 || this.x > background.naturalWidth - 150 || this.y < 150 || this.y > background.naturalHeight - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		if (this.nextShip("anythingElse", 500) !== false){
-				this.pointAt(this.nextShip("anythingElse", 500));
+		if (this.nextShip("anythingElse", 400) !== false){
+				this.follow(this.nextShip("anythingElse", 400), 300);
 				this.special1.exe();
-				if (this.pointsAt(this.nextShip("anythingElse", 500))) this.fireSmall();
+				if (this.pointsAt(this.nextShip("anythingElse", 400))) this.fireSmall();
 		} else {this.pointAt(sector[sector.at].ships[player1Pos]); this.acc();}
 	}
 }

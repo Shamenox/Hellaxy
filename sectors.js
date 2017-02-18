@@ -119,6 +119,7 @@ createSector({ name : "Central_Sector",
 	height : 3700});
 sector.Central_Sector.setup = function(){
 	createPlanet("Humania", "humania", "Central_Sector", 1000, 1000);
+	createPlanet("Pontes", "pontes", "Central_Sector", 1420, 2550);
 }
 
 
