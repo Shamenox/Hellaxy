@@ -23,7 +23,10 @@ function setupNpcs(){
 		if (this.nextShip("anythingElse", 400) !== false){
 			if (this.hp >= ship[this.designation].hp / 2){
 				this.pointAt(this.nextShip("anythingElse", 400));
-				if (this.pointsAt(this.nextShip("anythingElse", 400))) this.fireSmall();
+				if (this.pointsAt(this.nextShip("anythingElse", 400))) {
+					this.fireSmall()
+					if (this.special1 !== undefined) this.special1.exe();
+				}
 			}
 			if (this.hp < ship[this.designation].hp / 2){
 				this.pointFrom(this.nextShip("anythingElse", 400));
@@ -49,5 +52,14 @@ function setupNpcs(){
 		if (intervalReact(true, 3000, "testturn"))this.turnArround();
 		//this.pointAt(sector[sector.at].ships[0]);
 		if (this.pointsAt(sector[sector.at].ships[0])) this.fireSmall();
+	}
+	
+	npc.ophianian = function(){
+		if (intervalReact(this.x < 150 || this.x > background.naturalWidth - 150 || this.y < 150 || this.y > background.naturalHeight - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+		if (this.nextShip("anythingElse", 500) !== false){
+				this.pointAt(this.nextShip("anythingElse", 500));
+				this.special1.exe();
+				if (this.pointsAt(this.nextShip("anythingElse", 500))) this.fireSmall();
+		} else {this.pointAt(sector[sector.at].ships[player1Pos]); this.acc();}
 	}
 }

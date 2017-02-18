@@ -1,13 +1,11 @@
 ﻿
-var Game = {
-	event: {}
-};
+var Game = {};
 
 // Setup
 
-var next = [];
-var player1Pos;
-var background = new Image();
+var SHIP = {}; //Momentan handelndes Schiff
+var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
+var background = new Image(); // Momentanes BG-sample
 var infoScreen = false;
 var frame = {
 	x: 0,
@@ -161,7 +159,7 @@ function addMsg(content){
 	msg[msg.length] = neueMsg;
 }
 function displayMsgs(){
-	if (msg[0] !== undefined){
+	if (msg.length !== 0){
 		stop = true;
 		Game.ctx.fillStyle = "grey";
 		Game.ctx.fillRect(0,0,1280,80);
@@ -183,10 +181,7 @@ function displayMsgs(){
 		Game.ctx.lineWidth = 1;
 	}
 	if (intervalReact(key.e, 500, "msgDelay")){
-		for (i = 1; i < msg.length; i++){
-			msg[i-1] = msg[i];
-		}
-		msg[msg.length] = undefined;
+		msg.splice(0,1);
 		stop = false;
 	}
 }

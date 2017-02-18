@@ -1,7 +1,7 @@
 ﻿ // Eingabeverarbeitung
 function physik() {
 	for (i = 0; i < sector[sector.at].ships.length; i++) { //Schiffberechnung
-		var SHIP = sector[sector.at].ships[i];
+		SHIP = sector[sector.at].ships[i];
 		if (SHIP.active === true){
 			if (SHIP.hp < 0 && SHIP.active !== "explosion") SHIP.explode(); //Abfrage ob noch aktiv
 			if (SHIP.ctrl !== "none") SHIP.ctrl(); // Zugriff durch Spieler/KIs
@@ -35,17 +35,17 @@ function physik() {
 						if (sector[sector.at].ships[h].shield <= 0 && sector[sector.at].ships[h].shield < 1) sector[sector.at].ships[h].hp -= projectile[i].alpha;
 						if (sector[sector.at].ships[h].shield > 0 && sector[sector.at].ships[h].shield > 1) sector[sector.at].ships[h].shield -= projectile[i].alpha;
 						if (sector[sector.at].ships[h].shield > 0 && sector[sector.at].ships[h].shield < 1) sector[sector.at].ships[h].hp -= projectile[i].alpha * sector[sector.at].ships[h].shield;
-						audio["hit_" + projectile[i].size].play();
+						projectile[i].sound.play();
 						projectile[i].active = false;
 					}
 					if (projectile[i].pen < sector[sector.at].ships[h].armour){
-					for (j = 180; j > 0; j--){
-						projectile[i].angle -=1;
-						if (projectile[i].angle === -1) projectile[i].angle = 359;
-					}
-					projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
-					projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
-					audio["bounce_" + projectile[i].size].play();
+						for (j = 180; j > 0; j--){
+							projectile[i].angle -=1;
+							if (projectile[i].angle === -1) projectile[i].angle = 359;
+						}
+						projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
+						projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
+						projectile[i].bounce.play();
 					if (projectile[i].hits(sector[sector.at].ships[h])) projectile[i].active = false;
 					}
 				}
@@ -62,12 +62,17 @@ function collide(a, b){
 	var collision = {};
 	collision.potX = a.vx + b.vx;
 	collision.potY = a.vy + b.vy;
+	collision.potDmg = Math.sqrt(Math.abs(collision.potX)*Math.abs(collision.potX) + Math.abs(collision.potX)*Math.abs(collision.potX));
 	collision.potM = ship[a.designation].hp + ship[b.designation].hp;
 	a.vx = -collision.potX * (ship[b.designation].hp / collision.potM);
 	a.vy = -collision.potY * (ship[b.designation].hp / collision.potM);
 	b.vx = collision.potX * (ship[a.designation].hp / collision.potM);
 	b.vy = collision.potY * (ship[a.designation].hp / collision.potM);
-}
+	a.hp -= collision.potDmg * (ship[b.designation].hp / collision.potM) * 5;
+	b.hp -= collision.potDmg * (ship[a.designation].hp / collision.potM) * 5;
+	a.hp = Math.round(a.hp);
+	b.hp = Math.round(b.hp);
+	}
 
 function portal(x, y, width, height, to, atx, aty) {
 	if (ship.onField[0].x.between(x, x + width) && ship.onField[0].y.between(y, y + height)) {

@@ -34,7 +34,7 @@ function createShip(specs){
 		if (this.lightWp !== undefined) {              //Feuern
 			if (intervalReact(this.lightWp.ammo > 0, this.lightWp.reload, this.lightWp.designation + this.ID)) {
 				this.lightWp.ammo -= 1;
-				spawnProjectile(sector[sector.at].ships[this.ID], "light");
+				spawnProjectile(this.lightWp);
 			}
 		}
 	}
@@ -154,7 +154,7 @@ function setupShips(){  //declaration, fraction, texture, hp, shield, armour, ac
 	createShip({designation : "Fat Man", fraction : "none", texture : "fat dude", hp : 1000, shield : 500, armour : 2, acc : 0.02, wp1 : "5nm machinegun"});
 	createShip({designation : "Republic Base", fraction : "republic", texture : "rep_hq", hp : 1000000, shield : 2000000, armour : 3, acc : 0, wp1 : "none"});
 	createShip({designation : "Qubanic Colonizer", fraction : "qubanic", texture : "qubanic colonizer", hp : 2800, shield : 0, armour : 1, acc : 0.001});
-	createShip({designation : "Ophianian Annector-Star", fraction : "ophianian", texture : "ophianian annector-star", hp : 10000, shield : 0, armour : 2, acc : 0.01, wp1 : "Ophianian Beam (H)", sp1 : "spawn_ophianianChunk",});
-	createShip({designation : "Ophianian Chunk", fraction : "ophianian", texture : "ophianian chunk", hp : 300, shield : 0, armour : 1, acc : 0.07, wp1 : "none"});
+	createShip({designation : "Ophianian Annector-Star", fraction : "ophianian", texture : "ophianian annector-star", hp : 16666, shield : 0, armour : 2, acc : 0.005, wp1 : "Ophianian Beam (H)", sp1 : "spawn_ophianianChunk",});
+	createShip({designation : "Ophianian Chunk", fraction : "ophianian", texture : "ophianian chunk", hp : 200, shield : 0, armour : 1, acc : 0.07, wp1 : "none"});
 	
 }
