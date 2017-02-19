@@ -49,7 +49,7 @@ function createShip(specs){
 		return collision;
 	}
 	neuesSchiff.killSwitch = function(){
-		this.active = false;
+		sector[sector.at].ships.splice(this.ID, 1);
 	}
 	neuesSchiff.explode = function(){
 		setTimeout(this.killSwitch, 2000);

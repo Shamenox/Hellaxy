@@ -50,7 +50,7 @@ function physik() {
 					}
 				}
 			}
-		}
+		} else {projectile.splice(i,1)};
 	}
 	if (frame.y < 0) frame.y = 0;
 	if (frame.y > sector[sector.at].height - 720) frame.y = sector[sector.at].height - 721;
@@ -76,9 +76,7 @@ function collide(a, b){
 
 function portal(x, y, width, height, to, atx, aty) {
 	if (ship.onField[0].x.between(x, x + width) && ship.onField[0].y.between(y, y + height)) {
-		for (i = 0; i < projectile.length; i++){
-			projectile.pop();
-		}
+		projectile.splice(0, projectile.length);
 		sector.at = to;
 		ship.onField[0].x = atx;
 		ship.onField[0].y = aty;

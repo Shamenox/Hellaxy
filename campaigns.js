@@ -22,16 +22,17 @@ function setupCampaigns(){
 	createCampaign("humanian");
 	createLevel("humanian", function(){
 		sector.at = "Central_Sector";
-		spawnShip("Humanian Shuttle", 1300, 1000, 0, player1);
-		spawnShip("Humanian Shuttle", 1300, 1100, 0, npc.defender, 0);
-		spawnShip("Humanian Shuttle", 1300, 1200, 0, npc.defender, 0);
-		spawnShip("Humanian Shuttle", 1400, 1100, 0, npc.defender, 0);
-		spawnShip("Humanian Shuttle", 1400, 1000, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1000, 1000, 0, player1);
+		spawnShip("Humanian Shuttle", 1050, 1100, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 950, 1100, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1050, 1050, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1000, 1050, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 950, 1050, 0, npc.defender, 0);
 		spawnShip("Qubanic Colonizer", 400, 400, 135, function(){this.follow({x : 1000, y : 1000}, 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); campaign.humanian.levels[0].condition = true;});
 		addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
-		addMsg("According to your Intruments you five should all be fine out there.");
+		addMsg("According to your Intruments you six should all be fine out there.");
 		addMsg("Dont get carried away. The Reason we starded the Mission early");
 		addMsg("was because that unknown trabant");
 		addMsg("that appeared on our radars one month ago");
@@ -48,6 +49,7 @@ function setupCampaigns(){
 		frame.x = 2000;
 		spawnShip("Humanian Protobaseship Helonia", 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); campaign.humanian.levels[1].condition = true;});
 		spawnShip("Humanian Shuttle", 1300, 1000, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1400, 1200, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1300, 1100, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1300, 1200, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1400, 1100, 0, npc.defender, 0);
@@ -75,6 +77,7 @@ function setupCampaigns(){
 }
 
 function endLevel(){
+	projectile.splice(0, projectile.length);
 	campaign[campaign.at].levels[campaign[campaign.at].at].condition = false;
 	campaign[campaign.at].levels[campaign[campaign.at].at].isSetup = false;
 	campaign[campaign.at].at += 1;

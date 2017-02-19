@@ -58,10 +58,10 @@ function setupNpcs(){
 	
 	npc.ophianian = function(){
 		if (intervalReact(this.x < 150 || this.x > background.naturalWidth - 150 || this.y < 150 || this.y > background.naturalHeight - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		if (this.nextShip("anythingElse", 400) !== false){
-				this.follow(this.nextShip("anythingElse", 400), 300);
+		if (this.nextShip("humanian", 400) !== false){
+				this.pointAt(this.nextShip("humanian", 400), 300);
 				this.special1.exe();
-				if (this.pointsAt(this.nextShip("anythingElse", 400))) this.fireSmall();
+				if (this.pointsAt(this.nextShip("humanian", 400))) this.fireSmall();
 		} else {this.pointAt(sector[sector.at].ships[player1Pos]); this.acc();}
 	}
 }
