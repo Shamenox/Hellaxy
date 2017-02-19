@@ -37,7 +37,7 @@ function setupNpcs(){
 	}
 	npc.defender = function(){
 		var of = sector[sector.at].ships[this.relationShipID];
-		if (of.active === true){
+		if (of !== undefined){
 			if (of.nextShip("anythingElse", 300) === false){
 				this.follow(of, 50);
 			} else {

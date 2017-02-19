@@ -48,11 +48,8 @@ function createShip(specs){
 		}
 		return collision;
 	}
-	neuesSchiff.killSwitch = function(){
-		sector[sector.at].ships.splice(this.ID, 1);
-	}
 	neuesSchiff.explode = function(){
-		setTimeout(this.killSwitch, 2000);
+		setTimeout(killSwitch, 2000, this.ID);
 		this.active = "explosion";
 		audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
@@ -105,6 +102,7 @@ function createShip(specs){
 			if (this.pointsAt(toFollow)) this.acc();
 		} else {this.dec();}
 	}
+	neuesSchiff.ID = 1;
 	ship[specs.designation] = neuesSchiff;
 }
 
