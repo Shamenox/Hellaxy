@@ -84,6 +84,6 @@ function portal(x, y, width, height, to, atx, aty) {
 }
 
 function killSwitch (him){
-	sector[sector.at].ships.splice(him,1);
+	sector[sector.at].ships[him].active = false;
 }
 
