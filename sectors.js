@@ -99,15 +99,15 @@ createSector({ name : "testmap",
 sector.testmap.setup = function(){
 	createPlanet("testMoon", "testMoon", "testmap", 900, 400);
 	spawnShip("Humanian Protobaseship Helonia", 200, 250, 180, player1);
-	spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
-	spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
-	spawnShip("Testarrow", 100, 100, 0, "none",0,function(){addMsg("Test123");});
-	spawnShip("Ophianian Annector-Star", 1000, 1000, 0, function(){ this.special1.exe(); this.acc(); this.lightWp.fire();});
+	//spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
+	//spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
+	spawnShip("Testarrow", 100, 100, 0, function(){if (this.aim < 360) {this.aim ++} else {this.aim = 0}; this.turn();},0,function(){addMsg("Test123");});
+	//spawnShip("Ophianian Annector-Star", 1000, 1000, 0, function(){ this.special1.exe(); this.acc(); this.lightWp.fire();});
 	//spawnShip("Testarrow", 500, 450, 90, npc.simpleRoamer);
 	//spawnShip("Testarrow", 600, 450, 180, npc.simpleRoamer);
 	//spawnShip("Testarrow", 700, 500, 90, npc.simpleRoamer);
 	//spawnShip("Testarrow", 800, 500, 180, npc.simpleRoamer);
-	spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
+	//spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
 	//spawnShip("Republic Base", 600, 400, 90, "none");
 	//spawnShip("Fat Man", 700, 300, 90, npc.simpleRoamer);
 }

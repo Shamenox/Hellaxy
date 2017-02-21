@@ -1,6 +1,7 @@
 ﻿ // Eingabeverarbeitung
 function physik() {
 	for (i = 0; i < sector[sector.at].ships.length; i++) { //Schiffberechnung
+	console.log(sector[sector.at].ships);
 		SHIP = sector[sector.at].ships[i];
 		if (SHIP.active === true){
 			if (SHIP.hp < 0 && SHIP.active !== "explosion") SHIP.explode(); //Abfrage ob noch aktiv
@@ -11,10 +12,10 @@ function physik() {
 			if (SHIP.vy > SHIP.a * 100) SHIP.vy = SHIP.a * 100;
 			if (SHIP.angle > 359) SHIP.angle = 0; //Einhalten der 360°
 			if (SHIP.angle < 0) SHIP.angle = 359;
-			if (SHIP.x < 0) SHIP.x = 0, SHIP.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
-			if (SHIP.y < 0) SHIP.y = 0, SHIP.vy = 0;
-			if (SHIP.x > sector[sector.at].width - SHIP.skin.naturalWidth) SHIP.x = sector[sector.at].width - SHIP.skin.naturalWidth, SHIP.vx = 0;
-			if (SHIP.y > sector[sector.at].height - SHIP.skin.naturalHeight - 120) SHIP.y = sector[sector.at].height -SHIP.skin.naturalHeight - 120, SHIP.vy = 0;
+			if (SHIP.x < SHIP.skin.naturalWidth/2) SHIP.x = SHIP.skin.naturalWidth/2, SHIP.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
+			if (SHIP.y < SHIP.skin.naturalHeight/2) SHIP.y = SHIP.skin.naturalHeight/2, SHIP.vy = 0;
+			if (SHIP.x > sector[sector.at].width - SHIP.skin.naturalWidth/2) SHIP.x = sector[sector.at].width - SHIP.skin.naturalWidth/2 , SHIP.vx = 0;
+			if (SHIP.y > sector[sector.at].height - SHIP.skin.naturalHeight/2 - 120) SHIP.y = sector[sector.at].height -SHIP.skin.naturalHeight/2 - 120, SHIP.vy = 0;
 			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Kollisionsüberprüfung
 				if (SHIP.collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
 				collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
@@ -52,10 +53,7 @@ function physik() {
 			}
 		} else {projectile.splice(i,1)};
 	}
-	if (frame.y < 0) frame.y = 0;
-	if (frame.y > sector[sector.at].height - 720) frame.y = sector[sector.at].height - 721;
-	if (frame.x > sector[sector.at].width - 1280) frame.x = sector[sector.at].width - 1281;
-	if (frame.x < 0) frame.x = 0;
+	frame.adjust();
 }
 
 function collide(a, b){

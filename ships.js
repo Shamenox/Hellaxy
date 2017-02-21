@@ -6,6 +6,7 @@ function createShip(specs){
 	neuesSchiff.vx = 0;
 	neuesSchiff.vy = 0;
 	neuesSchiff.angle = 0;
+	neuesSchiff.aim = 0;
 	neuesSchiff.ctrl = "none";
 	neuesSchiff.designation = specs.designation;
 	neuesSchiff.fraction = specs.fraction;
@@ -121,23 +122,24 @@ function spawnShip(thatOne, atX, atY, atAngle, ctrl, relationShip, abgang){
 
 function displayShips(){
 	for (i = 0; i < sector[sector.at].ships.length; i++){
+		sector[sector.at].ships[i] = SHIP;
 		if (sector[sector.at].ships[i].active === "explosion") Game.ctx.drawImage(image.explosion, sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - frame.y, sector[sector.at].ships[i].skin.naturalWidth, sector[sector.at].ships[i].skin.naturalWidth);
 		if (sector[sector.at].ships[i].active === true){
-			Game.ctx.translate(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x, sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y); // Drehung
+			Game.ctx.translate(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - frame.y); // Drehung
 			Game.ctx.rotate(sector[sector.at].ships[i].angle * Math.PI / 180);
-			Game.ctx.translate(-(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x), -(sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y));
-			Game.ctx.drawImage(sector[sector.at].ships[i].skin, sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - frame.y); // Display
-			Game.ctx.translate(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x, sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 -frame.y); // Rückdrehung
+			Game.ctx.translate(-(sector[sector.at].ships[i].x - frame.x), -(sector[sector.at].ships[i].y - frame.y));
+			Game.ctx.drawImage(sector[sector.at].ships[i].skin, sector[sector.at].ships[i].x - frame.x - sector[sector.at].ships[i].skin.naturalWidth/2, sector[sector.at].ships[i].y - frame.y - sector[sector.at].ships[i].skin.naturalHeight/2); // Display
+			Game.ctx.translate(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y -frame.y); // Rückdrehung
 			Game.ctx.rotate(-sector[sector.at].ships[i].angle * Math.PI / 180);
-			Game.ctx.translate(-(sector[sector.at].ships[i].x + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.x), -(sector[sector.at].ships[i].y + sector[sector.at].ships[i].skin.naturalWidth/2 - frame.y));
+			Game.ctx.translate(-(sector[sector.at].ships[i].x - frame.x), -(sector[sector.at].ships[i].y - frame.y));
 			if (sector[sector.at].ships[i].ctrl !== player1){
 				sector[sector.at].ships[i].turn();
 				Game.ctx.strokeStyle = "red";  //infotafel
 				Game.ctx.fillStyle = "green";
-				Game.ctx.strokeRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth, 6);
-				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].hp / ship[sector[sector.at].ships[i].designation].hp), 6);
+				Game.ctx.strokeRect(sector[sector.at].ships[i].x - frame.x - SHIP.skin.naturalWidth/2, sector[sector.at].ships[i].y - 12 - frame.y - SHIP.skin.naturalHeight/2, sector[sector.at].ships[i].skin.naturalWidth, 6);
+				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x - SHIP.skin.naturalWidth/2, sector[sector.at].ships[i].y - 12 - frame.y - SHIP.skin.naturalHeight/2, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].hp / ship[sector[sector.at].ships[i].designation].hp), 6);
 				Game.ctx.fillStyle = "blue";
-				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x, sector[sector.at].ships[i].y - 12 - frame.y, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].shield / ship[sector[sector.at].ships[i].designation].shield), 6);
+				Game.ctx.fillRect(sector[sector.at].ships[i].x - frame.x - SHIP.skin.naturalWidth/2, sector[sector.at].ships[i].y - 12 - frame.y - SHIP.skin.naturalHeight/2, sector[sector.at].ships[i].skin.naturalWidth * (sector[sector.at].ships[i].shield / ship[sector[sector.at].ships[i].designation].shield), 6);
 				Game.ctx.strokeStyle = "yellow";
 				Game.ctx.fillStyle = "yellow";
 			}
