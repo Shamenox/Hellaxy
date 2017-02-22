@@ -11,6 +11,12 @@ var frame = {
 	x: 0,
 	y: 0
 };
+frame.adjust = function(){
+	if (frame.y < 0) frame.y = 0;
+	if (frame.y > sector[sector.at].height - 720) frame.y = sector[sector.at].height - 720;
+	if (frame.x > sector[sector.at].width - 1280) frame.x = sector[sector.at].width - 1280;
+	if (frame.x < 0) frame.x = 0;
+}
 var stop = false;
 
 

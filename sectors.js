@@ -102,7 +102,7 @@ sector.testmap.setup = function(){
 	spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
 	spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
 	spawnShip("Testarrow", 100, 100, 0, "none",0,function(){addMsg("Test123");});
-	spawnShip("Ophianian Annector-Star", 1000, 1000, 0, function(){ this.special1.exe(); this.acc(); this.lightWp.fire();});
+	//spawnShip("Ophianian Annector-Star", 1000, 1000, 0, function(){ this.special1.exe(); this.acc(); this.lightWp.fire();});
 	//spawnShip("Testarrow", 500, 450, 90, npc.simpleRoamer);
 	//spawnShip("Testarrow", 600, 450, 180, npc.simpleRoamer);
 	//spawnShip("Testarrow", 700, 500, 90, npc.simpleRoamer);
