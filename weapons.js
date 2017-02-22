@@ -49,14 +49,11 @@ function spawnProjectile(from){
 	neuesProjektil.sound = from.scratch;
 	neuesProjektil.bounce = from.bounce;
 	neuesProjektil.hits = function (obj) {
-		var hit = false;
-		if (this.x === obj.x || this.x.between(obj.x, obj.x + obj.skin.naturalWidth) || (this.x + this.texture.naturalWidth).between(obj.x, obj.x + obj.skin.naturalWidth)){
-			if (this.y === obj.y) hit = true;
-			if (this.y.between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
-			if ((this.y + this.texture.naturalHeight).between(obj.y, obj.y + obj.skin.naturalHeight)) hit = true;
-		}
 		if (this.emitter.fraction === obj.fraction) return false; //Prüfen ob Ziel das eigene Schiff ist
-		return hit;
+		if (this.x.between(obj.x - this.texture.naturalWidth/2 - obj.skin.naturalWidth/2, obj.x + this.texture.naturalWidth/2 + obj.skin.naturalWidth/2)){
+			if (this.y.between(obj.y - this.texture.naturalHeight/2 - obj.skin.naturalHeight/2, obj.y + this.texture.naturalHeight/2 + obj.skin.naturalHeight/2)) return true;
+		}
+		return false;
 	}
 	neuesProjektil.emitter = SHIP;
 	projectile.push(neuesProjektil);
@@ -67,13 +64,13 @@ function spawnProjectile(from){
 function displayProjectiles(){
 	for (i = 0; i < projectile.length; i++){
 		if (projectile[i].active){
-			Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x, projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y); // Drehung
+			Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
 			Game.ctx.rotate(projectile[i].angle * Math.PI / 180);
-			Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x), -(projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y));
-			Game.ctx.drawImage(projectile[i].texture, projectile[i].x - frame.x, projectile[i].y - frame.y); // Display
-			Game.ctx.translate(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x, projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y); // Rückdrehung
+			Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
+			Game.ctx.drawImage(projectile[i].texture, projectile[i].x - frame.x - projectile[i].texture.naturalWidth/2, projectile[i].y - frame.y - projectile[i].texture.naturalHeight/2); // Display
+			Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Rückdrehung
 			Game.ctx.rotate(-projectile[i].angle * Math.PI / 180);
-			Game.ctx.translate(-(projectile[i].x + projectile[i].texture.naturalWidth/2 - frame.x), -(projectile[i].y + projectile[i].texture.naturalWidth/2 - frame.y));
+			Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
 		}
 	}
 }

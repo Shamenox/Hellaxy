@@ -40,13 +40,10 @@ function createShip(specs){
 	}
 	neuesSchiff.collidesWith = function (Suspect) {
 		if (this.fraction === Suspect.fraction) return false;
-		var collision = false;
-		if (this.x === Suspect.x || this.x.between(Suspect.x, Suspect.x + Suspect.skin.naturalWidth) || (this.x + this.skin.naturalWidth).between(Suspect.x, Suspect.x + Suspect.skin.naturalWidth)){
-			if (this.y === Suspect.y) collision = true;
-			if (this.y.between(Suspect.y, Suspect.y + Suspect.skin.naturalHeight)) collision = true;
-			if ((this.y + this.skin.naturalHeight).between(Suspect.y, Suspect.y + Suspect.skin.naturalHeight)) collision = true;
+		if (this.x.between(Suspect.x - this.skin.naturalWidth/2 - Suspect.skin.naturalWidth/2, Suspect.x + this.skin.naturalWidth/2 + Suspect.skin.naturalWidth/2)){
+			if (this.y.between(Suspect.y - this.skin.naturalHeight/2 - Suspect.skin.naturalHeight/2, Suspect.y + this.skin.naturalHeight/2 + Suspect.skin.naturalHeight/2)) return true;
 		}
-		return collision;
+		return false;
 	}
 	neuesSchiff.explode = function(){
 		setTimeout(killSwitch, 2000, this.ID);
@@ -87,8 +84,8 @@ function createShip(specs){
 	neuesSchiff.nextShip = function(search, range){
 		if (search === undefined) search = "anything";
 		if (range === undefined) range = 1000;
-		for (h = 0; h <= range; h ++){
-			for (k = 0; k < sector[sector.at].ships.length; k++){
+		for (var h = 0; h <= range; h ++){
+			for (var k = 0; k < sector[sector.at].ships.length; k++){
 				if (this.distanceTo(sector[sector.at].ships[k]) <= h && k !== this.ID){
 					if (search === "anything" && sector[sector.at].ships[k].active === true || search === "anythingElse" && sector[sector.at].ships[k].fraction !== this.fraction && sector[sector.at].ships[k].active === true || sector[sector.at].ships[k].fraction === search && sector[sector.at].ships[k].active === true) return sector[sector.at].ships[k];
 				}
