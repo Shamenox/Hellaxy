@@ -147,6 +147,7 @@ function setupShips(){  //declaration, fraction, texture, hp, shield, armour, ac
 	createShip({designation : "Testarrow", fraction : "none", texture : "testarrow", hp : 100, shield : 100, armour : 1, acc : 0.1, wp1 : "5nm machinegun"});
 	createShip({designation : "Humanian Shuttle", fraction : "humanian", texture : "humanian_shuttle", hp : 100, shield : 0, armour : 1, acc : 0.1, wp1 : "5nm machinegun"});
 	createShip({designation : "Humanian Protobaseship Helonia", fraction : "humanian", texture : "protobaseship_helonia", hp : 8000, shield : 0, armour : 5, acc : 0.03, wp1 : "1.4 mm kolexial gun"});
+	createShip({designation : "Humanian Satalite", fraction : "humanian", texture : "humanian_satalite", hp : 15, shield : 0, armour : 1, acc : 0, wp1 : "none"});
 	createShip({designation : "Fat Man", fraction : "none", texture : "fat dude", hp : 1000, shield : 500, armour : 2, acc : 0.02, wp1 : "5nm machinegun"});
 	createShip({designation : "Republic Base", fraction : "republic", texture : "rep_hq", hp : 1000000, shield : 2000000, armour : 3, acc : 0, wp1 : "none"});
 	createShip({designation : "Qubanic Colonizer", fraction : "qubanic", texture : "qubanic colonizer", hp : 2000, shield : 0, armour : 1, acc : 0.001});

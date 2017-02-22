@@ -39,7 +39,8 @@ function setupCampaigns(){
 		addMsg("has suddenly moving towards Humania.");
 		addMsg("Your mission is to guard our Orbit");
 		addMsg("and eliminate said Object if necessary.");
-		addMsg("You control your Shuttle via the WASD interface.");
+		addMsg("You control your Shuttle by clicking in the direction you want to head");
+		addMsg("or alternatively via the WASD interface.");
 		addMsg("The Space bar triggers your high-tech 5nm machinegun twin.");
 		addMsg("Good luck out there!");
 		campaign.humanian.levels[0].isSetup = true;
@@ -48,6 +49,7 @@ function setupCampaigns(){
 		sector.at = "Central_Sector";
 		frame.x = 2000;
 		spawnShip("Humanian Protobaseship Helonia", 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); campaign.humanian.levels[1].condition = true;});
+		spawnShip("Humanian Satalite", 1100, 1100, 0, "none", function(){addMsg("They´re invading our Planet! Please you have to stop them!!!");});
 		spawnShip("Humanian Shuttle", 1300, 1000, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1400, 1200, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1300, 1100, 0, npc.defender, 0);

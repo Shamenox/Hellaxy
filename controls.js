@@ -68,6 +68,6 @@ function setupNpcs(){
 				this.pointAt(this.nextShip("humanian", 400), 300);
 				this.special1.exe();
 				if (this.pointsAt(this.nextShip("humanian", 400))) this.fireSmall();
-		} else {this.pointAt(sector[sector.at].ships[player1Pos]); this.acc();}
+		} else {this.follow({x:1100, y:1100}, 1);}
 	}
 }
