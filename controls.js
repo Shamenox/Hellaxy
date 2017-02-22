@@ -6,20 +6,14 @@
 	if (sector[sector.at].ships[i].y > frame.y + 400 && frame.y < sector[sector.at].height - 720) frame.y = sector[sector.at].ships[i].y - 400; */
 	frame.x = SHIP.x - 640;
 	frame.y = SHIP.y - 360;
-	frame.adjust();
-	if (!click){
-		if (key.a) sector[sector.at].ships[i].angle -= 40 * sector[sector.at].ships[i].a; //Drehung
-		if (key.d) sector[sector.at].ships[i].angle += 40 * sector[sector.at].ships[i].a;
-	} else {
-		this.pointAt({x : cursor.x + frame.x, y : cursor.y + frame.y});
-		this.turn();
-	}
 	if (key.w) {
 		sector[sector.at].ships[i].acc();
 	}
 	if (key.s) {
 		sector[sector.at].ships[i].dec();
 	}
+	if (key.a) sector[sector.at].ships[i].angle -= 40 * sector[sector.at].ships[i].a; //Drehung
+	if (key.d) sector[sector.at].ships[i].angle += 40 * sector[sector.at].ships[i].a;
 	if (key.space) sector[sector.at].ships[i].fireSmall();
 }
 
