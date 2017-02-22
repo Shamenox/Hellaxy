@@ -43,8 +43,8 @@ function spawnProjectile(from){
 	neuesProjektil.pen = from.pen;
 	neuesProjektil.alpha = from.alpha;
 	neuesProjektil.angle = SHIP.angle
-	neuesProjektil.x = SHIP.x + 0.5 * (SHIP.skin.naturalWidth - from.texture.naturalWidth);
-	neuesProjektil.y = SHIP.y + 0.5* (SHIP.skin.naturalHeight - from.texture.naturalHeight);
+	neuesProjektil.x = SHIP.x;
+	neuesProjektil.y = SHIP.y;
 	neuesProjektil.v = from.pen * 10;
 	neuesProjektil.sound = from.scratch;
 	neuesProjektil.bounce = from.bounce;
