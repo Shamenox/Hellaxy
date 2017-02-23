@@ -5,6 +5,7 @@ function createPlanet(designation, skin, inSector, x, y){
 	neuerPlanet.skin = image[skin];
 	neuerPlanet.x = x;
 	neuerPlanet.y = y;
+	neuerPlanet.fraction = "planet";
 	sector[inSector].planets.push(neuerPlanet);
 }
 

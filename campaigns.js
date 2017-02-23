@@ -47,9 +47,39 @@ function setupCampaigns(){
 	});
 	createLevel("humanian", function(){
 		sector.at = "Central_Sector";
-		frame.x = 2000;
-		spawnShip("Humanian Protobaseship Helonia", 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); campaign.humanian.levels[1].condition = true;});
-		spawnShip("Humanian Satalite", 1100, 1100, 0, "none", function(){addMsg("They´re invading our Planet! Please you have to stop them!!!");});
+		spawnShip("Humanian Protobaseship Helonia", 1200, 1000, 180, player1, 0, function(){addMsg("Report critical Damage"); campaign.humanian.levels[1].condition = true;});
+		spawnShip("Humanian Satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;});
+		spawnShip("Humanian Shuttle", 1300, 1000, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1400, 1200, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1300, 1100, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1300, 1200, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1400, 1100, 0, npc.defender, 0);
+		spawnShip("Humanian Shuttle", 1400, 1000, 0, npc.defender, 0);
+		addMsg("Log in: 2008. Cycle; 43; 1.Humanian Protobaseship 'Helonia' ID:29344");
+		addMsg("Humanian HQ: Attention!");
+		addMsg("Admire your new flagship commander!");
+		addMsg("We invested alot of ressources to build this gigantic, well armoured");
+		addMsg("piece of engineering. Treat it with care!");
+		addMsg("Our space project was an absolute Sucess!");
+		addMsg("Thats why we erected an Space hangar in our orbit to enable further research.");
+		addMsg("We still dont know much about our interplanetary environment.");
+		addMsg("We registered an interesting electro magnetic pattern south-west from humania.");
+		addMsg("Yes, those directions apply.");
+		addMsg("Your order is to gather some samples from that location");
+		addMsg("and to bring them to our orbital hangar for analysis.");
+		addMsg("Good luck!");
+		campaign.humanian.levels[1].isSetup = true;
+	}, function(){
+			if (sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[2])){
+				next["gehzuhaufen"] = true;
+				if (intervalReact(true, 10000, "beihaufen")) addMsg("Great, now bring the sample back to our facility.");
+			}
+			if (next["gehzuhaufen"] === true && sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[0])) campaign.humanian.levels[1].condition = true;
+	});
+	createLevel("humanian", function(){
+		sector.at = "Central_Sector";
+		spawnShip("Humanian Protobaseship Helonia", 1200, 1000, 180, player1, 0, function(){addMsg("Report critical Damage"); campaign.humanian.levels[2].condition = true;});
+		spawnShip("Humanian Satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, 0, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!");});
 		spawnShip("Humanian Shuttle", 1300, 1000, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1400, 1200, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1300, 1100, 0, npc.defender, 0);
@@ -66,14 +96,14 @@ function setupCampaigns(){
 		addMsg("Your armour should allow you to wether the storm, but");
 		addMsg("try to take care of your Squadron.");
 		addMsg("For Humania!");
-		campaign.humanian.levels[1].isSetup = true;
+		campaign.humanian.levels[2].isSetup = true;
 	}, function(){
 		if (sector[sector.at].ships[player1Pos].hp < 2400){
 			addMsg("Thats it, there is no hope for the Planet...");
 			addMsg("We have no other choice, please forgive us.");
 			addMsg("Start the FTL-engines!");
 			sector[sector.at].ships[player1Pos].ctrl = function(){this.aim = 45; this.a = 1; this.turn(); if (this.angle === 45) this.acc(); if (this.y < frame.y) endLevel();};
-			campaign.humanian.levels[1].events = undefined;
+			campaign.humanian.levels[2].events = undefined;
 		}
 	});
 }

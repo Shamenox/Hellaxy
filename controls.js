@@ -64,10 +64,16 @@ function setupNpcs(){
 	
 	npc.ophianian = function(){
 		if (intervalReact(this.x < 150 || this.x > background.naturalWidth - 150 || this.y < 150 || this.y > background.naturalHeight - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		if (this.nextShip("humanian", 400) !== false){
-				this.pointAt(this.nextShip("humanian", 400), 300);
-				this.special1.exe();
-				if (this.pointsAt(this.nextShip("humanian", 400))) this.fireSmall();
-		} else {this.follow({x:1100, y:1100}, 1);}
+		if (sector.Central_Sector.ships[this.ID - 7].active === true){
+			this.pointAt(sector.Central_Sector.ships[this.ID - 7]);
+			this.acc();
+		}else{
+			this.follow(sector.Central_Sector.planets[0], 10);
+			if (this.nextShip("humanian", 400) !== false){
+					this.pointAt(this.nextShip("humanian", 400), 300);
+					this.special1.exe();
+					if (this.pointsAt(this.nextShip("humanian", 400))) this.fireSmall();
+			}
+		}
 	}
 }

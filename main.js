@@ -190,4 +190,8 @@ function displayMsgs(){
 		msg.splice(0,1);
 		stop = false;
 	}
+	if (intervalReact(key.esc, 500, "msgDelay")){
+		msg.splice(0,msg.length);
+		stop = false;
+	}
 }
