@@ -7,8 +7,8 @@ function physik() {
 			if (SHIP.ctrl !== "none") SHIP.ctrl(); // Zugriff durch Spieler/KIs
 			SHIP.y -= SHIP.vy; //Bewegung durch Geschwindigkeit
 			SHIP.x += SHIP.vx;
-			if (SHIP.vx > SHIP.a * 100)SHIP.vx = SHIP.a * 100; //Geschwindigkeitsobergrenze
-			if (SHIP.vy > SHIP.a * 100) SHIP.vy = SHIP.a * 100;
+			if (SHIP.vx > SHIP.a * 100)SHIP.vx = SHIP.a * 80; //Geschwindigkeitsobergrenze
+			if (SHIP.vy > SHIP.a * 100) SHIP.vy = SHIP.a * 80;
 			if (SHIP.angle > 359) SHIP.angle = 0; //Einhalten der 360°
 			if (SHIP.angle < 0) SHIP.angle = 359;
 			if (SHIP.x < SHIP.skin.naturalWidth/2) SHIP.x = SHIP.skin.naturalWidth/2, SHIP.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
@@ -81,6 +81,6 @@ function portal(x, y, width, height, to, atx, aty) {
 }
 
 function killSwitch (him){
-	sector[sector.at].ships[him].active = false;
+	him.active = false;
 }
 

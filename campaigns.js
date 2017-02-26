@@ -21,7 +21,7 @@ function createLevel(tree, setup, conditions, events){
 function checkCampaign(){
 	if (campaign.at !== "none"){
 		LEVEL = campaign[campaign.at].levels[campaign[campaign.at].at];
-		if (!LEVEL.isSetup) LEVEL.setup();
+		if (!LEVEL.isSetup) sector.act(), LEVEL.setup(), LEVEL.isSetup = true;
 		if (LEVEL.events !== undefined) LEVEL.events();
 		for (var cond in LEVEL.conditions){
 			if (LEVEL.conditions[cond] === false) return; 
@@ -69,7 +69,6 @@ function setupLevels(){
 		addMsg("or alternatively via the WASD interface.");
 		addMsg("The Space bar triggers your high-tech 5nm machinegun twin.");
 		addMsg("Good luck out there!");
-		campaign.humanian.levels[0].isSetup = true;
 		}, { ufoeliminated : false}
 	);
 	createLevel("humanian", function(){
@@ -95,7 +94,7 @@ function setupLevels(){
 		addMsg("Your order is to gather some samples from that location");
 		addMsg("and to bring them to our orbital hangar for analysis.");
 		addMsg("Good luck!");
-		campaign.humanian.levels[1].isSetup = true;
+		console.log(sector.Central_Sector.planets);
 		}, {beenatpile : false},
 		function(){
 			if (sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[2])){
@@ -126,7 +125,6 @@ function setupLevels(){
 		addMsg("Your armour should allow you to wether the storm, but");
 		addMsg("try to take care of your Squadron.");
 		addMsg("For Humania!");
-		campaign.humanian.levels[2].isSetup = true;
 		}, {possible : false}
 		, function(){
 			if (sector[sector.at].ships[player1Pos].hp < 2400){

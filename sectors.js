@@ -1,6 +1,6 @@
-﻿var sector = {};
+﻿var sector = {at : "loading"};
 function createSector (options) {
-	//declaration, bg, theme
+	//name, bg, theme
 	var neuersector = {};
 	neuersector.background = image[options.bg];
 	if (options.width === undefined) options.width = 1280, options.height = 720;
@@ -16,18 +16,16 @@ function createSector (options) {
 
 function setupSectors () {
 
-sector.at = "loading";
-
 sector.act = function(){
-	background = sector[sector.at].background;
-	if (sector[sector.at].theme !== "none") sector[sector.at].theme.play();
-	if (sector[sector.at].events !== undefined) sector[sector.at].events();
 	if (sector[sector.at].setup !== undefined){
 		if (!sector[sector.at].isSetup){ 
 			sector[sector.at].setup();
-			sector[sector.at].isSetup = true;	
+			sector[sector.at].isSetup = true;
 		}
 	}
+	background = sector[sector.at].background;
+	if (sector[sector.at].theme !== "none") sector[sector.at].theme.play();
+	if (sector[sector.at].events !== undefined) sector[sector.at].events();
 }
 createSector({ name: "loading",
 	bg: "blackscreen",
@@ -79,10 +77,10 @@ createSector({ name: "controls",
 	bg: "blackscreen",
 	theme: "none"});
 sector.controls.events = function() {
-	Game.ctx.fillText("Forwards = W", 100,100);
+	Game.ctx.fillText("Accelerate forwards = W", 100,100);
 	Game.ctx.fillText("Turn Left = A", 100,150);
 	Game.ctx.fillText("Turn Right = D", 100,200);
-	Game.ctx.fillText("Backwards = S", 100,250);
+	Game.ctx.fillText("Deccelerate = S", 100,250);
 	Game.ctx.fillText("Light Weapon = Space", 100,300);
 	Game.ctx.fillText("Medium Weapon = E", 100,350);
 	Game.ctx.fillText("Heavy Weapon = Q", 100,400);
@@ -103,10 +101,6 @@ sector.testmap.setup = function(){
 	spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
 	spawnShip("Testarrow", 100, 100, 0, "none",0,function(){addMsg("Test123");});
 	//spawnShip("Ophianian Annector-Star", 1000, 1000, 0, function(){ this.special1.exe(); this.acc(); this.lightWp.fire();});
-	//spawnShip("Testarrow", 500, 450, 90, npc.simpleRoamer);
-	//spawnShip("Testarrow", 600, 450, 180, npc.simpleRoamer);
-	//spawnShip("Testarrow", 700, 500, 90, npc.simpleRoamer);
-	//spawnShip("Testarrow", 800, 500, 180, npc.simpleRoamer);
 	spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
 	//spawnShip("Republic Base", 600, 400, 90, "none");
 	//spawnShip("Fat Man", 700, 300, 90, npc.simpleRoamer);
@@ -122,25 +116,6 @@ sector.Central_Sector.setup = function(){
 	createPlanet("Pontes", "pontes", "Central_Sector", 1420, 2550);
 	createPlanet("ancient_chestcolonie", "haufen", "Central_Sector", 600, 1800);
 }
-
-
-/*createScene({ name: "credits",
-	bg: "whitescreen",
-	theme: "none",
-	font: standartFont,
-	edgeL: 0,
-	edgeR: 1280,
-	ground: 220,
-	scale: 1,
-	gamemode: "interface"});
-scene.credits.events = function() {
-	Game.ctx.fillText("Credits:",100,100);
-	Game.ctx.fillText("Concept : Shamenox",100,200);
-	Game.ctx.fillText("Characters : Shamenox, TheKaramboli",100,300);
-	Game.ctx.fillText("Artwork : Shamenox, TheKaramboli",100,400);
-	Game.ctx.fillText("Programming : Shamenox, Miterosan",100,500);
-	button(400, 600, 480, 100, "Back", "yellow", function(){scene.at = "menue"})
-} */
 
 }// No touchy!
 // :p hehe ~miterosan

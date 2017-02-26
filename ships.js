@@ -46,7 +46,7 @@ function createShip(specs){
 		return false;
 	}
 	neuesSchiff.explode = function(){
-		setTimeout(killSwitch, 2000, this.ID);
+		setTimeout(killSwitch, 2000, this);
 		this.active = "explosion";
 		audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
