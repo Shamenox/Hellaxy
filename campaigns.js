@@ -43,6 +43,9 @@ function endLevel(){
 			sector[del].isSetup = false;
 		}
 	}
+	for (var del in campaign){
+		if (del !== "at") campaign[del].levels = [];
+	}
 	setupLevels();
 	sector.at = "campaign";
 	campaign.at = "none";
