@@ -4,6 +4,7 @@ var Game = {};
 // Setup
 
 var SHIP = {}; //Momentan handelndes Schiff
+var LEVEL = {}; //Momentan aktives Level
 var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
 var background = new Image(); // Momentanes BG-sample
 var infoScreen = false;
@@ -38,7 +39,7 @@ window.onload = function() {
 	setupShips();
 	console.log(ship);
 	setupSectors();
-	setupCampaigns();
+	setupLevels();
 	console.log(frame);
 	background = image.blackscreen;
 
