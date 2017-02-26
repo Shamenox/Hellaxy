@@ -37,7 +37,12 @@ function endLevel(){
 	projectile.splice(0, projectile.length);
 	campaign[campaign.at].at += 1;
 	campaign.at = "none";
-	setupSectors();
+	for (var del in sector){
+		if (sector[del].ships !== [] && del !== "at"){
+			sector[del].ships = [];
+			sector[del].isSetup = false;
+		}
+	}
 	setupLevels();
 	sector.at = "campaign";
 	campaign.at = "none";
