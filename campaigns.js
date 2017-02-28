@@ -103,13 +103,40 @@ function setupLevels(){
 		addMsg("and to bring them to our orbital hangar for analysis.");
 		addMsg("Good luck!");
 		console.log(sector.Central_Sector.planets);
-		}, {gotback : true, beenatpile1 : false, },
+		}, {gotback : false, pile1 : false, pile2 : false, pile3 : false},
 		function(){
 			if (sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[2])){
-				LEVEL.conditions.beenatpile1 = true;
-			if (intervalReact(true, 10000, "beihaufen")) addMsg("Great, now bring the sample back to our facility.");
+				LEVEL.conditions.pile1 = true;
+				if (intervalReact(true, 100000, "beihaufen")) {
+					addMsg("Great!");
+					addMsg("Interesting, the sample seems to contain some kind of ");
+					addMsg("matter-changing substance...");
+					addMsg("We just registered two more signals of same specifications.");
+					addMsg("They are both located west from you.");
+					addMsg("Please get us samples from both new anomalies for comparasion.");
+				}
 			}
-			if (LEVEL.conditions.beenatpile1 && sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[0])) LEVEL.conditions.gotback = true;
+			if (sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[3])){
+				LEVEL.conditions.pile2 = true;
+				if (intervalReact(true, 100000, "beihaufen2")) {
+					addMsg("We were rigth, this celestial body consists of the exactly ");
+					addMsg("same material as the first one.");
+					addMsg("Get a sample from the last signal for final confirmation!");
+				}
+			}
+			if (sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[4])){
+				LEVEL.conditions.pile3 = true;
+				if (intervalReact(true, 100000, "beihaufen2")) {
+					addMsg("Yes, its the exactly same structure as the other ones.");
+					addMsg("But this 'planet' emmits some kind of a live-signal.");
+					addMsg("Alert, the samples we already gathered changed their structure ");
+					addMsg("to something very radical attacking the testtubes!");
+					addMsg("There is something ascending from the 'planets' core.");
+					addMsg("Eliminate it if neccessary!");
+					spawnShip("Ophianian Chunk", 2000, 2000, 270, npc.simpleRoamer)
+				}
+			}
+			if (LEVEL.conditions.pile3 && sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[0])) LEVEL.conditions.gotback = true;
 		}
 	);
 	createLevel("humanian", function(){
