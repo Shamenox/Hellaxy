@@ -126,7 +126,7 @@ function setupLevels(){
 			}
 			if (sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[4])){
 				LEVEL.conditions.pile3 = true;
-				if (intervalReact(true, 100000, "beihaufen2")) {
+				if (intervalReact(true, 100000, "beihaufen3")) {
 					addMsg("Yes, its the exactly same structure as the other ones.");
 					addMsg("But this 'planet' emmits some kind of a live-signal.");
 					addMsg("Alert, the samples we already gathered changed their structure ");
