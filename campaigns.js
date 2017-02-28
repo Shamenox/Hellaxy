@@ -70,7 +70,7 @@ function setupLevels(){
 		addMsg("Dont get carried away. The Reason we starded the Mission early");
 		addMsg("was because that unknown trabant");
 		addMsg("that appeared on our radars one month ago");
-		addMsg("has suddenly moving towards Humania.");
+		addMsg("has suddenly starded to move towards Humania.");
 		addMsg("Your mission is to guard our Orbit");
 		addMsg("and eliminate said Object if necessary.");
 		addMsg("You control your Shuttle by clicking in the direction you want to head");
@@ -95,9 +95,10 @@ function setupLevels(){
 		addMsg("We invested alot of ressources to build this gigantic, well armoured");
 		addMsg("piece of engineering. Treat it with care!");
 		addMsg("Our space project was an absolute Sucess!");
-		addMsg("Thats why we erected an Space hangar in our orbit to enable further research.");
+		addMsg("Thats why we erected an Space hangar in our orbit");
+		addMsg("to enable further research.");
 		addMsg("We still dont know much about our interplanetary environment.");
-		addMsg("We registered an interesting electro magnetic pattern south-west from humania.");
+		addMsg("We registered an interesting sonar pattern south-west from humania.");
 		addMsg("Yes, those directions apply.");
 		addMsg("Your order is to gather some samples from that location");
 		addMsg("and to bring them to our orbital hangar for analysis.");
