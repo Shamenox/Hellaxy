@@ -39,7 +39,7 @@ function createShip(specs){
 		}
 	}
 	neuesSchiff.collidesWith = function (Suspect) {
-		if (this.fraction === Suspect.fraction) return false;
+		if (Suspect === undefined || this.fraction === Suspect.fraction) return false;
 		if (this.x.between(Suspect.x - this.skin.naturalWidth/2 - Suspect.skin.naturalWidth/2, Suspect.x + this.skin.naturalWidth/2 + Suspect.skin.naturalWidth/2)){
 			if (this.y.between(Suspect.y - this.skin.naturalHeight/2 - Suspect.skin.naturalHeight/2, Suspect.y + this.skin.naturalHeight/2 + Suspect.skin.naturalHeight/2)) return true;
 		}
