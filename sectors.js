@@ -115,6 +115,8 @@ sector.Central_Sector.setup = function(){
 	createPlanet("Humania", "humania", "Central_Sector", 1000, 1000);
 	createPlanet("Pontes", "pontes", "Central_Sector", 1420, 2550);
 	createPlanet("ancient_chestcolonie", "haufen", "Central_Sector", 600, 1800);
+	createPlanet("haufen 2", "haufen", "Central_Sector", 4000, 3000);
+	createPlanet("haufen 3", "haufen", "Central_Sector", 2000, 2000);
 }
 
 }// No touchy!
