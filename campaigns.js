@@ -103,14 +103,13 @@ function setupLevels(){
 		addMsg("and to bring them to our orbital hangar for analysis.");
 		addMsg("Good luck!");
 		console.log(sector.Central_Sector.planets);
-		}, {beenatpile : false},
+		}, {gotback : true, beenatpile1 : false, },
 		function(){
 			if (sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[2])){
-				LEVEL.conditions.gotback = false;
-				LEVEL.conditions.beenatpile = true;
+				LEVEL.conditions.beenatpile1 = true;
 			if (intervalReact(true, 10000, "beihaufen")) addMsg("Great, now bring the sample back to our facility.");
 			}
-			if (LEVEL.conditions.beenatpile && sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[0])) LEVEL.conditions.gotback = true;
+			if (LEVEL.conditions.beenatpile1 && sector.Central_Sector.ships[player1Pos].collidesWith(sector.Central_Sector.planets[0])) LEVEL.conditions.gotback = true;
 		}
 	);
 	createLevel("humanian", function(){
