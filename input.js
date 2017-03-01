@@ -10,7 +10,7 @@
 	esc : false,
 	enter : false,
 };
-var cursor = { x : 0, y : 0};
+var cursor = { x : 0, y : 0, angle : 0};
 var click = false;
 function setupInput(){
 addEventListener("keydown", function(w) {

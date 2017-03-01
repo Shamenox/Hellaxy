@@ -81,6 +81,22 @@ function portal(x, y, width, height, to, atx, aty) {
 }
 
 function killSwitch (him){
-	him.active = false;
+	him.active = fals;
+	if (him.ctrl === player1){
+		projectile.splice(0, projectile.length);
+		campaign.at = "none";
+		for (var del in sector){
+			if (sector[del].ships !== [] && del !== "at"){
+				sector[del].ships = [];
+				sector[del].isSetup = false;
+			}
+		}
+		for (var del in campaign){
+			if (del !== "at") campaign[del].levels = [];
+		}
+		setupLevels();
+		sector.at = "campaign";
+		campaign.at = "none";
+	}
 }
 

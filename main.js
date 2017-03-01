@@ -6,6 +6,7 @@ var Game = {};
 var SHIP = {}; //Momentan handelndes Schiff
 var LEVEL = {}; //Momentan aktives Level
 var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
+var target = "none"; //Missionszielobjekt
 var background = new Image(); // Momentanes BG-sample
 var infoScreen = false;
 var frame = {
@@ -58,7 +59,7 @@ function draw() {
 	displayShips();
 	GUI();
 	displayMsgs();
-	Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);
+	displayCursor();
 	requestAnimationFrame(draw);
 }
 
@@ -195,4 +196,18 @@ function displayMsgs(){
 		msg.splice(0,msg.length);
 		stop = false;
 	}
+}
+
+function displayCursor(){
+	if (target !== "none" && click){
+		if (cursor.x + frame.x <= target.x) cursor.angle = get360((Math.atan((target.y -cursor.y + frame.y) / (target.x - cursor. x + frame.x)) / Math.PI * 180) + 90);
+		if (cursor.x + frame.x > target.x) cursor.angle = ((Math.atan((target.y -cursor.y + frame.y) / (target.x - cursor. x + frame.x)) / Math.PI * 180) + 270);
+		Game.ctx.translate(cursor.x, cursor.y); // Drehung
+		Game.ctx.rotate(cursor.angle * Math.PI / 180);
+		Game.ctx.translate(-(cursor.x), -(cursor.y));
+		Game.ctx.drawImage(image.testarrow, cursor.x, cursor.y); // Display
+		Game.ctx.translate(cursor.x, cursor.y); // Rückdrehung
+		Game.ctx.rotate(-cursor.angle * Math.PI / 180);
+		Game.ctx.translate(-(cursor.x), -(cursor.y));
+	} else {Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);}
 }
