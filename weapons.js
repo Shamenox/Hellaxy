@@ -1,6 +1,6 @@
 var weapon = {};
 var projectile = [];
-function createWeapon(designation, texture, alpha, pen, reload, ammo, Fsound, Psound, Bsound, fire){
+function createWeapon(designation, texture, alpha, pen, reload, ammo, fire){
 	var neueWaffe = {};
 	neueWaffe.designation = designation;
 	neueWaffe.texture = texture;
@@ -8,9 +8,6 @@ function createWeapon(designation, texture, alpha, pen, reload, ammo, Fsound, Ps
 	neueWaffe.pen = pen;
 	neueWaffe.reload = reload;
 	neueWaffe.ammo = ammo;
-	neueWaffe.sound = Fsound;
-	neueWaffe.scratch = Psound;
-	neueWaffe.bounce = Bsound;
 	if (fire === undefined) neueWaffe.fire = function(){
 		if (intervalReact(this.ammo > 0, this.reload, this.designation + SHIP.ID)){
 			this.ammo --;
@@ -29,10 +26,6 @@ function cloneWeapon(designation){
 	clonedWeapon.pen = weapon[designation].pen;
 	clonedWeapon.reload = weapon[designation].reload;
 	clonedWeapon.ammo = weapon[designation].ammo;
-	clonedWeapon.sound = weapon[designation].sound;
-	clonedWeapon.scratch = weapon[designation].scratch;
-	clonedWeapon.bounce = weapon[designation].bounce;
-	clonedWeapon.fire = weapon[designation].fire;
 	return clonedWeapon;
 }
 
@@ -46,8 +39,6 @@ function spawnProjectile(from){
 	neuesProjektil.x = SHIP.x;
 	neuesProjektil.y = SHIP.y;
 	neuesProjektil.v = from.pen * 10;
-	neuesProjektil.sound = from.scratch;
-	neuesProjektil.bounce = from.bounce;
 	neuesProjektil.hits = function (obj) {
 		if (this.emitter.fraction === obj.fraction) return false; //Prüfen ob Ziel das eigene Schiff ist
 		if (this.x.between(obj.x - this.texture.naturalWidth/2 - obj.skin.naturalWidth/2, obj.x + this.texture.naturalWidth/2 + obj.skin.naturalWidth/2)){
@@ -55,10 +46,21 @@ function spawnProjectile(from){
 		}
 		return false;
 	}
+	neuesProjektil.sound = function(of){ 
+		var mass = this.texture.naturalHeight * this.texture.naturalWidth;
+		if (of === "fire"){
+			if (mass <= 644) audio.shot_1.play();
+		}
+		if (of === "pen"){
+			if (mass <= 644) audio.hit_1.play();
+		}
+		if (of === "bounce"){
+			if (mass <= 644) audio.bounce_1.play();
+		}
+	}
 	neuesProjektil.emitter = SHIP;
+	neuesProjektil.sound("fire");
 	projectile.push(neuesProjektil);
-	from.sound.pause();
-	from.sound.play();
 }
 
 function displayProjectiles(){
@@ -76,7 +78,7 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){
-	createWeapon("5nm machinegun", image.shot_light1, 4, 1, 100, 200, audio.shot_light, audio.hit_light, audio.bounce_light);
-	createWeapon("1.4 mm kolexial gun", image.shot_light_tripple, 36, 10, 200, 600, audio.shot_light, audio.hit_light, audio.bounce_light);
+	createWeapon("5nm machinegun", image.shot_1, 4, 1, 100, 200);
+	createWeapon("1.4 mm kolexial gun", image.shot_1_tripple, 36, 10, 200, 600);
 	createWeapon("Ophianian Beam (H)", image.beam_ophianian_h, 1000, 5, 4000, 66, audio.shot_light, audio.hit_light, audio.bounce_light);
 }

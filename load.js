@@ -1,8 +1,8 @@
 ﻿var audio = {};
 function loadAudio(){
-audio.shot_light = new Audio("ress/audio/shot_light.mp3");
-audio.hit_light = new Audio("ress/audio/hit_light.mp3");
-audio.bounce_light = new Audio("ress/audio/bounce_light.mp3");
+audio.shot_1 = new Audio("ress/audio/shot_1.mp3");
+audio.hit_1 = new Audio("ress/audio/hit_1.mp3");
+audio.bounce_1 = new Audio("ress/audio/bounce_1.mp3");
 audio.engine1 = new Audio("ress/audio/engine1.mp3");
 audio.theme1 = new Audio("ress/audio/theme1.mp3");
 audio.explosion1 = new Audio("ress/audio/bomb 3-soundbible.com-1260663209.wav");

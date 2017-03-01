@@ -35,7 +35,7 @@ function physik() {
 						if (sector[sector.at].ships[h].shield <= 0 && sector[sector.at].ships[h].shield < 1) sector[sector.at].ships[h].hp -= projectile[i].alpha;
 						if (sector[sector.at].ships[h].shield > 0 && sector[sector.at].ships[h].shield > 1) sector[sector.at].ships[h].shield -= projectile[i].alpha;
 						if (sector[sector.at].ships[h].shield > 0 && sector[sector.at].ships[h].shield < 1) sector[sector.at].ships[h].hp -= projectile[i].alpha * sector[sector.at].ships[h].shield;
-						projectile[i].sound.play();
+						projectile[i].sound("pen");
 						projectile[i].active = false;
 					}
 					if (projectile[i].pen < sector[sector.at].ships[h].armour){
@@ -45,7 +45,7 @@ function physik() {
 						}
 						projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
 						projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
-						projectile[i].bounce.play();
+						projectile[i].sound("bounce");
 					if (projectile[i].hits(sector[sector.at].ships[h])) projectile[i].active = false;
 					}
 				}
@@ -81,7 +81,7 @@ function portal(x, y, width, height, to, atx, aty) {
 }
 
 function killSwitch (him){
-	him.active = fals;
+	him.active = false;
 	if (him.ctrl === player1){
 		projectile.splice(0, projectile.length);
 		campaign.at = "none";
