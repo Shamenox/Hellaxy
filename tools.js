@@ -25,38 +25,6 @@ function button(posx, posy, width, height, tag, colour, action){
 	Game.ctx.fillStyle = "yellow";
 }
 
-function createSkin(declaration){
-	var neuerskin = {
-		r : [],
-		l : []
-	}
-	if (declaration === "blank") {
-		for (var i = 0;i <12 ; i++){
-			neuerskin.r[i] = image.blank;
-		}
-		for (var i = 0;i <12 ; i++){
-			neuerskin.l[i] = image.blank;
-		}
-	skin["blank"] = neuerskin;
-	return;
-	}
-	for (var i = 0;i <11 ; i++){
-			neuerskin.r[i] = image[declaration+i+"r"];
-		}
-		neuerskin.r[11] = image[declaration+"cr"];
-	for (var i = 0;i <11 ; i++){
-			neuerskin.l[i] = image[declaration+i+"l"];
-		}
-		neuerskin.l[11] = image[declaration+"cl"];
-	skin[declaration] = neuerskin;
-	console.log(skin[declaration]);
-}
-
-function unsafeforWork(){
-	var layer = 0;
-	if (layer === 5 ) nsfw = true;
-}
-
 function intervalReact(trigger, delay, ID){
 	if (delay === undefined) delay = 500;
 	if (ID === undefined) ID = "react";

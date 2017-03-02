@@ -199,9 +199,9 @@ function displayMsgs(){
 }
 
 function displayCursor(){
-	if (target !== "none" && click){
-		if (cursor.x + frame.x <= target.x) cursor.angle = get360((Math.atan((target.y -cursor.y + frame.y) / (target.x - cursor. x + frame.x)) / Math.PI * 180) + 90);
-		if (cursor.x + frame.x > target.x) cursor.angle = ((Math.atan((target.y -cursor.y + frame.y) / (target.x - cursor. x + frame.x)) / Math.PI * 180) + 270);
+	if (target !== "none" && click){ 
+		if (cursor.x <= target.x - frame.x) cursor.angle = get360((Math.atan((target.y -cursor.y - frame.y) / (target.x - cursor.x - frame.x)) / Math.PI * 180) + 90);
+		if (cursor.x > target.x - frame.x) cursor.angle = get360((Math.atan((target.y -cursor.y - frame.y) / (target.x - cursor.x - frame.x)) / Math.PI * 180) + 270);
 		Game.ctx.translate(cursor.x, cursor.y); // Drehung
 		Game.ctx.rotate(cursor.angle * Math.PI / 180);
 		Game.ctx.translate(-(cursor.x), -(cursor.y));
