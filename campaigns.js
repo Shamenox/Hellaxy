@@ -65,7 +65,7 @@ function setupLevels(){
 		spawnShip("Humanian Shuttle", 1050, 1050, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1000, 1050, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 950, 1050, 0, npc.defender, 0);
-		spawnShip("Qubanic Colonizer", 400, 400, 135, function(){this.follow({x : 1000, y : 1000}, 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
+		spawnShip("Qubanic Colonizer", 400, 400, 135, function(){this.follow(sector.Central_Sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
 		addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
