@@ -62,17 +62,17 @@ function setupNpcs(){
 		if (this.pointsAt(sector[sector.at].ships[0])) this.fireSmall();
 	}
 	
-	npc.ophianian = function(){
+	npc.ophianian_annector = function(){
 		if (intervalReact(this.x < 150 || this.x > background.naturalWidth - 150 || this.y < 150 || this.y > background.naturalHeight - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		if (sector.Central_Sector.ships[this.ID - 7].active === true){
-			this.pointAt(sector.Central_Sector.ships[this.ID - 7]);
-			this.acc();
-		}else{
+		if (this.nextShip("humanian", 400) === false){
 			this.follow(sector.Central_Sector.planets[0], 10);
-			if (this.nextShip("humanian", 400) !== false){
-					this.pointAt(this.nextShip("humanian", 400), 300);
-					this.special1.exe();
-					if (this.pointsAt(this.nextShip("humanian", 400))) this.fireSmall();
+		}else{
+			this.pointAt(this.nextShip("humanian", 400), 300);
+			this.special1.exe();
+			if (this.nextShip("humanian", 400) === sector.Central_Sector.ships[this.ID - 7]){
+				if (this.pointsAt(sector.Central_Sector.ships[this.ID - 7])) this.acc();
+			}else{
+				if (this.pointsAt(this.nextShip("humanian", 400))) this.fireSmall();
 			}
 		}
 	}

@@ -33,10 +33,10 @@ function checkCampaign(){
 	}
 }
 
-function endLevel(){
+function endLevel(reset){
 	projectile.splice(0, projectile.length);
 	target = "none";
-	campaign[campaign.at].at += 1;
+	if (reset !== true) campaign[campaign.at].at += 1;
 	campaign.at = "none";
 	for (var del in sector){
 		if (sector[del].ships !== [] && del !== "at"){
@@ -48,7 +48,7 @@ function endLevel(){
 		if (del !== "at") campaign[del].levels = [];
 	}
 	setupLevels();
-	sector.at = "campaign";
+	if (reset !== true) {sector.at = "campaign";} else {sector.at = "menue";}
 	campaign.at = "none";
 }
 
@@ -102,8 +102,7 @@ function setupLevels(){
 		addMsg("Thats why we erected an Space hangar in our orbit");
 		addMsg("to enable further research.");
 		addMsg("We still dont know much about our interplanetary environment.");
-		addMsg("We registered an interesting sonar pattern south-west from humania.");
-		addMsg("Yes, those directions apply.");
+		addMsg("We registered an interesting sonar pattern not far from humania.");
 		addMsg("Your order is to gather some samples from that location");
 		addMsg("and to bring them to our orbital hangar for analysis.");
 		addMsg("If you have a defined target location your cursor will now");
@@ -162,7 +161,7 @@ function setupLevels(){
 		spawnShip("Humanian Shuttle", 1300, 1200, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1400, 1100, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 1400, 1000, 0, npc.defender, 0);
-		spawnShip("Ophianian Annector-Star", 2200, 1000, 270, npc.ophianian);
+		spawnShip("Ophianian Annector-Star", 2200, 1000, 270, npc.ophianian_annector);
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Something enormously huge as appeared on our Radars.");
