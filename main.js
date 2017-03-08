@@ -9,6 +9,7 @@ var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
 var target = "none"; //Missionszielobjekt
 var background = new Image(); // Momentanes BG-sample
 var infoScreen = false;
+var pausedScreen = false;
 var frame = {
 	x: 0,
 	y: 0
@@ -152,10 +153,17 @@ function GUI() {
 			Game.ctx.fillText("Alpha-Damage: " + sector[sector.at].ships[0].heavyWp.alpha, 700, 475);
 			Game.ctx.fillText("Penetration: " + sector[sector.at].ships[0].heavyWp.pen, 700, 500);
 		}
-
-
-		Game.ctx.strokeStyle = "yellow";
-		Game.ctx.fillStyle = "yellow";
+	}
+	
+	if (intervalReact(key.esc && pausedScreen)) pausedScreen = false, stop = false;
+	if (intervalReact(key.esc && !pausedScreen && !stop)) pausedScreen = true, stop = true;
+	if (pausedScreen) {
+		Game.ctx.lineWidth = 4;
+		Game.ctx.font = "128px Consolas";
+		Game.ctx.strokeText("- Game Paused -", 100, 180);
+		Game.ctx.font = "24px Consolas";
+		button(400, 350, 480, 50, "Resume to game", "yellow", function(){pausedScreen = false; stop = false;});
+		button(400, 500, 480, 50, "Return to menue", "yellow", function(){pausedScreen = false; stop = false; endLevel(true);});
 		Game.ctx.lineWidth = 1;
 	}
 }
@@ -187,14 +195,14 @@ function displayMsgs(){
 		Game.ctx.strokeStyle = "yellow";
 		Game.ctx.fillStyle = "yellow";
 		Game.ctx.lineWidth = 1;
-	}
-	if (intervalReact(key.e, 500, "msgDelay")){
-		msg.splice(0,1);
-		stop = false;
-	}
-	if (intervalReact(key.esc, 500, "msgDelay")){
-		msg.splice(0,msg.length);
-		stop = false;
+		if (intervalReact(key.e, 500, "msgDelay")){
+			msg.splice(0,1);
+			if (msg.length === 0) stop = false;
+		}
+		if (intervalReact(key.esc)){
+			msg.splice(0,msg.length);
+			stop = false;
+		}
 	}
 }
 

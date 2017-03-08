@@ -86,7 +86,8 @@ sector.controls.events = function() {
 	Game.ctx.fillText("Heavy Weapon = Q", 100,400);
 	Game.ctx.fillText("Info-Screen = I", 100,450);
 	Game.ctx.fillText("Special Abilities = 1 - 4", 100,500);
-	  button(400, 650, 480, 50, "Back", "yellow", function(){sector.at = "menue";});
+	Game.ctx.fillText("Pause Game / Skip Dialog = esc", 100,550);
+	button(400, 650, 480, 50, "Back", "yellow", function(){sector.at = "menue";});
 }
 
 createSector({ name : "testmap",
@@ -103,7 +104,7 @@ sector.testmap.setup = function(){
 	//spawnShip("Ophianian Annector-Star", 1000, 1000, 0, function(){ this.special1.exe(); this.acc(); this.lightWp.fire();});
 	spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
 	//spawnShip("Republic Base", 600, 400, 90, "none");
-	//spawnShip("Fat Man", 700, 300, 90, npc.simpleRoamer);
+	spawnShip("Fat Man", 700, 1300, 90, npc.simpleRoamer);
 }
 
 createSector({ name : "Central_Sector",
