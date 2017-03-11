@@ -7,6 +7,8 @@ function createPlanet(designation, skin, inSector, x, y){
 	neuerPlanet.y = y;
 	neuerPlanet.fraction = "planet";
 	sector[inSector].planets.push(neuerPlanet);
+	planet[designation] = neuerPlanet;
+	planet[dsignation].sector = inSector;
 }
 
 function displayPlanets(){

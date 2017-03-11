@@ -5,11 +5,13 @@ Number.prototype.between = function(a, b) {
     max = Math.max.apply(Math, [a, b]);
   return this > min && this < max;
 }
+
 function get360(input){
 if (input < 0) input += 360;
 if (input > 359) input -= 360;
 return input;
 }
+
 function button(posx, posy, width, height, tag, colour, action){
 	var textY = parseInt(Game.ctx.font.split('p')[0]) + posy + 0.4*((height - 2*Game.ctx.lineWidth) - parseInt(Game.ctx.font.split('p')[0]));
 	Game.ctx.fillStyle = colour;
