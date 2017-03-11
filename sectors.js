@@ -55,9 +55,9 @@ createSector({ name: "menue",
 		bg: "blackscreen",
 		theme: "none"});
 sector.menue.events = function() {
-    button(400, 100, 480, 100, "Test Mode", "yellow", function(){sector.at = "testmap";})
+    button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){sector.at = "testmap";})
 	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){sector.at = "campaign";})
-	button(400, 400, 480, 100, "Free-Roam Mode (coming later)", "yellow", function(){})
+	button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){sector.at = "freeroam";})
 	button(400, 550, 480, 100, "Controls", "yellow", function(){sector.at = "controls";})
 }
 
@@ -71,6 +71,28 @@ sector.campaign.events = function() {
 	if (campaign.humanian.levels[campaign.humanian.at] !== undefined) {button(500, 115, 130, 50, "Continue", "yellow", function(){campaign.at = "humanian"});} else {Game.ctx.fillText("Complete!", 500, 150);}
 	button(700, 115, 130, 50, "New", "yellow", function(){campaign.humanian.at = 0; campaign.at = "humanian";});
     button(400, 650, 480, 50, "Back", "yellow", function(){sector.at = "menue";})
+}
+
+createSector({ name: "freeroam",
+		bg: "blackscreen",
+		theme: "none"});
+sector.freeroam.events = function() {
+	var hor = 1;
+	var ver = 1;
+    Game.ctx.fillText("Freeroam Mode", 540, 50);
+	Game.ctx.fillText("Select your ship:", 490, 80);
+	for (var dec in ship){
+		console.log(dec);
+		Game.ctx.drawImage(ship[dec].skin, hor*130, ver*130, 128, 128);
+		if (click && cursor.x.between(hor*130, hor*150 + 128) && cursor.y.between(ver*130, ver*130 + 128)){
+			sector.at = "Central_Sector";
+			spawnShip(ship[dec].designation, 100, 100, 180, player1, 0, function(){endLevel(true);});
+			return;
+		}
+		hor++;
+		if (hor > 8) hor = 1, ver++;
+	}
+	button(400, 650, 480, 50, "Back", "yellow", function(){sector.at = "menue";})
 }
 
 createSector({ name: "controls",
@@ -111,9 +133,20 @@ createSector({ name : "Central_Sector",
 	bg : "central_sector",
 	theme : "none",
 	width : 4500,
-	height : 3700});
-sector.Central_Sector.setup = function(){
-}
+	height : 3700}
+);
+createSector({ name : "Omar_Sector",
+	bg : "omar_sector",
+	theme : "none",
+	width : 4500,
+	height : 4700}
+);
+createSector({ name : "Outer_Sector",
+	bg : "outer_sector",
+	theme : "none",
+	width : 7500,
+	height : 27000}
+);
 
 }// No touchy!
 // :p hehe ~miterosan
