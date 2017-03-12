@@ -8,23 +8,39 @@ function createSector (options) {
 	neuersector.height = options.height;
 	neuersector.ships = [];
 	neuersector.planets = [];
+	neuersector.portals = [];
 	neuersector.isSetup = false;
 	if (options.theme !== "none") neuersector.theme = audio[options.theme];
 	if (options.theme === "none") neuersector.theme = "none";
 	sector[options.name] = neuersector;
 }
 
-function setupSectors () {
+function addPortal(x, y, width, height, atSector, atX, atY, withAngle){
+	var neuesPortal = {};
+	neuesPortal.x = x;
+	neuesPortal.y = y;
+	neuesPortal.height = height;
+	neuesPortal.width = width;
+	neuesPortal.dest = atSector;
+	neuesPortal.atX = atX,
+	neuesPortal.atY = atY;
+	neuesPortal.withAngle = withAngle;
+	neuesPortal.fraction = "portal";
+	sector[sector.at].portals.push(neuesPortal);
+}
 
-	sector.act = function(){
-		if (sector[sector.at].setup !== undefined && !sector[sector.at].isSetup){
-			sector[sector.at].setup();
-			sector[sector.at].isSetup = true;
-		}
-		background = sector[sector.at].background;
-		if (sector[sector.at].theme !== "none") sector[sector.at].theme.play();
-		if (sector[sector.at].events !== undefined) sector[sector.at].events();
+function actSector(){
+	if (sector[sector.at].setup !== undefined && !sector[sector.at].isSetup){
+		sector[sector.at].setup();
+		sector[sector.at].isSetup = true;
 	}
+	background = sector[sector.at].background;
+	if (sector[sector.at].theme !== "none") sector[sector.at].theme.play();
+	if (sector[sector.at].events !== undefined) sector[sector.at].events();
+}
+
+
+function setupSectors () {
 
 	createSector({ name: "loading",
 		bg: "blackscreen",
@@ -81,7 +97,6 @@ function setupSectors () {
 		Game.ctx.fillText("Freeroam Mode", 540, 50);
 		Game.ctx.fillText("Select your ship:", 490, 80);
 		for (var dec in ship){
-			console.log(dec);
 			Game.ctx.drawImage(ship[dec].skin, hor*130, ver*130, 128, 128);
 			if (click && cursor.x.between(hor*130, hor*150 + 128) && cursor.y.between(ver*130, ver*130 + 128)){
 				sector.at = "Central_Sector";
@@ -122,9 +137,7 @@ function setupSectors () {
 		spawnShip("Humanian Shuttle", 300, 100, 0, npc.defender, 0);
 		spawnShip("Humanian Shuttle", 400, 100, 0, npc.defender, 0);
 		spawnShip("Testarrow", 100, 100, 0, "none",0,function(){addMsg("Test123");});
-		//spawnShip("Ophianian Annector-Star", 1000, 1000, 0, function(){ this.special1.exe(); this.acc(); this.lightWp.fire();});
 		spawnShip("Testarrow", 900, 450, 90, npc.simpleRoamer);
-		//spawnShip("Republic Base", 600, 400, 90, "none");
 		spawnShip("Fat Man", 700, 1300, 90, npc.simpleRoamer);
 	}
 
@@ -134,6 +147,9 @@ function setupSectors () {
 		width : 4500,
 		height : 3700}
 	);
+	sector.Central_Sector.setup = function(){
+		addPortal(0, 1000, 70, 2000, "Omar_Sector", 4300, 1000, 270);
+	}
 	createSector({ name : "Omar_Sector",
 		bg : "omar_sector",
 		theme : "none",

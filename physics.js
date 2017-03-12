@@ -15,9 +15,18 @@ function physik() {
 			if (SHIP.y < SHIP.skin.naturalHeight/2) SHIP.y = SHIP.skin.naturalHeight/2, SHIP.vy = 0;
 			if (SHIP.x > sector[sector.at].width - SHIP.skin.naturalWidth/2) SHIP.x = sector[sector.at].width - SHIP.skin.naturalWidth/2 , SHIP.vx = 0;
 			if (SHIP.y > sector[sector.at].height - SHIP.skin.naturalHeight/2 - 120) SHIP.y = sector[sector.at].height -SHIP.skin.naturalHeight/2 - 120, SHIP.vy = 0;
-			for (h = 0; h < sector[sector.at].ships.length; h++){                                                     //Kollisionsüberprüfung
+			for (h = 0; h < sector[sector.at].ships.length; h++){                                                   //Kollisionsüberprüfung
 				if (SHIP.collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
 				collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
+				}
+			}
+			for (h = 0; h < sector[sector.at].portals.length; h++){
+				if (SHIP.collidesWith(sector[sector.at].portals[h])){
+					sector[sector[sector.at].portals[h].dest].ships.push(SHIP);
+					sector[sector[sector.at].portals[h].dest].ships[sector[sector[sector.at].portals[h].dest].ships.length - 1].x = sector[sector.at].portals[h].atX;
+					sector[sector[sector.at].portals[h].dest].ships[sector[sector[sector.at].portals[h].dest].ships.length - 1].y = sector[sector.at].portals[h].atY;
+					sector.at = sector[sector.at].portals[h].dest;
+					
 				}
 			}
 		}
