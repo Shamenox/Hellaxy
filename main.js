@@ -71,6 +71,13 @@ function displayBg(){
 			Game.ctx.drawImage(background, posX - frame.x, posY - frame.y);
 		}
 	}
+	for (h = 0; h < sector[sector.at].portals.length; h++){
+		for (i = sector[sector.at].portals[h].x; i < sector[sector.at].portals[h].x + sector[sector.at].portals[h].width; i += 100){
+			for (j = sector[sector.at].portals[h].y; j < sector[sector.at].portals[h].y + sector[sector.at].portals[h].height; j += 100){
+			 Game.ctx.drawImage(sector[sector[sector.at].portals[h].dest].background, i - frame.x, j - frame.y);
+			}
+		}
+	}
 }
 
 function displayCursor(){

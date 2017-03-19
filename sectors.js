@@ -148,7 +148,7 @@ function setupSectors () {
 		height : 3700}
 	);
 	sector.Central_Sector.setup = function(){
-		addPortal(0, 1000, 70, 2000, "Omar_Sector", 4300, 1000, 270);
+		addPortal(0, 1000, 110, 2000, "Omar_Sector", 4300, 1000, 270);
 	}
 	createSector({ name : "Omar_Sector",
 		bg : "omar_sector",

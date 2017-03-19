@@ -78,15 +78,6 @@ function collide(a, b){
 	b.hp -= collision.potDmg * (ship[a.designation].hp / collision.potM) * 5;
 	a.hp = Math.round(a.hp);
 	b.hp = Math.round(b.hp);
-	}
-
-function portal(x, y, width, height, to, atx, aty) {
-	if (ship.onField[0].x.between(x, x + width) && ship.onField[0].y.between(y, y + height)) {
-		projectile.splice(0, projectile.length);
-		sector.at = to;
-		ship.onField[0].x = atx;
-		ship.onField[0].y = aty;
-	}
 }
 
 function killSwitch (him){
