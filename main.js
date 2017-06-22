@@ -1,7 +1,7 @@
-﻿var Game = {};
+﻿// Setup
 
-// Setup
-
+var Game = {};
+var SECTOR = loading;
 var SHIP = {}; //Momentan handelndes Schiff
 var LEVEL = {}; //Momentan aktives Level
 var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
@@ -50,10 +50,10 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
-	displayBg();
+	SECTOR.display();
 	displayPlanets();
 	if (!stop){
-		actSector();
+		SECTOR.theme.play();
 		checkCampaign();
 		physik();
 	}
@@ -63,21 +63,6 @@ function draw() {
 	displayMsgs();
 	displayCursor();
 	requestAnimationFrame(draw);
-}
-
-function displayBg(){
-	for (posY = 0; posY < sector[sector.at].height; posY += 100){
-		for (posX = 0; posX < sector[sector.at].width; posX += 100){
-			Game.ctx.drawImage(background, posX - frame.x, posY - frame.y);
-		}
-	}
-	for (h = 0; h < sector[sector.at].portals.length; h++){
-		for (i = sector[sector.at].portals[h].x; i < sector[sector.at].portals[h].x + sector[sector.at].portals[h].width; i += 100){
-			for (j = sector[sector.at].portals[h].y; j < sector[sector.at].portals[h].y + sector[sector.at].portals[h].height; j += 100){
-			 Game.ctx.drawImage(sector[sector[sector.at].portals[h].dest].background, i - frame.x, j - frame.y);
-			}
-		}
-	}
 }
 
 function displayCursor(){

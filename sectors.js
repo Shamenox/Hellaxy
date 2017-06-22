@@ -1,43 +1,48 @@
-﻿var sector = {at : "loading"};
-function createSector (options) {
-	//name, bg, theme
-	var neuersector = {};
-	neuersector.background = image[options.bg];
-	if (options.width === undefined) options.width = 1280, options.height = 720;
-	neuersector.width = options.width;
-	neuersector.height = options.height;
-	neuersector.ships = [];
-	neuersector.planets = [];
-	neuersector.portals = [];
-	neuersector.isSetup = false;
-	if (options.theme !== "none") neuersector.theme = audio[options.theme];
-	if (options.theme === "none") neuersector.theme = "none";
-	sector[options.name] = neuersector;
-}
-
-function addPortal(x, y, width, height, atSector, atX, atY, withAngle){
-	var neuesPortal = {};
-	neuesPortal.x = x;
-	neuesPortal.y = y;
-	neuesPortal.height = height;
-	neuesPortal.width = width;
-	neuesPortal.dest = atSector;
-	neuesPortal.atX = atX,
-	neuesPortal.atY = atY;
-	neuesPortal.withAngle = withAngle;
-	neuesPortal.fraction = "portal";
-	sector[sector.at].portals.push(neuesPortal);
-}
-
-function actSector(){
-	if (sector[sector.at].setup !== undefined && !sector[sector.at].isSetup){
-		sector[sector.at].setup();
-		sector[sector.at].isSetup = true;
+﻿class Sector{
+	constructor(width, height, bg, theme){                 //width, height, bg, theme
+		this.width = width;
+		this.height = height;
+		this.bg = bg;
+		this.theme = theme;
+		this.ships = [];
+		this.planets = [];
+		this.portals = []; 
+		if (theme === undefined) theme = "none";
+		this.theme = theme;
 	}
-	background = sector[sector.at].background;
-	if (sector[sector.at].theme !== "none") sector[sector.at].theme.play();
-	if (sector[sector.at].events !== undefined) sector[sector.at].events();
+	
+	
+	addPortal(x, y, width, height, atSector, atX, atY, withAngle){
+		var neuesPortal = {};
+		neuesPortal.x = x;
+		neuesPortal.y = y;
+		neuesPortal.height = height;
+		neuesPortal.width = width;
+		neuesPortal.dest = atSector;
+		neuesPortal.atX = atX,
+		neuesPortal.atY = atY;
+		neuesPortal.withAngle = withAngle;
+		neuesPortal.fraction = "portal";
+		sector[sector.at].portals.push(neuesPortal);
+	}
+	
+	
+	displayBg(){
+		for (posY = 0; posY < this.height; posY += 100){
+			for (posX = 0; posX < this.width; posX += 100){
+				Game.ctx.drawImage(this.bg, posX - frame.x, posY - frame.y);
+			}
+		}
+		for (h = 0; h < this.portals.length; h++){
+			for (i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
+				for (j = this.portals[h].y; j < this.y + this.height; j += 100){
+				 Game.ctx.drawImage(this.dest.bg, i - frame.x, j - frame.y);
+				}
+			}
+		}
+	}
 }
+
 
 
 function setupSectors () {

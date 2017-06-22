@@ -3,7 +3,7 @@ function physik() {
 	for (i = 0; i < sector[sector.at].ships.length; i++) { //Schiffberechnung
 		SHIP = sector[sector.at].ships[i];
 		if (SHIP.active === true){
-			if (SHIP.hp < 0 && SHIP.active !== "explosion") SHIP.explode(); //Abfrage ob noch aktiv
+			if (SHIP.hp < 0) SHIP.explode(); //Abfrage ob noch aktiv
 			if (SHIP.ctrl !== "none") SHIP.ctrl(); // Zugriff durch Spieler/KIs
 			SHIP.y -= SHIP.vy; //Bewegung durch Geschwindigkeit
 			SHIP.x += SHIP.vx;
@@ -16,9 +16,7 @@ function physik() {
 			if (SHIP.x > sector[sector.at].width - SHIP.skin.naturalWidth/2) SHIP.x = sector[sector.at].width - SHIP.skin.naturalWidth/2 , SHIP.vx = 0;
 			if (SHIP.y > sector[sector.at].height - SHIP.skin.naturalHeight/2 - 120) SHIP.y = sector[sector.at].height -SHIP.skin.naturalHeight/2 - 120, SHIP.vy = 0;
 			for (h = 0; h < sector[sector.at].ships.length; h++){                                                   //Kollisionsüberprüfung
-				if (SHIP.collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i){
-				collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
-				}
+				if (SHIP.collidesWith(sector[sector.at].ships[h]) && sector[sector.at].ships[h].active === true && h !== i) collide(sector[sector.at].ships[i], sector[sector.at].ships[h]);
 			}
 			for (h = 0; h < sector[sector.at].portals.length; h++){
 				if (SHIP.collidesWith(sector[sector.at].portals[h])){
@@ -59,7 +57,8 @@ function physik() {
 					}
 				}
 			}
-		} else {projectile.splice(i,1)};
+		}
+		else {projectile.splice(i,1)};
 	}
 	frame.adjust();
 }

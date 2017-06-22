@@ -7,8 +7,10 @@ Number.prototype.between = function(a, b) {
 }
 
 function get360(input){
-if (input < 0) input += 360;
-if (input > 359) input -= 360;
+while (!input.between(0, 360)){
+	if (input < 0) input += 360;
+	if (input > 359) input -= 360;
+}
 return input;
 }
 
