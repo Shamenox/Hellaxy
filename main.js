@@ -1,7 +1,7 @@
 ﻿// Setup
 
 var Game = {};
-var SECTOR = loading;
+var SECTOR = {};
 var SHIP = {}; //Momentan handelndes Schiff
 var LEVEL = {}; //Momentan aktives Level
 var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
@@ -40,6 +40,7 @@ window.onload = function() {
 	setupShips();
 	console.log(ship);
 	setupSectors();
+	SECTOR = loading;
 	setupLevels();
 	console.log(frame);
 	background = image.blackscreen;
@@ -50,13 +51,13 @@ window.onload = function() {
 
 // Tatsaechliche Abbildung
 function draw() {
-	SECTOR.display();
-	displayPlanets();
 	if (!stop){
 		SECTOR.theme.play();
 		checkCampaign();
 		physik();
 	}
+	SECTOR.display();
+	displayPlanets();
 	displayProjectiles();
 	displayShips();
 	GUI();

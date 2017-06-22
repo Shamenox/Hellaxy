@@ -127,7 +127,7 @@ class Ship {
 	
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, relationShip, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		if (inSector === undefined) inSector = sector.at;
+		if (inSector === undefined) inSector = SECTOR;
 		var neuerSpawn = this.clone();
 		neuerSpawn.x = atX;
 		neuerSpawn.y = atY;
@@ -175,6 +175,6 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, acc : 0.02, wp1 : "5nm_machinegun"});
 	republic_base = new Ship({designation : "republic_base", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	qubanic_colonizer = new Ship({designation : "qubanic colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, acc : 0.003});
-	ophianian_annector-star = new Ship({designation : "ophianian annector-star", fraction : "ophianian", hp : 16666, shield : 0, armour : 2, acc : 0.005, wp1 : "Ophianian Beam", sp1 : "spawn_ophianianChunk",});
+	ophianian_annector-star = new Ship({designation : "ophianian annector-star", fraction : "ophianian", hp : 16666, shield : 0, armour : 2, acc : 0.005, wp1 : "Ophianian Beam", sp1 : "spawn_ophianianChunk"});
 	ophianian_chunk = new Ship({designation : "ophianian chunk", fraction : "ophianian", hp : 200, armour : 1, acc : 0.07});
 }

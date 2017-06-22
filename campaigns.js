@@ -1,27 +1,18 @@
-﻿campaign = {
-	at : "none",
-};
-
-function createCampaign(designation){
-	neueKampagne = {};
-	neueKampagne.levels = [];
-	neueKampagne.at = 0;
-	campaign[designation] = neueKampagne;
-}
-
-function createLevel(tree, setup, conditions, events){
-	neuesLevel = {};
-	neuesLevel.setup = setup;
-	neuesLevel.isSetup = false;
-	neuesLevel.conditions = conditions;
-	if (events !== undefined) neuesLevel.events = events;
-	campaign[tree].levels.push(neuesLevel);
-}
-
-function checkCampaign(){
-	if (campaign.at !== "none"){
-		LEVEL = campaign[campaign.at].levels[campaign[campaign.at].at];
-		if (!LEVEL.isSetup) sector.act(), LEVEL.setup(), LEVEL.isSetup = true;
+﻿class Campaign {
+	constructor(){
+		this.levels = [];
+		this.at = 0;
+	}
+	
+	
+	addLevel(setup, conditions, events){
+		this.levels.push(new Level(setup, conditions, events));
+	}
+	
+	
+	check(){
+		LEVEL = this.levels[this.at];
+		if (!LEVEL.isSetup) LEVEL.setup(), LEVEL.isSetup = true;
 		if (LEVEL.events !== undefined) LEVEL.events();
 		for (var cond in LEVEL.conditions){
 			if (LEVEL.conditions[cond] === false) return; 
@@ -29,43 +20,49 @@ function checkCampaign(){
 		Game.ctx.fillStyle = "yellow";
 		Game.ctx.fillText("Mission completed!!!", 450, 200);
 		Game.ctx.fillText("Press Space to continue", 450, 250);
-		if (key.space) endLevel();
+		if (key.space) LEVEL.end();
 	}
 }
 
-function endLevel(reset){
-	projectile.splice(0, projectile.length);
-	target = "none";
-	if (reset !== true) campaign[campaign.at].at += 1;
-	campaign.at = "none";
-	for (var del in sector){
-		if (sector[del].ships !== [] && del !== "at"){
-			sector[del].ships = [];
-			sector[del].isSetup = false;
+
+
+class Level {
+	constructor(setup, conditions, events){
+		this.setup = setup;
+		this.isSetup = false;
+		this.conditions = conditions;
+		if (events !== undefined) this.events = events;
+	}
+	
+	
+	end(reset){
+		projectile.splice(0, projectile.length);
+		this.target = "none";
+		if (reset !== true) CAMPAIGN.at += 1;
+		CAMPAIGN.at = "none";
+		for (var del in campaign){
+			if (del !== "at") campaign[del].levels = [];
 		}
+		setupLevels();
+		if (reset !== true) {SECTOR = campaign;} else {SECTOR = menue;}
+		CAMPAIGN = "none";
 	}
-	for (var del in campaign){
-		if (del !== "at") campaign[del].levels = [];
-	}
-	setupLevels();
-	if (reset !== true) {sector.at = "campaign";} else {sector.at = "menue";}
-	campaign.at = "none";
 }
 
-createCampaign("humanian");                                                                                                             //<-- Kampagnendeklarierung
+humanian = new Campaign();                                                                                                          //<-- Kampagnendeklarierung
 
 function setupLevels(){
-	createLevel("humanian", function(){
-		sector.at = "Central_Sector";
-		createPlanet("Humania", "humania", "Central_Sector", 1000, 1000);
-		createPlanet("Pontes", "pontes", "Central_Sector", 1420, 2550);
-		spawnShip("Humanian Shuttle", 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); endLevel();});
-		spawnShip("Humanian Shuttle", 1050, 1100, 0, npc.defender, 0);
-		spawnShip("Humanian Shuttle", 950, 1100, 0, npc.defender, 0);
-		spawnShip("Humanian Shuttle", 1050, 1050, 0, npc.defender, 0);
-		spawnShip("Humanian Shuttle", 1000, 1050, 0, npc.defender, 0);
-		spawnShip("Humanian Shuttle", 950, 1050, 0, npc.defender, 0);
-		spawnShip("Qubanic Colonizer", 400, 400, 135, function(){this.follow(sector.Central_Sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
+	humanian.addLevel(function(){
+		SECTOR = central_sector;
+		humania = new Planet("humania", central_sector, 1000, 1000);
+		pontes = new Planet("pontes", central_sector, 1420, 2550);																//designation, inSector, x, y
+		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); endLevel();}); 			//inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
+		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
+		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
+		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
+		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
+		qubanic_colonizer.spawn(central_sector, 400, 400, 135, function(){this.follow(sector.Central_Sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
 		addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
@@ -80,7 +77,8 @@ function setupLevels(){
 		addMsg("or alternatively via the WASD interface.");
 		addMsg("The Space bar triggers your high-tech 5nm machinegun twin.");
 		addMsg("Good luck out there!");
-		}, { ufoeliminated : false}
+		},
+		{ ufoeliminated : false}
 	);
 	createLevel("humanian", function(){
 		sector.at = "Central_Sector";

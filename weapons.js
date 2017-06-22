@@ -9,11 +9,13 @@ class Weapon {
 		this.reload = reload;
 		this.ammo = ammo;
 		this.fire = function(){
-		if (intervalReact(this.ammo > 0, this.reload, this.designation + SHIP.ID)){
-			this.ammo --;
-			spawnProjectile(this);
-		} 
+			if (intervalReact(this.ammo > 0, this.reload, this.designation + SHIP.ID)){
+				this.ammo --;
+				spawnProjectile(this);
+			} 
+		}
 	}
+	
 	
 	clone(){
 		var clone = {};
@@ -22,6 +24,7 @@ class Weapon {
 		}
 		return clone;
 	}
+	
 	
 	spawnProjectile(){
 		neuesProjektil = {};
@@ -73,7 +76,7 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){  //skin, alpha, pen, reload, ammo
-	5nm_machinegun = new Weapon(image.shot light 1, 4, 1, 100, 200);
-	1.4mm_kolexialgun = new Weapon (image.shot medium tripple, 36, 10, 200, 600);
-	Ophianian Beam = new Weapon (image.beam ophianian, 1000, 5, 4000, 66);
+	5nm_machinegun = new Weapon(image.shot_light_1, 4, 1, 100, 200);
+	1.4mm_kolexialgun = new Weapon (image.shot_medium_tripple, 36, 10, 200, 600);
+	Ophianian_Beam = new Weapon (image.beam ophianian, 1000, 5, 4000, 66);
 }

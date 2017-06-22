@@ -1,4 +1,4 @@
-class Special = {
+class Special {
 	constructor(reload, ammo, action, exe){
 		this.reload = reload;
 		this.ammo =amoo;

@@ -9,53 +9,53 @@ function createImage(ID, location) {
 	img.addEventListener("load",function(e){
 	    image.loaded +=1;
 	    if (image.loaded === image.quantity) {
-			sector.at = "title";
+			start();
 			console.log(image.quantity,image.loaded);
 		}
 	})
     image[ID] = img;
 }
 function loadImages() {
-	createImgae("blank", "sys");
-	createImgae("blackscreen", "sys");
-	createImgae("whitescreen", "sys");
-	createImgae("black", "sys");
-	createImgae("cursor", "sys");
+	createImage("blank", "sys");
+	createImage("blackscreen", "sys");
+	createImage("whitescreen", "sys");
+	createImage("black", "sys");
+	createImage("cursor", "sys");
 	
-	createImgae("central", "bgs");
-	createImgae("omar", "bgs");
-	createImgae("outer", "bgs");
-	createImgae("testmap", "bgs");
+	createImage("central", "bgs");
+	createImage("omar", "bgs");
+	createImage("outer", "bgs");
+	createImage("testmap", "bgs");
 	
-	createImgae("chestanian fortress", "planets");
-	createImgae("haufen", "planets");
-	createImgae("humania", "planets");
-	createImgae("pontes", "planets");
-	createImgae("test", "planets");
+	createImage("chestanian fortress", "planets");
+	createImage("haufen", "planets");
+	createImage("humania", "planets");
+	createImage("pontes", "planets");
+	createImage("test", "planets");
 	
-	createImgae("beam ophianian", "projectiles");
-	createImgae("explosion", "projectiles");
-	createImgae("shot light 1", "projectiles");
-	createImgae("shot medium tripple", "projectiles");
-	createImgae("shot medium 1", "projectiles");
-	createImgae("testarrow", "projectiles");
+	createImage("beam_ophianian", "projectiles");
+	createImage("explosion", "projectiles");
+	createImage("shot_light_1", "projectiles");
+	createImage("shot_medium_tripple", "projectiles");
+	createImage("shot_medium_1", "projectiles");
+	createImage("testarrow", "projectiles");
 	
-	createImgae("chestanian colonizer", "ships");
-	createImgae("chestanian fighter", "ships");
-	createImgae("chestanian quintalfighter", "ships");
-	createImgae("cylon basestar", "ships");
-	createImgae("helon baseship_mkii", "ships");
-	createImgae("helon raider", "ships");
-	createImgae("humanian protobaseship helonia", "ships");
-	createImgae("humanian shuttle", "ships");
-	createImgae("humanian satalite", "ships");
-	createImgae("none fatman", "ships");
-	createImgae("none testarrow", "ships");
-	createImgae("ophianic annector-star", "ships");
-	createImgae("ophianic chunk", "ships");createImgae("ophianic chunk", "ships");
-	createImgae("qubanic colonizer", "ships");
-	createImgae("republic hq", "ships");
-	createImgae("samus ship", "ships");
+	createImage("chestanian colonizer", "ships");
+	createImage("chestanian fighter", "ships");
+	createImage("chestanian quintalfighter", "ships");
+	createImage("cylon basestar", "ships");
+	createImage("helon baseship_mkii", "ships");
+	createImage("helon raider_mkiii", "ships");
+	createImage("humanian protobaseship helonia", "ships");
+	createImage("humanian shuttle", "ships");
+	createImage("humanian satalite", "ships");
+	createImage("none fatman", "ships");
+	createImage("none testarrow", "ships");
+	createImage("ophianic annector-star", "ships");
+	createImage("ophianic chunk", "ships");createImgae("ophianic chunk", "ships");
+	createImage("qubanic colonizer", "ships");
+	createImage("republic hq", "ships");
+	createImage("samus ship", "ships");
 	
 	
 	
