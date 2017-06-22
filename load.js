@@ -2,10 +2,10 @@
 	quantity : 0,
 	loaded : 0
 };
-function createImage(path) {
+function createImage(ID, location) {
 	image.quantity += 1;
     var img = new Image();
-    img.src = path;
+    img.src = "ress/" + location + "/" + ID + ".png";
 	img.addEventListener("load",function(e){
 	    image.loaded +=1;
 	    if (image.loaded === image.quantity) {
@@ -13,16 +13,52 @@ function createImage(path) {
 			console.log(image.quantity,image.loaded);
 		}
 	})
-    return img;
+    image[ID] = img;
 }
 function loadImages() {
-
-    for (var res in resources) {
-        if (resources.hasOwnProperty(res)) {
-            image[res] = createImage(resources[res]);
-        }
-    }
-
+	createImgae("blank", "sys");
+	createImgae("blackscreen", "sys");
+	createImgae("whitescreen", "sys");
+	createImgae("black", "sys");
+	createImgae("cursor", "sys");
+	
+	createImgae("central", "bgs");
+	createImgae("omar", "bgs");
+	createImgae("outer", "bgs");
+	createImgae("testmap", "bgs");
+	
+	createImgae("chestanian fortress", "planets");
+	createImgae("haufen", "planets");
+	createImgae("humania", "planets");
+	createImgae("pontes", "planets");
+	createImgae("test", "planets");
+	
+	createImgae("beam ophianian", "projectiles");
+	createImgae("explosion", "projectiles");
+	createImgae("shot light 1", "projectiles");
+	createImgae("shot medium tripple", "projectiles");
+	createImgae("shot medium 1", "projectiles");
+	createImgae("testarrow", "projectiles");
+	
+	createImgae("chestanian colonizer", "ships");
+	createImgae("chestanian fighter", "ships");
+	createImgae("chestanian quintalfighter", "ships");
+	createImgae("cylon basestar", "ships");
+	createImgae("helon baseship_mkii", "ships");
+	createImgae("helon raider", "ships");
+	createImgae("humanian protobaseship helonia", "ships");
+	createImgae("humanian shuttle", "ships");
+	createImgae("humanian satalite", "ships");
+	createImgae("none fatman", "ships");
+	createImgae("none testarrow", "ships");
+	createImgae("ophianic annector-star", "ships");
+	createImgae("ophianic chunk", "ships");createImgae("ophianic chunk", "ships");
+	createImgae("qubanic colonizer", "ships");
+	createImgae("republic hq", "ships");
+	createImgae("samus ship", "ships");
+	
+	
+	
     console.log(image);
 }
 
