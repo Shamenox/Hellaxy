@@ -2,7 +2,6 @@ var projectile = [];
 
 class Weapon {
 	constructor(skin, alpha, pen, reload, ammo){
-		this.ID = ID;
 		this.skin = skin;
 		this.alpha = alpha;
 		this.pen = pen;
@@ -76,7 +75,7 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){  //skin, alpha, pen, reload, ammo
-	5nm_machinegun = new Weapon(image.shot_light_1, 4, 1, 100, 200);
-	1.4mm_kolexialgun = new Weapon (image.shot_medium_tripple, 36, 10, 200, 600);
-	Ophianian_Beam = new Weapon (image.beam ophianian, 1000, 5, 4000, 66);
+	machinegun_5nm = new Weapon(image.shot_light_1, 4, 1, 100, 200);
+	kolexialgun_14nm = new Weapon (image.shot_medium_tripple, 36, 10, 200, 600);
+	ophianian_beam = new Weapon (image.beam_ophianian, 1000, 5, 4000, 66);
 }

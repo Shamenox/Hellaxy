@@ -7,8 +7,10 @@
 		this.ships = [];
 		this.planets = [];
 		this.portals = []; 
-		if (theme === undefined) theme = "none";
-		this.theme = audio[theme];
+		if (theme !== undefined){
+			this.theme = audio[theme];
+		}
+		else this.theme = "none";
 	}
 	
 	
@@ -23,22 +25,28 @@
 		neuesPortal.atY = atY;
 		neuesPortal.withAngle = withAngle;
 		neuesPortal.fraction = "portal";
-		sector[sector.at].portals.push(neuesPortal);
+		this.portals.push(neuesPortal);
+	}
+	
+	
+	addPlanet(designation, skin, x, y){
+		var neuerPlanet = new Planet(designation, skin, x, y);
+		this.planets.push(neuerPlanet);
 	}
 	
 	
 	display(){
-		for (posY = 0; posY < this.height; posY += 100){
-			for (posX = 0; posX < this.width; posX += 100){
+		for (var posY = 0; posY < this.height; posY += 100){
+			for (var posX = 0; posX < this.width; posX += 100){
 				Game.ctx.drawImage(this.bg, posX - frame.x, posY - frame.y);
 			}
 		}
 		
-		for (i = 0; i < this.planets.length; i++){
+		for (var i = 0; i < this.planets.length; i++){
 			Game.ctx.drawImage(this.planets[i].skin, this.planets[i].x - frame.x -this.planets[i].skin.naturalWidth/2, this.planets[i].y - frame.y - this.planets[i].skin.naturalHeight/2);
 		}
 		
-		for (h = 0; h < this.portals.length; h++){
+		for (var h = 0; h < this.portals.length; h++){
 			for (i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
 				for (j = this.portals[h].y; j < this.y + this.height; j += 100){
 				 Game.ctx.drawImage(this.dest.bg, i - frame.x, j - frame.y);
@@ -46,6 +54,7 @@
 			}
 		}
 		if (this.events !== undefined) this.events();
+		if (this.theme !== "none") this.theme.play();
 	}
 }
 
@@ -124,7 +133,7 @@ function setupSectors () {
 	}
 
 	testmap = new Sector(2200, 2200, "testmap");
-	testmoon = new Planet("testmoon", testmap, 900, 400);
+	testmap.addPlanet("testmoon", 900, 400);
 	humanian_protobaseship_helonia.spawn(testmap, 200, 250, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 	humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
 	humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
@@ -132,11 +141,12 @@ function setupSectors () {
 	fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
 
 	central_sector = new Sector(4500, 3700, "central", "theme1");
+	omar_sector = new Sector(4500, 4700, "omar", "theme1");
+	outer_sector = new Sector(7500, 27000, "outer", "theme1");
+	
 	central_sector.addPortal(0, 1000, 110, 2000, omar_sector, 4300, 1000, 270);
 
-	omar_sector = new Sector(4500, 4700, "omar", "theme1");
 	
-	outer_sector = new Sector(7500, 27000, "outer", "theme1");
 }// No touchy!
 // :p hehe ~miterosan
 

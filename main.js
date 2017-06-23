@@ -4,9 +4,9 @@ var Game = {};
 var SECTOR = {};
 var SHIP = {}; //Momentan handelndes Schiff
 var LEVEL = {}; //Momentan aktives Level
+var CAMPAIGN = { check : function(){}, theme : "none"};
 var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
 var target = "none"; //Missionszielobjekt
-var background = new Image(); // Momentanes BG-sample
 var infoScreen = false;
 var pausedScreen = false;
 var stop = false;
@@ -16,8 +16,8 @@ var frame = {
 };
 frame.adjust = function(){
 	if (frame.y < 0) frame.y = 0;
-	if (frame.y > sector[sector.at].height - 720) frame.y = sector[sector.at].height - 720;
-	if (frame.x > sector[sector.at].width - 1280) frame.x = sector[sector.at].width - 1280;
+	if (frame.y > SECTOR.height - 720) frame.y = SECTOR.height - 720;
+	if (frame.x > SECTOR.width - 1280) frame.x = SECTOR.width - 1280;
 	if (frame.x < 0) frame.x = 0;
 }
 
@@ -35,15 +35,11 @@ window.onload = function() {
 	loadAudio();
 	setupWeapons();
 	setupSpecials();
-	console.log(weapon);
 	setupNpcs();
 	setupShips();
-	console.log(ship);
 	setupSectors();
 	SECTOR = loading;
 	setupLevels();
-	console.log(frame);
-	background = image.blackscreen;
 
 	//start drawloop
 	draw();
@@ -52,12 +48,10 @@ window.onload = function() {
 // Tatsaechliche Abbildung
 function draw() {
 	if (!stop){
-		SECTOR.theme.play();
-		checkCampaign();
+		CAMPAIGN.check();
 		physik();
 	}
 	SECTOR.display();
-	displayPlanets();
 	displayProjectiles();
 	displayShips();
 	GUI();
@@ -67,9 +61,9 @@ function draw() {
 }
 
 function displayCursor(){
-	if (target !== "none" && click){ 
-		if (cursor.x <= target.x - frame.x) cursor.angle = get360((Math.atan((target.y -cursor.y - frame.y) / (target.x - cursor.x - frame.x)) / Math.PI * 180) + 90);
-		if (cursor.x > target.x - frame.x) cursor.angle = get360((Math.atan((target.y -cursor.y - frame.y) / (target.x - cursor.x - frame.x)) / Math.PI * 180) + 270);
+	if (LEVEL.target !== "none" && LEVEL.target !== undefined && click){ 
+		if (cursor.x <= LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 90);
+		if (cursor.x > LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 270);
 		Game.ctx.translate(cursor.x, cursor.y); // Drehung
 		Game.ctx.rotate(cursor.angle * Math.PI / 180);
 		Game.ctx.translate(-(cursor.x), -(cursor.y));

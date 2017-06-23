@@ -40,10 +40,6 @@ class Level {
 		this.target = "none";
 		if (reset !== true) CAMPAIGN.at += 1;
 		CAMPAIGN.at = "none";
-		for (var del in campaign){
-			if (del !== "at") campaign[del].levels = [];
-		}
-		setupLevels();
 		if (reset !== true) {SECTOR = campaign;} else {SECTOR = menue;}
 		CAMPAIGN = "none";
 	}
@@ -54,8 +50,8 @@ humanian = new Campaign();                                                      
 function setupLevels(){
 	humanian.addLevel(function(){
 		SECTOR = central_sector;
-		humania = new Planet("humania", central_sector, 1000, 1000);
-		pontes = new Planet("pontes", central_sector, 1420, 2550);																//designation, inSector, x, y
+		central_sector.addPlanet("humania", 1000, 1000);
+		central_sector.addPlanet("pontes", 1420, 2550);															//designation, inSector, x, y
 		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); endLevel();}); 			//inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
@@ -80,9 +76,10 @@ function setupLevels(){
 		},
 		{ ufoeliminated : false}
 	);
+	/*
 	createLevel("humanian", function(){
 		sector.at = "Central_Sector";
-		createPlanet("imat_chestcolony", "haufen", "Central_Sector", 600, 1800);
+		central_sector.addPlanet("imat_chestcolony", 600, 1800);
 		spawnShip("Humanian Protobaseship Helonia", 1200, 1000, 180, player1, 0, function(){addMsg("Report critical Damage"); endLevel();});
 		spawnShip("Humanian Satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;});
 		spawnShip("Humanian Shuttle", 1300, 1000, 0, npc.defender, 0);
@@ -179,5 +176,5 @@ function setupLevels(){
 				campaign.humanian.levels[2].events = undefined;
 			}
 		}
-	);
+	); */
 }

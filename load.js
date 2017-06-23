@@ -28,7 +28,7 @@ function loadImages() {
 	createImage("testmap", "bgs");
 	
 	createImage("chestanian fortress", "planets");
-	createImage("haufen", "planets");
+	createImage("imat_chestcolony", "planets");
 	createImage("humania", "planets");
 	createImage("pontes", "planets");
 	createImage("test", "planets");
@@ -52,7 +52,8 @@ function loadImages() {
 	createImage("none fatman", "ships");
 	createImage("none testarrow", "ships");
 	createImage("ophianic annector-star", "ships");
-	createImage("ophianic chunk", "ships");createImgae("ophianic chunk", "ships");
+	createImage("ophianic chunk", "ships");
+	createImage("ophianic chunk", "ships");
 	createImage("qubanic colonizer", "ships");
 	createImage("republic hq", "ships");
 	createImage("samus ship", "ships");

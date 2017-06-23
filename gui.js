@@ -1,5 +1,5 @@
 function GUI() {
-	if (sector[sector.at].ships[player1Pos] !== undefined){
+	if (SECTOR.ships[player1Pos] !== undefined){
 		Game.ctx.fillStyle = "grey";
 		Game.ctx.fillRect(0,600,1280,120);
 		Game.ctx.fillStyle = "white";
