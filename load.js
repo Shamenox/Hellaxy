@@ -31,7 +31,7 @@ function loadImages() {
 	createImage("imat_chestcolony", "planets");
 	createImage("humania", "planets");
 	createImage("pontes", "planets");
-	createImage("test", "planets");
+	createImage("testmoon", "planets");
 	
 	createImage("beam_ophianian", "projectiles");
 	createImage("explosion", "projectiles");

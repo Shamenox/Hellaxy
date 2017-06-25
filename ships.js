@@ -11,17 +11,32 @@ class Ship {
 		this.aim = 0;
 		this.ctrl = "none";
 		this.active = true;
-		this.skin = image[this.fraction + " " + this.designation]
 		for (var property in specs){
-			this.property = specs.property;
+			this[property] = specs[property];
 		}
+		this.skin = image[this.fraction + " " + this.designation];
+	}
+	
+	
+	spawn(inSector, atX, atY, atAngle, ctrl, relationShip, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+		if (inSector === undefined) inSector = SECTOR;
+		var neuerSpawn = this.clone();
+		neuerSpawn.x = atX;
+		neuerSpawn.y = atY;
+		neuerSpawn.angle = atAngle;
+		neuerSpawn.ctrl = ctrl;
+		neuerSpawn.relationShipID = relationShip;
+		neuerSpawn.abgang = abgang;
+		neuerSpawn.ID = inSector.ships.length;
+		inSector.ships.push(neuerSpawn);
 	}
 	
 	
 	clone(){
-		var clone = {};
+		var clone = new Ship();
 		for (var property in this){
-			clone.property = this.property
+			console.log(property);
+			clone[property] = this[property];
 		}
 		return clone;
 	}
@@ -115,9 +130,9 @@ class Ship {
 	nextShip(search, range){
 		if (range === undefined) range = 1000;
 		for (var h = 0; h <= range; h ++){
-			for (var k = 0; k < sector[sector.at].ships.length; k++){
-				if (this.distanceTo(sector[sector.at].ships[k]) <= h && k !== this.ID){
-					if (search === undefined && sector[sector.at].ships[k].active === true || search === "anythingElse" && sector[sector.at].ships[k].fraction !== this.fraction && sector[sector.at].ships[k].active === true || sector[sector.at].ships[k].fraction === search && sector[sector.at].ships[k].active === true) return sector[sector.at].ships[k];
+			for (var k = 0; k < SECTOR.ships.length; k++){
+				if (this.distanceTo(SECTOR.ships[k]) <= h && k !== this.ID){
+					if (search === undefined && SECTOR.ships[k].active === true || search === "anythingElse" && SECTOR.ships[k].fraction !== this.fraction && SECTOR.ships[k].active === true || SECTOR.ships[k].fraction === search && SECTOR.ships[k].active === true) return SECTOR.ships[k];
 				}
 			}
 		}
@@ -132,57 +147,17 @@ class Ship {
 		}
 		else this.dec();
 	}
-	
-	
-	spawn(inSector, atX, atY, atAngle, ctrl, relationShip, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		if (inSector === undefined) inSector = SECTOR;
-		var neuerSpawn = this.clone();
-		neuerSpawn.x = atX;
-		neuerSpawn.y = atY;
-		neuerSpawn.angle = atAngle;
-		neuerSpawn.ctrl = ctrl;
-		neuerSpawn.relationShipID = relationShip;
-		neuerSpawn.abgang = abgang;
-		neuerSpawn.ID = inSector.ships.length;
-		inSector.ships.push(neuerSpawn);
-	}
 }
 
-
-function displayShips(){
-	for (i = 0; i < SECTOR.ships.length; i++){
-		SHIP = SECTOR.ships[i];
-		if (SHIP === "explosion") Game.ctx.drawImage(image.explosion, SHIP.x - frame.x, SHIP.y - frame.y, SHIP.skin.naturalWidth, SHIP.skin.naturalWidth);
-		if (SHIP.active === true){
-			Game.ctx.translate(SHIP.x - frame.x, SHIP.y - frame.y); // Drehung
-			Game.ctx.rotate(SHIP.angle * Math.PI / 180);
-			Game.ctx.translate(-(SHIP.x - frame.x), -(SHIP.y - frame.y));
-			Game.ctx.drawImage(SHIP.skin, SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - frame.y - SHIP.skin.naturalHeight/2); // Display
-			Game.ctx.translate(SHIP.x - frame.x, SHIP.y -frame.y); // Rückdrehung
-			Game.ctx.rotate(-SHIP.angle * Math.PI / 180);
-			Game.ctx.translate(-(SHIP.x - frame.x), -(SHIP.y - frame.y));
-			if (SHIP.ctrl !== player1){
-				Game.ctx.strokeStyle = "red";  //infotafel
-				Game.ctx.fillStyle = "green";
-				Game.ctx.strokeRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
-				Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / [SHIP.fraction + " " + SHIP.designation].hp), 6);
-				Game.ctx.fillStyle = "blue";
-				Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / [SHIP.fraction + " " + SHIP.designation].shield), 6);
-				Game.ctx.strokeStyle = "yellow";
-				Game.ctx.fillStyle = "yellow";
-			}
-		}
-	}
-}
 	
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
-	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, acc : 0.1, wp1 : machinegun_5nm});
-	humanian_shuttle = new Ship({designation : "humanian shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, acc : 0.1, wp1 : machinegun_5nm});
-	humanian_protobaseship_helonia = new Ship({designation : "humanian protobaseship helonia", fraction : "humanian", hp : 8000, shield : 0, armour : 5, acc : 0.03, wp1 : kolexialgun_14nm});
-	humanian_satalite = new Ship({designation : "humanian satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, acc : 0, wp1 : "none"});
-	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, acc : 0.02, wp1 : machinegun_5nm});
-	republic_base = new Ship({designation : "republic_base", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
-	qubanic_colonizer = new Ship({designation : "qubanic colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, acc : 0.003});
-	ophianian_annectorstar = new Ship({designation : "ophianian annector-star", fraction : "ophianian", hp : 16666, shield : 0, armour : 2, acc : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
-	ophianian_chunk = new Ship({designation : "ophianian chunk", fraction : "ophianian", hp : 200, armour : 1, acc : 0.07});
+	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.1, wp1 : machinegun_5nm});
+	humanian_shuttle = new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : machinegun_5nm});
+	humanian_protobaseship_helonia = new Ship({designation : "protobaseship helonia", fraction : "humanian", hp : 8000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
+	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0, wp1 : "none"});
+	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
+	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
+	qubanic_colonizer = new Ship({designation : "colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, a : 0.003});
+	ophianian_annectorstar = new Ship({designation : "annector-star", fraction : "ophianian", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
+	ophianian_chunk = new Ship({designation : "chunk", fraction : "ophianian", hp : 200, armour : 1, a : 0.07});
 }

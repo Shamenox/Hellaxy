@@ -35,28 +35,70 @@
 	}
 	
 	
-	display(){
+	displayShips(){
+		for (var i = 0; i < this.ships.length; i++){
+			SHIP = this.ships[i];
+			if (SHIP === "explosion") Game.ctx.drawImage(image.explosion, SHIP.x - frame.x, SHIP.y - frame.y, SHIP.skin.naturalWidth, SHIP.skin.naturalWidth);
+			if (SHIP.active === true){
+				Game.ctx.translate(SHIP.x - frame.x, SHIP.y - frame.y); // Drehung
+				Game.ctx.rotate(SHIP.angle * Math.PI / 180);
+				Game.ctx.translate(-(SHIP.x - frame.x), -(SHIP.y - frame.y));
+				Game.ctx.drawImage(SHIP.skin, SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - frame.y - SHIP.skin.naturalHeight/2); // Display
+				Game.ctx.translate(SHIP.x - frame.x, SHIP.y -frame.y); // Rückdrehung
+				Game.ctx.rotate(-SHIP.angle * Math.PI / 180);
+				Game.ctx.translate(-(SHIP.x - frame.x), -(SHIP.y - frame.y));
+				if (SHIP.ctrl !== player1){
+					Game.ctx.strokeStyle = "red";  //infotafel
+					Game.ctx.fillStyle = "green";
+					Game.ctx.strokeRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
+					Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / [SHIP.fraction + " " + SHIP.designation].hp), 6);
+					Game.ctx.fillStyle = "blue";
+					Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / [SHIP.fraction + " " + SHIP.designation].shield), 6);
+					Game.ctx.strokeStyle = "yellow";
+					Game.ctx.fillStyle = "yellow";
+				}
+			}
+		}
+	}
+	
+	
+	displayBg(){
 		for (var posY = 0; posY < this.height; posY += 100){
 			for (var posX = 0; posX < this.width; posX += 100){
 				Game.ctx.drawImage(this.bg, posX - frame.x, posY - frame.y);
 			}
 		}
-		
-		for (var i = 0; i < this.planets.length; i++){
-			Game.ctx.drawImage(this.planets[i].skin, this.planets[i].x - frame.x -this.planets[i].skin.naturalWidth/2, this.planets[i].y - frame.y - this.planets[i].skin.naturalHeight/2);
-		}
-		
+	}
+	
+	
+	displayPortals(){
 		for (var h = 0; h < this.portals.length; h++){
-			for (i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
-				for (j = this.portals[h].y; j < this.y + this.height; j += 100){
+			for (var i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
+				for (var j = this.portals[h].y; j < this.y + this.height; j += 100){
 				 Game.ctx.drawImage(this.dest.bg, i - frame.x, j - frame.y);
 				}
 			}
 		}
+	}
+	
+	
+	displayPlanets(){
+		for (var i = 0; i < this.planets.length; i++){
+			Game.ctx.drawImage(this.planets[i].skin, this.planets[i].x - frame.x -this.planets[i].skin.naturalWidth/2, this.planets[i].y - frame.y - this.planets[i].skin.naturalHeight/2);
+		}
+	}
+	
+	
+	act(){
+		this.displayBg();
+		this.displayPlanets();
+		this.displayPortals();
+		this.displayShips();
 		if (this.events !== undefined) this.events();
 		if (this.theme !== "none") this.theme.play();
 	}
 }
+
 
 
 
@@ -82,7 +124,7 @@ function setupSectors () {
 
 	menue = new Sector(1080, 1920, "blackscreen", "theme1");
 	menue.events = function() {
-		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){SECTOR = testmap;})
+		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){SECTOR = testmap; CAMPAIGN = system})
 		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){SECTOR = campaign;})
 		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){SECTOR = freeroam;})
 		button(400, 550, 480, 100, "Controls", "yellow", function(){SECTOR = "controls";})
@@ -93,9 +135,9 @@ function setupSectors () {
 		Game.ctx.fillText("Campaign Mode", 540, 50);
 		Game.ctx.fillText("Select your campaign:", 490, 80);
 		Game.ctx.fillText("Humanian:   Lvl " + humanian.at, 200, 150);
-		if (campaign.humanian.levels[campaign.humanian.at] !== undefined) {button(500, 115, 130, 50, "Continue", "yellow", function(){CAMPAIGN = "humanian"});} else {Game.ctx.fillText("Complete!", 500, 150);}
-		button(700, 115, 130, 50, "New", "yellow", function(){humanian.at = 0; CAMPAIGN = "humanian";});
-		button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = "menue";})
+		if (humanian.levels[humanian.at] !== undefined) {button(500, 115, 130, 50, "Continue", "yellow", function(){CAMPAIGN = humanian});} else {Game.ctx.fillText("Complete!", 500, 150);}
+		button(700, 115, 130, 50, "New", "yellow", function(){humanian.at = 0; CAMPAIGN = humanian;});
+		button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;})
 	}
 
 	freeroam = new Sector(1080, 1920, "blackscreen", "theme1");
@@ -134,11 +176,6 @@ function setupSectors () {
 
 	testmap = new Sector(2200, 2200, "testmap");
 	testmap.addPlanet("testmoon", 900, 400);
-	humanian_protobaseship_helonia.spawn(testmap, 200, 250, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-	humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
-	humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
-	testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
-	fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
 
 	central_sector = new Sector(4500, 3700, "central", "theme1");
 	omar_sector = new Sector(4500, 4700, "omar", "theme1");

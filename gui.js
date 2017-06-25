@@ -1,4 +1,5 @@
 function GUI() {
+	/*
 	if (SECTOR.ships[player1Pos] !== undefined){
 		Game.ctx.fillStyle = "grey";
 		Game.ctx.fillRect(0,600,1280,120);
@@ -79,7 +80,7 @@ function GUI() {
 			Game.ctx.fillText("Alpha-Damage: " + sector[sector.at].ships[0].heavyWp.alpha, 700, 475);
 			Game.ctx.fillText("Penetration: " + sector[sector.at].ships[0].heavyWp.pen, 700, 500);
 		}
-	}
+	} */
 	if (intervalReact(key.esc && pausedScreen)) pausedScreen = false, stop = false;
 	if (intervalReact(key.esc && !pausedScreen && !stop)) pausedScreen = true, stop = true;
 	if (pausedScreen) {
@@ -88,7 +89,7 @@ function GUI() {
 		Game.ctx.strokeText("- Game Paused -", 100, 180);
 		Game.ctx.font = "24px Consolas";
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){pausedScreen = false; stop = false;});
-		button(400, 500, 480, 50, "Return to menue", "yellow", function(){pausedScreen = false; stop = false; endLevel(true);});
+		button(400, 500, 480, 50, "Return to menue", "yellow", function(){pausedScreen = false; stop = false; LEVEL.endLevel(true);});
 		Game.ctx.lineWidth = 1;
 	}
 }

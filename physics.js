@@ -18,7 +18,7 @@ function physik() {
 			for (h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
 				if (SHIP.collidesWith(SECTOR.ships[h]) && SECTOR.ships[h].active === true && h !== i) collide(SECTOR.ships[i], SECTOR.ships[h]);
 			}
-			for (h = 0; h < sector[sector.at].portals.length; h++){
+			for (h = 0; h < SECTOR.portals.length; h++){
 				if (SHIP.collidesWith(SECTOR.portals[h])){
 					SECTOR.portals[h].dest.ships.push(SHIP);
 					SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].x = SECTOR.portals[h].atX;

@@ -51,25 +51,10 @@ function draw() {
 		CAMPAIGN.check();
 		physik();
 	}
-	SECTOR.display();
+	SECTOR.act();
 	displayProjectiles();
-	displayShips();
 	GUI();
 	displayMsgs();
-	displayCursor();
+	cursor.display();
 	requestAnimationFrame(draw);
-}
-
-function displayCursor(){
-	if (LEVEL.target !== "none" && LEVEL.target !== undefined && click){ 
-		if (cursor.x <= LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 90);
-		if (cursor.x > LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 270);
-		Game.ctx.translate(cursor.x, cursor.y); // Drehung
-		Game.ctx.rotate(cursor.angle * Math.PI / 180);
-		Game.ctx.translate(-(cursor.x), -(cursor.y));
-		Game.ctx.drawImage(image.testarrow, cursor.x, cursor.y); // Display
-		Game.ctx.translate(cursor.x, cursor.y); // Rückdrehung
-		Game.ctx.rotate(-cursor.angle * Math.PI / 180);
-		Game.ctx.translate(-(cursor.x), -(cursor.y));
-	} else {Game.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);}
 }
