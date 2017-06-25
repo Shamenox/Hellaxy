@@ -1,7 +1,7 @@
 class Special {
 	constructor(reload, ammo, action, exe){
 		this.reload = reload;
-		this.ammo =ammo;
+		this.ammo = ammo;
 		this.action = action;
 		if (exe === undefined) this.exe = function(){
 			if (intervalReact(this.ammo > 0, this.reload, "special" + SHIP.ID)){
@@ -13,7 +13,7 @@ class Special {
 	}
 	
 	clone(){
-		var clone = {};
+		var clone = new Special();
 		for (var property in this){
 			clone.property = this.property
 		}

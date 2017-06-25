@@ -6,6 +6,7 @@ var SHIP = {}; //Momentan handelndes Schiff
 var LEVEL = {}; //Momentan aktives Level
 var CAMPAIGN = { check : function(){}, theme : "none"};
 var player1Pos; //Momentane Schiff-ID des durch den Spieler1 gesteurten Schiffes
+var playerShip;
 var target = "none"; //Missionszielobjekt
 var infoScreen = false;
 var pausedScreen = false;

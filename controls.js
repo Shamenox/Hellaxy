@@ -1,5 +1,6 @@
 ﻿function player1(){
 	player1Pos = i;
+	playerShip = SECTOR.ships[i];
 	frame.x = SHIP.x - 640;
 	frame.y = SHIP.y - 360;
 	frame.adjust();
@@ -25,14 +26,14 @@ function setupNpcs(){
 		this.acc();
 		if (intervalReact(this.x < 150 || this.x > SECTOR.width - 150 || this.y < 150 || this.y > SECTOR.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		if (this.nextShip("anythingElse", 400) !== false){
-			if (this.hp >= ship[this.designation].hp / 2){
+			if (this.hp >= SHIP.mass / 2){
 				this.pointAt(this.nextShip("anythingElse", 400));
 				if (this.pointsAt(this.nextShip("anythingElse", 400))) {
 					this.fireSmall()
 					if (this.special1 !== undefined) this.special1.exe();
 				}
 			}
-			if (this.hp < ship[this.designation].hp / 2){
+			if (this.hp < SHIP.mass / 2){
 				this.pointFrom(this.nextShip("anythingElse", 400));
 			}
 		}

@@ -34,7 +34,7 @@ function physik() {
 			projectile[i].y -= Math.cos(projectile[i].angle * Math.PI / 180) * projectile[i].v;
 			projectile[i].x += Math.cos((projectile[i].angle - 90) * Math.PI / 180) * projectile[i].v;
 			if (projectile[i].x < 0 || projectile[i].y < 0 || projectile[i].x > SECTOR.width || projectile[i].y > SECTOR.height) projectile[i].active = false;
-			for (h = 0; h < sector[sector.at].ships.length; h++){ //Prozess bei Treffer
+			for (h = 0; h < SECTOR.ships.length; h++){ //Prozess bei Treffer
 				if (projectile[i].hits(SECTOR.ships[h]) && SECTOR.ships[h].active === true) {
 					if (projectile[i].pen >= SECTOR.ships[h].armour){
 						projectile[i].v = 0;
@@ -45,7 +45,7 @@ function physik() {
 						projectile[i].sound("pen");
 						projectile[i].active = false;
 					}
-					if (projectile[i].pen < sector[sector.at].ships[h].armour){
+					if (projectile[i].pen < SECTOR.ships[h].armour){
 						for (j = 180; j > 0; j--){
 							projectile[i].angle -=1;
 							if (projectile[i].angle === -1) projectile[i].angle = 359;
@@ -68,13 +68,13 @@ function collide(a, b){
 	collision.potX = a.vx + b.vx;
 	collision.potY = a.vy + b.vy;
 	collision.potDmg = Math.sqrt(Math.abs(collision.potX)*Math.abs(collision.potX) + Math.abs(collision.potX)*Math.abs(collision.potX));
-	collision.potM = ship[a.designation].hp + ship[b.designation].hp;
-	a.vx = -collision.potX * (ship[b.designation].hp / collision.potM);
-	a.vy = -collision.potY * (ship[b.designation].hp / collision.potM);
-	b.vx = collision.potX * (ship[a.designation].hp / collision.potM);
-	b.vy = collision.potY * (ship[a.designation].hp / collision.potM);
-	a.hp -= collision.potDmg * (ship[b.designation].hp / collision.potM) * 5;
-	b.hp -= collision.potDmg * (ship[a.designation].hp / collision.potM) * 5;
+	collision.potM = a.mass + b.mass;
+	a.vx = -collision.potX * (b.mass / collision.potM);
+	a.vy = -collision.potY * (b.mass / collision.potM);
+	b.vx = collision.potX * (a.mass / collision.potM);
+	b.vy = collision.potY * (a.mass / collision.potM);
+	a.hp -= collision.potDmg * (b.mass.hp / collision.potM) * 5;
+	b.hp -= collision.potDmg * (a.mass / collision.potM) * 5;
 	a.hp = Math.round(a.hp);
 	b.hp = Math.round(b.hp);
 }

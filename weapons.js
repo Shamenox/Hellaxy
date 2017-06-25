@@ -15,13 +15,12 @@ class Weapon {
 		for (var property in this){
 			clone.property = this.property
 		}
-		console.log(clone);
 		return clone;
 	}
 	
 	
 	spawnProjectile(){
-		neuesProjektil = {};
+		var neuesProjektil = {};
 		neuesProjektil.active = true;
 		neuesProjektil.skin = this.skin;
 		neuesProjektil.pen = this.pen;
@@ -32,13 +31,13 @@ class Weapon {
 		neuesProjektil.v = this.pen * 10;
 		neuesProjektil.hits = function (obj) {
 			if (this.emitter.fraction === obj.fraction) return false; //Prüfen ob Ziel das eigene Schiff ist
-			if (this.x.between(obj.x - this.texture.naturalWidth/2 - obj.skin.naturalWidth/2, obj.x + this.texture.naturalWidth/2 + obj.skin.naturalWidth/2)){
-				if (this.y.between(obj.y - this.texture.naturalHeight/2 - obj.skin.naturalHeight/2, obj.y + this.texture.naturalHeight/2 + obj.skin.naturalHeight/2)) return true;
+			if (this.x.between(obj.x - this.skin.naturalWidth/2 - obj.skin.naturalWidth/2, obj.x + this.skin.naturalWidth/2 + obj.skin.naturalWidth/2)){
+				if (this.y.between(obj.y - this.skin.naturalHeight/2 - obj.skin.naturalHeight/2, obj.y + this.skin.naturalHeight/2 + obj.skin.naturalHeight/2)) return true;
 			}
 			return false;
 		}
 		neuesProjektil.sound = function(of){ 
-			var mass = this.texture.naturalHeight * this.texture.naturalWidth;
+			var mass = this.skin.naturalHeight * this.skin.naturalWidth;
 			if (of === "fire"){
 				if (mass <= 644) audio.shot_1.play();
 			}
@@ -58,7 +57,7 @@ class Weapon {
 	fire(){
 		if (intervalReact(this.ammo > 0, this.reload, this.designation + SHIP.ID)){
 			this.ammo --;
-			spawnProjectile();
+			this.spawnProjectile();
 		} 
 	}
 }
@@ -69,7 +68,7 @@ function displayProjectiles(){
 			Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
 			Game.ctx.rotate(projectile[i].angle * Math.PI / 180);
 			Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
-			Game.ctx.drawImage(projectile[i].texture, projectile[i].x - frame.x - projectile[i].texture.naturalWidth/2, projectile[i].y - frame.y - projectile[i].texture.naturalHeight/2); // Display
+			Game.ctx.drawImage(projectile[i].skin, projectile[i].x - frame.x - projectile[i].skin.naturalWidth/2, projectile[i].y - frame.y - projectile[i].skin.naturalHeight/2); // Display
 			Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Rückdrehung
 			Game.ctx.rotate(-projectile[i].angle * Math.PI / 180);
 			Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));

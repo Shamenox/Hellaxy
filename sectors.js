@@ -51,9 +51,9 @@
 					Game.ctx.strokeStyle = "red";  //infotafel
 					Game.ctx.fillStyle = "green";
 					Game.ctx.strokeRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
-					Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / [SHIP.fraction + " " + SHIP.designation].hp), 6);
+					Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / SHIP.mass), 6);
 					Game.ctx.fillStyle = "blue";
-					Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / [SHIP.fraction + " " + SHIP.designation].shield), 6);
+					Game.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / SHIP.maxshield), 6);
 					Game.ctx.strokeStyle = "yellow";
 					Game.ctx.fillStyle = "yellow";
 				}

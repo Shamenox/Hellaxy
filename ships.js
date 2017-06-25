@@ -14,6 +14,8 @@ class Ship {
 		for (var property in specs){
 			this[property] = specs[property];
 		}
+		this.mass = this.hp;
+		this.maxshield = this.shield;
 		this.skin = image[this.fraction + " " + this.designation];
 	}
 	
