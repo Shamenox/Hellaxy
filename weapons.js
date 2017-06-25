@@ -7,20 +7,15 @@ class Weapon {
 		this.pen = pen;
 		this.reload = reload;
 		this.ammo = ammo;
-		this.fire = function(){
-			if (intervalReact(this.ammo > 0, this.reload, this.designation + SHIP.ID)){
-				this.ammo --;
-				spawnProjectile(this);
-			} 
-		}
 	}
 	
 	
 	clone(){
-		var clone = {};
+		var clone = new Weapon();
 		for (var property in this){
 			clone.property = this.property
 		}
+		console.log(clone);
 		return clone;
 	}
 	
@@ -57,6 +52,14 @@ class Weapon {
 		neuesProjektil.emitter = SHIP;
 		neuesProjektil.sound("fire");
 		projectile.push(neuesProjektil);
+	}
+	
+	
+	fire(){
+		if (intervalReact(this.ammo > 0, this.reload, this.designation + SHIP.ID)){
+			this.ammo --;
+			spawnProjectile();
+		} 
 	}
 }
 

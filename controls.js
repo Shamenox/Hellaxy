@@ -1,5 +1,4 @@
 ﻿function player1(){
-	console.log(this);
 	player1Pos = i;
 	frame.x = SHIP.x - 640;
 	frame.y = SHIP.y - 360;
@@ -23,7 +22,6 @@
 var npc = new Ship();
 function setupNpcs(){
 	npc.simpleRoamer = function(){
-		console.log(this);
 		this.acc();
 		if (intervalReact(this.x < 150 || this.x > SECTOR.width - 150 || this.y < 150 || this.y > SECTOR.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		if (this.nextShip("anythingElse", 400) !== false){

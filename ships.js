@@ -35,7 +35,6 @@ class Ship {
 	clone(){
 		var clone = new Ship();
 		for (var property in this){
-			console.log(property);
 			clone[property] = this[property];
 		}
 		return clone;
