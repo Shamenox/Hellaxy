@@ -21,7 +21,6 @@ class Weapon {
 	
 	spawnProjectile(){
 		var neuesProjektil = {};
-		neuesProjektil.active = true;
 		neuesProjektil.skin = this.skin;
 		neuesProjektil.pen = this.pen;
 		neuesProjektil.alpha = this.alpha;
@@ -50,6 +49,39 @@ class Weapon {
 		}
 		neuesProjektil.emitter = SHIP;
 		neuesProjektil.sound("fire");
+		neuesProjektil.act = function(){
+			if (this.x < 0 || this.y < 0 || this.x > SECTOR.width || this.y > SECTOR.height){
+				projectile.splice(this.ID,1);
+				return;
+			}
+			for (h = 0; h < SECTOR.ships.length; h++){ //Prozess bei Treffer
+				if (this.hits(SECTOR.ships[h])) {
+					if (this.pen >= SECTOR.ships[h].armour){
+						this.v = 0;
+						if (SECTOR.ships[h].shield <= 0) SECTOR.ships[h].hp -= this.alpha;
+						if (SECTOR.ships[h].shield > 1) SECTOR.ships[h].shield -= this.alpha;
+						if (SECTOR.ships[h].maxShield > 0 && SECTOR.ships[h].maxShield < 1) SECTOR.ships[h].hp -= this.alpha * SECTOR.ships[h].shield;
+						this.sound("pen");
+						projectile.splice(i,1);
+						return;
+					}
+					if (this.pen < SECTOR.ships[h].armour){
+						for (j = 180; j > 0; j--){
+							this.angle -=1;
+							if (this.angle === -1) this.angle = 359;
+						}
+						this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
+						this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
+						this.sound("bounce");
+						if (this.hits(SECTOR.ships[h])){
+							projectile.splice(i,1);
+							return;
+						}
+					}
+				}
+			}
+		}
+		neuesProjektil.ID = projectile.length;
 		projectile.push(neuesProjektil);
 	}
 	
@@ -64,15 +96,13 @@ class Weapon {
 
 function displayProjectiles(){
 	for (i = 0; i < projectile.length; i++){
-		if (projectile[i].active){
-			Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
-			Game.ctx.rotate(projectile[i].angle * Math.PI / 180);
-			Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
-			Game.ctx.drawImage(projectile[i].skin, projectile[i].x - frame.x - projectile[i].skin.naturalWidth/2, projectile[i].y - frame.y - projectile[i].skin.naturalHeight/2); // Display
-			Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Rückdrehung
-			Game.ctx.rotate(-projectile[i].angle * Math.PI / 180);
-			Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
-		}
+		Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
+		Game.ctx.rotate(projectile[i].angle * Math.PI / 180);
+		Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
+		Game.ctx.drawImage(projectile[i].skin, projectile[i].x - frame.x - projectile[i].skin.naturalWidth/2, projectile[i].y - frame.y - projectile[i].skin.naturalHeight/2); // Display
+		Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Rückdrehung
+		Game.ctx.rotate(-projectile[i].angle * Math.PI / 180);
+		Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
 	}
 }
 

@@ -35,13 +35,20 @@ class Level {
 	}
 	
 	
-	end(reset){
+	end(){
 		projectile.splice(0, projectile.length);
 		this.target = "none";
-		if (reset !== true) CAMPAIGN.at += 1;
-		CAMPAIGN.at = "none";
-		if (reset !== true) {SECTOR = campaign;} else {SECTOR = menue;}
-		CAMPAIGN = "none";
+		CAMPAIGN.at += 1;
+		CAMPAIGN = { check : function(){}, theme : "none"};
+		SECTOR = campaign;
+	}
+	
+	
+	cancel(){
+		projectile.splice(0, projectile.length);
+		this.target = "none";
+		CAMPAIGN = { check : function(){}, theme : "none"};
+		SECTOR = menue;
 	}
 }
 
@@ -52,13 +59,13 @@ function setupLevels(){
 		SECTOR = central_sector;
 		central_sector.addPlanet("humania", 1000, 1000);
 		central_sector.addPlanet("pontes", 1420, 2550);															//designation, inSector, x, y
-		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); endLevel();}); 			//inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.end();}); 			//inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
-		qubanic_colonizer.spawn(central_sector, 400, 400, 135, function(){this.follow(sector.Central_Sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
+		qubanic_colonizer.spawn(central_sector, 400, 400, 135, function(){this.follow(central_sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
 		addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");

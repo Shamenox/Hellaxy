@@ -9,6 +9,7 @@ class Ship {
 		this.shield = 0;
 		this.armour = 1;
 		this.aim = 0;
+		this.ID = null;
 		this.ctrl = "none";
 		this.active = true;
 		for (var property in specs){
@@ -77,10 +78,10 @@ class Ship {
 	
 	
 	explode(){
-		this.active = "explosion";
+		this.skin = image.explosion;
 		audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
-		setTimeout(function(){this.active = false;}, 2000);
+		setTimeout(function(){SECTOR.ships.splice(this.ID, 1)}, 2000);
 	}
 	
 	

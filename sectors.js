@@ -127,7 +127,7 @@ function setupSectors () {
 		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){SECTOR = testmap; CAMPAIGN = system})
 		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){SECTOR = campaign;})
 		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){SECTOR = freeroam;})
-		button(400, 550, 480, 100, "Controls", "yellow", function(){SECTOR = "controls";})
+		button(400, 550, 480, 100, "Controls", "yellow", function(){SECTOR = controls;})
 	}
 
 	campaign = new Sector(1080, 1920, "blackscreen", "theme1");
@@ -156,7 +156,7 @@ function setupSectors () {
 			hor++;
 			if (hor > 8) hor = 1, ver++;
 		} */
-		button(400, 650, 480, 50, "Back", "yellow", function(){sector.at = "menue";})
+		button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;})
 	}
 
 	controls = new Sector(1080, 1920, "blackscreen", "theme1");

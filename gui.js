@@ -1,5 +1,5 @@
 function GUI() {
-	if (playerShip !== undefined){
+	if (SECTOR.ships[player1Pos] !== undefined){
 		Game.ctx.fillStyle = "grey";
 		Game.ctx.fillRect(0,600,1280,120);
 		Game.ctx.fillStyle = "white";
@@ -8,7 +8,7 @@ function GUI() {
 		Game.ctx.lineWidth = 10;
 		Game.ctx.strokeRect(9,609,1262,102);
 		Game.ctx.strokeRect(9,609,102,102);
-		Game.ctx.drawImage(SECTOR.ships[player1Pos].skin, 14, 614, 92, 92);
+		Game.ctx.drawImage(playerShip.skin, 14, 614, 92, 92);
 		Game.ctx.fillStyle = "black";
 		if (playerShip.maxshield !== 0) Game.ctx.fillText("Shield:", 120, 645);
 		Game.ctx.fillText("Structure:", 120, 685);
@@ -88,7 +88,7 @@ function GUI() {
 		Game.ctx.strokeText("- Game Paused -", 100, 180);
 		Game.ctx.font = "24px Consolas";
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){pausedScreen = false; stop = false;});
-		button(400, 500, 480, 50, "Return to menue", "yellow", function(){pausedScreen = false; stop = false; LEVEL.endLevel(true);});
+		button(400, 500, 480, 50, "Return to menue", "yellow", function(){pausedScreen = false; stop = false; LEVEL.cancel();});
 		Game.ctx.lineWidth = 1;
 	}
 }
