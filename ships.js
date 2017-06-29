@@ -1,3 +1,5 @@
+var Ships = [];
+
 class Ship {
 	constructor(specs){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 		this.x = 0;
@@ -18,6 +20,7 @@ class Ship {
 		this.mass = this.hp;
 		this.maxshield = this.shield;
 		this.skin = image[this.fraction + " " + this.designation];
+		Ships.push(this);
 	}
 	
 	
@@ -160,6 +163,8 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
 	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	qubanic_colonizer = new Ship({designation : "colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, a : 0.003});
-	ophianian_annectorstar = new Ship({designation : "annector-star", fraction : "ophianian", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
-	ophianian_chunk = new Ship({designation : "chunk", fraction : "ophianian", hp : 200, armour : 1, a : 0.07});
+	ophianic_annectorstar = new Ship({designation : "annector-star", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
+	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 200, armour : 1, a : 0.07});
+	
+	console.log(Ships);
 }

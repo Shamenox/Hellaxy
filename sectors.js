@@ -124,7 +124,7 @@ function setupSectors () {
 
 	menue = new Sector(1080, 1920, "blackscreen", "theme1");
 	menue.events = function() {
-		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){SECTOR = testmap; CAMPAIGN = system})
+		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){system.at = 0, CAMPAIGN = system})
 		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){SECTOR = campaign;})
 		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){SECTOR = freeroam;})
 		button(400, 550, 480, 100, "Controls", "yellow", function(){SECTOR = controls;})
@@ -146,16 +146,17 @@ function setupSectors () {
 		var ver = 1;
 		Game.ctx.fillText("Freeroam Mode", 540, 50);
 		Game.ctx.fillText("Select your ship:", 490, 80);
-		/* for (var dec in ship){
-			Game.ctx.drawImage(ship[dec].skin, hor*130, ver*130, 128, 128);
+		for (var i = 1; i < Ships.length; i++){
+			Game.ctx.drawImage(Ships[i].skin, hor*130, ver*130, 128, 128);
 			if (click && cursor.x.between(hor*130, hor*150 + 128) && cursor.y.between(ver*130, ver*130 + 128)){
-				sector.at = "Central_Sector";
-				spawnShip(ship[dec].designation, 100, 100, 180, player1, 0, function(){endLevel(true);});
+				system.at = 1;
+				CAMPAIGN = system;
+				Ships[i].spawn(central_sector, 100, 100, 180, player1, 0, function(){endLevel(true);});
 				return;
 			}
 			hor++;
 			if (hor > 8) hor = 1, ver++;
-		} */
+		}
 		button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;})
 	}
 

@@ -186,10 +186,15 @@ function setupLevels(){
 	); */
 	system = new Campaign();
 	system.addLevel(function(){
+		SECTOR = testmap;
 		humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 		humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
 		humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
 		testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
 		fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
+	},{no : false});
+	
+	system.addLevel(function(){
+		SECTOR = central_sector;
 	},{no : false});
 }
