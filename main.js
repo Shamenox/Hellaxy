@@ -31,6 +31,7 @@ window.onload = function() {
 	Game.ctx.strokeStyle = "yellow";
 	Game.ctx.fillStyle = "yellow";
 
+
 	setupInput();
 	loadImages();
 	loadAudio();

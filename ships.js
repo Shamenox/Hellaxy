@@ -20,7 +20,9 @@ class Ship {
 		this.mass = this.hp;
 		this.maxshield = this.shield;
 		this.skin = image[this.fraction + " " + this.designation];
+		console.log(Ships);
 		Ships.push(this);
+		console.log(Ships);
 	}
 	
 	
