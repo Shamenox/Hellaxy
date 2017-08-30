@@ -17,9 +17,9 @@
 		for (var cond in LEVEL.conditions){
 			if (LEVEL.conditions[cond] === false) return; 
 		}
-		Game.ctx.fillStyle = "yellow";
-		Game.ctx.fillText("Mission completed!!!", 450, 200);
-		Game.ctx.fillText("Press Space to continue", 450, 250);
+		Helon.ctx.fillStyle = "yellow";
+		Helon.ctx.fillText("Mission completed!!!", 450, 200);
+		Helon.ctx.fillText("Press Space to continue", 450, 250);
 		if (key.space) LEVEL.end();
 	}
 }

@@ -16,7 +16,7 @@ return input;
 
 function button(posx, posy, width, height, tag, colour, action){
 	var textY = parseInt(Game.ctx.font.split('p')[0]) + posy + 0.4*((height - 2*Game.ctx.lineWidth) - parseInt(Game.ctx.font.split('p')[0]));
-	Game.ctx.fillStyle = colour;
+	Helon.ctx.fillStyle = colour;
 	Game.ctx.fillRect(posx + Game.ctx.lineWidth, posy + Game.ctx.lineWidth, width - Game.ctx.lineWidth*2, height - Game.ctx.lineWidth*2);
 	Game.ctx.fillStyle = "black";
 	Game.ctx.strokeRect(posx , posy, width, height);

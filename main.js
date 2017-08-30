@@ -1,6 +1,6 @@
 ﻿// Setup
 
-var Game = {};
+var Helon = {};
 var SECTOR = {};
 var SHIP = {}; //Momentan handelndes Schiff
 var LEVEL = {}; //Momentan aktives Level
@@ -26,10 +26,10 @@ frame.adjust = function(){
 // Canvas-Initialisierung
 window.onload = function() {
 	var canvas = document.getElementById("Canvas");
-	Game.ctx = canvas.getContext("2d");
-	Game.ctx.font = "24px Consolas";
-	Game.ctx.strokeStyle = "yellow";
-	Game.ctx.fillStyle = "yellow";
+	Helon.ctx = canvas.getContext("2d");
+	Helon.ctx.font = "24px Consolas";
+	Helon.ctx.strokeStyle = "yellow";
+	Helon.ctx.fillStyle = "yellow";
 
 
 	setupInput();

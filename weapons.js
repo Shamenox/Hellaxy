@@ -96,13 +96,13 @@ class Weapon {
 
 function displayProjectiles(){
 	for (i = 0; i < projectile.length; i++){
-		Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
-		Game.ctx.rotate(projectile[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
-		Game.ctx.drawImage(projectile[i].skin, projectile[i].x - frame.x - projectile[i].skin.naturalWidth/2, projectile[i].y - frame.y - projectile[i].skin.naturalHeight/2); // Display
-		Game.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Rückdrehung
-		Game.ctx.rotate(-projectile[i].angle * Math.PI / 180);
-		Game.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
+		Helon.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
+		Helon.ctx.rotate(projectile[i].angle * Math.PI / 180);
+		Helon.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
+		Helon.ctx.drawImage(projectile[i].skin, projectile[i].x - frame.x - projectile[i].skin.naturalWidth/2, projectile[i].y - frame.y - projectile[i].skin.naturalHeight/2); // Display
+		Helon.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Rückdrehung
+		Helon.ctx.rotate(-projectile[i].angle * Math.PI / 180);
+		Helon.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
 	}
 }
 
