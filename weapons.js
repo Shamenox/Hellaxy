@@ -48,8 +48,12 @@ class Weapon {
 			}
 		}
 		neuesProjektil.emitter = SHIP;
+		
 		neuesProjektil.sound("fire");
+		
 		neuesProjektil.act = function(){
+			this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
+			this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 			if (this.x < 0 || this.y < 0 || this.x > SECTOR.width || this.y > SECTOR.height){
 				projectile.splice(this.ID,1);
 				return;
@@ -96,6 +100,7 @@ class Weapon {
 
 function displayProjectiles(){
 	for (i = 0; i < projectile.length; i++){
+		projectile[i].act();
 		Helon.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
 		Helon.ctx.rotate(projectile[i].angle * Math.PI / 180);
 		Helon.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));

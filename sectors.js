@@ -8,7 +8,6 @@
 		this.planets = [];
 		this.portals = []; 
 		if (theme !== undefined){
-			this.theme = audio[theme];
 			this.theme = audio[ID];
 		}
 		else this.theme = "none";
@@ -40,6 +39,7 @@
 	displayShips(){
 		for (var i = 0; i < this.ships.length; i++){
 			SHIP = this.ships[i];
+			SHIP.act();
 			if (SHIP === "explosion") Helon.ctx.drawImage(image.explosion, SHIP.x - frame.x, SHIP.y - frame.y, SHIP.skin.naturalWidth, SHIP.skin.naturalWidth);
 			if (SHIP.active === true){
 				Helon.ctx.translate(SHIP.x - frame.x, SHIP.y - frame.y); // Drehung
@@ -96,8 +96,10 @@
 		this.displayPlanets();
 		this.displayPortals();
 		this.displayShips();
+		displayProjectiles();
 		if (this.events !== undefined) this.events();
 		if (this.theme !== "none") this.theme.play();
+		frame.adjust();
 	}
 }
 

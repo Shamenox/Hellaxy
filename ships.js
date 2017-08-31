@@ -154,6 +154,47 @@ class Ship {
 		}
 		else this.dec();
 	}
+	
+	act(){
+		if (this.hp < 0) this.explode(); //Abfrage ob noch aktiv
+		if (this.ctrl !== "none") this.ctrl(); // Zugriff durch Spieler/KIs
+		this.y -= this.vy; //Bewegung durch Geschwindigkeit
+		this.x += this.vx;
+		if (this.vx > this.a * 100) this.vx = this.a * 80; //Geschwindigkeitsobergrenze
+		if (this.vy > this.a * 100) this.vy = this.a * 80;
+		if (this.angle > 359) this.angle = 0; //Einhalten der 360°
+		if (this.angle < 0) this.angle = 359;
+		if (this.x < this.skin.naturalWidth/2) this.x = this.skin.naturalWidth/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
+		if (this.y < this.skin.naturalHeight/2) this.y = this.skin.naturalHeight/2, this.vy = 0;
+		if (this.x > SECTOR.width - this.skin.naturalWidth/2) this.x = SECTOR.width - this.skin.naturalWidth/2 , this.vx = 0;
+		if (this.y > SECTOR.height - this.skin.naturalHeight/2 - 120) this.y = SECTOR.height - this.skin.naturalHeight/2 - 120, this.vy = 0;
+		for (h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
+			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
+		}
+		for (h = 0; h < SECTOR.portals.length; h++){
+			if (this.collidesWith(SECTOR.portals[h])){
+				SECTOR.portals[h].dest.ships.push(this);
+				SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].x = SECTOR.portals[h].atX;
+				SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].y = SECTOR.portals[h].atY;			
+			}
+		}
+	}
+}
+
+function collide(a, b){
+	var collision = {};
+	collision.potX = a.vx + b.vx;
+	collision.potY = a.vy + b.vy;
+	collision.potDmg = Math.sqrt(Math.abs(collision.potX)*Math.abs(collision.potX) + Math.abs(collision.potX)*Math.abs(collision.potX));
+	collision.potM = a.mass + b.mass;
+	a.vx = -collision.potX * (b.mass / collision.potM);
+	a.vy = -collision.potY * (b.mass / collision.potM);
+	b.vx = collision.potX * (a.mass / collision.potM);
+	b.vy = collision.potY * (a.mass / collision.potM);
+	a.hp -= collision.potDmg * (b.mass / collision.potM) * 5;
+	b.hp -= collision.potDmg * (a.mass / collision.potM) * 5;
+	a.hp = Math.round(a.hp);
+	b.hp = Math.round(b.hp);
 }
 
 	

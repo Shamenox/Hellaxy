@@ -1,6 +1,5 @@
 ﻿// Setup
 
-var Helon = {};
 var SECTOR = {};
 var SHIP = {}; //Momentan handelndes Schiff
 var LEVEL = {}; //Momentan aktives Level
@@ -22,31 +21,17 @@ frame.adjust = function(){
 	if (frame.x < 0) frame.x = 0;
 }
 
+		setupWeapons();
+		setupSpecials();
+		setupNpcs();
+		setupShips();
+		setupSectors();
+		SECTOR = loading;
+		setupLevels();
+		
+		
 
-// Canvas-Initialisierung
-window.onload = function() {
-	var canvas = document.getElementById("Canvas");
-	Helon.ctx = canvas.getContext("2d");
-	Helon.ctx.font = "24px Consolas";
-	Helon.ctx.strokeStyle = "yellow";
-	Helon.ctx.fillStyle = "yellow";
-
-
-	setupInput();
-	loadImages();
-	loadAudio();
-	setupWeapons();
-	setupSpecials();
-	setupNpcs();
-	setupShips();
-	setupSectors();
-	SECTOR = loading;
-	setupLevels();
-
-	//start drawloop
-	draw();
-};
-
+		/*
 // Tatsaechliche Abbildung
 function draw() {
 	if (!stop){
@@ -60,3 +45,4 @@ function draw() {
 	cursor.display();
 	requestAnimationFrame(draw);
 }
+*/
