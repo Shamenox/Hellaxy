@@ -1,39 +1,52 @@
-var Helon = {task : function(){}};
+var Helon = {};
+Helon.programs = {};
+Helon.ress = {};
+Helon.ress.audio = {};
+Helon.ress.images = {
+	quantity : 0,
+	loaded : 0
+};
+var SPRITE = {};
 
-Helon.exportCanvas = function(){
-	window.onload = function() {
-		var canvas = document.getElementById("Canvas");
-		Helon.ctx = canvas.getContext("2d");
-		Helon.ctx.fillRect(0, 0, 1280, 720);
-	}
+Helon.app = function(){
+	Helon.ctx.fillStyle = "black";
+	Helon.ctx.fillRect(0, 0, 1280, 720);
+	bar(Helon.ress.images);
 }
 
-Helon.setStyle(to){
-	if (to === undefined || to === "standart"){
-		Helon.ctx.font = "24px Consolas";
-		Helon.ctx.strokeStyle = "yellow";
-		Helon.ctx.fillStyle = "yellow";
-	}
-}
-
-Helon.loadData(){
-	if (setupInput !== undefined) setupInput();
-	if (loadImages !== undefined) loadImages();
-	if (loadAudio !== undefined) loadAudio();
-}
-
-Helon.setTask(to){
-	Helon.task = to;
-}
-
-Helon.loop(){
-	Helon.task();
+Helon.loop = function(){
+	Helon.app();
+	cursor.display();
 	requestAnimationFrame(Helon.loop);
 }
 
-Helon.start(){
-	Helon.exportCanvas();
-	Helon.setStyle();
-	Helon.ctx.fillText("Helon-Engine", 200, 400);
-	setTimeout(Helon.loop, 3000);
+window.onload = function(){
+	var Canvas = document.getElementById("Canvas");
+	Helon.ctx = Canvas.getContext("2d");
+	
+	Helon.ctx.fillRect(0, 0, 1280, 720);
+	Helon.ctx.fillStyle = "yellow";
+	Helon.ctx.font = "24px Consolas";
+	Helon.ctx.fillText("Running on Helon Engine", 200, 400);
+	setTimeout(Helon.loop, 2000);
+	
+	for (var a in images){
+		Helon.ress.images.quantity += 1;
+		Helon.ress.images[a] = new Image();
+		Helon.ress.images[a].src = "ress/" + images[a] + "/" + a + ".png";
+		Helon.ress.images[a].addEventListener("load",function(e){
+			Helon.ress.images.loaded +=1;
+			if (Helon.ress.images.loaded === Helon.ress.images.quantity) {
+				console.log(Helon.ress.images.quantity,Helon.ress.images.loaded);
+				SPRITE = Helon.ress.images;
+				if (typeof Appstart !== "function"){
+					alert("No executable Application found");
+				}
+				else{
+					Appstart();
+				}
+			}
+		})
+	}
+	loadAudio();
 }

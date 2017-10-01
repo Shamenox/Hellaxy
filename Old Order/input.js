@@ -14,20 +14,17 @@
 var cursor = { x : 0, y : 0, angle : 0};
 var click = false;
 cursor.display = function(){
-	if (click){ 
-		// if (cursor.x <= LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 90);
-		// if (cursor.x > LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 270);
+	if (LEVEL.target !== "none" && LEVEL.target !== undefined && click){ 
+		if (cursor.x <= LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 90);
+		if (cursor.x > LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 270);
 		Helon.ctx.translate(cursor.x, cursor.y); // Drehung
 		Helon.ctx.rotate(cursor.angle * Math.PI / 180);
 		Helon.ctx.translate(-(cursor.x), -(cursor.y));
-		Helon.ctx.drawImage(Helon.ress.images.arrow, cursor.x, cursor.y); // Display
+		Helon.ctx.drawImage(image.testarrow, cursor.x, cursor.y); // Display
 		Helon.ctx.translate(cursor.x, cursor.y); // Rückdrehung
 		Helon.ctx.rotate(-cursor.angle * Math.PI / 180);
 		Helon.ctx.translate(-(cursor.x), -(cursor.y));
-	}
-	else {
-		Helon.ctx.drawImage(Helon.ress.images.cursor, cursor.x - 16, cursor.y);
-	}
+	} else {Helon.ctx.drawImage(image.cursor, cursor.x - 16, cursor.y);}
 }
 
 addEventListener("keydown", function(w) {

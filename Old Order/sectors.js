@@ -7,7 +7,7 @@
 		this.ships = [];
 		this.planets = [];
 		this.portals = []; 
-		if (theme !== undefined){
+		if (audio[ID] !== undefined){
 			this.theme = audio[ID];
 		}
 		else this.theme = "none";

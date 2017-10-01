@@ -21,22 +21,32 @@ class Screen{
 }
 
 
+loading = new Screen("loading" , "blackscreen", "none", function(){
+	Helon.ctx.fillText("Loading... please wait", 200, 200);
+	Helon.ctx.rect(40,400,1200,100);
+	Helon.ctx.fillStyle = "yellow";
+	Helon.ctx.fillRect(50,410,1180*(image.loaded/image.quantity),80);
+	Helon.ctx.rect(50,410,1180*(image.loaded/image.quantity),80);
+	Helon.ctx.stroke();
+});
+
+
+
 title = new Screen("title", "blackscreen", audio.theme1, function(){
 	Helon.ctx.font = "144px Consolas";
 	Helon.ctx.fillText("Hellaxy", 350, 240);
 	Helon.ctx.font = "24px Consolas";
 	if (!intervalReact(true, 1000, "title")) Helon.ctx.fillText("> Press Space <", 540, 540);
-	if (key.space) Hellaxy.task = menue.display;
+	if (key.space) SECTOR = menue;
 });
 
 menue = new Screen("menue", "blackscreen", audio.theme1, function(){
-	button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){})
-	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){})
-	button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){})
-	button(400, 550, 480, 100, "Controls", "yellow", function(){})
+	button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){system.at = 0, CAMPAIGN = system})
+	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){SECTOR = campaign;})
+	button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){SECTOR = freeroam;})
+	button(400, 550, 480, 100, "Controls", "yellow", function(){SECTOR = controls;})
 });
 
-/*
 campaign = new Screen("campaign", "blackscreen", audio.theme1, function(){
 	Helon.ctx.fillText("Campaign Mode", 540, 50);
 	Helon.ctx.fillText("Select your campaign:", 490, 80);
@@ -81,7 +91,7 @@ controls = new Screen("controls", "blackscreen", audio.theme1, function(){
 
 
 
-/*
+
 function GUI() {
 	if (SECTOR.ships[player1Pos] !== undefined){
 		Helon.ctx.fillStyle = "grey";
@@ -163,7 +173,7 @@ function GUI() {
 			Game.ctx.fillText("Alpha-Damage: " + sector[sector.at].ships[0].heavyWp.alpha, 700, 475);
 			Game.ctx.fillText("Penetration: " + sector[sector.at].ships[0].heavyWp.pen, 700, 500);
 		}
-	}
+	} */
 	if (intervalReact(key.esc && pausedScreen)) pausedScreen = false, stop = false;
 	if (intervalReact(key.esc && !pausedScreen && !stop)) pausedScreen = true, stop = true;
 	if (pausedScreen) {

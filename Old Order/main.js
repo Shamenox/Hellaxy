@@ -1,4 +1,18 @@
-﻿// Setup
+﻿var frame = {
+	x: 0,
+	y: 0,
+	adjust : function(){
+		if (frame.y < 0) frame.y = 0;
+		if (frame.y > SECTOR.height - 720) frame.y = SECTOR.height - 720;
+		if (frame.x > SECTOR.width - 1280) frame.x = SECTOR.width - 1280;
+		if (frame.x < 0) frame.x = 0;
+	}
+};
+
+
+
+/*  Alte Order -->
+// Setup
 
 var SECTOR = {};
 var SHIP = {}; //Momentan handelndes Schiff
@@ -10,16 +24,6 @@ var target = "none"; //Missionszielobjekt
 var infoScreen = false;
 var pausedScreen = false;
 var stop = false;
-var frame = {
-	x: 0,
-	y: 0
-};
-frame.adjust = function(){
-	if (frame.y < 0) frame.y = 0;
-	if (frame.y > SECTOR.height - 720) frame.y = SECTOR.height - 720;
-	if (frame.x > SECTOR.width - 1280) frame.x = SECTOR.width - 1280;
-	if (frame.x < 0) frame.x = 0;
-}
 
 		setupWeapons();
 		setupSpecials();
@@ -31,7 +35,6 @@ frame.adjust = function(){
 		
 		
 
-		/*
 // Tatsaechliche Abbildung
 function draw() {
 	if (!stop){

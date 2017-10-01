@@ -1,8 +1,11 @@
-﻿Number.prototype.between = function(a, b) {
+﻿var next = [];
+
+Number.prototype.between = function(a, b) {
   var min = Math.min.apply(Math, [a, b]),
     max = Math.max.apply(Math, [a, b]);
   return this > min && this < max;
 }
+
 
 function get360(input){
 while (!input.between(0, 360)){
@@ -25,15 +28,6 @@ function button(posx, posy, width, height, tag, colour, action){
 	Game.ctx.fillStyle = "black";
 	Game.ctx.fillText(tag, posx + ((width - Game.ctx.measureText(tag).width)*0.5), textY);
 	Game.ctx.fillStyle = "yellow";
-}
-
-function bar(from){
-	Helon.ctx.fillStyle = "yellow";
-	Helon.ctx.strokeStyle = "yellow";
-	Helon.ctx.fillText("Loading... please wait", 200, 200);
-	Helon.ctx.strokeRect(40,400,1200,100);
-	Helon.ctx.fillRect(50,410,1180*(from.loaded/from.quantity),80);
-	Helon.ctx.strokeRect(50,410,1180*(from.loaded/from.quantity),80);
 }
 
 function intervalReact(trigger, delay, ID){
