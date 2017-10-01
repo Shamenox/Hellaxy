@@ -1,5 +1,4 @@
 var Helon = {};
-Helon.programs = {};
 Helon.ress = {};
 Helon.ress.audio = {};
 Helon.ress.images = {
@@ -37,7 +36,7 @@ window.onload = function(){
 		Helon.ress.images[a].addEventListener("load",function(e){
 			Helon.ress.images.loaded +=1;
 			if (Helon.ress.images.loaded === Helon.ress.images.quantity) {
-				console.log(Helon.ress.images.quantity,Helon.ress.images.loaded);
+				console.log(Helon.ress.images);
 				SPRITE = Helon.ress.images;
 				if (typeof Appstart !== "function"){
 					alert("No executable Application found");

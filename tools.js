@@ -13,18 +13,18 @@ return input;
 }
 
 function button(posx, posy, width, height, tag, colour, action){
-	var textY = parseInt(Game.ctx.font.split('p')[0]) + posy + 0.4*((height - 2*Game.ctx.lineWidth) - parseInt(Game.ctx.font.split('p')[0]));
+	var textY = parseInt(Helon.ctx.font.split('p')[0]) + posy + 0.4*((height - 2*Helon.ctx.lineWidth) - parseInt(Helon.ctx.font.split('p')[0]));
 	Helon.ctx.fillStyle = colour;
-	Game.ctx.fillRect(posx + Game.ctx.lineWidth, posy + Game.ctx.lineWidth, width - Game.ctx.lineWidth*2, height - Game.ctx.lineWidth*2);
-	Game.ctx.fillStyle = "black";
-	Game.ctx.strokeRect(posx , posy, width, height);
+	Helon.ctx.fillRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);
+	Helon.ctx.fillStyle = "black";
+	Helon.ctx.strokeRect(posx , posy, width, height);
 	if (cursor.x.between(posx, posx + width) && cursor.y.between(posy, posy + height)){
 		if (click) action();
-		Game.ctx.strokeRect(posx + Game.ctx.lineWidth, posy + Game.ctx.lineWidth, width - Game.ctx.lineWidth*2, height - Game.ctx.lineWidth*2);
+		Helon.ctx.strokeRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);
 	}
-	Game.ctx.fillStyle = "black";
-	Game.ctx.fillText(tag, posx + ((width - Game.ctx.measureText(tag).width)*0.5), textY);
-	Game.ctx.fillStyle = "yellow";
+	Helon.ctx.fillStyle = "black";
+	Helon.ctx.fillText(tag, posx + ((width - Helon.ctx.measureText(tag).width)*0.5), textY);
+	Helon.ctx.fillStyle = "yellow";
 }
 
 function bar(from){
@@ -36,15 +36,16 @@ function bar(from){
 	Helon.ctx.strokeRect(50,410,1180*(from.loaded/from.quantity),80);
 }
 
+var queue = {};
 function intervalReact(trigger, delay, ID){
 	if (delay === undefined) delay = 500;
 	if (ID === undefined) ID = "react";
 	function react(){
-	next[ID] = false;
+	queue[ID] = false;
 	}
 	if (trigger){
-		if (next[ID] === false || next[ID] === undefined){
-		next[ID] = true;
+		if (queue[ID] === false || queue[ID] === undefined){
+		queue[ID] = true;
 		setTimeout(react,delay);
 		return true;
 		}

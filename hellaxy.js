@@ -1,12 +1,13 @@
 var Hellaxy = {};
-Hellaxy.Task = menue.display();
 
 Hellaxy.loop = function(){
-	Hellaxy.Task();
+	Hellaxy.task();
 }
 
 function Appstart(){
+	setupScreens()
+	Hellaxy.Screen = title;
+	Hellaxy.task = screenManager;
 	Helon.app = Hellaxy.loop;
 }
 
-console.log(Appstart);

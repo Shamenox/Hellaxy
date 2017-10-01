@@ -1,13 +1,13 @@
 class Screen{
 	constructor(ID, bg, theme, action){
 		this.ID = ID;
-		this.bg = image[bg];
+		this.bg = Helon.ress.images[bg];
 		this.act = action;
 		if (theme !== undefined){
-			this.theme = theme;
+			this.theme = Helon.ress.audio[theme];
 		}
 		else {
-			this.theme = audio.theme1;
+			this.theme = Helon.ress.audio.theme1;
 		}
 	}
 	
@@ -16,25 +16,46 @@ class Screen{
 	display(){
 		Helon.ctx.drawImage(this.bg, 0, 0);
 		this.theme.play();
-		this.action();
+		this.act();
 	}
 }
 
+function screenManager(){
+	Hellaxy.Screen.display();
+}
 
-title = new Screen("title", "blackscreen", audio.theme1, function(){
-	Helon.ctx.font = "144px Consolas";
-	Helon.ctx.fillText("Hellaxy", 350, 240);
-	Helon.ctx.font = "24px Consolas";
-	if (!intervalReact(true, 1000, "title")) Helon.ctx.fillText("> Press Space <", 540, 540);
-	if (key.space) Hellaxy.task = menue.display;
+function setupScreens(){
+
+	title = new Screen("title", "blackscreen", "theme1", function(){
+		Helon.ctx.font = "144px Consolas";
+		Helon.ctx.fillText("Hellaxy", 350, 240);
+		Helon.ctx.font = "24px Consolas";
+		if (!intervalReact(true, 1000, "title")) Helon.ctx.fillText("> Press Space <", 540, 540);
+		if (key.space) Hellaxy.Screen = menue;
+	});
+
+	menue = new Screen("menue", "blackscreen", "theme1", function(){
+		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){})
+		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){})
+		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){})
+		button(400, 550, 480, 100, "Controls", "yellow", function(){Hellaxy.Screen = controls})
+	});
+
+	controls = new Screen("controls", "blackscreen", "theme1", function(){
+	Helon.ctx.fillText("Accelerate forwards = W", 100,100);
+	Helon.ctx.fillText("Turn Left = A", 100,150);
+	Helon.ctx.fillText("Turn Right = D", 100,200);
+	Helon.ctx.fillText("Deccelerate = S", 100,250);
+	Helon.ctx.fillText("Light Weapon = Space", 100,300);
+	Helon.ctx.fillText("Medium Weapon = E", 100,350);
+	Helon.ctx.fillText("Heavy Weapon = Q", 100,400);
+	Helon.ctx.fillText("Info-Screen = I", 100,450);
+	Helon.ctx.fillText("Special Abilities = 1 - 4", 100,500);
+	Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,550);
+	button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;});
 });
 
-menue = new Screen("menue", "blackscreen", audio.theme1, function(){
-	button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){})
-	button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){})
-	button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){})
-	button(400, 550, 480, 100, "Controls", "yellow", function(){})
-});
+}
 
 /*
 campaign = new Screen("campaign", "blackscreen", audio.theme1, function(){
@@ -63,20 +84,6 @@ freeroam = new Screen("freeroam", "blackscreen", audio.theme1, function(){
 		if (hor > 8) hor = 1, ver++;
 	}
 	button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;})
-});
-
-controls = new Screen("controls", "blackscreen", audio.theme1, function(){
-	Helon.ctx.fillText("Accelerate forwards = W", 100,100);
-	Helon.ctx.fillText("Turn Left = A", 100,150);
-	Helon.ctx.fillText("Turn Right = D", 100,200);
-	Helon.ctx.fillText("Deccelerate = S", 100,250);
-	Helon.ctx.fillText("Light Weapon = Space", 100,300);
-	Helon.ctx.fillText("Medium Weapon = E", 100,350);
-	Helon.ctx.fillText("Heavy Weapon = Q", 100,400);
-	Helon.ctx.fillText("Info-Screen = I", 100,450);
-	Helon.ctx.fillText("Special Abilities = 1 - 4", 100,500);
-	Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,550);
-	button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;});
 });
 
 
@@ -175,4 +182,4 @@ function GUI() {
 		button(400, 500, 480, 50, "Return to menue", "yellow", function(){pausedScreen = false; stop = false; LEVEL.cancel();});
 		Helon.ctx.lineWidth = 1;
 	}
-}
+} */
