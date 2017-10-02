@@ -17,6 +17,10 @@ function addMsg(content){
 
 function Appstart(){
 	setupScreens();
+	setupWeapons();
+	setupSpecials();
+	setupControls();
+	setupShips();
 	setupSectors();
 	setupLevels();
 	Hellaxy.Screen = title;

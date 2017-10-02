@@ -13,11 +13,12 @@ return input;
 }
 
 function button(posx, posy, width, height, tag, colour, action){
+	Helon.ctx.lineWidth = 4;
 	var textY = parseInt(Helon.ctx.font.split('p')[0]) + posy + 0.4*((height - 2*Helon.ctx.lineWidth) - parseInt(Helon.ctx.font.split('p')[0]));
+	Helon.ctx.fillRect(posx , posy, width, height);
 	Helon.ctx.fillStyle = colour;
 	Helon.ctx.fillRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);
 	Helon.ctx.fillStyle = "black";
-	Helon.ctx.strokeRect(posx , posy, width, height);
 	if (cursor.x.between(posx, posx + width) && cursor.y.between(posy, posy + height)){
 		if (click) action();
 		Helon.ctx.strokeRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);

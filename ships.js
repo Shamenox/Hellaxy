@@ -19,10 +19,8 @@ class Ship {
 		}
 		this.mass = this.hp;
 		this.maxshield = this.shield;
-		this.skin = image[this.fraction + " " + this.designation];
-		console.log(Ships);
+		this.skin = Helon.ress.images[this.fraction + "_" + this.designation];
 		Ships.push(this);
-		console.log(Ships);
 	}
 	
 	
@@ -61,6 +59,25 @@ class Ship {
 	}
 	
 	
+	turn(dir){
+		if (dir === "left"){
+			this.angle -= 40 * this.a;
+		}
+		if (dir === "right"){
+			this.angle += 40 * this.a;
+		}
+		
+		if (dir === "target"){ 
+			if (this.angle <= 180){
+				if (this.aim.between(this.angle, this.angle + 180)){ this.angle += this.a * 100;} else {this.angle -= this.a * 40;}
+			} else {
+				if (this.aim.between(this.angle, this.angle - 180)){ this.angle -= this.a * 100;} else {this.angle += this.a * 40;}
+			}
+			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
+		}
+	}
+	
+	
 	fire(slot){
 		if (this["wp" + slot] === undefined) return;
 		if (intervalReact(this["wp" + slot].ammo > 0, this["wp" + slot].reload, "wp" + slot + this.ID)) this["wp" + slot].fire();
@@ -87,18 +104,6 @@ class Ship {
 		audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
 		setTimeout(function(){SECTOR.ships.splice(this.ID, 1)}, 2000);
-	}
-	
-	
-	turn(){ // Richtungsfindung
-		if (!stop){ 
-			if (this.angle <= 180){
-				if (this.aim.between(this.angle, this.angle + 180)){ this.angle += this.a * 100;} else {this.angle -= this.a * 40;}
-			} else {
-				if (this.aim.between(this.angle, this.angle - 180)){ this.angle -= this.a * 100;} else {this.angle += this.a * 40;}
-			}
-			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
-		}
 	}
 	
 	
@@ -137,9 +142,9 @@ class Ship {
 	nextShip(search, range){
 		if (range === undefined) range = 1000;
 		for (var h = 0; h <= range; h ++){
-			for (var k = 0; k < SECTOR.ships.length; k++){
-				if (this.distanceTo(SECTOR.ships[k]) <= h && k !== this.ID){
-					if (search === undefined && SECTOR.ships[k].active === true || search === "anythingElse" && SECTOR.ships[k].fraction !== this.fraction && SECTOR.ships[k].active === true || SECTOR.ships[k].fraction === search && SECTOR.ships[k].active === true) return SECTOR.ships[k];
+			for (var k = 0; k < Hellaxy.Sector.ships.length; k++){
+				if (this.distanceTo(Hellaxy.Sector.ships[k]) <= h && k !== this.ID){
+					if (search === undefined && Hellaxy.Sector.ships[k].active === true || search === "anythingElse" && Hellaxy.Sector.ships[k].fraction !== this.fraction && Hellaxy.Sector.ships[k].active === true || Hellaxy.Sector.ships[k].fraction === search && Hellaxy.Sector.ships[k].active === true) return Hellaxy.Sector.ships[k];
 				}
 			}
 		}
@@ -156,6 +161,7 @@ class Ship {
 	}
 	
 	act(){
+		var SECTOR = Hellaxy.Sector;
 		if (this.hp < 0) this.explode(); //Abfrage ob noch aktiv
 		if (this.ctrl !== "none") this.ctrl(); // Zugriff durch Spieler/KIs
 		this.y -= this.vy; //Bewegung durch Geschwindigkeit
@@ -168,10 +174,10 @@ class Ship {
 		if (this.y < this.skin.naturalHeight/2) this.y = this.skin.naturalHeight/2, this.vy = 0;
 		if (this.x > SECTOR.width - this.skin.naturalWidth/2) this.x = SECTOR.width - this.skin.naturalWidth/2 , this.vx = 0;
 		if (this.y > SECTOR.height - this.skin.naturalHeight/2 - 120) this.y = SECTOR.height - this.skin.naturalHeight/2 - 120, this.vy = 0;
-		for (h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
+		for (var h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
 			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
 		}
-		for (h = 0; h < SECTOR.portals.length; h++){
+		for (var h = 0; h < SECTOR.portals.length; h++){
 			if (this.collidesWith(SECTOR.portals[h])){
 				SECTOR.portals[h].dest.ships.push(this);
 				SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].x = SECTOR.portals[h].atX;
@@ -201,12 +207,12 @@ function collide(a, b){
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.1, wp1 : machinegun_5nm});
 	humanian_shuttle = new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : machinegun_5nm});
-	humanian_protobaseship_helonia = new Ship({designation : "protobaseship helonia", fraction : "humanian", hp : 8000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
+	humanian_protobaseship_helonia = new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 8000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
 	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0, wp1 : "none"});
 	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
 	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	qubanic_colonizer = new Ship({designation : "colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, a : 0.003});
-	ophianic_annectorstar = new Ship({designation : "annector-star", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
+	ophianic_annectorstar = new Ship({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
 	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 200, armour : 1, a : 0.07});
 	
 	console.log(Ships);

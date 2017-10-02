@@ -11,7 +11,7 @@
 	
 	
 	check(){
-		LEVEL = this.levels[this.at];
+		var LEVEL = this.levels[this.at];
 		if (!LEVEL.isSetup) LEVEL.setup(), LEVEL.isSetup = true;
 		if (LEVEL.events !== undefined) LEVEL.events();
 		for (var cond in LEVEL.conditions){
@@ -25,8 +25,8 @@
 }
 
 function campaignManager(){
-	Hellaxy.Sector.act();
 	Hellaxy.Campaign.check();
+	Hellaxy.Sector.act();
 }
 
 class Level {

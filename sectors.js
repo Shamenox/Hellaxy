@@ -17,6 +17,7 @@ class Sector{
 		this.ships = [];
 		this.planets = [];
 		this.portals = []; 
+		this.offset = {x : 0, y : 0};
 		if (Helon.ress.audio[ID] !== undefined){
 			this.theme = Helon.ress.audio[ID];
 		}
@@ -48,24 +49,24 @@ class Sector{
 	
 	displayShips(){
 		for (var i = 0; i < this.ships.length; i++){
-			SHIP = this.ships[i];
+			var SHIP = this.ships[i];
 			SHIP.act();
-			if (SHIP === "explosion") Helon.ctx.drawImage(image.explosion, SHIP.x - frame.x, SHIP.y - frame.y, SHIP.skin.naturalWidth, SHIP.skin.naturalWidth);
+			if (SHIP === "explosion") Helon.ctx.drawImage(image.explosion, SHIP.x - this.offset.x, SHIP.y - this.offset.y, SHIP.skin.naturalWidth, SHIP.skin.naturalWidth);
 			if (SHIP.active === true){
-				Helon.ctx.translate(SHIP.x - frame.x, SHIP.y - frame.y); // Drehung
+				Helon.ctx.translate(SHIP.x - this.offset.x, SHIP.y - this.offset.y); // Drehung
 				Helon.ctx.rotate(SHIP.angle * Math.PI / 180);
-				Helon.ctx.translate(-(SHIP.x - frame.x), -(SHIP.y - frame.y));
-				Helon.ctx.drawImage(SHIP.skin, SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - frame.y - SHIP.skin.naturalHeight/2); // Display
-				Helon.ctx.translate(SHIP.x - frame.x, SHIP.y -frame.y); // Rückdrehung
+				Helon.ctx.translate(-(SHIP.x - this.offset.x), -(SHIP.y - this.offset.y));
+				Helon.ctx.drawImage(SHIP.skin, SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - this.offset.y - SHIP.skin.naturalHeight/2); // Display
+				Helon.ctx.translate(SHIP.x - this.offset.x, SHIP.y -this.offset.y); // Rückdrehung
 				Helon.ctx.rotate(-SHIP.angle * Math.PI / 180);
-				Helon.ctx.translate(-(SHIP.x - frame.x), -(SHIP.y - frame.y));
+				Helon.ctx.translate(-(SHIP.x - this.offset.x), -(SHIP.y - this.offset.y));
 				if (SHIP.ctrl !== player1){
 					Helon.ctx.strokeStyle = "red";  //infotafel
 					Helon.ctx.fillStyle = "green";
-					Helon.ctx.strokeRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
-					Helon.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / SHIP.mass), 6);
+					Helon.ctx.strokeRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
+					Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / SHIP.mass), 6);
 					Helon.ctx.fillStyle = "blue";
-					Helon.ctx.fillRect(SHIP.x - frame.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - frame.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / SHIP.maxshield), 6);
+					Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / SHIP.maxshield), 6);
 					Helon.ctx.strokeStyle = "yellow";
 					Helon.ctx.fillStyle = "yellow";
 				}
@@ -77,7 +78,7 @@ class Sector{
 	displayBg(){
 		for (var posY = 0; posY < this.height; posY += 100){
 			for (var posX = 0; posX < this.width; posX += 100){
-				Helon.ctx.drawImage(this.bg, posX - frame.x, posY - frame.y);
+				Helon.ctx.drawImage(this.bg, posX - this.offset.x, posY - this.offset.y);
 			}
 		}
 	}
@@ -87,7 +88,7 @@ class Sector{
 		for (var h = 0; h < this.portals.length; h++){
 			for (var i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
 				for (var j = this.portals[h].y; j < this.y + this.height; j += 100){
-				 Helon.ctx.drawImage(this.dest.bg, i - frame.x, j - frame.y);
+				 Helon.ctx.drawImage(this.dest.bg, i - this.offset.x, j - this.offset.y);
 				}
 			}
 		}
@@ -96,8 +97,22 @@ class Sector{
 	
 	displayPlanets(){
 		for (var i = 0; i < this.planets.length; i++){
-			Helon.ctx.drawImage(this.planets[i].skin, this.planets[i].x - frame.x -this.planets[i].skin.naturalWidth/2, this.planets[i].y - frame.y - this.planets[i].skin.naturalHeight/2);
+			Helon.ctx.drawImage(this.planets[i].skin, this.planets[i].x - this.offset.x -this.planets[i].skin.naturalWidth/2, this.planets[i].y - this.offset.y - this.planets[i].skin.naturalHeight/2);
 		}
+	}
+	
+	
+	adjustOffset(){
+		if (this.offset.x < 0) this.offset.x = 0;
+		if (this.offset.y < 0) this.offset.y = 0;
+		if (this.offset.x > this.width - 640) this.offset.x = this.width - 640;
+		if (this.offset.y > this.height - 360) this.offset.y = this.height - 360;
+	}
+	
+	
+	focus(on){
+		this.offset.x = on.x - 640;
+		this.offset.y = on.y - 360;
 	}
 	
 	
@@ -109,7 +124,7 @@ class Sector{
 		displayProjectiles();
 		if (this.events !== undefined) this.events();
 		if (this.theme !== "none") this.theme.play();
-		frame.adjust();
+		this.adjustOffset();
 	}
 }
 
