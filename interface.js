@@ -15,7 +15,7 @@ class Screen{
 	
 	display(){
 		Helon.ctx.drawImage(this.bg, 0, 0);
-		this.theme.play();
+		if (this.theme !== "none") this.theme.play();
 		this.act();
 	}
 }
@@ -35,26 +35,67 @@ function setupScreens(){
 	});
 
 	menue = new Screen("menue", "blackscreen", "theme1", function(){
-		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){})
+		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){Hellaxy.Campaign = quicktest; Hellaxy.task = campaignManager;})
 		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){})
 		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){})
 		button(400, 550, 480, 100, "Controls", "yellow", function(){Hellaxy.Screen = controls})
 	});
 
 	controls = new Screen("controls", "blackscreen", "theme1", function(){
-	Helon.ctx.fillText("Accelerate forwards = W", 100,100);
-	Helon.ctx.fillText("Turn Left = A", 100,150);
-	Helon.ctx.fillText("Turn Right = D", 100,200);
-	Helon.ctx.fillText("Deccelerate = S", 100,250);
-	Helon.ctx.fillText("Light Weapon = Space", 100,300);
-	Helon.ctx.fillText("Medium Weapon = E", 100,350);
-	Helon.ctx.fillText("Heavy Weapon = Q", 100,400);
-	Helon.ctx.fillText("Info-Screen = I", 100,450);
-	Helon.ctx.fillText("Special Abilities = 1 - 4", 100,500);
-	Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,550);
-	button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;});
-});
-
+		Helon.ctx.fillText("Accelerate forwards = W", 100,100);
+		Helon.ctx.fillText("Turn Left = A", 100,150);
+		Helon.ctx.fillText("Turn Right = D", 100,200);
+		Helon.ctx.fillText("Deccelerate = S", 100,250);
+		Helon.ctx.fillText("Light Weapon = Space", 100,300);
+		Helon.ctx.fillText("Medium Weapon = E", 100,350);
+		Helon.ctx.fillText("Heavy Weapon = Q", 100,400);
+		Helon.ctx.fillText("Info-Screen = I", 100,450);
+		Helon.ctx.fillText("Special Abilities = 1 - 4", 100,500);
+		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,550);
+		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;});
+	});
+	
+	paused = new Screen("paused", "blank", "none", function(){
+		Helon.ctx.lineWidth = 4;
+		Helon.ctx.font = "128px Consolas";
+		Helon.ctx.strokeText("- Game Paused -", 100, 180);
+		Helon.ctx.font = "24px Consolas";
+		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
+		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.Screen = menue});
+		Helon.ctx.lineWidth = 1;
+	});
+	
+	messager = new Screen("messager", "blank", "none", function(){
+		if (msg.length === 0){
+			Hellaxy.task = campaignManager;
+		}
+		else{
+			Helon.ctx.fillStyle = "grey";
+			Helon.ctx.fillRect(0,0,1280,80);
+			Helon.ctx.fillStyle = "white";
+			Helon.ctx.fillRect(130,10,1140,60);
+			Helon.ctx.strokeStyle = "black";
+			Helon.ctx.lineWidth = 10;
+			Helon.ctx.strokeRect(10,10,1255,60);
+			Helon.ctx.strokeRect(10,10,120,60);
+			Helon.ctx.lineWidth = 2;
+			Helon.ctx.fillStyle = "black";
+			Helon.ctx.fillText("Intercom", 15, 50);
+			Helon.ctx.fillText("Continue(E)", 1115, 50);
+			
+			Helon.ctx.fillText(Hellaxy.msg[0].content, 145, 50);
+			
+			Helon.ctx.strokeStyle = "yellow";
+			Helon.ctx.fillStyle = "yellow";
+			Helon.ctx.lineWidth = 1;
+			if (intervalReact(key.e, 500, "msgDelay")){
+				Hellaxy.msg.splice(0,1);
+			}
+			if (intervalReact(key.esc)){
+				Hellaxy.msg.splice(0, Hellaxy.msg.length);
+			}
+		}
+	});
 }
 
 /*
@@ -170,16 +211,5 @@ function GUI() {
 			Game.ctx.fillText("Alpha-Damage: " + sector[sector.at].ships[0].heavyWp.alpha, 700, 475);
 			Game.ctx.fillText("Penetration: " + sector[sector.at].ships[0].heavyWp.pen, 700, 500);
 		}
-	}
-	if (intervalReact(key.esc && pausedScreen)) pausedScreen = false, stop = false;
-	if (intervalReact(key.esc && !pausedScreen && !stop)) pausedScreen = true, stop = true;
-	if (pausedScreen) {
-		Helon.ctx.lineWidth = 4;
-		Helon.ctx.font = "128px Consolas";
-		Helon.ctx.strokeText("- Game Paused -", 100, 180);
-		Helon.ctx.font = "24px Consolas";
-		button(400, 350, 480, 50, "Resume to game", "yellow", function(){pausedScreen = false; stop = false;});
-		button(400, 500, 480, 50, "Return to menue", "yellow", function(){pausedScreen = false; stop = false; LEVEL.cancel();});
-		Helon.ctx.lineWidth = 1;
 	}
 } */

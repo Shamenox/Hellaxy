@@ -6,7 +6,7 @@
 	
 	
 	addLevel(setup, conditions, events){
-		this.levels.push(new Level(setup, conditions, events));
+		this.levels.push(new Level(this, setup, conditions, events));
 	}
 	
 	
@@ -24,10 +24,14 @@
 	}
 }
 
-
+function campaignManager(){
+	Hellaxy.Sector.act();
+	Hellaxy.Campaign.check();
+}
 
 class Level {
-	constructor(setup, conditions, events){
+	constructor(belong, setup, conditions, events){
+		this.campaign = belong;
 		this.setup = setup;
 		this.isSetup = false;
 		this.conditions = conditions;
@@ -38,23 +42,37 @@ class Level {
 	end(){
 		projectile.splice(0, projectile.length);
 		this.target = "none";
-		CAMPAIGN.at += 1;
-		CAMPAIGN = { check : function(){}, theme : "none"};
-		SECTOR = campaign;
+		this.campaign.at += 1;
+		Hellaxy.Screen = menue;
+		Hellaxy.task = screenManager;
 	}
 	
 	
 	cancel(){
 		projectile.splice(0, projectile.length);
 		this.target = "none";
-		CAMPAIGN = { check : function(){}, theme : "none"};
-		SECTOR = menue;
+		Hellaxy.Screen = menue;
+		Hellaxy.task = screenManager;
 	}
 }
 
-humanian = new Campaign();                                                                                                          //<-- Kampagnendeklarierung
+humanian = new Campaign();  
+quicktest = new Campaign();                                                                                                        //<-- Kampagnendeklarierung
 
 function setupLevels(){
+	quicktest.addLevel(function(){
+		Hellaxy.Sector = testmap;
+		humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+		humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
+		humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
+		testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
+		fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
+	}
+		,{
+		no : false
+	});
+}
+	/*
 	humanian.addLevel(function(){
 		SECTOR = central_sector;
 		central_sector.addPlanet("humania", 1000, 1000);
@@ -83,7 +101,6 @@ function setupLevels(){
 		},
 		{ ufoeliminated : false}
 	);
-	/*
 	createLevel("humanian", function(){
 		sector.at = "Central_Sector";
 		central_sector.addPlanet("imat_chestcolony", 600, 1800);
@@ -184,17 +201,3 @@ function setupLevels(){
 			}
 		}
 	); */
-	system = new Campaign();
-	system.addLevel(function(){
-		SECTOR = testmap;
-		humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
-		humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
-		testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
-		fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
-	},{no : false});
-	
-	system.addLevel(function(){
-		SECTOR = central_sector;
-	},{no : false});
-}

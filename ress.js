@@ -3,6 +3,7 @@ images = {
 	arrow : "sys",
 	blackscreen : "sys",
 	whitescreen : "sys",
+	blank : "sys",
 	
 	central : "bgs",
 	omar : "bgs",
