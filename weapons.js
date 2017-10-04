@@ -33,13 +33,13 @@ class Weapon {
 		
 		neuesProjektil.sound = function(of){
 			if (of === "fire"){
-				if (this.mass <= 644) audio.shot_1.play();
+				if (this.mass <= 644) Helon.ress.audio.shot_1.play();
 			}
 			if (of === "pen"){
-				if (this.mass <= 644) audio.hit_1.play();
+				if (this.mass <= 644) Helon.ress.audio.hit_1.play();
 			}
 			if (of === "bounce"){
-				if (this.mass <= 644) audio.bounce_1.play();
+				if (this.mass <= 644) Helon.ress.audio.bounce_1.play();
 			}
 		}
 		neuesProjektil.sound("fire");
@@ -47,22 +47,23 @@ class Weapon {
 		neuesProjektil.act = function(){
 			this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
 			this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
-			if (this.x < 0 || this.y < 0 || this.x > SECTOR.width || this.y > SECTOR.height){
+			if (this.x < 0 || this.y < 0 || this.x > Hellaxy.Sector.width || this.y > Hellaxy.Sector.height){
 				projectile.splice(this.ID,1);
 				return;
 			}
-			for (h = 0; h < SECTOR.ships.length; h++){ //Prozess bei Treffer
-				if (this.hits(SECTOR.ships[h])) {
-					if (this.pen >= SECTOR.ships[h].armour){
+			for (var h = 0; h < Hellaxy.Sector.ships.length; h++){ //Prozess bei Treffer
+				var SHIP = Hellaxy.Sector.ships[h];
+				if (this.hits(SHIP)) {
+					if (this.pen >= SHIP.armour){
 						this.v = 0;
-						if (SECTOR.ships[h].shield <= 0) SECTOR.ships[h].hp -= this.alpha;
-						if (SECTOR.ships[h].shield > 1) SECTOR.ships[h].shield -= this.alpha;
-						if (SECTOR.ships[h].maxShield > 0 && SECTOR.ships[h].maxShield < 1) SECTOR.ships[h].hp -= this.alpha * SECTOR.ships[h].shield;
+						if (SHIP.shield <= 0) SHIP.hp -= this.alpha;
+						if (SHIP.shield > 1) SHIP.shield -= this.alpha;
+						if (SHIP.maxShield > 0 && SHIP.maxShield < 1) SHIP.hp -= this.alpha * SHIP.shield;
 						this.sound("pen");
-						projectile.splice(i,1);
+						projectile.splice(this.ID,1);
 						return;
 					}
-					if (this.pen < SECTOR.ships[h].armour){
+					if (this.pen < SHIP.armour){
 						for (j = 180; j > 0; j--){
 							this.angle -=1;
 							if (this.angle === -1) this.angle = 359;
@@ -70,8 +71,8 @@ class Weapon {
 						this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
 						this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 						this.sound("bounce");
-						if (this.hits(SECTOR.ships[h])){
-							projectile.splice(i,1);
+						if (this.hits(SHIP)){
+							projectile.splice(this.ID,1);
 							return;
 						}
 					}
@@ -93,8 +94,8 @@ class Weapon {
 
 function displayProjectiles(){
 	for (var i = 0; i < projectile.length; i++){
-		projectile[i].act();
 		display(projectile[i]);
+		projectile[i].act();
 	}
 }
 

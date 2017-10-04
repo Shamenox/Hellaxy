@@ -110,8 +110,8 @@ class Ship {
 	
 	
 	explode(){
-		this.skin = image.explosion;
-		audio.explosion1.play();
+		this.skin = Helon.ress.images.explosion;
+		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
 		setTimeout(function(){Hellaxy.Sector.ships.splice(this.ID, 1)}, 2000);
 	}
