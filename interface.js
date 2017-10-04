@@ -20,9 +20,18 @@ class Screen{
 	}
 }
 
+
 function screenManager(){
 	Hellaxy.Screen.display();
 }
+
+
+function addMsg(content){
+	var neueMsg = {};
+	neueMsg.content = content;
+	Hellaxy.Msgs.push(neueMsg);
+}
+
 
 function setupScreens(){
 
@@ -67,7 +76,7 @@ function setupScreens(){
 	});
 	
 	messager = new Screen("messager", "blank", "none", function(){
-		if (msg.length === 0){
+		if (Hellaxy.Msgs.length === 0){
 			Hellaxy.task = campaignManager;
 		}
 		else{
@@ -84,16 +93,16 @@ function setupScreens(){
 			Helon.ctx.fillText("Intercom", 15, 50);
 			Helon.ctx.fillText("Continue(E)", 1115, 50);
 			
-			Helon.ctx.fillText(Hellaxy.msg[0].content, 145, 50);
+			Helon.ctx.fillText(Hellaxy.Msgs[0].content, 145, 50);
 			
 			Helon.ctx.strokeStyle = "yellow";
 			Helon.ctx.fillStyle = "yellow";
 			Helon.ctx.lineWidth = 1;
 			if (intervalReact(key.e, 500, "msgDelay")){
-				Hellaxy.msg.splice(0,1);
+				Hellaxy.Msgs.splice(0,1);
 			}
 			if (intervalReact(key.esc)){
-				Hellaxy.msg.splice(0, Hellaxy.msg.length);
+				Hellaxy.Msgs.splice(0, Hellaxy.Msgs.length);
 			}
 		}
 	});

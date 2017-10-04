@@ -31,6 +31,10 @@ function campaignManager(){
 		Hellaxy.Screen = paused;
 		Hellaxy.task = screenManager;
 	}
+	if (Hellaxy.Msgs.length !== 0){
+		Hellaxy.Screen = messager;
+		Hellaxy.task = screenManager;
+	}
 }
 
 class Level {

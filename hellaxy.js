@@ -1,5 +1,5 @@
 var Hellaxy = {
-	msgs : [],
+	Msgs : [],
 	Screen : {},
 	Campaign : {},
 	Sector : {}
@@ -12,7 +12,7 @@ Hellaxy.loop = function(){
 function addMsg(content){
 	neueMsg = {};
 	neueMsg.content = content;
-	Hellaxy.msg.push(neueMsg);
+	Hellaxy.Msgs.push(neueMsg);
 }
 
 function display(obj){
