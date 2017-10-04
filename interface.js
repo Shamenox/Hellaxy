@@ -3,11 +3,11 @@ class Screen{
 		this.ID = ID;
 		this.bg = Helon.ress.images[bg];
 		this.act = action;
-		if (theme !== undefined){
+		if (theme !== undefined && theme !== "none"){
 			this.theme = Helon.ress.audio[theme];
 		}
 		else {
-			this.theme = Helon.ress.audio.theme1;
+			this.theme = "none";
 		}
 	}
 	
@@ -50,18 +50,19 @@ function setupScreens(){
 		Helon.ctx.fillText("Medium Weapon = E", 100,350);
 		Helon.ctx.fillText("Heavy Weapon = Q", 100,400);
 		Helon.ctx.fillText("Info-Screen = I", 100,450);
-		Helon.ctx.fillText("Special Abilities = 1 - 4", 100,500);
+		Helon.ctx.fillText("Special Abilities = 1 - 3", 100,500);
 		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,550);
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;});
 	});
 	
 	paused = new Screen("paused", "blank", "none", function(){
+		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
+		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.Screen = menue});
 		Helon.ctx.lineWidth = 4;
+		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.font = "128px Consolas";
 		Helon.ctx.strokeText("- Game Paused -", 100, 180);
 		Helon.ctx.font = "24px Consolas";
-		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
-		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.Screen = menue});
 		Helon.ctx.lineWidth = 1;
 	});
 	

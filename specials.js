@@ -11,16 +11,8 @@ class Special {
 			else neuesSpecial.exe = exe;
 		}
 	}
-	
-	clone(){
-		var clone = new Special();
-		for (var property in this){
-			clone.property = this.property
-		}
-		return clone;
-	}
 }
 
 function setupSpecials(){
-spawn_ophianianChunk = new Special( 6000, 66, function(){spawnShip("Ophianian Chunk", SHIP.x, SHIP.y, SHIP.angle, npc.defender, SHIP.ID)});
+spawn_ophianianChunk = new Special( 6000, 66, function(){});
 }

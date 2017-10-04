@@ -18,7 +18,7 @@ function button(posx, posy, width, height, tag, colour, action){
 	Helon.ctx.fillRect(posx , posy, width, height);
 	Helon.ctx.fillStyle = colour;
 	Helon.ctx.fillRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);
-	Helon.ctx.fillStyle = "black";
+	Helon.ctx.strokeStyle = "black";
 	if (cursor.x.between(posx, posx + width) && cursor.y.between(posy, posy + height)){
 		if (click) action();
 		Helon.ctx.strokeRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);

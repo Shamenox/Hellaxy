@@ -27,6 +27,10 @@
 function campaignManager(){
 	Hellaxy.Campaign.check();
 	Hellaxy.Sector.act();
+	if (key.esc){
+		Hellaxy.Screen = paused;
+		Hellaxy.task = screenManager;
+	}
 }
 
 class Level {

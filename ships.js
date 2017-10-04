@@ -25,7 +25,7 @@ class Ship {
 	
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, relationShip, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		if (inSector === undefined) inSector = SECTOR;
+		if (inSector === undefined) inSector = Hellaxy.Sector;
 		var neuerSpawn = this.clone();
 		neuerSpawn.x = atX;
 		neuerSpawn.y = atY;
@@ -42,6 +42,16 @@ class Ship {
 		var clone = new Ship();
 		for (var property in this){
 			clone[property] = this[property];
+			for (var i = 1; i < 3; i++){
+				if (property == ["wp" + i]){
+					clone["wp" + i] = new Weapon(this["wp" + i].skinName, this["wp" + i].alpha, this["wp" + i].pen, this["wp" + i].reload, this["wp" + i].ammo);
+					clone["wp" + i].ship = clone;
+				}
+				if (property == ["sp" + i]){
+					clone["sp" + i] = new Special(this["sp" + i].reload, this["sp" + i].ammo, this["sp" + i].action, this["sp" + i].exe);
+					clone["sp" + i].ship = clone;
+				}
+			}
 		}
 		return clone;
 	}
@@ -103,7 +113,7 @@ class Ship {
 		this.skin = image.explosion;
 		audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
-		setTimeout(function(){SECTOR.ships.splice(this.ID, 1)}, 2000);
+		setTimeout(function(){Hellaxy.Sector.ships.splice(this.ID, 1)}, 2000);
 	}
 	
 	
@@ -208,7 +218,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.1, wp1 : machinegun_5nm});
 	humanian_shuttle = new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : machinegun_5nm});
 	humanian_protobaseship_helonia = new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 8000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
-	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0, wp1 : "none"});
+	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
 	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
 	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	qubanic_colonizer = new Ship({designation : "colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, a : 0.003});

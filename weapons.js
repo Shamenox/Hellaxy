@@ -1,8 +1,9 @@
 var projectile = [];
 
 class Weapon {
-	constructor(skin, alpha, pen, reload, ammo){
+	constructor(skin, alpha, pen, reload, ammo){  //skin, alpha, pen, reload, ammo
 		this.skin = Helon.ress.images[skin];
+		this.skinName = skin;
 		this.alpha = alpha;
 		this.pen = pen;
 		this.reload = reload;
@@ -10,45 +11,37 @@ class Weapon {
 	}
 	
 	
-	clone(){
-		var clone = new Weapon();
-		for (var property in this){
-			clone.property = this.property
-		}
-		return clone;
-	}
-	
-	
 	spawnProjectile(){
+		
 		var neuesProjektil = {};
 		neuesProjektil.skin = this.skin;
+		neuesProjektil.mass = this.skin.naturalHeight * this.skin.naturalWidth;
 		neuesProjektil.pen = this.pen;
 		neuesProjektil.alpha = this.alpha;
-		neuesProjektil.angle = SHIP.angle
-		neuesProjektil.x = SHIP.x;
-		neuesProjektil.y = SHIP.y;
+		neuesProjektil.angle = this.ship.angle
+		neuesProjektil.x = this.ship.x;
+		neuesProjektil.y = this.ship.y;
 		neuesProjektil.v = this.pen * 10;
+		neuesProjektil.emitter = this.ship;
 		neuesProjektil.hits = function (obj) {
-			if (this.emitter.fraction === obj.fraction) return false; //Prüfen ob Ziel das eigene Schiff ist
+			if (this.emitter === obj) return false; //Prüfen ob Ziel das eigene Schiff ist
 			if (this.x.between(obj.x - this.skin.naturalWidth/2 - obj.skin.naturalWidth/2, obj.x + this.skin.naturalWidth/2 + obj.skin.naturalWidth/2)){
 				if (this.y.between(obj.y - this.skin.naturalHeight/2 - obj.skin.naturalHeight/2, obj.y + this.skin.naturalHeight/2 + obj.skin.naturalHeight/2)) return true;
 			}
 			return false;
 		}
-		neuesProjektil.sound = function(of){ 
-			var mass = this.skin.naturalHeight * this.skin.naturalWidth;
+		
+		neuesProjektil.sound = function(of){
 			if (of === "fire"){
-				if (mass <= 644) audio.shot_1.play();
+				if (this.mass <= 644) audio.shot_1.play();
 			}
 			if (of === "pen"){
-				if (mass <= 644) audio.hit_1.play();
+				if (this.mass <= 644) audio.hit_1.play();
 			}
 			if (of === "bounce"){
-				if (mass <= 644) audio.bounce_1.play();
+				if (this.mass <= 644) audio.bounce_1.play();
 			}
 		}
-		neuesProjektil.emitter = SHIP;
-		
 		neuesProjektil.sound("fire");
 		
 		neuesProjektil.act = function(){
@@ -91,7 +84,7 @@ class Weapon {
 	
 	
 	fire(){
-		if (intervalReact(this.ammo > 0, this.reload, this.designation + SHIP.ID)){
+		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.ID)){
 			this.ammo --;
 			this.spawnProjectile();
 		} 
@@ -99,15 +92,9 @@ class Weapon {
 }
 
 function displayProjectiles(){
-	for (i = 0; i < projectile.length; i++){
+	for (var i = 0; i < projectile.length; i++){
 		projectile[i].act();
-		Helon.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Drehung
-		Helon.ctx.rotate(projectile[i].angle * Math.PI / 180);
-		Helon.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
-		Helon.ctx.drawImage(projectile[i].skin, projectile[i].x - frame.x - projectile[i].skin.naturalWidth/2, projectile[i].y - frame.y - projectile[i].skin.naturalHeight/2); // Display
-		Helon.ctx.translate(projectile[i].x - frame.x, projectile[i].y - frame.y); // Rückdrehung
-		Helon.ctx.rotate(-projectile[i].angle * Math.PI / 180);
-		Helon.ctx.translate(-(projectile[i].x - frame.x), -(projectile[i].y - frame.y));
+		display(projectile[i]);
 	}
 }
 
