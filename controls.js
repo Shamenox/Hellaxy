@@ -58,17 +58,13 @@ function setupControls(){
 			}
 		} else {this.ctrl = npc.simpleRoamer;}
 	}
-	/*
-	npc.striver = function(){
-		this.acc();
-		if (this.hp < ship[this.designation].hp / 2) this.turnArround();
-	}
-	npc.test = function(){
-		if (intervalReact(true, 3000, "testturn"))this.turnArround();
-		//this.pointAt(SECTOR.ships[0]);
-		if (this.pointsAt(SECTOR.ships[0])) this.fireSmall();
-	}
 	
+	npc.patrol = function(){
+		this.acc();
+		this.turn();
+		if (intervalReact(true, 3000, this.ID()))this.turnArround();
+	}
+	/*
 	npc.ophianian_annector = function(){
 		if (intervalReact(this.x < 150 || this.x > background.naturalWidth - 150 || this.y < 150 || this.y > background.naturalHeight - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		if (this.nextShip("humanian", 400) === false){

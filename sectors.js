@@ -44,6 +44,9 @@ class Sector{
 	addPlanet(designation, x, y){
 		var neuerPlanet = new Planet(designation, x, y);
 		neuerPlanet.sector = this.bg;
+		for (var pla = 0; pla < this.planets.length; pla++){
+			if (this.planets[pla].designation === neuerPlanet.designation) return;
+		}
 		this.planets.push(neuerPlanet);
 	}
 	

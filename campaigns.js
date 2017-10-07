@@ -15,14 +15,6 @@ class Campaign {
 	check(){
 		if (!LEVEL.isSetup) LEVEL.setup(), LEVEL.isSetup = true;
 		if (LEVEL.events !== undefined) LEVEL.events();
-		for (var cond in LEVEL.conditions){
-			console.log(Level.conditions, cond);
-			if (LEVEL.conditions[cond] === false) return;
-		}
-		Helon.ctx.fillStyle = "yellow";
-		Helon.ctx.fillText("Mission completed!!!", 450, 200);
-		Helon.ctx.fillText("Press Space to continue", 450, 250);
-		if (key.space) LEVEL.end();
 	}
 }
 
@@ -40,6 +32,13 @@ function campaignManager(){
 		Hellaxy.Screen = messager;
 		Hellaxy.task = screenManager;
 	}
+	for (var cond in LEVEL.conditions){
+			if (LEVEL.conditions[cond] === false) return;
+		}
+	Helon.ctx.fillStyle = "yellow";
+	Helon.ctx.fillText("Mission completed!!!", 450, 200);
+	Helon.ctx.fillText("Press Space to continue", 450, 250);
+	if (key.space) LEVEL.end();
 }
 
 class Level {
@@ -52,21 +51,24 @@ class Level {
 	}
 	
 	
-	end(){
-		projectile.splice(0, projectile.length);
-		this.target = "none";
-		this.campaign.at += 1;
-		Hellaxy.Screen = menue;
-		Hellaxy.task = screenManager;
-	}
-	
-	
 	cancel(){
 		projectile.splice(0, projectile.length);
 		this.target = "none";
+		this.isSetup = false;
+		Hellaxy.Sector.ships = [];
 		Hellaxy.Screen = menue;
 		Hellaxy.task = screenManager;
+		for (var cond in this.conditions){
+			this.conditions[cond] = false;
+		}
 	}
+	
+	
+	end(){
+		this.cancel()
+		this.campaign.at += 1;
+	}
+
 }
 
 humanian = new Campaign();  
@@ -92,7 +94,7 @@ function setupLevels(){
 			Hellaxy.Sector = central_sector;
 			central_sector.addPlanet("humania", 1000, 1000);
 			central_sector.addPlanet("pontes", 1420, 2550);
-			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.end();});
+			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 			central_sector.ships[0].mass++;
 			humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
 			humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);

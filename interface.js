@@ -39,7 +39,8 @@ function setupScreens(){
 		Helon.ctx.font = "144px Consolas";
 		Helon.ctx.fillText("Hellaxy", 350, 240);
 		Helon.ctx.font = "24px Consolas";
-		if (!intervalReact(true, 1000, "title")) Helon.ctx.fillText("> Press Space <", 540, 540);
+		if (!intervalReact(true, 500, "title")) Helon.ctx.fillText("> Press Space <", 540, 540);
+		Helon.ctx.fillText("developed by Shamenox", 44, 680);
 		if (key.space) Hellaxy.Screen = menue;
 	});
 
@@ -47,7 +48,7 @@ function setupScreens(){
 	menue = new Screen("menue", "blackscreen", "theme1", function(){
 		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){startCampaign(quicktest)})
 		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){Hellaxy.Screen = campaigns})
-		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){})
+		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){Hellaxy.Screen = freeroam})
 		button(400, 550, 480, 100, "Controls", "yellow", function(){Hellaxy.Screen = controls})
 	});
 
@@ -69,7 +70,7 @@ function setupScreens(){
 	
 	paused = new Screen("paused", "blank", "none", function(){
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
-		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.Screen = menue});
+		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.Campaign.levels[Hellaxy.Campaign.at].cancel(); Hellaxy.Screen = menue});
 		Helon.ctx.lineWidth = 4;
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.font = "128px Consolas";
@@ -112,7 +113,6 @@ function setupScreens(){
 	});
 	
 	
-	
 	function campaignLine(of, designation, posy){
 		Helon.ctx.fillText(designation + ":   Lvl " + of.at, 200, posy);
 		if (of.at !== 0){
@@ -132,30 +132,28 @@ function setupScreens(){
 		campaignLine(humanian, "Humanian", 150);
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;})
 	});
+	
+	
+	freeroam = new Screen("freeroam", "blackscreen", "theme1", function(){
+		var hor = 1;
+		var ver = 1;
+		Helon.ctx.fillText("Freeroam Mode", 540, 50);
+		Helon.ctx.fillText("Select your ship:", 490, 80);
+		for (var i = 1; i < Ships.length; i++){
+			Helon.ctx.drawImage(Ships[i].skin, hor*70, ver*70 + 50, 64, 64);
+			if (click && cursor.x.between(hor*70, hor*70 + 128) && cursor.y.between(ver*70, ver*70 + 128)){
+				//start Freeroam Campaign
+			}
+			hor++;
+			if (hor > 16) hor = 1, ver++;
+		}
+		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;})
+		
+		Helon.ctx.fillText("Workin soon!", 490, 440);
+	});
 }
 
 
-
-/*
-freeroam = new Screen("freeroam", "blackscreen", audio.theme1, function(){
-	var hor = 1;
-	var ver = 1;
-	Helon.ctx.fillText("Freeroam Mode", 540, 50);
-	Helon.ctx.fillText("Select your ship:", 490, 80);
-	for (var i = 1; i < Ships.length; i++){
-		Helon.ctx.drawImage(Ships[i].skin, hor*130, ver*130, 128, 128);
-		if (click && cursor.x.between(hor*130, hor*150 + 128) && cursor.y.between(ver*130, ver*130 + 128)){
-			system.at = 1;
-			CAMPAIGN = system;
-			Ships[i].spawn(central_sector, 100, 100, 180, player1, 0, function(){endLevel(true);});
-			return;
-		}
-		hor++;
-		if (hor > 8) hor = 1, ver++;
-	}
-	button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;})
-});
-*/
 
 
 function GUI(of) {

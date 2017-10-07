@@ -204,14 +204,13 @@ class Ship {
 	
 	act(){
 		var SECTOR = this.sector;
-		if (this.hp < 1) this.explode(); //Abfrage ob noch aktiv
-		if (this.ctrl !== "none") this.ctrl(); // Zugriff durch Spieler/KIs
-		this.y -= this.vy; //Bewegung durch Geschwindigkeit
+		if (this.hp < 1) this.explode();
+		if (this.ctrl !== "none") this.ctrl();
+		this.y -= this.vy;
 		this.x += this.vx;
-		if (this.vx > this.a * 100) this.vx = this.a * 80; //Geschwindigkeitsobergrenze
+		if (this.vx > this.a * 100) this.vx = this.a * 80;
 		if (this.vy > this.a * 100) this.vy = this.a * 80;
-		if (this.angle > 359) this.angle = 0; //Einhalten der 360°
-		if (this.angle < 0) this.angle = 359;
+		this.angle = get360(this.angle);
 		if (this.x < this.skin.naturalWidth/2) this.x = this.skin.naturalWidth/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
 		if (this.y < this.skin.naturalHeight/2) this.y = this.skin.naturalHeight/2, this.vy = 0;
 		if (this.x > SECTOR.width - this.skin.naturalWidth/2) this.x = SECTOR.width - this.skin.naturalWidth/2 , this.vx = 0;
