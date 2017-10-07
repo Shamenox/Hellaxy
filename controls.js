@@ -49,7 +49,7 @@ function setupControls(){
 				this.follow(of, 100);
 			}
 			if (trgt !== false){
-				this.follow(trgt, 200);
+				this.follow(trgt, 300);
 				if (this.pointsAt(trgt)){
 					this.fire(1);
 					this.fire(2);
@@ -64,19 +64,23 @@ function setupControls(){
 		this.turn();
 		if (intervalReact(true, 3000, this.ID()))this.turnArround();
 	}
-	/*
+
 	npc.ophianian_annector = function(){
-		if (intervalReact(this.x < 150 || this.x > background.naturalWidth - 150 || this.y < 150 || this.y > background.naturalHeight - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		if (this.nextShip("humanian", 400) === false){
-			this.follow(sector.Central_Sector.planets[0], 10);
-		}else{
-			this.pointAt(this.nextShip("humanian", 400), 300);
-			this.special1.exe();
-			if (this.nextShip("humanian", 400) === sector.Central_Sector.ships[this.ID - 7]){
-				if (this.pointsAt(central_sector.ships[this.ID - 7])) this.acc();
-			}else{
-				if (this.pointsAt(this.nextShip("humanian", 400))) this.fireSmall();
+		this.turn();
+		var trgt = this.nextShip("humanian", 500);
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (trgt === false){
+			this.follow(central_sector.planets[0], 50);
+		}
+		else {
+			this.pointAt(trgt);
+			this.sp1.exe();
+			if (trgt === this.sector.ships[this.ID() - 7]){
+				if (this.pointsAt(this.sector.ships[this.ID() - 7])) this.acc();
+			}
+			else{
+				if (this.pointsAt(trgt)) this.fire(1);
 			}
 		}
-	} */
+	} 
 }

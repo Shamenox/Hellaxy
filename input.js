@@ -15,8 +15,6 @@ var cursor = { x : 0, y : 0, angle : 0};
 var click = false;
 cursor.display = function(){
 	if (click){ 
-		// if (cursor.x <= LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 90);
-		// if (cursor.x > LEVEL.target.x - frame.x) cursor.angle = get360((Math.atan((LEVEL.target.y -cursor.y - frame.y) / (LEVEL.target.x - cursor.x - frame.x)) / Math.PI * 180) + 270);
 		Helon.ctx.translate(cursor.x, cursor.y); // Drehung
 		Helon.ctx.rotate(cursor.angle * Math.PI / 180);
 		Helon.ctx.translate(-(cursor.x), -(cursor.y));
@@ -28,6 +26,13 @@ cursor.display = function(){
 	else {
 		Helon.ctx.drawImage(Helon.ress.images.cursor, cursor.x - 16, cursor.y);
 	}
+}
+cursor.angleTowards = function(angled){
+		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
+		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
+	}
+cursor.pointAt = function(da){
+	cursor.angle = cursor.angleTowards(da);
 }
 
 addEventListener("keydown", function(w) {

@@ -26,6 +26,7 @@ class Ship {
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, relationShip, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 		if (inSector === undefined) inSector = Hellaxy.Sector;
+		if (ctrl === undefined) ctrl = "none";
 		var neuerSpawn = this.clone();
 		neuerSpawn.x = atX;
 		neuerSpawn.y = atY;
@@ -41,6 +42,7 @@ class Ship {
 	
 	clone(){
 		var clone = new Ship();
+		Ships.pop();
 		for (var property in this){
 			clone[property] = this[property];
 			for (var i = 1; i < 3; i++){

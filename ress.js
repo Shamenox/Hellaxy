@@ -11,7 +11,9 @@ images = {
 	testmap : "bgs",
 	
 	chestanian_fortress : "planets",
-	imat_chestcolony : "planets",
+	haufen1 : "planets",
+	haufen2 : "planets",
+	haufen3 : "planets",
 	humania : "planets",
 	pontes : "planets",
 	testmoon : "planets",

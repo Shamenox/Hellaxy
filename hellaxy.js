@@ -18,6 +18,8 @@ function addMsg(content){
 function startCampaign(campaign){
 	Hellaxy.Campaign = campaign;
 	Hellaxy.task = campaignManager;
+	LEVEL = Hellaxy.Campaign.levels[Hellaxy.Campaign.at];
+	Hellaxy.Campaign.check();
 }
 
 function display(obj){
