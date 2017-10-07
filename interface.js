@@ -149,7 +149,7 @@ function setupScreens(){
 		}
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;})
 		
-		Helon.ctx.fillText("Workin soon!", 490, 440);
+		Helon.ctx.fillText("Working soon!", 490, 440);
 	});
 }
 
