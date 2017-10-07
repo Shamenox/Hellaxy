@@ -18,18 +18,20 @@ function setupControls(){
 		if (key.s) {
 			this.dec();
 		}
-		if (key.space) this.wp1.fire();
+		if (key.space) this.wp1.fire(), console.log(projectile);;
 	}
 	
-	npc.simpleRoamer = function(){
+	npc.simpleRoamer = function(){ 
 		this.acc();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+		this.turn();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
 		if (this.nextShip("anythingElse", 400) !== false){
 			if (this.hp >= this.mass / 2){
 				this.pointAt(this.nextShip("anythingElse", 400));
 				if (this.pointsAt(this.nextShip("anythingElse", 400))) {
-					this.fireSmall()
-					if (this.special1 !== undefined) this.special1.exe();
+					this.fire(1);
+					this.fire(2);
+					this.fire(3);
 				}
 			}
 			if (this.hp < this.mass / 2){

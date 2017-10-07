@@ -31,6 +31,7 @@ class Weapon {
 			return false;
 		}
 		
+		
 		neuesProjektil.sound = function(of){
 			if (of === "fire"){
 				if (this.mass <= 644) Helon.ress.audio.shot_1.play();
@@ -42,13 +43,13 @@ class Weapon {
 				if (this.mass <= 644) Helon.ress.audio.bounce_1.play();
 			}
 		}
-		neuesProjektil.sound("fire");
+		
 		
 		neuesProjektil.act = function(){
 			this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
 			this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 			if (this.x < 0 || this.y < 0 || this.x > Hellaxy.Sector.width || this.y > Hellaxy.Sector.height){
-				projectile.splice(this.ID,1);
+				projectile.splice(this.ID(),1);
 				return;
 			}
 			for (var h = 0; h < Hellaxy.Sector.ships.length; h++){ //Prozess bei Treffer
@@ -60,11 +61,11 @@ class Weapon {
 						if (SHIP.shield > 1) SHIP.shield -= this.alpha;
 						if (SHIP.maxShield > 0 && SHIP.maxShield < 1) SHIP.hp -= this.alpha * SHIP.shield;
 						this.sound("pen");
-						projectile.splice(this.ID,1);
+						projectile.splice(this.ID(),1);
 						return;
 					}
 					if (this.pen < SHIP.armour){
-						for (j = 180; j > 0; j--){
+						for (var j = 180; j > 0; j--){
 							this.angle -=1;
 							if (this.angle === -1) this.angle = 359;
 						}
@@ -72,14 +73,26 @@ class Weapon {
 						this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 						this.sound("bounce");
 						if (this.hits(SHIP)){
-							projectile.splice(this.ID,1);
+							projectile.splice(this.ID(),1);
 							return;
 						}
 					}
 				}
 			}
 		}
-		neuesProjektil.ID = projectile.length;
+		
+		
+		neuesProjektil.ID = function(){
+			for (var id = 0; id < projectile.length; id++){
+				if (projectile[id] === this) return id;
+			}
+			console.log("ID not found");
+			return 0;
+		}
+		
+		
+		neuesProjektil.sound("fire");
+		
 		projectile.push(neuesProjektil);
 	}
 	

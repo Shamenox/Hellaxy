@@ -43,13 +43,15 @@ function setupScreens(){
 		if (key.space) Hellaxy.Screen = menue;
 	});
 
+	
 	menue = new Screen("menue", "blackscreen", "theme1", function(){
-		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){Hellaxy.Campaign = quicktest; Hellaxy.task = campaignManager;})
-		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){})
+		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){startCampaign(quicktest)})
+		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){Hellaxy.Screen = campaigns})
 		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){})
 		button(400, 550, 480, 100, "Controls", "yellow", function(){Hellaxy.Screen = controls})
 	});
 
+	
 	controls = new Screen("controls", "blackscreen", "theme1", function(){
 		Helon.ctx.fillText("Accelerate forwards = W", 100,100);
 		Helon.ctx.fillText("Turn Left = A", 100,150);
@@ -64,6 +66,7 @@ function setupScreens(){
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;});
 	});
 	
+	
 	paused = new Screen("paused", "blank", "none", function(){
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
 		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.Screen = menue});
@@ -74,6 +77,7 @@ function setupScreens(){
 		Helon.ctx.font = "24px Consolas";
 		Helon.ctx.lineWidth = 1;
 	});
+	
 	
 	messager = new Screen("messager", "blank", "none", function(){
 		if (Hellaxy.Msgs.length === 0){
@@ -101,23 +105,38 @@ function setupScreens(){
 			if (intervalReact(key.e, 500, "msgDelay")){
 				Hellaxy.Msgs.splice(0,1);
 			}
-			if (intervalReact(key.esc)){
+			if (intervalReact(intervalReact(key.esc, 500, "esc"))){
 				Hellaxy.Msgs.splice(0, Hellaxy.Msgs.length);
 			}
 		}
 	});
+	
+	
+	
+	function campaignLine(of, designation, posy){
+		Helon.ctx.fillText(designation + ":   Lvl " + of.at, 200, posy);
+		if (of.at !== 0){
+			if (of.at !== of.levels.length){
+				{button(500, 115, posy - 20, 50, "Continue", "yellow", function(){startCampaign(of)});};
+			}
+			else {
+				Helon.ctx.fillText("Complete!", 500, posY);
+			}
+		}
+		button(700, 115, posy - 20, 50, "New", "yellow", function(){of.at = 0; startCampaign(of)});
+	}
+	
+	campaigns = new Screen("campaign", "blackscreen", "theme1", function(){
+		Helon.ctx.fillText("Campaign Mode", 540, 50);
+		Helon.ctx.fillText("Select your campaign:", 490, 80);
+		campaignLine(humanian, "Humanian", 150);
+		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;})
+	});
 }
 
-/*
-campaign = new Screen("campaign", "blackscreen", audio.theme1, function(){
-	Helon.ctx.fillText("Campaign Mode", 540, 50);
-	Helon.ctx.fillText("Select your campaign:", 490, 80);
-	Helon.ctx.fillText("Humanian:   Lvl " + humanian.at, 200, 150);
-	if (humanian.levels[humanian.at] !== undefined) {button(500, 115, 130, 50, "Continue", "yellow", function(){CAMPAIGN = humanian});} else {Helon.ctx.fillText("Complete!", 500, 150);}
-	button(700, 115, 130, 50, "New", "yellow", function(){humanian.at = 0; CAMPAIGN = humanian;});
-	button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;})
-});
 
+
+/*
 freeroam = new Screen("freeroam", "blackscreen", audio.theme1, function(){
 	var hor = 1;
 	var ver = 1;

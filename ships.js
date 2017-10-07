@@ -30,6 +30,7 @@ class Ship {
 		neuerSpawn.x = atX;
 		neuerSpawn.y = atY;
 		neuerSpawn.angle = atAngle;
+		neuerSpawn.aim = atAngle;
 		neuerSpawn.ctrl = ctrl;
 		neuerSpawn.relationShipID = relationShip;
 		neuerSpawn.abgang = abgang;
@@ -86,11 +87,22 @@ class Ship {
 			this.angle += 40 * this.a;
 		}
 		
-		if (dir === "target"){ 
+		if (dir === undefined || dir === "target"){ 
 			if (this.angle <= 180){
-				if (this.aim.between(this.angle, this.angle + 180)){ this.angle += this.a * 100;} else {this.angle -= this.a * 40;}
-			} else {
-				if (this.aim.between(this.angle, this.angle - 180)){ this.angle -= this.a * 100;} else {this.angle += this.a * 40;}
+				if (this.aim.between(this.angle, this.angle + 180)){
+						this.angle += this.a * 100;
+					}
+				else {
+					this.angle -= this.a * 40;
+				}
+			}
+			else {
+				if (this.aim.between(this.angle, this.angle - 180)){ 
+					this.angle -= this.a * 100;
+				} 
+				else{
+					this.angle += this.a * 40;
+				}
 			}
 			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
 		}
@@ -99,7 +111,7 @@ class Ship {
 	
 	fire(slot){
 		if (this["wp" + slot] === undefined) return;
-		if (intervalReact(this["wp" + slot].ammo > 0, this["wp" + slot].reload, "wp" + slot + this.ID())) this["wp" + slot].fire();
+		this["wp" + slot].fire();
 	}
 	
 	
@@ -120,6 +132,7 @@ class Ship {
 	
 	explode(){
 		this.skin = Helon.ress.images.explosion;
+		console.log(Helon.ress.audio.explosion1);
 		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
 		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);

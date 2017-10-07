@@ -41,8 +41,8 @@ class Sector{
 	}
 	
 	
-	addPlanet(designation, skin, x, y){
-		var neuerPlanet = new Planet(designation, skin, x, y);
+	addPlanet(designation, x, y){
+		var neuerPlanet = new Planet(designation, x, y);
 		neuerPlanet.sector = this.bg;
 		this.planets.push(neuerPlanet);
 	}
@@ -113,8 +113,8 @@ class Sector{
 		this.displayBg();
 		this.displayPlanets();
 		this.displayPortals();
-		this.displayShips();
 		displayProjectiles();
+		this.displayShips();
 		if (this.events !== undefined) this.events();
 		if (this.theme !== "none") this.theme.play();
 	}

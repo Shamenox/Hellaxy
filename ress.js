@@ -48,5 +48,5 @@ function loadAudio(){
 	Helon.ress.audio.bounce_1 = new Audio("ress/audio/bounce_1.mp3");
 	Helon.ress.audio.engine1 = new Audio("ress/audio/engine1.mp3");
 	Helon.ress.audio.theme1 = new Audio("ress/audio/theme1.mp3");
-	Helon.ress.audio.explosion1 = new Audio("ress/audio/bomb 3-soundbible.com-1260663209.wav");
+	Helon.ress.audio.explosion1 = new Audio("ress/audio/explosion1.mp3");
 }

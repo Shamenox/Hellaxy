@@ -15,6 +15,11 @@ function addMsg(content){
 	Hellaxy.Msgs.push(neueMsg);
 }
 
+function startCampaign(campaign){
+	Hellaxy.Campaign = campaign;
+	Hellaxy.task = campaignManager;
+}
+
 function display(obj){
 	Helon.ctx.translate(obj.x - Hellaxy.Sector.offset.x, obj.y - Hellaxy.Sector.offset.y); // Drehung
 	Helon.ctx.rotate(obj.angle * Math.PI / 180);

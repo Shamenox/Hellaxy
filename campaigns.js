@@ -27,7 +27,7 @@
 function campaignManager(){
 	Hellaxy.Campaign.check();
 	Hellaxy.Sector.act();
-	if (key.esc){
+	if (intervalReact(key.esc, 500, "esc")){
 		Hellaxy.Screen = paused;
 		Hellaxy.task = screenManager;
 	}
@@ -69,17 +69,50 @@ quicktest = new Campaign();                                                     
 
 function setupLevels(){
 	quicktest.addLevel(function(){
-		Hellaxy.Sector = testmap;
-		humanian_shuttle.spawn(testmap, 300, 200, 0, npc.defender, 0);
-		humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
-		humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
-		testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
-		fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
-	}
-		,{
-		no : false
-	});
+			Hellaxy.Sector = testmap;
+			humanian_shuttle.spawn(testmap, 300, 200, 0, npc.defender, 0);
+			humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
+			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
+			testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
+			testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
+			fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
+		},
+		{
+			no : false
+		}
+	);
+	
+	humanian.addLevel(function(){
+			Hellaxy.Sector = central_sector;
+			central_sector.addPlanet("humania", 1000, 1000);
+			central_sector.addPlanet("pontes", 1420, 2550);
+			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); this.end();}); 			//inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+			humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
+			humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
+			humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
+			humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
+			humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
+			qubanic_colonizer.spawn(central_sector, 400, 400, 135, function(){this.follow(central_sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); humanian.levels[0].conditions.ufoeliminated = true;});
+			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
+			addMsg("Humanian HQ: Attention!");
+			addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
+			addMsg("According to your Intruments you six should all be fine out there.");
+			addMsg("Dont get carried away. The Reason we starded the Mission early");
+			addMsg("was because that unknown trabant");
+			addMsg("that appeared on our radars one month ago");
+			addMsg("has suddenly starded to move towards Humania.");
+			addMsg("Your mission is to guard our Orbit");
+			addMsg("and eliminate said Object if necessary.");
+			addMsg("You control your Shuttle by clicking in the direction you want to head");
+			addMsg("or alternatively via the WASD interface.");
+			addMsg("The Space bar triggers your high-tech 5nm machinegun twin.");
+			addMsg("Good luck out there!");
+		},
+		{
+			ufoeliminated : false
+		}
+	);
 }
 	/*
 	humanian.addLevel(function(){
