@@ -2,7 +2,7 @@ var Hellaxy = {
 	Msgs : [],
 	Screen : {},
 	Campaign : {},
-	Sector : {}
+	Sector : {},
 };
 
 Hellaxy.loop = function(){

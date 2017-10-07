@@ -52,19 +52,16 @@ class Sector{
 		for (var i = 0; i < this.ships.length; i++){
 			var SHIP = this.ships[i];
 			SHIP.act();
-			if (SHIP === "explosion") Helon.ctx.drawImage(image.explosion, SHIP.x - this.offset.x, SHIP.y - this.offset.y, SHIP.skin.naturalWidth, SHIP.skin.naturalWidth);
-			if (SHIP.active === true){
-				display(SHIP);
-				if (SHIP.ctrl !== player1){
-					Helon.ctx.strokeStyle = "red";  //infotafel
-					Helon.ctx.fillStyle = "green";
-					Helon.ctx.strokeRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
-					Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / SHIP.mass), 6);
-					Helon.ctx.fillStyle = "blue";
-					Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / SHIP.maxshield), 6);
-					Helon.ctx.strokeStyle = "yellow";
-					Helon.ctx.fillStyle = "yellow";
-				}
+			display(SHIP);
+			if (SHIP.ctrl !== player1){
+				Helon.ctx.strokeStyle = "red";  //infotafel
+				Helon.ctx.fillStyle = "green";
+				Helon.ctx.strokeRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
+				Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / SHIP.mass), 6);
+				Helon.ctx.fillStyle = "blue";
+				Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / SHIP.maxshield), 6);
+				Helon.ctx.strokeStyle = "yellow";
+				Helon.ctx.fillStyle = "yellow";
 			}
 		}
 	}

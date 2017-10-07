@@ -11,7 +11,7 @@ class Ship {
 		this.shield = 0;
 		this.armour = 1;
 		this.aim = 0;
-		this.ID = null;
+		this.sector = {ships : []};
 		this.ctrl = "none";
 		this.active = true;
 		for (var property in specs){
@@ -33,7 +33,7 @@ class Ship {
 		neuerSpawn.ctrl = ctrl;
 		neuerSpawn.relationShipID = relationShip;
 		neuerSpawn.abgang = abgang;
-		neuerSpawn.ID = inSector.ships.length;
+		neuerSpawn.sector = inSector;
 		inSector.ships.push(neuerSpawn);
 	}
 	
@@ -54,6 +54,15 @@ class Ship {
 			}
 		}
 		return clone;
+	}
+	
+	
+	ID(){
+		for (var id = 0; id < this.sector.ships.length; id++){
+			if (this.sector.ships[id] === this) return id;
+		}
+		console.log("ID not found");
+		return 0;
 	}
 	
 	
@@ -90,7 +99,7 @@ class Ship {
 	
 	fire(slot){
 		if (this["wp" + slot] === undefined) return;
-		if (intervalReact(this["wp" + slot].ammo > 0, this["wp" + slot].reload, "wp" + slot + this.ID)) this["wp" + slot].fire();
+		if (intervalReact(this["wp" + slot].ammo > 0, this["wp" + slot].reload, "wp" + slot + this.ID())) this["wp" + slot].fire();
 	}
 	
 	
@@ -113,7 +122,8 @@ class Ship {
 		this.skin = Helon.ress.images.explosion;
 		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
-		setTimeout(function(){Hellaxy.Sector.ships.splice(this.ID, 1)}, 2000);
+		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);
+		this.explode = function(){};
 	}
 	
 	
@@ -171,7 +181,7 @@ class Ship {
 	}
 	
 	act(){
-		var SECTOR = Hellaxy.Sector;
+		var SECTOR = this.sector;
 		if (this.hp < 0) this.explode(); //Abfrage ob noch aktiv
 		if (this.ctrl !== "none") this.ctrl(); // Zugriff durch Spieler/KIs
 		this.y -= this.vy; //Bewegung durch Geschwindigkeit
@@ -187,13 +197,14 @@ class Ship {
 		for (var h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
 			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
 		}
+		/*
 		for (var h = 0; h < SECTOR.portals.length; h++){
 			if (this.collidesWith(SECTOR.portals[h])){
 				SECTOR.portals[h].dest.ships.push(this);
 				SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].x = SECTOR.portals[h].atX;
 				SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].y = SECTOR.portals[h].atY;			
 			}
-		}
+		} */
 	}
 }
 
