@@ -18,7 +18,8 @@ function setupControls(){
 		if (key.s) {
 			this.dec();
 		}
-		if (key.space) this.wp1.fire(), console.log(projectile);;
+		if (key.space) this.wp1.fire();
+		GUI(this);
 	}
 	
 	npc.simpleRoamer = function(){ 
@@ -41,13 +42,19 @@ function setupControls(){
 	}
 	
 	npc.defender = function(){
-		var of = Hellaxy.Sector.ships[this.relationShipID];
-		if (of.active === true){
-			if (of.nextShip("anythingElse", 300) === false){
-				this.follow(of, 50);
-			} else {
-				this.follow(of.nextShip("anythingElse", 300), 20);
-				if (this.pointsAt(of.nextShip("anythingElse", 300))) this.fireSmall();
+		var of = this.nextShip(this.fraction);
+		if (of !== false){
+			var trgt = of.nextShip("anythingElse", 500);
+			if (trgt === false){
+				this.follow(of, 100);
+			}
+			if (trgt !== false){
+				this.follow(trgt, 200);
+				if (this.pointsAt(trgt)){
+					this.fire(1);
+					this.fire(2);
+					this.fire(3);
+				}
 			}
 		} else {this.ctrl = npc.simpleRoamer;}
 	}

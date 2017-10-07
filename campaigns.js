@@ -1,4 +1,6 @@
-﻿class Campaign {
+﻿var LEVEL;
+
+class Campaign {
 	constructor(){
 		this.levels = [];
 		this.at = 0;
@@ -11,11 +13,11 @@
 	
 	
 	check(){
-		var LEVEL = this.levels[this.at];
 		if (!LEVEL.isSetup) LEVEL.setup(), LEVEL.isSetup = true;
 		if (LEVEL.events !== undefined) LEVEL.events();
 		for (var cond in LEVEL.conditions){
-			if (LEVEL.conditions[cond] === false) return; 
+			console.log(Level.conditions, cond);
+			if (LEVEL.conditions[cond] === false) return;
 		}
 		Helon.ctx.fillStyle = "yellow";
 		Helon.ctx.fillText("Mission completed!!!", 450, 200);
@@ -24,7 +26,10 @@
 	}
 }
 
+
+
 function campaignManager(){
+	LEVEL = Hellaxy.Campaign.levels[Hellaxy.Campaign.at];
 	Hellaxy.Campaign.check();
 	Hellaxy.Sector.act();
 	if (intervalReact(key.esc, 500, "esc")){
@@ -70,13 +75,13 @@ quicktest = new Campaign();                                                     
 function setupLevels(){
 	quicktest.addLevel(function(){
 			Hellaxy.Sector = testmap;
-			humanian_shuttle.spawn(testmap, 300, 200, 0, npc.defender, 0);
+			//humanian_shuttle.spawn(testmap, 300, 200, 0, npc.defender, 0);
 			humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
 			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
 			testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
-			testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
-			fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
+			//testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
+			//fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
 		},
 		{
 			no : false
@@ -87,13 +92,14 @@ function setupLevels(){
 			Hellaxy.Sector = central_sector;
 			central_sector.addPlanet("humania", 1000, 1000);
 			central_sector.addPlanet("pontes", 1420, 2550);
-			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); this.end();}); 			//inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.end();});
+			central_sector.ships[0].mass++;
 			humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
 			humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
 			humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
 			humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
 			humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
-			qubanic_colonizer.spawn(central_sector, 400, 400, 135, function(){this.follow(central_sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); humanian.levels[0].conditions.ufoeliminated = true;});
+			qubanic_colonizer.spawn(central_sector, 400, 400, 135, function(){this.follow(central_sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
 			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 			addMsg("Humanian HQ: Attention!");
 			addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");

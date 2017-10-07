@@ -53,7 +53,7 @@ class Sector{
 			var SHIP = this.ships[i];
 			SHIP.act();
 			display(SHIP);
-			if (SHIP.ctrl !== player1){
+			if (SHIP.ctrl !== player1 && SHIP.hp > 0){
 				Helon.ctx.strokeStyle = "red";  //infotafel
 				Helon.ctx.fillStyle = "green";
 				Helon.ctx.strokeRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);

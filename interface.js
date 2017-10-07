@@ -120,7 +120,7 @@ function setupScreens(){
 				{button(500, 115, posy - 20, 50, "Continue", "yellow", function(){startCampaign(of)});};
 			}
 			else {
-				Helon.ctx.fillText("Complete!", 500, posY);
+				Helon.ctx.fillText("Complete!", 500, posy);
 			}
 		}
 		button(700, 115, posy - 20, 50, "New", "yellow", function(){of.at = 0; startCampaign(of)});
@@ -155,12 +155,11 @@ freeroam = new Screen("freeroam", "blackscreen", audio.theme1, function(){
 	}
 	button(400, 650, 480, 50, "Back", "yellow", function(){SECTOR = menue;})
 });
+*/
 
 
-
-/*
-function GUI() {
-	if (SECTOR.ships[player1Pos] !== undefined){
+function GUI(of) {
+	if (of !== undefined){
 		Helon.ctx.fillStyle = "grey";
 		Helon.ctx.fillRect(0,600,1280,120);
 		Helon.ctx.fillStyle = "white";
@@ -169,39 +168,42 @@ function GUI() {
 		Helon.ctx.lineWidth = 10;
 		Helon.ctx.strokeRect(9,609,1262,102);
 		Helon.ctx.strokeRect(9,609,102,102);
-		Helon.ctx.drawImage(playerShip.skin, 14, 614, 92, 92);
+		Helon.ctx.drawImage(of.skin, 14, 614, 92, 92);
 		Helon.ctx.fillStyle = "black";
-		if (playerShip.maxshield !== 0) Helon.ctx.fillText("Shield:", 120, 645);
+		if (of.maxshield !== 0) Helon.ctx.fillText("Shield:", 120, 645);
 		Helon.ctx.fillText("Structure:", 120, 685);
 		Helon.ctx.fillStyle = "red";
-		if (playerShip.maxshield !== 0) Helon.ctx.fillRect(260, 625, 200, 24);
+		if (of.maxshield !== 0) Helon.ctx.fillRect(260, 625, 200, 24);
 		Helon.ctx.fillRect(260, 665, 200, 24);
 		Helon.ctx.fillStyle = "blue";
-		if (playerShip.shield !== 0) Helon.ctx.fillRect(260, 625, 200 * (playerShip.shield / playerShip.maxshield), 24);
+		if (of.shield !== 0) Helon.ctx.fillRect(260, 625, 200 * (of.shield / of.maxshield), 24);
 		Helon.ctx.fillStyle = "green";
-		Helon.ctx.fillRect(260, 665, 200 * (playerShip.hp / playerShip.mass), 24);
+		Helon.ctx.fillRect(260, 665, 200 * (of.hp / of.mass), 24);
 		Helon.ctx.lineWidth = 4;
-		if (playerShip.shield !== 0) Helon.ctx.strokeRect(260, 625, 200, 24);
+		if (of.shield !== 0) Helon.ctx.strokeRect(260, 625, 200, 24);
 		Helon.ctx.strokeRect(260, 665, 200, 24);
 		Helon.ctx.lineWidth = 2;
 		Helon.ctx.fillStyle = "black";
-		if (playerShip.shield !== 0) Helon.ctx.fillText(playerShip.shield, 270, 645);
-		Helon.ctx.fillText(playerShip.hp, 270, 685);
-		Helon.ctx.fillText("=>" + SECTOR, 1050 , 635);
-		if (playerShip.wp1 !== undefined) {
-			Helon.ctx.fillText(playerShip.wp1 + ":", 470, 635);
-			Helon.ctx.fillText(playerShip.wp1.ammo, 490 + Helon.ctx.measureText(playerShip.wp1).width, 635);
+		if (of.shield !== 0) Helon.ctx.fillText(of.shield, 270, 645);
+		Helon.ctx.fillText(of.hp, 270, 685);
+		Helon.ctx.fillText("=>" + Hellaxy.Sector.ID + " Sector", 1050 , 635);
+		if (of.wp1 !== undefined) {
+			Helon.ctx.fillText(of.wp1.designation + ":", 470, 635);
+			Helon.ctx.fillText(of.wp1.ammo, 490 + Helon.ctx.measureText(of.wp1.designation).width, 635);
 		}
-		if (playerShip.wp2 !== undefined) {
-			Helon.ctx.fillText(playerShip.wp2 + ":", 470, 665);
-			Helon.ctx.fillText(playerShip.wp2.ammo, 490 + Helon.ctx.measureText(playerShip.wp2).width, 665);
+		if (of.wp2 !== undefined) {
+			Helon.ctx.fillText(of.wp2.designation + ":", 470, 665);
+			Helon.ctx.fillText(of.wp2.ammo, 490 + Helon.ctx.measureText(of.wp2.designation).width, 665);
 		}
-		if (playerShip.wp3 !== undefined) {
-			Helon.ctx.fillText(playerShip.wp3 + ":", 470, 695);
-			Helon.ctx.fillText(playerShip.wp3.ammo, 490 + Helon.ctx.measureText(playerShip.wp3).width, 695);
+		if (of.wp3 !== undefined) {
+			Helon.ctx.fillText(of.wp3.designation + ":", 470, 695);
+			Helon.ctx.fillText(of.wp3.ammo, 490 + Helon.ctx.measureText(of.wp3.designation).width, 695);
 		}
 		Helon.ctx.strokeStyle = "yellow";
-		} /*
+	} 
+}
+		
+		/*
 	if (intervalReact(key.i && infoScreen)) infoScreen = false;
 	if (intervalReact(key.i && !infoScreen)) infoScreen = true;
 	if (infoScreen) {

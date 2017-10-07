@@ -45,7 +45,7 @@ class Ship {
 			clone[property] = this[property];
 			for (var i = 1; i < 3; i++){
 				if (property == ["wp" + i]){
-					clone["wp" + i] = new Weapon(this["wp" + i].skinName, this["wp" + i].alpha, this["wp" + i].pen, this["wp" + i].reload, this["wp" + i].ammo);
+					clone["wp" + i] = new Weapon(this["wp" + i].designation, this["wp" + i].skinName, this["wp" + i].alpha, this["wp" + i].pen, this["wp" + i].reload, this["wp" + i].ammo);
 					clone["wp" + i].ship = clone;
 				}
 				if (property == ["sp" + i]){
@@ -132,7 +132,6 @@ class Ship {
 	
 	explode(){
 		this.skin = Helon.ress.images.explosion;
-		console.log(Helon.ress.audio.explosion1);
 		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
 		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);
@@ -141,7 +140,7 @@ class Ship {
 	
 	
 	distanceTo(distanced){
-		return Math.sqrt((distanced.x - this.x)*(distanced.x - this.x) + (distanced.x - this.x)*(distanced.x - this.x));
+		return Math.sqrt((distanced.x - this.x)*(distanced.x - this.x) + (distanced.y - this.y)*(distanced.y - this.y));
 	}
 	
 	
@@ -157,7 +156,7 @@ class Ship {
 	
 	
 	pointsAt(Suspect){
-		if (this.angle.between(this.angleTowards(Suspect) + 3, this.angleTowards(Suspect) - 3)) return true;
+		if (this.angle.between(this.angleTowards(Suspect) + 5, this.angleTowards(Suspect) - 5)) return true;
 		return false;
 	}
 	
@@ -175,9 +174,16 @@ class Ship {
 	nextShip(search, range){
 		if (range === undefined) range = 1000;
 		for (var h = 0; h <= range; h ++){
-			for (var k = 0; k < Hellaxy.Sector.ships.length; k++){
-				if (this.distanceTo(Hellaxy.Sector.ships[k]) <= h && k !== this.ID){
-					if (search === undefined && Hellaxy.Sector.ships[k].active === true || search === "anythingElse" && Hellaxy.Sector.ships[k].fraction !== this.fraction && Hellaxy.Sector.ships[k].active === true || Hellaxy.Sector.ships[k].fraction === search && Hellaxy.Sector.ships[k].active === true) return Hellaxy.Sector.ships[k];
+			for (var k = 0; k < this.sector.ships.length; k++){
+				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID()){
+					if (search === undefined) return Hellaxy.Sector.ships[k];
+					if (search === "anythingElse"){
+						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.Sector.ships[k];
+					}
+					else {
+						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) return Hellaxy.Sector.ships[k];
+						if (search !== this.fraction && search === this.sector.ships[k].fraction) return Hellaxy.Sector.ships[k];
+					}
 				}
 			}
 		}
@@ -186,16 +192,19 @@ class Ship {
 	
 	
 	follow(toFollow, atDistance){
+		this.pointAt (toFollow);
+		this.turn();
 		if (this.distanceTo(toFollow) > atDistance) {
-			this.pointAt (toFollow);
 			if (this.pointsAt(toFollow)) this.acc();
 		}
-		else this.dec();
+		else {
+			this.dec();
+		}
 	}
 	
 	act(){
 		var SECTOR = this.sector;
-		if (this.hp < 0) this.explode(); //Abfrage ob noch aktiv
+		if (this.hp < 1) this.explode(); //Abfrage ob noch aktiv
 		if (this.ctrl !== "none") this.ctrl(); // Zugriff durch Spieler/KIs
 		this.y -= this.vy; //Bewegung durch Geschwindigkeit
 		this.x += this.vx;

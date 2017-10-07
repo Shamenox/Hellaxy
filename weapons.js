@@ -1,7 +1,8 @@
 var projectile = [];
 
 class Weapon {
-	constructor(skin, alpha, pen, reload, ammo){  //skin, alpha, pen, reload, ammo
+	constructor(designation, skin, alpha, pen, reload, ammo){  //skin, alpha, pen, reload, ammo
+		this.designation = designation;
 		this.skin = Helon.ress.images[skin];
 		this.skinName = skin;
 		this.alpha = alpha;
@@ -25,6 +26,7 @@ class Weapon {
 		neuesProjektil.emitter = this.ship;
 		neuesProjektil.hits = function (obj) {
 			if (this.emitter === obj) return false; //Prüfen ob Ziel das eigene Schiff ist
+			if (obj.fraction !== "none" && obj.fraction === this.emitter.fraction) return false;
 			if (this.x.between(obj.x - this.skin.naturalWidth/2 - obj.skin.naturalWidth/2, obj.x + this.skin.naturalWidth/2 + obj.skin.naturalWidth/2)){
 				if (this.y.between(obj.y - this.skin.naturalHeight/2 - obj.skin.naturalHeight/2, obj.y + this.skin.naturalHeight/2 + obj.skin.naturalHeight/2)) return true;
 			}
@@ -98,7 +100,7 @@ class Weapon {
 	
 	
 	fire(){
-		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.ID)){
+		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.ID())){
 			this.ammo --;
 			this.spawnProjectile();
 		} 
@@ -113,7 +115,7 @@ function displayProjectiles(){
 }
 
 function setupWeapons(){  //skin, alpha, pen, reload, ammo
-	machinegun_5nm = new Weapon("shot_light_1", 4, 1, 100, 200);
-	kolexialgun_14nm = new Weapon ("shot_medium_tripple", 36, 10, 200, 600);
-	ophianian_beam = new Weapon ("beam_ophianian", 1000, 5, 4000, 66);
+	machinegun_5nm = new Weapon("machinegun_5nm", "shot_light_1", 4, 1, 100, 300);
+	kolexialgun_14nm = new Weapon ("kolexialgun_14nm", "shot_medium_tripple", 36, 10, 200, 600);
+	ophianian_beam = new Weapon ("ophianian_beam", "beam_ophianian", 1000, 5, 4000, 66);
 }
