@@ -225,14 +225,16 @@ function setupLevels(){
 		addMsg("For Humania!");
 		},
 		{
-			no : false,
+			dmgd : false
+			escaped : false,
 		},
 		function(){
-			if (central_sector.ships[0].hp < 2400){
+			if (central_sector.ships[0].hp < 2400 && this.conditions.dmgd !==false ){
 				addMsg("Thats it, there is no hope for the Planet...");
 				addMsg("We have no other choice, please forgive us.");
 				addMsg("Start the FTL-engines!");
-				central_sector.ships[0].ctrl = function(){this.aim = 45; this.a = 1; this.turn(); if (this.angle === 45) this.acc(); if (this.y < central_sector.offset.y || this.x > central_sector.offset.x) LEVEL.end();};
+				central_sector.ships[0].ctrl = function(){this.aim = 45; this.a = 1; this.turn(); if (this.angle === 45) this.acc(); if (this.y < central_sector.offset.y || this.x > central_sector.offset.x) LEVEL.conditions.escaped = true;};
+				this.conditions.dmgd = true;
 			}
 		}
 	);
