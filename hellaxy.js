@@ -19,7 +19,12 @@ function startCampaign(campaign){
 	Hellaxy.Campaign = campaign;
 	Hellaxy.task = campaignManager;
 	LEVEL = Hellaxy.Campaign.levels[Hellaxy.Campaign.at];
-	Hellaxy.Campaign.check();
+	if (!LEVEL.isSetup) {
+		LEVEL.setup();
+		LEVEL.isSetup = true;
+	}
+	Hellaxy.Campaign.act();
+	Hellaxy.Sector.act();
 }
 
 function display(obj){

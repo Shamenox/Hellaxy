@@ -162,6 +162,11 @@ class Ship {
 		return false;
 	}
 	
+	pointsFrom(Suspect){
+		if (this.angle.between(this.angleTowards(Suspect) + 175, this.angleTowards(Suspect) - 175)) return true;
+		return false;
+	}
+	
 	
 	pointFrom(toPointFrom){ // Festlegen eines Zielwinkels
 		this.aim = get360(this.angleTowards(toPointFrom) + 180);
@@ -241,8 +246,8 @@ function collide(a, b){
 	a.vy = -collision.potY * (b.mass / collision.potM);
 	b.vx = collision.potX * (a.mass / collision.potM);
 	b.vy = collision.potY * (a.mass / collision.potM);
-	a.hp -= collision.potDmg * (b.mass / collision.potM) * 5;
-	b.hp -= collision.potDmg * (a.mass / collision.potM) * 5;
+	a.hp -= collision.potDmg * (b.mass / collision.potM) * 8;
+	b.hp -= collision.potDmg * (a.mass / collision.potM) * 8;
 	a.hp = Math.round(a.hp);
 	b.hp = Math.round(b.hp);
 }
@@ -257,7 +262,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	qubanic_colonizer = new Ship({designation : "colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, a : 0.003});
 	ophianic_annectorstar = new Ship({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
-	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 200, armour : 1, a : 0.07});
+	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
 	
 	console.log(Ships);
 }

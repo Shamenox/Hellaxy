@@ -54,7 +54,6 @@ class Sector{
 	displayShips(){
 		for (var i = 0; i < this.ships.length; i++){
 			var SHIP = this.ships[i];
-			SHIP.act();
 			display(SHIP);
 			if (SHIP.ctrl !== player1 && SHIP.hp > 0){
 				Helon.ctx.strokeStyle = "red";  //infotafel
@@ -97,6 +96,15 @@ class Sector{
 	}
 	
 	
+	display(){
+		this.displayBg();
+		this.displayPlanets();
+		this.displayPortals();
+		displayProjectiles();
+		this.displayShips();
+	}
+	
+	
 	adjustOffset(){
 		if (this.offset.x < 0) this.offset.x = 0;
 		if (this.offset.y < 0) this.offset.y = 0;
@@ -113,11 +121,10 @@ class Sector{
 	
 	
 	act(){
-		this.displayBg();
-		this.displayPlanets();
-		this.displayPortals();
-		displayProjectiles();
-		this.displayShips();
+		this.display();
+		for (var i = 0; i < this.ships.length; i++){
+			this.ships[i].act();
+		}
 		if (this.events !== undefined) this.events();
 		if (this.theme !== "none") this.theme.play();
 	}

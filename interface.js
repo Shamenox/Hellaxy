@@ -61,14 +61,14 @@ function setupScreens(){
 		Helon.ctx.fillText("Light Weapon = Space", 100,300);
 		Helon.ctx.fillText("Medium Weapon = E", 100,350);
 		Helon.ctx.fillText("Heavy Weapon = Q", 100,400);
-		Helon.ctx.fillText("Info-Screen = I", 100,450);
-		Helon.ctx.fillText("Special Abilities = 1 - 3", 100,500);
-		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,550);
+		Helon.ctx.fillText("Special Abilities = 1 - 3", 100,450);
+		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,500);
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;});
 	});
 	
 	
 	paused = new Screen("paused", "blank", "none", function(){
+		Hellaxy.Sector.display();
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
 		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.Campaign.levels[Hellaxy.Campaign.at].cancel(); Hellaxy.Screen = menue});
 		Helon.ctx.lineWidth = 4;
@@ -85,6 +85,7 @@ function setupScreens(){
 			Hellaxy.task = campaignManager;
 		}
 		else{
+			Hellaxy.Sector.display();
 			Helon.ctx.fillStyle = "grey";
 			Helon.ctx.fillRect(0,0,1280,80);
 			Helon.ctx.fillStyle = "white";
@@ -202,8 +203,6 @@ function GUI(of) {
 }
 		
 		/*
-	if (intervalReact(key.i && infoScreen)) infoScreen = false;
-	if (intervalReact(key.i && !infoScreen)) infoScreen = true;
 	if (infoScreen) {
 		Game.ctx.lineWidth = 20;
 		Game.ctx.fillStyle = "Yellow";

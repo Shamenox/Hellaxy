@@ -14,5 +14,5 @@ class Special {
 }
 
 function setupSpecials(){
-	spawn_ophianianChunk = new Special( 6000, 66, function(){ophianic_chunk.spawn(this.ship.sector, this.ship.x, this.ship.y, this.ship.angle, npc.defender)});
+	spawn_ophianianChunk = new Special( 6000, 66, function(){ophianic_chunk.spawn(this.ship.sector, this.ship.x, this.ship.y, this.ship.angle, npc.rammer)});
 }

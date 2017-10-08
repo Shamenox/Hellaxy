@@ -12,8 +12,7 @@ class Campaign {
 	}
 	
 	
-	check(){
-		if (!LEVEL.isSetup) LEVEL.setup(), LEVEL.isSetup = true;
+	act(){
 		if (LEVEL.events !== undefined) LEVEL.events();
 	}
 }
@@ -21,7 +20,7 @@ class Campaign {
 
 
 function campaignManager(){
-	Hellaxy.Campaign.check();
+	Hellaxy.Campaign.act();
 	Hellaxy.Sector.act();
 	 if (LEVEL.target !== undefined) cursor.pointAt({
 		x : LEVEL.target.x - Hellaxy.Sector.offset.x,
@@ -40,8 +39,8 @@ function campaignManager(){
 		}
 	Helon.ctx.fillStyle = "yellow";
 	Helon.ctx.fillText("Mission completed!!!", 450, 200);
-	Helon.ctx.fillText("Press Space to continue", 450, 250);
-	if (key.space) LEVEL.end();
+	Helon.ctx.fillText("Press 'E' to continue", 450, 250);
+	if (intervalReact(key.e, 500, "msgDelay")) LEVEL.end();
 }
 
 class Level {
@@ -80,13 +79,12 @@ quicktest = new Campaign();                                                     
 function setupLevels(){
 	quicktest.addLevel(function(){
 			Hellaxy.Sector = testmap;
-			//humanian_shuttle.spawn(testmap, 300, 200, 0, npc.defender, 0);
 			humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
 			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
 			testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
-			//testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
-			//fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
+			testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
+			fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
 		},
 		{
 			no : false
@@ -118,6 +116,8 @@ function setupLevels(){
 			addMsg("You control your Shuttle by clicking in the direction you want to head");
 			addMsg("or alternatively via the WASD interface.");
 			addMsg("The Space bar triggers your high-tech 5nm machinegun twin.");
+			addMsg("Be aware that our new shuttles are agile but fragile!");
+			addMsg("So make sure to not ram or guide them into anything!");
 			addMsg("Good luck out there!");
 		},
 		{
@@ -146,7 +146,7 @@ function setupLevels(){
 		addMsg("Thats why we erected an Space hangar in our orbit");
 		addMsg("to enable further research.");
 		addMsg("We still dont know much about our interplanetary environment.");
-		addMsg("We registered an interesting sonar pattern not far from humania.");
+		addMsg("We registered an interesting sonar pattern not far from Humania.");
 		addMsg("Your order is to gather some samples from that location");
 		addMsg("and to bring them to our orbital hangar for analysis.");
 		addMsg("If you have a defined target location your cursor will now");
@@ -190,7 +190,7 @@ function setupLevels(){
 				ophianic_chunk.spawn(central_sector, 4120, 1310, 270, npc.simpleRoamer,);
 				ophianic_chunk.spawn(central_sector, 4150, 1300, 270, npc.simpleRoamer,);
 				ophianic_chunk.spawn(central_sector, 3190, 1320, 270, npc.simpleRoamer,);
-				this.target = this.target = central_sector.planets[4];
+				this.target = this.target = central_sector.planets[0];
 				LEVEL.conditions.pile3 = true;
 			}
 			if (LEVEL.conditions.pile3 && !LEVEL.conditions.gotback && central_sector.ships[0].collidesWith(central_sector.planets[0])) {
@@ -206,6 +206,7 @@ function setupLevels(){
 	humanian.addLevel(function(){
 		Hellaxy.Sector = central_sector;
 		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		ophianic_annectorstar.spawn(central_sector, 2000, 1100, 270, npc.ophianian_annector);
 		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
@@ -213,7 +214,6 @@ function setupLevels(){
 		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
 		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
 		humanian_satalite.spawn(central_sector, 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, 0, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
-		ophianic_annectorstar.spawn(central_sector, 2000, 1100, 270, npc.ophianian_annector);
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Something enormously huge as appeared on our Radars.");
@@ -225,15 +225,15 @@ function setupLevels(){
 		addMsg("For Humania!");
 		},
 		{
-			dmgd : false
+			dmgd : false,
 			escaped : false,
 		},
 		function(){
-			if (central_sector.ships[0].hp < 2400 && this.conditions.dmgd !==false ){
+			if (central_sector.ships[0].hp < 2400 && this.conditions.dmgd === false ){
 				addMsg("Thats it, there is no hope for the Planet...");
 				addMsg("We have no other choice, please forgive us.");
 				addMsg("Start the FTL-engines!");
-				central_sector.ships[0].ctrl = function(){this.aim = 45; this.a = 1; this.turn(); if (this.angle === 45) this.acc(); if (this.y < central_sector.offset.y || this.x > central_sector.offset.x) LEVEL.conditions.escaped = true;};
+				central_sector.ships[0].ctrl = function(){this.pointFrom(this.sector.ships[1]); this.a = 1; this.turn(); this.acc(); if (this.y < central_sector.offset.y || this.x > central_sector.offset.x) LEVEL.conditions.escaped = true;};
 				this.conditions.dmgd = true;
 			}
 		}

@@ -41,6 +41,20 @@ function setupControls(){
 		}
 	}
 	
+	npc.rammer = function(){ 
+		this.acc();
+		this.turn();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (this.nextShip("anythingElse", 400) !== false){
+			this.pointAt(this.nextShip("anythingElse", 400));
+			if (this.pointsAt(this.nextShip("anythingElse", 400))) {
+				this.fire(1);
+				this.fire(2);
+				this.fire(3);
+			}
+		}
+	}
+	
 	npc.defender = function(){
 		var of = this.nextShip(this.fraction);
 		if (of !== false){
@@ -75,8 +89,8 @@ function setupControls(){
 		else {
 			this.pointAt(trgt);
 			this.sp1.exe();
-			if (trgt === this.sector.ships[this.ID() - 7]){
-				if (this.pointsAt(this.sector.ships[this.ID() - 7])) this.acc();
+			if (trgt === this.sector.ships[this.ID() + 7]){
+				if (this.pointsAt(this.sector.ships[this.ID() + 7])) this.acc();
 			}
 			else{
 				if (this.pointsAt(trgt)) this.fire(1);
