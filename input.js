@@ -36,6 +36,9 @@ cursor.pointAt = function(da){
 }
 
 addEventListener("keydown", function(w) {
+	if (w.keyCode === 49) key.one = true;
+	if (w.keyCode === 50) key.two = true;
+	if (w.keyCode === 51) key.three = true;
     if (w.keyCode === 87) key.w = true;
     if (w.keyCode === 83) key.s = true;
     if (w.keyCode === 65) key.a = true;
@@ -51,6 +54,9 @@ addEventListener("keydown", function(w) {
     w.stopPropagation();
 }, false);
 addEventListener("keyup", function(w) {
+	if (w.keyCode === 49) key.one = false;
+	if (w.keyCode === 50) key.two = false;
+	if (w.keyCode === 51) key.three = false;
     if (w.keyCode === 87) key.w = false;
     if (w.keyCode === 83) key.s = false;
     if (w.keyCode === 65) key.a = false;

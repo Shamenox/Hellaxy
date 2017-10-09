@@ -54,6 +54,7 @@ class Level {
 	
 	
 	cancel(){
+		if (typeof Hellaxy.Sector.theme.play === "function") Hellaxy.Sector.theme.pause();
 		projectile.splice(0, projectile.length);
 		this.target = "none";
 		this.isSetup = false;
@@ -74,7 +75,8 @@ class Level {
 }
 
 humanian = new Campaign();  
-quicktest = new Campaign();                                                                                                        //<-- Kampagnendeklarierung
+quicktest = new Campaign();  
+freeroaming = new Campaign();                                                                                                     //<-- Kampagnendeklarierung
 
 function setupLevels(){
 	quicktest.addLevel(function(){
@@ -85,6 +87,14 @@ function setupLevels(){
 			testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
 			testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
 			fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
+		},
+		{
+			no : false
+		}
+	);
+	
+	freeroaming.addLevel(function(){
+			Hellaxy.Sector = central_sector;
 		},
 		{
 			no : false

@@ -19,8 +19,8 @@ class Sector{
 		this.planets = [];
 		this.portals = []; 
 		this.offset = {x : 0, y : 0};
-		if (Helon.ress.audio[ID] !== undefined){
-			this.theme = Helon.ress.audio[ID];
+		if (Helon.ress.audio["theme_"+ID] !== undefined){
+			this.theme = Helon.ress.audio["theme_"+ID];
 		}
 		else this.theme = "none";
 	}
@@ -35,7 +35,7 @@ class Sector{
 		neuesPortal.dest = atSector;
 		neuesPortal.atX = atX,
 		neuesPortal.atY = atY;
-		neuesPortal.withAngle = withAngle;
+		neuesPortal.atAngle = withAngle;
 		neuesPortal.fraction = "portal";
 		this.portals.push(neuesPortal);
 	}
@@ -81,8 +81,8 @@ class Sector{
 	displayPortals(){
 		for (var h = 0; h < this.portals.length; h++){
 			for (var i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
-				for (var j = this.portals[h].y; j < this.y + this.height; j += 100){
-				 Helon.ctx.drawImage(this.dest.bg, i - this.offset.x, j - this.offset.y);
+				for (var j = this.portals[h].y; j < this.portals[h].y + this.portals[h].height; j += 100){
+				 Helon.ctx.drawImage(this.portals[h].dest.bg, i - this.offset.x, j - this.offset.y);
 				}
 			}
 		}
@@ -144,8 +144,9 @@ function setupSectors () {
 	
 	outer_sector = new Sector("outer", 7500, 27000);
 	
-	central_sector.addPortal(0, 1000, 110, 2000, omar_sector, 4300, 1000, 270);
-
+	
+	central_sector.addPortal(0, 2500, 100, 350, omar_sector, 4200, 780, 270);
+	omar_sector.addPortal(4360, 600, 140, 350, central_sector, 250, 2750, 90);
 	
 }// No touchy!
 // :p hehe ~miterosan

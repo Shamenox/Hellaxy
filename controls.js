@@ -18,7 +18,9 @@ function setupControls(){
 		if (key.s) {
 			this.dec();
 		}
-		if (key.space) this.wp1.fire();
+		if (key.space) this.fire(1);
+		if (key.e) this.fire(2);
+		if (key.q) this.fire(3);
 		GUI(this);
 	}
 	

@@ -85,6 +85,7 @@ function setupScreens(){
 			Hellaxy.task = campaignManager;
 		}
 		else{
+			if (typeof Hellaxy.Sector.theme.play === "function") Hellaxy.Sector.theme.play();
 			Hellaxy.Sector.display();
 			Helon.ctx.fillStyle = "grey";
 			Helon.ctx.fillRect(0,0,1280,80);
@@ -138,19 +139,22 @@ function setupScreens(){
 	freeroam = new Screen("freeroam", "blackscreen", "theme1", function(){
 		var hor = 1;
 		var ver = 1;
+		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillText("Freeroam Mode", 540, 50);
 		Helon.ctx.fillText("Select your ship:", 490, 80);
 		for (var i = 1; i < Ships.length; i++){
 			Helon.ctx.drawImage(Ships[i].skin, hor*70, ver*70 + 50, 64, 64);
-			if (click && cursor.x.between(hor*70, hor*70 + 128) && cursor.y.between(ver*70, ver*70 + 128)){
-				//start Freeroam Campaign
+			if (cursor.x.between(hor*70, hor*70 + 64) && cursor.y.between(ver*70 + 50, ver*70 + 114)){
+				Helon.ctx.strokeRect(hor*70 - 4, ver*70 + 46, 70, 70);
+				if (click){
+					Ships[i].spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+					startCampaign(freeroaming);
+				}
 			}
 			hor++;
 			if (hor > 16) hor = 1, ver++;
 		}
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;})
-		
-		Helon.ctx.fillText("Working soon!", 490, 440);
 	});
 }
 
@@ -186,6 +190,7 @@ function GUI(of) {
 		if (of.shield !== 0) Helon.ctx.fillText(of.shield, 270, 645);
 		Helon.ctx.fillText(of.hp, 270, 685);
 		Helon.ctx.fillText("=>" + Hellaxy.Sector.ID + " Sector", 1050 , 635);
+		Helon.ctx.fillText("  X:" + Math.round(of.x) + " Y:" + Math.round(of.y), 1050 , 665);
 		if (of.wp1 !== undefined) {
 			Helon.ctx.fillText(of.wp1.designation + ":", 470, 635);
 			Helon.ctx.fillText(of.wp1.ammo, 490 + Helon.ctx.measureText(of.wp1.designation).width, 635);

@@ -209,6 +209,24 @@ class Ship {
 		}
 	}
 	
+	
+	transferTo(sector, atX, atY, atAngle){
+		var neuerTransfer = this.clone();
+		neuerTransfer.sector = sector;
+		neuerTransfer.x = atX;
+		neuerTransfer.y = atY;
+		neuerTransfer.angle = atAngle;
+		sector.ships.push(neuerTransfer);
+		console.log(neuerTransfer, this);
+		if (this.ctrl === player1){
+			if (typeof Hellaxy.Sector.theme.pause === "function") Hellaxy.Sector.theme.pause();
+			Hellaxy.Sector = sector;
+			projectile.splice(0, projectile.length);
+		}
+		this.sector.ships.splice(this.ID(), 1);
+	}
+	
+	
 	act(){
 		var SECTOR = this.sector;
 		if (this.hp < 1) this.explode();
@@ -225,14 +243,11 @@ class Ship {
 		for (var h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
 			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
 		}
-		/*
 		for (var h = 0; h < SECTOR.portals.length; h++){
 			if (this.collidesWith(SECTOR.portals[h])){
-				SECTOR.portals[h].dest.ships.push(this);
-				SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].x = SECTOR.portals[h].atX;
-				SECTOR.portals[h].dest.ships[SECTOR.portals[h].dest.ships.length - 1].y = SECTOR.portals[h].atY;			
+				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle);
 			}
-		} */
+		}
 	}
 }
 
