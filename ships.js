@@ -217,7 +217,6 @@ class Ship {
 		neuerTransfer.y = atY;
 		neuerTransfer.angle = atAngle;
 		sector.ships.push(neuerTransfer);
-		console.log(neuerTransfer, this);
 		if (this.ctrl === player1){
 			if (typeof Hellaxy.Sector.theme.pause === "function") Hellaxy.Sector.theme.pause();
 			Hellaxy.Sector = sector;

@@ -95,6 +95,7 @@ function setupLevels(){
 	
 	freeroaming.addLevel(function(){
 			Hellaxy.Sector = central_sector;
+			humanian_shuttle.spawn(omar_sector, 1050, 1100, 0, npc.defender, 0);
 		},
 		{
 			no : false
