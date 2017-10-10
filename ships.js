@@ -236,8 +236,10 @@ class Ship {
 		if (this.ctrl !== "none") this.ctrl();
 		this.y -= this.vy;
 		this.x += this.vx;
-		if (this.vx > this.a * 100) this.vx = this.a * 80;
-		if (this.vy > this.a * 100) this.vy = this.a * 80;
+		if (this.vx > this.a * 80) this.vx = this.a * 80;
+		if (this.vy > this.a * 80) this.vy = this.a * 80;
+		if (this.vx < this.a * -80) this.vx = this.a * -80;
+		if (this.vy < this.a * -80) this.vy = this.a * -80;
 		this.angle = get360(this.angle);
 		if (this.x < this.skin.naturalWidth/2) this.x = this.skin.naturalWidth/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
 		if (this.y < this.skin.naturalHeight/2) this.y = this.skin.naturalHeight/2, this.vy = 0;
@@ -274,13 +276,17 @@ function collide(a, b){
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.1, wp1 : machinegun_5nm});
 	humanian_shuttle = new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : machinegun_5nm});
-	humanian_protobaseship_helonia = new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 8000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
+	humanian_protobaseship_helonia = new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
 	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
 	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
 	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	qubanic_colonizer = new Ship({designation : "colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, a : 0.003});
 	ophianic_annectorstar = new Ship({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
 	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
+	chestanian_colonizer = new Ship({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : spike_artillery});
+	chestanian_spiketank = new Ship({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : spike_artillery});
+	chestanian_glider = new Ship({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : emp_director_1});
+	chestanian_quintalglider = new Ship({designation : "quintalglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : emp_director_2});
 	
 	console.log(Ships);
 }

@@ -125,13 +125,14 @@ function setupScreens(){
 				Helon.ctx.fillText("Complete!", 500, posy);
 			}
 		}
-		button(700, 115, posy - 20, 50, "New", "yellow", function(){of.at = 0; startCampaign(of)});
+		button(700, posy - 35, 150, 50, "New", "yellow", function(){of.at = 0; startCampaign(of)});
 	}
 	
 	campaigns = new Screen("campaign", "blackscreen", "theme1", function(){
 		Helon.ctx.fillText("Campaign Mode", 540, 50);
 		Helon.ctx.fillText("Select your campaign:", 490, 80);
 		campaignLine(humanian, "Humanian", 150);
+		campaignLine(chestanian, "Chestanian", 250);
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;})
 	});
 	
@@ -142,7 +143,7 @@ function setupScreens(){
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillText("Freeroam Mode", 540, 50);
 		Helon.ctx.fillText("Select your ship:", 490, 80);
-		for (var i = 1; i < Ships.length; i++){
+		for (var i = 2; i < Ships.length; i++){
 			Helon.ctx.drawImage(Ships[i].skin, hor*70, ver*70 + 50, 64, 64);
 			if (cursor.x.between(hor*70, hor*70 + 64) && cursor.y.between(ver*70 + 50, ver*70 + 114)){
 				Helon.ctx.strokeRect(hor*70 - 4, ver*70 + 46, 70, 70);

@@ -70,9 +70,9 @@ class Sector{
 	
 	
 	displayBg(){
-		for (var posY = 0; posY < this.height; posY += 100){
-			for (var posX = 0; posX < this.width; posX += 100){
-				Helon.ctx.drawImage(this.bg, posX - this.offset.x, posY - this.offset.y);
+		for (var posY = 0; posY < 730; posY += 100){
+			for (var posX = 0; posX < 1380; posX += 100){
+				Helon.ctx.drawImage(this.bg, posX - (this.offset.x % 100), posY - (this.offset.y % 100));
 			}
 		}
 	}
@@ -140,13 +140,15 @@ function setupSectors () {
 
 	central_sector = new Sector("central", 4500, 3700);
 	
-	omar_sector = new Sector("omar", 4500, 4700);
+	omar_sector = new Sector("omar", 4500, 2000);
 	
-	outer_sector = new Sector("outer", 7500, 27000);
+	outer_sector = new Sector("outer", 7500, 20000);
 	
 	
 	central_sector.addPortal(0, 2500, 100, 350, omar_sector, 4200, 780, 270);
-	omar_sector.addPortal(4360, 600, 140, 350, central_sector, 250, 2750, 90);
+	omar_sector.addPortal(4400, 600, 100, 350, central_sector, 250, 2750, 90);
+	omar_sector.addPortal(2100, 0, 350, 100, outer_sector, 5250, 19500, 0);
+	outer_sector.addPortal(5150, 19700, 350, 300, omar_sector, 2250, 300, 180);
 	
 }// No touchy!
 // :p hehe ~miterosan

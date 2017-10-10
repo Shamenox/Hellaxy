@@ -76,7 +76,8 @@ class Level {
 
 humanian = new Campaign();  
 quicktest = new Campaign();  
-freeroaming = new Campaign();                                                                                                     //<-- Kampagnendeklarierung
+freeroaming = new Campaign(); 
+chestanian = new Campaign();                                                                                                   //<-- Kampagnendeklarierung
 
 function setupLevels(){
 	quicktest.addLevel(function(){
@@ -248,6 +249,17 @@ function setupLevels(){
 				this.conditions.dmgd = true;
 			}
 		}
+	);
+	
+	chestanian.addLevel(function(){
+		Hellaxy.Sector = outer_sector;
+		outer_sector.addPlanet("chestanian_fortress", 1625, 18000);
+		chestanian_colonizer.spawn(outer_sector, 1800, 18500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		},
+		{
+			colonized : false,
+		},
+		function(){}
 	);
 	
 }
