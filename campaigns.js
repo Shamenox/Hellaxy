@@ -156,7 +156,7 @@ function setupLevels(){
 		addMsg("Our space project was an absolute Sucess!");
 		addMsg("Thats why we erected an Space hangar in our orbit");
 		addMsg("to enable further research.");
-		addMsg("We still dont know much about our interplanetary environment.");
+		addMsg("We still dont know much about our interplanetary environtment.");
 		addMsg("We registered an interesting sonar pattern not far from Humania.");
 		addMsg("Your order is to gather some samples from that location");
 		addMsg("and to bring them to our orbital hangar for analysis.");
@@ -172,18 +172,18 @@ function setupLevels(){
 			pile3 : false
 		},
 		function(){
-			if (!LEVEL.conditions.pile1 && central_sector.ships[0].collidesWith(central_sector.planets[2])){
+			if (!LEVEL.conditions.pile1 && player1ship.collidesWith(central_sector.planets[2])){
 				central_sector.addPlanet("haufen2", 4000, 2000);
 				addMsg("Great!");
 				addMsg("Interesting, the sample seems to contain some kind of ");
 				addMsg("matter-changing substance...");
 				addMsg("We just registered two more signals of same specifications.");
-				addMsg("They are both located west from you.");
+				addMsg("They are both located right from you.");
 				addMsg("Please get us samples from both new anomalies for comparasion.");
 				this.target = central_sector.planets[3];
 				LEVEL.conditions.pile1 = true;
 			}
-			if (!LEVEL.conditions.pile2 && central_sector.ships[0].collidesWith(central_sector.planets[3])){
+			if (!LEVEL.conditions.pile2 && player1ship.collidesWith(central_sector.planets[3])){
 				central_sector.addPlanet("haufen3", 4150, 1300);
 				addMsg("We were rigth, this celestial body consists of the exactly ");
 				addMsg("same material as the first one.");
@@ -191,7 +191,7 @@ function setupLevels(){
 				this.target = central_sector.planets[4];
 				LEVEL.conditions.pile2 = true;
 			}
-			if (!LEVEL.conditions.pile3 && central_sector.ships[0].collidesWith(central_sector.planets[4])){
+			if (!LEVEL.conditions.pile3 && player1ship.collidesWith(central_sector.planets[4])){
 				addMsg("Yes, its the exactly same structure as the other ones.");
 				addMsg("But this 'planet' emmits some kind of a live-signal.");
 				addMsg("Alert, the samples we already gathered changed their structure ");
@@ -204,7 +204,7 @@ function setupLevels(){
 				this.target = this.target = central_sector.planets[0];
 				LEVEL.conditions.pile3 = true;
 			}
-			if (LEVEL.conditions.pile3 && !LEVEL.conditions.gotback && central_sector.ships[0].collidesWith(central_sector.planets[0])) {
+			if (LEVEL.conditions.pile3 && !LEVEL.conditions.gotback && player1ship.collidesWith(central_sector.planets[0])) {
 				addMsg("This shapeshifting substance seems to be oozing out of these");
 				addMsg("'erupting' protoplanets all over the System...");
 				addMsg("However this is a mystery for our scientists to figure out.");

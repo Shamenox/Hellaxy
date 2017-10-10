@@ -147,6 +147,7 @@ class Ship {
 	
 	
 	angleTowards(angled){
+		if (this.x === angled.x && this.y === angled.y) return 0;
 		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
 		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
 	}
@@ -180,7 +181,7 @@ class Ship {
 	
 	nextShip(search, range){
 		if (range === undefined) range = 1000;
-		for (var h = 0; h <= range; h ++){
+		for (var h = 0; h <= range; h +=5){
 			for (var k = 0; k < this.sector.ships.length; k++){
 				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID()){
 					if (search === undefined) return Hellaxy.Sector.ships[k];
@@ -210,11 +211,11 @@ class Ship {
 	}
 	
 	
-	transferTo(sector, atX, atY, atAngle){
+	transferTo(sector, atX, atY, atAngle, place){
 		var neuerTransfer = this.clone();
 		neuerTransfer.sector = sector;
-		neuerTransfer.x = atX;
-		neuerTransfer.y = atY;
+		neuerTransfer.x = atX + Math.floor((Math.random() * 20) - 10);
+		neuerTransfer.y = atY + Math.floor((Math.random() * 20) - 10);
 		neuerTransfer.angle = atAngle;
 		sector.ships.push(neuerTransfer);
 		if (this.ctrl === player1){
@@ -222,11 +223,14 @@ class Ship {
 			Hellaxy.Sector = sector;
 			projectile.splice(0, projectile.length);
 		}
+		console.log(this.ID(), place);
+		if (place !== undefined) place--;
 		this.sector.ships.splice(this.ID(), 1);
+		console.log(this.ID(), place);
 	}
 	
 	
-	act(){
+	act(place){
 		var SECTOR = this.sector;
 		if (this.hp < 1) this.explode();
 		if (this.ctrl !== "none") this.ctrl();
@@ -244,7 +248,7 @@ class Ship {
 		}
 		for (var h = 0; h < SECTOR.portals.length; h++){
 			if (this.collidesWith(SECTOR.portals[h])){
-				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle);
+				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle, place);
 			}
 		}
 	}

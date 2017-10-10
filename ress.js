@@ -51,5 +51,6 @@ function loadAudio(){
 	Helon.ress.audio.engine1 = new Audio("ress/audio/engine1.mp3");
 	Helon.ress.audio.theme1 = new Audio("ress/audio/theme1.mp3");
 	Helon.ress.audio.theme_central = new Audio("ress/audio/theme_central.mp3");
+	Helon.ress.audio.theme_omar = new Audio("ress/audio/theme_omar.mp3");
 	Helon.ress.audio.explosion1 = new Audio("ress/audio/explosion1.mp3");
 }

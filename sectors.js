@@ -123,7 +123,7 @@ class Sector{
 	act(){
 		this.display();
 		for (var i = 0; i < this.ships.length; i++){
-			this.ships[i].act();
+			this.ships[i].act(i);
 		}
 		if (this.events !== undefined) this.events();
 		if (this.theme !== "none") this.theme.play();

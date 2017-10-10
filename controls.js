@@ -1,9 +1,11 @@
 ﻿var npc = new Ship();
+var player1ship = new Ship();
 
 
 function setupControls(){
 	
 	player1 = function(){
+		player1ship = this;
 		Hellaxy.Sector.focus(this);
 		if (!click){
 			if (key.a) this.turn("left"); //Drehung
