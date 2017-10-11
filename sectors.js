@@ -1,4 +1,6 @@
-﻿class Planet{
+﻿planets = {};
+
+class Planet{
 	constructor(designation, x, y){   //designation, x, y
 	this.designation = designation;
 	this.skin = SPRITE[designation];
@@ -48,6 +50,7 @@ class Sector{
 			if (this.planets[pla].designation === neuerPlanet.designation) return;
 		}
 		this.planets.push(neuerPlanet);
+		planets[designation] = neuerPlanet;
 	}
 	
 	

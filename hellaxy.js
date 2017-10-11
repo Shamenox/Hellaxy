@@ -19,6 +19,8 @@ function startCampaign(campaign){
 	Hellaxy.Screen.theme.pause();
 	Hellaxy.Campaign = campaign;
 	Hellaxy.task = campaignManager;
+	player1ship.x = 0;
+	player1ship.y = 0;
 	LEVEL = Hellaxy.Campaign.levels[Hellaxy.Campaign.at];
 	if (!LEVEL.isSetup) {
 		LEVEL.setup();

@@ -16,6 +16,9 @@ images = {
 	haufen3 : "planets",
 	humania : "planets",
 	pontes : "planets",
+	quba : "planets",
+	qubanian_colony : "planets",
+	blank : "planets",
 	testmoon : "planets",
 	
 	beam_ophianian : "projectiles",
@@ -24,12 +27,14 @@ images = {
 	shot_medium_tripple : "projectiles",
 	spikes_1 : "projectiles",
 	emp_1 : "projectiles",
+	emp_2 : "projectiles",
 	testarrow : "projectiles",
 	
 	chestanian_colonizer : "ships",
 	chestanian_spiketank : "ships",
 	chestanian_glider : "ships",
 	chestanian_quintalglider : "ships",
+	birchanian_glider : "ships",
 	cylon_basestar : "ships",
 	helon_baseship_mkii : "ships",
 	helon_raider_mkiii : "ships",
@@ -41,7 +46,7 @@ images = {
 	ophianic_annector : "ships",
 	ophianic_chunk : "ships",
 	ophianic_chunk : "ships",
-	qubanic_colonizer : "ships",
+	qubanian_colonizer : "ships",
 	republic_hq : "ships",
 	samus_ship : "ships",
 }

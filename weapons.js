@@ -35,15 +35,17 @@ class Weapon {
 		
 		
 		neuesProjektil.sound = function(of){
+			var currentSound;
 			if (of === "fire"){
-				if (this.mass <= 644) Helon.ress.audio.shot_1.play();
+				if (this.mass <= 644) currentSound = Helon.ress.audio.shot_1;
 			}
 			if (of === "pen"){
-				if (this.mass <= 644) Helon.ress.audio.hit_1.play();
+				if (this.mass <= 644) currentSound = Helon.ress.audio.hit_1;
 			}
 			if (of === "bounce"){
-				if (this.mass <= 644) Helon.ress.audio.bounce_1.play();
+				if (this.mass <= 644) currentSound = Helon.ress.audio.bounce_1;
 			}
+			if (intervalReact(true, 100, currentSound.src + "delay")) currentSound.play();
 		}
 		
 		
@@ -121,4 +123,5 @@ function setupWeapons(){  //skin, alpha, pen, reload, ammo
 	spike_artillery = new Weapon ("spike_artillery", "spikes_1", 120, 3, 1000, 100);
 	emp_director_1 = new Weapon ("emp_director_1", "emp_1", 50, 3, 1000, 100);
 	emp_director_2 = new Weapon ("emp_director_1", "emp_1", 50, 3, 200, 500);
+	emp_director_small = new Weapon ("emp_director_1", "emp_2", 3, 2, 100, 400);
 }

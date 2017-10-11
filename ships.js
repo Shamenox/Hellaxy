@@ -83,42 +83,50 @@ class Ship {
 	
 	turn(dir){
 		if (dir === "left"){
-			this.angle -= 40 * this.a;
+			this.angle -= 60 * this.a;
 		}
 		if (dir === "right"){
-			this.angle += 40 * this.a;
+			this.angle += 60 * this.a;
 		}
 		
 		if (dir === undefined || dir === "target"){ 
+			if (Math.abs(this.aim - this.angle) <= this.a * 60){
+				this.angle = this.aim;
+				return;
+			}
 			if (this.angle <= 180){
 				if (this.aim.between(this.angle, this.angle + 180)){
-						this.angle += this.a * 100;
+						this.angle += this.a * 60;
 					}
 				else {
-					this.angle -= this.a * 40;
+					this.angle -= this.a * 60;
 				}
 			}
 			else {
 				if (this.aim.between(this.angle, this.angle - 180)){ 
-					this.angle -= this.a * 100;
+					this.angle -= this.a * 60;
 				} 
 				else{
-					this.angle += this.a * 40;
+					this.angle += this.a * 60;
 				}
 			}
-			if (Math.abs(this.aim - this.angle) <= this.a * 100) this.angle = this.aim;
 		}
 	}
 	
 	
 	fire(slot){
-		if (this["wp" + slot] === undefined) return;
+		if (this["wp" + slot] === undefined || this.skin === Helon.ress.explosion) return;
 		this["wp" + slot].fire();
+	}
+	
+	useSpecial(slot){
+		if (this["sp" + slot] === undefined) return;
+		this["sp" + slot].exe();
 	}
 	
 	
 	collidesWith(Suspect) {
-		if (Suspect === undefined || this.fraction === Suspect.fraction) return false;
+		if (this.skin === undefined || Suspect === undefined || this.fraction === Suspect.fraction) return false;
 		if (Suspect.fraction === "portal"){
 			if (this.x.between(Suspect.x - this.skin.naturalWidth/2, Suspect.x + this.skin.naturalWidth/2 + Suspect.width)){
 				if (this.y.between(Suspect.y - this.skin.naturalHeight/2, Suspect.y + this.skin.naturalHeight/2 + Suspect.height)) return true;
@@ -280,13 +288,15 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
 	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
 	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
-	qubanic_colonizer = new Ship({designation : "colonizer", fraction : "qubanic", hp : 2000, shield : 0, armour : 1, a : 0.003});
+	qubanian_colonizer = new Ship({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.008});
+	qubanian_colony = new Ship({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : machinegun_5nm, sp1 : flak_around});
 	ophianic_annectorstar = new Ship({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
 	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
 	chestanian_colonizer = new Ship({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : spike_artillery});
 	chestanian_spiketank = new Ship({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : spike_artillery});
 	chestanian_glider = new Ship({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : emp_director_1});
 	chestanian_quintalglider = new Ship({designation : "quintalglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : emp_director_2});
+	birchanian_glider = new Ship({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.12, wp1 : emp_director_small});
 	
 	console.log(Ships);
 }

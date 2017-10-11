@@ -15,4 +15,13 @@ class Special {
 
 function setupSpecials(){
 	spawn_ophianianChunk = new Special( 6000, 66, function(){ophianic_chunk.spawn(this.ship.sector, this.ship.x, this.ship.y, this.ship.angle, npc.rammer)});
+	flak_around = new Special( 1000, 10, function(){
+		this.reload = this.ship.wp1.reload;
+		this.ammo = this.ship.wp1.ammo;
+		for (var p = 0; p <= 13; p++){
+			this.ship.wp1.spawnProjectile();
+			projectile[projectile.length - 1].angle += p * 30;
+		}
+		this.ship.wp1.ammo -= 6;
+	})
 }

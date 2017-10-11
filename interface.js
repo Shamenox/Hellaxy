@@ -119,19 +119,20 @@ function setupScreens(){
 		Helon.ctx.fillText(designation + ":   Lvl " + of.at, 200, posy);
 		if (of.at !== 0){
 			if (of.at !== of.levels.length){
-				{button(500, 115, posy - 20, 50, "Continue", "yellow", function(){startCampaign(of)});};
+				{button(500, posy - 25, 150, 26, "Continue", "yellow", function(){startCampaign(of)});};
 			}
 			else {
 				Helon.ctx.fillText("Complete!", 500, posy);
 			}
 		}
-		button(700, posy - 35, 150, 50, "New", "yellow", function(){of.at = 0; startCampaign(of)});
+		button(700, posy -25, 150, 26, "New", "yellow", function(){of.at = 0; startCampaign(of)});
 	}
 	
 	campaigns = new Screen("campaign", "blackscreen", "theme1", function(){
 		Helon.ctx.fillText("Campaign Mode", 540, 50);
 		Helon.ctx.fillText("Select your campaign:", 490, 80);
 		campaignLine(humanian, "Humanian", 150);
+		campaignLine(qubanian, "Qubanian", 200);
 		campaignLine(chestanian, "Chestanian", 250);
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.Screen = menue;})
 	});

@@ -56,6 +56,7 @@ class Level {
 	cancel(){
 		if (typeof Hellaxy.Sector.theme.play === "function") Hellaxy.Sector.theme.pause();
 		projectile.splice(0, projectile.length);
+		Hellaxy.Msgs.splice(0, Hellaxy.Msgs.length);
 		this.target = "none";
 		this.isSetup = false;
 		Hellaxy.Sector.ships = [];
@@ -77,7 +78,8 @@ class Level {
 humanian = new Campaign();  
 quicktest = new Campaign();  
 freeroaming = new Campaign(); 
-chestanian = new Campaign();                                                                                                   //<-- Kampagnendeklarierung
+chestanian = new Campaign();  
+qubanian = new Campaign();                                                                                                //<-- Kampagnendeklarierung
 
 function setupLevels(){
 	quicktest.addLevel(function(){
@@ -114,7 +116,7 @@ function setupLevels(){
 			humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
 			humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
 			humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
-			qubanic_colonizer.spawn(central_sector, 400, 400, 135, function(){this.follow(central_sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
+			qubanian_colonizer.spawn(central_sector, 200, 200, 135, function(){this.follow(central_sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
 			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 			addMsg("Humanian HQ: Attention!");
 			addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
@@ -251,10 +253,142 @@ function setupLevels(){
 		}
 	);
 	
+	qubanian.addLevel(function(){
+		Hellaxy.Sector = central_sector;
+		central_sector.addPlanet("quba", 444, 444);
+		central_sector.addPlanet("blank", 2200, 1900);
+		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
+		addMsg("Attention! This is mission-control!");
+		addMsg("We are proud to have finally made it into space!");
+		addMsg("Your task, commander, is to guide our new colonization-vessel");
+		addMsg("to the recently discoverd habitable zone without a scratch.");
+		addMsg("We updated its coordinates into your cursor-interface.");
+		addMsg("Best of luck, commander!");
+		LEVEL.target = planets["blank"];
+		},
+		{
+			colonized : false,
+		},
+		function(){
+			if (!this.conditions.colonized && player1ship.collidesWith(planets["blank"])){
+				qubanian_colony.spawn(central_sector, 2250, 1950, 0, "none");
+				addMsg("Congratulations Commander!");
+				addMsg("We are recieving first transmissions from our new colony.");
+				addMsg("Let´s begin upgrading its infrastructure!");
+				LEVEL.conditions.colonized = true;
+			}
+		}
+	);
+	
+	
+	qubanian.addLevel(function(){
+		Hellaxy.Sector = central_sector;
+		qubanian_colony.spawn(central_sector, 2250, 1950, 0, player1, 0, function(){LEVEL.conditions.destroyed = true});
+		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
+		addMsg("Attention! This is Qubanian HQ!");
+		addMsg("We just recieved a dread from an alien-lifeform!");
+		addMsg("They call themselves Birchanians and announced that they");
+		addMsg("will destroy our newly errected colony, as it is within ther territory.");
+		addMsg("We tried to negotiate with them on a friendly basis,");
+		addMsg("But they wont change their mind...");
+		addMsg("Unfortunatly our only weaponary in this colony");
+		addMsg("is a light antispacecraft firescreen.");
+		addMsg("As the commander you can order to fire all cannons with your '1'-key.");
+		addMsg("Birchanian warships are on their way.");
+		addMsg("We will do everything we can for you!");
+		},
+		{
+			destroyed : false,
+		},
+		function(){
+			if (central_sector.ships.length < 4){
+				birchanian_glider.spawn(central_sector, 3050, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3100, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3150, 3150, 315, npc.rammer);
+			}
+		}
+	);
+	
+	
+	qubanian.addLevel(function(){
+		Hellaxy.Sector = central_sector;
+		central_sector.addPlanet("quba", 444, 444);
+		central_sector.addPlanet("blank", 2200, 1900);
+		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		central_sector.ships[central_sector.ships.length - 1].mass++;
+		qubanian_colonizer.spawn(central_sector, 550, 500, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 550, 550, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 500, 550, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 600, 500, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 600, 550, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 600, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		addMsg("Log in: 2007. Cycle; 146; 1.Colonization Msission ID:214");
+		addMsg("Attention! This is mission-control!");
+		addMsg("What the Birchanians have done so arrogantly is unforgivable!");
+		addMsg("We cant coexist with them for any longer.");
+		addMsg("To prove our superiority once and for all we build another 9");
+		addMsg("Colonizators to errect a gigantic cluster-colony.");
+		addMsg("Guide our colonizator squadron again into the habitable zone.");
+		addMsg("But be carefull, The Birchanians are constantly sending warships!");
+		LEVEL.target = planets["blank"];
+		},
+		{
+			colonized : false,
+			send : false,
+			defended : false,
+		},
+		function(){
+			if (!this.conditions.colonized && player1ship.collidesWith(planets["blank"])){
+				qubanian_colony.spawn(central_sector, 2250, 1950, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2378, 1950, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2506, 1950, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2250, 2078, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2378, 2078, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2506, 2078, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2250, 2206, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2378, 2206, 0, npc.turret);
+				qubanian_colony.spawn(central_sector, 2506, 2206, 0, npc.turret);
+				LEVEL.conditions.colonized = true;
+			}
+			if (intervalReact(!this.conditions.colonized, 20000, "attackrate")){
+				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3150, 3150, 315, npc.rammer);
+			}
+			if (LEVEL.conditions.colonized === true && !LEVEL.conditions.send){
+				birchanian_glider.spawn(central_sector, 3050, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3100, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 3150, 3150, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 2950, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 2800, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 2750, 3000, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 2950, 2950, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 2800, 2800, 315, npc.rammer);
+				birchanian_glider.spawn(central_sector, 2750, 2750, 315, npc.rammer);
+			}
+			if (LEVEL.conditions.send === true && central_sector.ships.length < 23){
+				LEVEL.conditions.defended = true;
+			}
+		}
+	);
+	
+	
+	
 	chestanian.addLevel(function(){
 		Hellaxy.Sector = outer_sector;
 		outer_sector.addPlanet("chestanian_fortress", 1625, 18000);
 		chestanian_colonizer.spawn(outer_sector, 1800, 18500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		},
 		{
 			colonized : false,

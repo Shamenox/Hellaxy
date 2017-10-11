@@ -23,6 +23,7 @@ function setupControls(){
 		if (key.space) this.fire(1);
 		if (key.e) this.fire(2);
 		if (key.q) this.fire(3);
+		if (key.one) this.useSpecial(1);
 		GUI(this);
 	}
 	
@@ -49,9 +50,10 @@ function setupControls(){
 		this.acc();
 		this.turn();
 		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
-		if (this.nextShip("anythingElse", 400) !== false){
-			this.pointAt(this.nextShip("anythingElse", 400));
-			if (this.pointsAt(this.nextShip("anythingElse", 400))) {
+		var trgt = this.nextShip("anythingElse", 900);
+		if (trgt !== false){
+			this.pointAt(trgt);
+			if (this.pointsAt(trgt)) {
 				this.fire(1);
 				this.fire(2);
 				this.fire(3);
@@ -75,6 +77,18 @@ function setupControls(){
 				}
 			}
 		} else {this.ctrl = npc.simpleRoamer;}
+	}
+	
+	npc.turret = function(){
+		if (this.nextShip("anythingElse", 500) !== false){
+			this.pointAt(this.nextShip("anythingElse", 400));
+			if (this.pointsAt(this.nextShip("anythingElse", 400))) {
+				this.fire(1);
+				this.fire(2);
+				this.fire(3);
+				this.useSpecial(1);
+			}
+		}
 	}
 	
 	npc.patrol = function(){
