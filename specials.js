@@ -18,10 +18,11 @@ function setupSpecials(){
 	flak_around = new Special( 1000, 10, function(){
 		this.reload = this.ship.wp1.reload;
 		this.ammo = this.ship.wp1.ammo;
-		for (var p = 0; p <= 13; p++){
+		for (var p = 0; p <= 10; p++){
 			this.ship.wp1.spawnProjectile();
-			projectile[projectile.length - 1].angle += p * 30;
+			projectile[projectile.length - 1].angle += p * 40;
 		}
 		this.ship.wp1.ammo -= 6;
+		projectile[projectile.length - 1].sound("fire");
 	})
 }

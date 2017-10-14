@@ -94,10 +94,8 @@ class Weapon {
 			return 0;
 		}
 		
-		
-		neuesProjektil.sound("fire");
-		
 		projectile.push(neuesProjektil);
+		projectile[projectile.length - 1].sound("fire");
 	}
 	
 	

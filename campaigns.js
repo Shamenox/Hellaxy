@@ -328,7 +328,7 @@ function setupLevels(){
 		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		qubanian_colonizer.spawn(central_sector, 600, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		addMsg("Log in: 2007. Cycle; 146; 1.Colonization Msission ID:214");
+		addMsg("Log in: 2007. Cycle; 150;  Super Colonization ID:217");
 		addMsg("Attention! This is mission-control!");
 		addMsg("What the Birchanians have done so arrogantly is unforgivable!");
 		addMsg("We cant coexist with them for any longer.");
@@ -355,6 +355,9 @@ function setupLevels(){
 				qubanian_colony.spawn(central_sector, 2378, 2206, 0, npc.turret);
 				qubanian_colony.spawn(central_sector, 2506, 2206, 0, npc.turret);
 				LEVEL.conditions.colonized = true;
+				addMsg("We made it! The super cluster colony");
+				addMsg("and all of its anti-spacecraft cannons are online.");
+				addMsg("Now we´ll show them!");
 			}
 			if (intervalReact(!this.conditions.colonized, 20000, "attackrate")){
 				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
@@ -375,8 +378,11 @@ function setupLevels(){
 				birchanian_glider.spawn(central_sector, 2950, 2950, 315, npc.rammer);
 				birchanian_glider.spawn(central_sector, 2800, 2800, 315, npc.rammer);
 				birchanian_glider.spawn(central_sector, 2750, 2750, 315, npc.rammer);
+				LEVEL.conditions.send = true;
 			}
-			if (LEVEL.conditions.send === true && central_sector.ships.length < 23){
+			if (LEVEL.conditions.send === true && central_sector.ships.length < 23 && !LEVEL.conditions.defended){
+				addMsg("Most of the Birchanian units are destroyed.");
+				addMsg("Space superiority is ours. Well done commander!");
 				LEVEL.conditions.defended = true;
 			}
 		}
