@@ -256,7 +256,7 @@ function setupLevels(){
 	qubanian.addLevel(function(){
 		Hellaxy.Sector = central_sector;
 		central_sector.addPlanet("quba", 444, 444);
-		central_sector.addPlanet("blank", 2200, 1900);
+		central_sector.addPlanet("blank", 2550, 2100);
 		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
 		addMsg("Attention! This is mission-control!");
@@ -272,7 +272,7 @@ function setupLevels(){
 		},
 		function(){
 			if (!this.conditions.colonized && player1ship.collidesWith(planets["blank"])){
-				qubanian_colony.spawn(central_sector, 2250, 1950, 0, "none");
+				qubanian_colony.spawn(central_sector, 2378, 2078, 0, "none");
 				addMsg("Congratulations Commander!");
 				addMsg("We are recieving first transmissions from our new colony.");
 				addMsg("Let´s begin upgrading its infrastructure!");
@@ -284,7 +284,7 @@ function setupLevels(){
 	
 	qubanian.addLevel(function(){
 		Hellaxy.Sector = central_sector;
-		qubanian_colony.spawn(central_sector, 2250, 1950, 0, player1, 0, function(){LEVEL.conditions.destroyed = true});
+		qubanian_colony.spawn(central_sector, 2378, 2078, 0, player1, 0, function(){LEVEL.conditions.destroyed = true});
 		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
 		addMsg("Attention! This is Qubanian HQ!");
 		addMsg("We just recieved a dread from an alien-lifeform!");
