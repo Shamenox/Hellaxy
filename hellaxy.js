@@ -3,6 +3,7 @@ var Hellaxy = {
 	Screen : {},
 	Campaign : {},
 	Sector : {},
+	asteroid : {},
 };
 
 Hellaxy.loop = function(){

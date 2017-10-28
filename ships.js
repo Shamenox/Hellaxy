@@ -191,7 +191,7 @@ class Ship {
 		if (range === undefined) range = 1000;
 		for (var h = 0; h <= range; h +=5){
 			for (var k = 0; k < this.sector.ships.length; k++){
-				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID()){
+				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID() && this.sector.ships[k].fraction !== "asteroid"){
 					if (search === undefined) return Hellaxy.Sector.ships[k];
 					if (search === "anythingElse"){
 						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.Sector.ships[k];
@@ -283,6 +283,9 @@ function collide(a, b){
 	
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.1, wp1 : machinegun_5nm});
+	Hellaxy.asteroid.v1 = new Ship({designation : "asteroid1", fraction : "asteroid", hp : 10000, shield : 0, armour : 1, a : 0.025});
+	Hellaxy.asteroid.v2 = new Ship({designation : "asteroid2", fraction : "asteroid", hp : 5000, shield : 0, armour : 1, a : 0.037});
+	Hellaxy.asteroid.v3 = new Ship({designation : "asteroid3", fraction : "asteroid", hp : 2500, shield : 0, armour : 1, a : 0.05});
 	humanian_shuttle = new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : machinegun_5nm});
 	humanian_protobaseship_helonia = new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
 	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});

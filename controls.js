@@ -46,6 +46,17 @@ function setupControls(){
 		}
 	}
 	
+	npc.asteroid1 = function(){
+		this.turn("left");
+	}
+	
+	npc.asteroid2 = function(){
+		this.turn("right");
+	}
+	
+	npc.asteroid3 = function(){
+	}
+	
 	npc.rammer = function(){ 
 		this.acc();
 		this.turn();

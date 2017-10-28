@@ -90,6 +90,7 @@ function setupLevels(){
 			testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
 			testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
 			fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
+			testmap.spawnAsteroids(600, 600, 400, 400);
 		},
 		{
 			no : false

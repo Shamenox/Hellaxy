@@ -54,6 +54,15 @@ class Sector{
 	}
 	
 	
+	spawnAsteroids(posX, posY, width, height){
+		for (var i = 0; i < width / 80; i++){
+			for (var h = 0; h < height / 80; h++){
+				Hellaxy.asteroid["v" + Math.floor((Math.random() * 3) + 1)].spawn(this, posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
+			}
+		}
+	}
+
+	
 	displayShips(){
 		for (var i = 0; i < this.ships.length; i++){
 			var SHIP = this.ships[i];
