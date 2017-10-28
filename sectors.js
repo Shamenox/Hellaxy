@@ -156,11 +156,17 @@ function setupSectors () {
 	
 	outer_sector = new Sector("outer", 7500, 20000);
 	
+	imperial_sector = new Sector("imperial", 7500, 20000);
+	
 	
 	central_sector.addPortal(0, 2500, 100, 350, omar_sector, 4200, 780, 270);
 	omar_sector.addPortal(4400, 600, 100, 350, central_sector, 250, 2750, 90);
+	
 	omar_sector.addPortal(2100, 0, 350, 100, outer_sector, 5250, 19500, 0);
 	outer_sector.addPortal(5150, 19700, 350, 300, omar_sector, 2250, 300, 180);
+	
+	central_sector.addPortal(2000, 0, 400, 100, imperial_sector, 3000, 19500, 0);
+	imperial_sector.addPortal(2800, 19700, 400, 300, central_sector, 2200, 300, 180);
 	
 }// No touchy!
 // :p hehe ~miterosan

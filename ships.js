@@ -282,7 +282,7 @@ function collide(a, b){
 
 	
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
-	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.1, wp1 : machinegun_5nm});
+	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.5, wp1 : machinegun_5nm});
 	Hellaxy.asteroid.v1 = new Ship({designation : "asteroid1", fraction : "asteroid", hp : 10000, shield : 0, armour : 1, a : 0.025});
 	Hellaxy.asteroid.v2 = new Ship({designation : "asteroid2", fraction : "asteroid", hp : 5000, shield : 0, armour : 1, a : 0.037});
 	Hellaxy.asteroid.v3 = new Ship({designation : "asteroid3", fraction : "asteroid", hp : 2500, shield : 0, armour : 1, a : 0.05});

@@ -9,6 +9,7 @@ images = {
 	omar : "bgs",
 	outer : "bgs",
 	testmap : "bgs",
+	imperial : "bgs",
 	
 	chestanian_fortress : "planets",
 	haufen1 : "planets",
