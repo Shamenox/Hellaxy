@@ -45,7 +45,7 @@ class Weapon {
 			if (of === "bounce"){
 				if (this.mass <= 644) currentSound = Helon.ress.audio.bounce_1;
 			}
-			if (intervalReact(true, 100, currentSound.src + "delay")) currentSound.play();
+			if (currentSound !== undefined && intervalReact(true, 100, currentSound.src + "delay")) currentSound.play();
 		}
 		
 		

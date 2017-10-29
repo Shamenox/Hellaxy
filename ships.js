@@ -27,6 +27,7 @@ class Ship {
 	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 		if (inSector === undefined) inSector = Hellaxy.Sector;
 		if (ctrl === undefined) ctrl = "none";
+		if (atAngle === undefined) atAngle = 0;
 		var neuerSpawn = this.clone();
 		neuerSpawn.x = atX;
 		neuerSpawn.y = atY;
