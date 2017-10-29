@@ -9,6 +9,25 @@ class Planet{
 	this.angle = 0;
 	this.fraction = "planet";
 	}
+	
+	explode(){
+		var spanX = this.skin.naturalWidth;
+		var spanY = this.skin.naturalHeight;
+		this.skin = Helon.ress.images.explosion;
+		this.skin.width = spanX;
+		this.skin.height = spanY;
+		Helon.ress.audio.explosion1.play();
+		setTimeout(function(planet){planet.sector.planets.splice(planet.ID(), 1);}, 2000, this);
+		this.explode = function(){};
+	}
+	
+	ID(){
+		for (var id = 0; id < this.sector.planets.length; id++){
+			if (this.sector.planets[id] === this) return id;
+		}
+		console.log("ID not found");
+		return 0;
+	}
 }
 
 class Sector{
@@ -45,7 +64,7 @@ class Sector{
 	
 	addPlanet(designation, x, y){
 		var neuerPlanet = new Planet(designation, x, y);
-		neuerPlanet.sector = this.bg;
+		neuerPlanet.sector = this;
 		for (var pla = 0; pla < this.planets.length; pla++){
 			if (this.planets[pla].designation === neuerPlanet.designation) return;
 		}

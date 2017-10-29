@@ -35,7 +35,7 @@ function display(obj){
 	Helon.ctx.translate(obj.x - Hellaxy.Sector.offset.x, obj.y - Hellaxy.Sector.offset.y); // Drehung
 	Helon.ctx.rotate(obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-(obj.x - Hellaxy.Sector.offset.x), -(obj.y - Hellaxy.Sector.offset.y));
-	Helon.ctx.drawImage(obj.skin, obj.x - Hellaxy.Sector.offset.x - obj.skin.naturalWidth/2, obj.y - Hellaxy.Sector.offset.y - obj.skin.naturalHeight/2); // Display
+	Helon.ctx.drawImage(obj.skin, obj.x - Hellaxy.Sector.offset.x - obj.skin.width/2, obj.y - Hellaxy.Sector.offset.y - obj.skin.height/2); // Display
 	Helon.ctx.translate(obj.x - Hellaxy.Sector.offset.x, obj.y - Hellaxy.Sector.offset.y); // Rückdrehung
 	Helon.ctx.rotate(- obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-(obj.x - Hellaxy.Sector.offset.x), -(obj.y - Hellaxy.Sector.offset.y));

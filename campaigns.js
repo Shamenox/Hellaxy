@@ -85,9 +85,9 @@ function setupLevels(){
 	quicktest.addLevel(function(){
 			Hellaxy.Sector = testmap;
 			humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender, 0);
-			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender, 0);
-			testarrow.spawn(testmap, 100, 100, 0, "none", 0, function(){addMsg("Test123");});
+			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender);
+			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender);
+			testarrow.spawn(testmap, 100, 100, 0, "none", function(){addMsg("Test123");});
 			testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
 			fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
 			testmap.spawnAsteroids(600, 600, 400, 400);
@@ -99,7 +99,7 @@ function setupLevels(){
 	
 	freeroaming.addLevel(function(){
 			Hellaxy.Sector = central_sector;
-			humanian_shuttle.spawn(omar_sector, 1050, 1100, 0, npc.defender, 0);
+			humanian_shuttle.spawn(omar_sector, 1050, 1100, 0, npc.defender);
 		},
 		{
 			no : false
@@ -110,14 +110,14 @@ function setupLevels(){
 			Hellaxy.Sector = central_sector;
 			central_sector.addPlanet("humania", 1000, 1000);
 			central_sector.addPlanet("pontes", 1420, 2550);
-			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 			central_sector.ships[0].mass++;
-			humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
-			humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
-			humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
-			humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
-			humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
-			qubanian_colonizer.spawn(central_sector, 200, 200, 135, function(){this.follow(central_sector.planets[0], 200);}, undefined, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
+			humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
+			humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender);
+			humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender);
+			humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender);
+			humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender);
+			qubanian_colonizer.spawn(central_sector, 200, 200, 135, function(){this.follow(central_sector.planets[0], 200);}, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
 			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 			addMsg("Humanian HQ: Attention!");
 			addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
@@ -144,14 +144,14 @@ function setupLevels(){
 	humanian.addLevel(function(){
 		Hellaxy.Sector = central_sector;
 		central_sector.addPlanet("haufen1", 600, 1800);
-		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
-		humanian_satalite.spawn(central_sector, 1100, 1100, 0);
+		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender);
+		humanian_satalite.spawn(central_sector, 1100, 1100);
 		addMsg("Log in: 2008. Cycle; 43; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Admire your new flagship commander!");
@@ -202,9 +202,9 @@ function setupLevels(){
 				addMsg("to something very radical attacking the testtubes!");
 				addMsg("There is also something ascending from the 'planet´s' core.");
 				addMsg("Eliminate it if neccessary and return home ASAP!");
-				ophianic_chunk.spawn(central_sector, 4120, 1310, 270, npc.simpleRoamer,);
-				ophianic_chunk.spawn(central_sector, 4150, 1300, 270, npc.simpleRoamer,);
-				ophianic_chunk.spawn(central_sector, 3190, 1320, 270, npc.simpleRoamer,);
+				ophianic_chunk.spawn(central_sector, 4120, 1310, 270, npc.simpleRoamer);
+				ophianic_chunk.spawn(central_sector, 4150, 1300, 270, npc.simpleRoamer);
+				ophianic_chunk.spawn(central_sector, 3190, 1320, 270, npc.simpleRoamer);
 				this.target = this.target = central_sector.planets[0];
 				LEVEL.conditions.pile3 = true;
 			}
@@ -220,15 +220,15 @@ function setupLevels(){
 	
 	humanian.addLevel(function(){
 		Hellaxy.Sector = central_sector;
-		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		ophianic_annectorstar.spawn(central_sector, 2000, 1100, 270, npc.ophianian_annector);
-		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender, 0);
-		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender, 0);
-		humanian_satalite.spawn(central_sector, 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, 0, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
+		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender);
+		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender);
+		humanian_satalite.spawn(central_sector, 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Something enormously huge as appeared on our Radars.");
@@ -258,7 +258,7 @@ function setupLevels(){
 		Hellaxy.Sector = central_sector;
 		central_sector.addPlanet("quba", 444, 444);
 		central_sector.addPlanet("blank", 2550, 2100);
-		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
 		addMsg("Attention! This is mission-control!");
 		addMsg("We are proud to have finally made it into space!");
@@ -285,7 +285,7 @@ function setupLevels(){
 	
 	qubanian.addLevel(function(){
 		Hellaxy.Sector = central_sector;
-		qubanian_colony.spawn(central_sector, 2378, 2078, 0, player1, 0, function(){LEVEL.conditions.destroyed = true});
+		qubanian_colony.spawn(central_sector, 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
 		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
 		addMsg("Attention! This is Qubanian HQ!");
 		addMsg("We just recieved a dread from an alien-lifeform!");
@@ -321,14 +321,14 @@ function setupLevels(){
 		central_sector.addPlanet("blank", 2200, 1900);
 		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		central_sector.ships[central_sector.ships.length - 1].mass++;
-		qubanian_colonizer.spawn(central_sector, 550, 500, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 550, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 500, 550, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 500, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 550, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 550, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 550, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 500, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 600, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 600, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 600, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 150;  Super Colonization ID:217");
 		addMsg("Attention! This is mission-control!");
 		addMsg("What the Birchanians have done so arrogantly is unforgivable!");
@@ -394,7 +394,7 @@ function setupLevels(){
 	chestanian.addLevel(function(){
 		Hellaxy.Sector = outer_sector;
 		outer_sector.addPlanet("chestanian_fortress", 1625, 18000);
-		chestanian_colonizer.spawn(outer_sector, 1800, 18500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		chestanian_colonizer.spawn(outer_sector, 1800, 18500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		},
 		{

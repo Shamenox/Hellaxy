@@ -24,7 +24,7 @@ class Ship {
 	}
 	
 	
-	spawn(inSector, atX, atY, atAngle, ctrl, relationShip, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 		if (inSector === undefined) inSector = Hellaxy.Sector;
 		if (ctrl === undefined) ctrl = "none";
 		var neuerSpawn = this.clone();
@@ -33,7 +33,6 @@ class Ship {
 		neuerSpawn.angle = atAngle;
 		neuerSpawn.aim = atAngle;
 		neuerSpawn.ctrl = ctrl;
-		neuerSpawn.relationShipID = relationShip;
 		neuerSpawn.abgang = abgang;
 		neuerSpawn.sector = inSector;
 		inSector.ships.push(neuerSpawn);
@@ -141,7 +140,11 @@ class Ship {
 	
 	
 	explode(){
+		var spanX = this.skin.naturalWidth;
+		var spanY = this.skin.naturalHeight;
 		this.skin = Helon.ress.images.explosion;
+		this.skin.width = spanX;
+		this.skin.height = spanY;
 		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
 		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);
