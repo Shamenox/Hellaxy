@@ -37,15 +37,15 @@ class Weapon {
 		neuesProjektil.sound = function(of){
 			var currentSound;
 			if (of === "fire"){
-				if (this.mass <= 644) currentSound = Helon.ress.audio.shot_1;
-				if (this.mass <= 2048) currentSound = Helon.ress.audio.shot_2;
+				if (this.mass.between(0, 645)) currentSound = Helon.ress.audio.shot_1;
+				if (this.mass.between(645, 2049)) currentSound = Helon.ress.audio.shot_2;
 			}
 			if (of === "pen"){
-				if (this.mass <= 644) currentSound = Helon.ress.audio.hit_1;
-				if (this.mass <= 2048) currentSound = Helon.ress.audio.hit_2;
+				if (this.mass.between(0, 645)) currentSound = Helon.ress.audio.hit_1;
+				if (this.mass.between(645, 2049)) currentSound = Helon.ress.audio.hit_2;
 			}
 			if (of === "bounce"){
-				if (this.mass <= 2048) currentSound = Helon.ress.audio.bounce_1;
+				if (this.mass.between(645, 2049)) currentSound = Helon.ress.audio.bounce_1;
 			}
 			if (currentSound !== undefined && intervalReact(true, 100, currentSound.src + "delay")) currentSound.play();
 		}
