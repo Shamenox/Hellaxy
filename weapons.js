@@ -38,12 +38,14 @@ class Weapon {
 			var currentSound;
 			if (of === "fire"){
 				if (this.mass <= 644) currentSound = Helon.ress.audio.shot_1;
+				if (this.mass <= 2048) currentSound = Helon.ress.audio.shot_2;
 			}
 			if (of === "pen"){
 				if (this.mass <= 644) currentSound = Helon.ress.audio.hit_1;
+				if (this.mass <= 2048) currentSound = Helon.ress.audio.hit_2;
 			}
 			if (of === "bounce"){
-				if (this.mass <= 644) currentSound = Helon.ress.audio.bounce_1;
+				if (this.mass <= 2048) currentSound = Helon.ress.audio.bounce_1;
 			}
 			if (currentSound !== undefined && intervalReact(true, 100, currentSound.src + "delay")) currentSound.play();
 		}
@@ -118,6 +120,7 @@ function setupWeapons(){  //skin, alpha, pen, reload, ammo
 	machinegun_5nm = new Weapon("machinegun_5nm", "shot_light_1", 4, 2, 100, 300);
 	kolexialgun_14nm = new Weapon ("kolexialgun_14nm", "shot_medium_tripple", 36, 10, 200, 600);
 	ophianian_beam = new Weapon ("ophianian_beam", "beam_ophianian", 1000, 5, 4000, 66);
+	triangle_beam = new Weapon ("triangle_beam", "triangle", 100, 3, 1000, 100);
 	spike_artillery = new Weapon ("spike_artillery", "spikes_1", 120, 3, 1000, 100);
 	emp_director_1 = new Weapon ("emp_director_1", "emp_1", 50, 3, 1000, 100);
 	emp_director_2 = new Weapon ("emp_director_1", "emp_1", 50, 3, 200, 500);

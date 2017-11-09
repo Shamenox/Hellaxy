@@ -120,6 +120,14 @@ class Sector{
 	}
 	
 	
+	hasShip(fraction){
+		for (var k = 0; k < this.ships.length; k++){
+			if (this.ships[k].fraction === fraction) return true;
+		}
+		return false;
+	}
+	
+	
 	displayPlanets(){
 		for (var i = 0; i < this.planets.length; i++){
 			display(this.planets[i]);

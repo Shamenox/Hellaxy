@@ -32,6 +32,7 @@ images = {
 	spikes_1 : "projectiles",
 	emp_1 : "projectiles",
 	emp_2 : "projectiles",
+	triangle : "projectiles",
 	testarrow : "projectiles",
 	
 	chestanian_colonizer : "ships",
@@ -60,6 +61,8 @@ function loadAudio(){
 	Helon.ress.audio.shot_1 = new Audio("ress/audio/shot_1.mp3");
 	Helon.ress.audio.hit_1 = new Audio("ress/audio/hit_1.mp3");
 	Helon.ress.audio.bounce_1 = new Audio("ress/audio/bounce_1.mp3");
+	Helon.ress.audio.shot_2 = new Audio("ress/audio/shot_2.mp3");
+	Helon.ress.audio.hit_2 = new Audio("ress/audio/hit_2.mp3");
 	Helon.ress.audio.engine1 = new Audio("ress/audio/engine1.mp3");
 	Helon.ress.audio.theme1 = new Audio("ress/audio/theme1.mp3");
 	Helon.ress.audio.theme_central = new Audio("ress/audio/theme_central.mp3");
