@@ -1,5 +1,9 @@
 var Ships = [];
 
+function createShip(specs){
+	Hellaxy.ships[specs.fraction + "_" + specs.designation] = new Ship(specs);
+}
+
 class Ship {
 	constructor(specs){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 		this.x = 0;
@@ -25,8 +29,9 @@ class Ship {
 	
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		if (inSector === undefined) inSector = Hellaxy.Sector;
+		if (inSector === undefined) inSector = Hellaxy.sector;
 		if (ctrl === undefined) ctrl = "none";
+		if (atAngle === undefined) atAngle = 0;
 		var neuerSpawn = this.clone();
 		neuerSpawn.x = atX;
 		neuerSpawn.y = atY;
@@ -145,6 +150,7 @@ class Ship {
 		this.skin = Helon.ress.images.explosion;
 		this.skin.width = spanX;
 		this.skin.height = spanY;
+		this.ctrl = function(){};
 		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
 		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);
@@ -195,13 +201,13 @@ class Ship {
 		for (var h = 0; h <= range; h +=5){
 			for (var k = 0; k < this.sector.ships.length; k++){
 				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID() && this.sector.ships[k].fraction !== "asteroid"){
-					if (search === undefined) return Hellaxy.Sector.ships[k];
+					if (search === undefined) return Hellaxy.sector.ships[k];
 					if (search === "anythingElse"){
-						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.Sector.ships[k];
+						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.sector.ships[k];
 					}
 					else {
-						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) return Hellaxy.Sector.ships[k];
-						if (search !== this.fraction && search === this.sector.ships[k].fraction) return Hellaxy.Sector.ships[k];
+						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) return Hellaxy.sector.ships[k];
+						if (search !== this.fraction && search === this.sector.ships[k].fraction) return Hellaxy.sector.ships[k];
 					}
 				}
 			}
@@ -230,8 +236,8 @@ class Ship {
 		neuerTransfer.angle = atAngle;
 		sector.ships.push(neuerTransfer);
 		if (this.ctrl === player1){
-			if (typeof Hellaxy.Sector.theme.pause === "function") Hellaxy.Sector.theme.pause();
-			Hellaxy.Sector = sector;
+			if (typeof Hellaxy.sector.theme.pause === "function") Hellaxy.sector.theme.pause();
+			Hellaxy.sector = sector;
 			projectile.splice(0, projectile.length);
 		}
 		console.log(this.ID(), place);
@@ -295,6 +301,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
 	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	qubanian_colonizer = new Ship({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.008});
+	qubanian_colonizerMk2 = new Ship({designation : "colonizer", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : triangle_beam});
 	qubanian_colony = new Ship({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : machinegun_5nm, sp1 : flak_around});
 	ophianic_annectorstar = new Ship({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
 	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
@@ -304,5 +311,25 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	chestanian_quintalglider = new Ship({designation : "quintalglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : emp_director_2});
 	birchanian_glider = new Ship({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.12, wp1 : emp_director_small});
 	
-	console.log(Ships);
+	createShip({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.5, wp1 : machinegun_5nm});
+	createShip({designation : "asteroid1", fraction : "asteroid", hp : 10000, shield : 0, armour : 1, a : 0.025});
+	createShip({designation : "asteroid2", fraction : "asteroid", hp : 5000, shield : 0, armour : 1, a : 0.037});
+	createShip({designation : "asteroid3", fraction : "asteroid", hp : 2500, shield : 0, armour : 1, a : 0.05});
+	createShip({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : machinegun_5nm});
+	createShip({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
+	createShip({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
+	createShip({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
+	createShip({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
+	createShip({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.008});
+	createShip({designation : "colonizer", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : triangle_beam});
+	createShip({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : machinegun_5nm, sp1 : flak_around});
+	createShip({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
+	createShip({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
+	createShip({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : spike_artillery});
+	createShip({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : spike_artillery});
+	createShip({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : emp_director_1});
+	createShip({designation : "quintalglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : emp_director_2});
+	createShip({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.12, wp1 : emp_director_small});
+	
+	console.log(Hellaxy.ships);
 }

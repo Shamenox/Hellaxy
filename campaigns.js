@@ -20,18 +20,18 @@ class Campaign {
 
 
 function campaignManager(){
-	Hellaxy.Campaign.act();
-	Hellaxy.Sector.act();
+	Hellaxy.campaign.act();
+	Hellaxy.sector.act();
 	 if (LEVEL.target !== undefined) cursor.pointAt({
 		x : LEVEL.target.x - Hellaxy.Sector.offset.x,
 		y : LEVEL.target.y - Hellaxy.Sector.offset.y,
 	});
 	if (intervalReact(key.esc, 500, "esc")){
-		Hellaxy.Screen = paused;
+		Hellaxy.screen = paused;
 		Hellaxy.task = screenManager;
 	}
-	if (Hellaxy.Msgs.length !== 0){
-		Hellaxy.Screen = messager;
+	if (Hellaxy.msgs.length !== 0){
+		Hellaxy.screen = messager;
 		Hellaxy.task = screenManager;
 	}
 	for (var cond in LEVEL.conditions){
@@ -54,13 +54,13 @@ class Level {
 	
 	
 	cancel(){
-		if (typeof Hellaxy.Sector.theme.play === "function") Hellaxy.Sector.theme.pause();
+		if (typeof Hellaxy.sector.theme.play === "function") Hellaxy.sector.theme.pause();
 		projectile.splice(0, projectile.length);
-		Hellaxy.Msgs.splice(0, Hellaxy.Msgs.length);
+		Hellaxy.msgs.splice(0, Hellaxy.msgs.length);
 		this.target = "none";
 		this.isSetup = false;
-		Hellaxy.Sector.ships = [];
-		Hellaxy.Screen = menue;
+		Hellaxy.sector.ships = [];
+		Hellaxy.screen = menue;
 		Hellaxy.task = screenManager;
 		for (var cond in this.conditions){
 			this.conditions[cond] = false;
@@ -83,7 +83,7 @@ qubanian = new Campaign();                                                      
 
 function setupLevels(){
 	quicktest.addLevel(function(){
-			Hellaxy.Sector = testmap;
+			Hellaxy.sector = testmap;
 			humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender);
 			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender);
@@ -98,7 +98,7 @@ function setupLevels(){
 	);
 	
 	freeroaming.addLevel(function(){
-			Hellaxy.Sector = central_sector;
+			Hellaxy.sector = central_sector;
 			humanian_shuttle.spawn(omar_sector, 1050, 1100, 0, npc.defender);
 		},
 		{
@@ -107,7 +107,7 @@ function setupLevels(){
 	);
 	
 	humanian.addLevel(function(){
-			Hellaxy.Sector = central_sector;
+			Hellaxy.sector = central_sector;
 			central_sector.addPlanet("humania", 1000, 1000);
 			central_sector.addPlanet("pontes", 1420, 2550);
 			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
@@ -142,7 +142,7 @@ function setupLevels(){
 	
 	
 	humanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
+		Hellaxy.sector = central_sector;
 		central_sector.addPlanet("haufen1", 600, 1800);
 		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
@@ -219,7 +219,7 @@ function setupLevels(){
 	
 	
 	humanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
+		Hellaxy.sector = central_sector;
 		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		ophianic_annectorstar.spawn(central_sector, 2000, 1100, 270, npc.ophianian_annector);
 		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
@@ -255,7 +255,7 @@ function setupLevels(){
 	);
 	
 	qubanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
+		Hellaxy.sector = central_sector;
 		central_sector.addPlanet("quba", 444, 444);
 		central_sector.addPlanet("blank", 2550, 2100);
 		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
@@ -284,7 +284,7 @@ function setupLevels(){
 	
 	
 	qubanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
+		Hellaxy.sector = central_sector;
 		qubanian_colony.spawn(central_sector, 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
 		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
 		addMsg("Attention! This is Qubanian HQ!");
@@ -316,7 +316,7 @@ function setupLevels(){
 	
 	
 	qubanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
+		Hellaxy.sector = central_sector;
 		central_sector.addPlanet("quba", 444, 444);
 		central_sector.addPlanet("blank", 2200, 1900);
 		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
@@ -389,10 +389,12 @@ function setupLevels(){
 		}
 	);
 	
+
+	
 	
 	
 	chestanian.addLevel(function(){
-		Hellaxy.Sector = outer_sector;
+		Hellaxy.sector = outer_sector;
 		outer_sector.addPlanet("chestanian_fortress", 1625, 18000);
 		chestanian_colonizer.spawn(outer_sector, 1800, 18500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");

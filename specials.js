@@ -22,7 +22,7 @@ function setupSpecials(){
 			this.ship.wp1.spawnProjectile();
 			projectile[projectile.length - 1].angle += p * 40;
 		}
-		this.ship.wp1.ammo -= 6;
+		this.ship.wp1.ammo -= 4;
 		projectile[projectile.length - 1].sound("fire");
 	})
 }
