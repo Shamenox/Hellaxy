@@ -22,10 +22,11 @@ class Ship {
 			this[property] = specs[property];
 			for (var i = 1; i < 3; i++){
 				if (property == ["wp" + i] && specs["wp" + i].designation === undefined){
-				this["wp" + i] = Hellaxy.weapons[specs[property]];
+					this["wp" + i] = Hellaxy.weapons[specs[property]];
 				}
-				if (property == ["sp" + i] && specs["sp" + i].designation === undefined){
+				if (property == ["sp" + i] && specs["sp" + i].reload === undefined){
 					this["sp" + i] = Hellaxy.weapons[specs[property]];
+					console.log(Hellaxy.weapons[specs[property]]);
 				}
 			}
 		}
@@ -332,8 +333,8 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	createShip({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
 	createShip({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : "machinegun_5nm"});
 	createShip({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
-	createShip({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.008});
-	createShip({designation : "colonizer", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : "triangle_beam"});
+	createShip({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.02});
+	createShip({designation : "colonizer_mkii", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : "triangle_beam"});
 	createShip({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : "machinegun_5nm", sp1 : "flak_around"});
 	createShip({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : "ophianian_beam", sp1 : "spawn_ophianianChunk"});
 	createShip({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});

@@ -45,6 +45,15 @@ function campaignManager(){
 	if (intervalReact(key.e, 500, "msgDelay")) LEVEL.end();
 }
 
+
+function start(at, withShip){
+	Hellaxy.sector = at.sector;
+	spawnShip(withShip, at.x + 100, at.y + 100, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+	central_sector.ships[central_sector.ships.length - 1].mass++;
+}
+
+
+
 class Level {
 	constructor(belong, setup, conditions, events){
 		this.campaign = belong;
@@ -257,10 +266,9 @@ function setupLevels(){
 	);
 	
 	qubanian.addLevel(function(){
-		Hellaxy.sector = central_sector;
 		central_sector.addPlanet("quba", 444, 444);
 		central_sector.addLocation("quba2", 2400, 2000, 500, 500);
-		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		start(Hellaxy.planets.quba, "qubanian_colonizer");
 		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
 		addMsg("Attention! This is mission-control!");
 		addMsg("We are proud to have finally made it into space!");
@@ -287,7 +295,7 @@ function setupLevels(){
 	
 	qubanian.addLevel(function(){
 		Hellaxy.sector = central_sector;
-		qubanian_colony.spawn(central_sector, 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
+		spawnShip("qubanian_colony", 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
 		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
 		addMsg("Attention! This is Qubanian HQ!");
 		addMsg("We just recieved a dread from an alien-lifeform!");
@@ -318,28 +326,19 @@ function setupLevels(){
 	
 	
 	qubanian.addLevel(function(){
-		Hellaxy.sector = central_sector;
-		central_sector.addPlanet("quba", 444, 444);
-		central_sector.addPlanet("blank", 2200, 1900);
-		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		central_sector.ships[central_sector.ships.length - 1].mass++;
-		qubanian_colonizer.spawn(central_sector, 550, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 500, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		start(Hellaxy.planets.quba, "qubanian_colonizer");
+		spawnShip("qubanian_colonizer", 550, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		spawnShip("qubanian_colonizer", 550, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		spawnShip("qubanian_colonizer", 500, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 150;  Super Colonization ID:217");
 		addMsg("Attention! This is mission-control!");
 		addMsg("What the Birchanians have done so arrogantly is unforgivable!");
 		addMsg("We cant coexist with them for any longer.");
-		addMsg("To prove our superiority once and for all we build another 9");
+		addMsg("To prove our superiority once and for all we build another four");
 		addMsg("Colonizators to errect a gigantic cluster-colony.");
 		addMsg("Guide our colonizator squadron again into the habitable zone.");
 		addMsg("But be carefull, The Birchanians are constantly sending warships!");
-		LEVEL.target = planets["blank"];
+		LEVEL.target = Hellaxy.locations.quba2;
 		},
 		{
 			colonized : false,
@@ -347,22 +346,17 @@ function setupLevels(){
 			defended : false,
 		},
 		function(){
-			if (!this.conditions.colonized && player1ship.collidesWith(planets["blank"])){
-				qubanian_colony.spawn(central_sector, 2250, 1950, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2378, 1950, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2506, 1950, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2250, 2078, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2378, 2078, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2506, 2078, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2250, 2206, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2378, 2206, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2506, 2206, 0, npc.turret);
+			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.locations.quba2)){
+				spawnShip("qubanian_colony", 2250, 1950, 0, npc.turret);
+				spawnShip("qubanian_colony", 2378, 1950, 0, npc.turret);
+				spawnShip("qubanian_colony", 2250, 2078, 0, npc.turret);
+				spawnShip("qubanian_colony", 2378, 2078, 0, npc.turret);
 				LEVEL.conditions.colonized = true;
 				addMsg("We made it! The super cluster colony");
 				addMsg("and all of its anti-spacecraft cannons are online.");
 				addMsg("Now we´ll show them!");
 			}
-			if (intervalReact(!this.conditions.colonized, 20000, "attackrate")){
+			if (intervalReact(!this.conditions.colonized, 10000, "attackrate")){
 				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
 				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
 				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
@@ -383,7 +377,7 @@ function setupLevels(){
 				birchanian_glider.spawn(central_sector, 2750, 2750, 315, npc.rammer);
 				LEVEL.conditions.send = true;
 			}
-			if (LEVEL.conditions.send === true && central_sector.ships.length < 23 && !LEVEL.conditions.defended){
+			if (LEVEL.conditions.send === true && central_sector.ships.length < 10 && !LEVEL.conditions.defended){
 				addMsg("Most of the Birchanian units are destroyed.");
 				addMsg("Space superiority is ours. Well done commander!");
 				LEVEL.conditions.defended = true;
