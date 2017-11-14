@@ -41,6 +41,10 @@ function startCampaign(campaign){
 	Hellaxy.sector.act();
 }
 
+function spawnShip(designation, atX, atY, atAngle, ctrl, abgang){
+	Hellaxy.sector.spawnShip(designation, atX, atY, atAngle, ctrl, abgang);
+}
+
 function display(obj){
 	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Drehung
 	Helon.ctx.rotate(obj.angle * Math.PI / 180);

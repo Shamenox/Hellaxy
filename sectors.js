@@ -78,6 +78,21 @@ class Sector{
 			}
 		}
 	}
+	
+	
+	spawnShip(designation, atX, atY, atAngle, ctrl, abgang){ //designation, atX, atY, atAngle, ctrl, abgang
+		if (ctrl === undefined) ctrl = "none";
+		if (atAngle === undefined) atAngle = 0;
+		var neuerSpawn = Hellaxy.ships[designation].clone();
+		neuerSpawn.x = atX;
+		neuerSpawn.y = atY;
+		neuerSpawn.angle = atAngle;
+		neuerSpawn.aim = atAngle;
+		neuerSpawn.ctrl = ctrl;
+		neuerSpawn.abgang = abgang;
+		neuerSpawn.sector = this;
+		this.ships.push(neuerSpawn);
+	}
 
 	
 	displayShips(){

@@ -84,7 +84,8 @@ qubanian = new Campaign();                                                      
 function setupLevels(){
 	quicktest.addLevel(function(){
 			Hellaxy.sector = testmap;
-			humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+			//humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+			spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
 			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender);
 			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender);
 			testarrow.spawn(testmap, 100, 100, 0, "none", function(){addMsg("Test123");});
@@ -266,13 +267,13 @@ function setupLevels(){
 		addMsg("to the recently discoverd habitable zone without a scratch.");
 		addMsg("We updated its coordinates into your cursor-interface.");
 		addMsg("Best of luck, commander!");
-		LEVEL.target = planets["blank"];
+		LEVEL.target = Hellaxy.planets["blank"];
 		},
 		{
 			colonized : false,
 		},
 		function(){
-			if (!this.conditions.colonized && player1ship.collidesWith(planets["blank"])){
+			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.planets["blank"])){
 				qubanian_colony.spawn(central_sector, 2378, 2078, 0, "none");
 				addMsg("Congratulations Commander!");
 				addMsg("We are recieving first transmissions from our new colony.");
