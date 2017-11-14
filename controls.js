@@ -6,12 +6,12 @@ function setupControls(){
 	
 	player1 = function(){
 		player1ship = this;
-		Hellaxy.Sector.focus(this);
+		Hellaxy.sector.focus(this);
 		if (!click){
 			if (key.a) this.turn("left"); //Drehung
 			if (key.d) this.turn("right");
 		} else {
-			this.pointAt({x : cursor.x + Hellaxy.Sector.offset.x, y : cursor.y + Hellaxy.Sector.offset.y});
+			this.pointAt({x : cursor.x + Hellaxy.sector.offset.x, y : cursor.y + Hellaxy.sector.offset.y});
 			this.turn("target");
 		}
 		if (key.w) {
@@ -30,7 +30,7 @@ function setupControls(){
 	npc.simpleRoamer = function(){ 
 		this.acc();
 		this.turn();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
 		if (this.nextShip("anythingElse", 400) !== false){
 			if (this.hp >= this.mass / 2){
 				this.pointAt(this.nextShip("anythingElse", 400));
@@ -60,7 +60,7 @@ function setupControls(){
 	npc.rammer = function(){ 
 		this.acc();
 		this.turn();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
 		var trgt = this.nextShip("anythingElse", 900);
 		if (trgt !== false){
 			this.pointAt(trgt);
@@ -111,7 +111,7 @@ function setupControls(){
 	npc.ophianian_annector = function(){
 		this.turn();
 		var trgt = this.nextShip("humanian", 500);
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.Sector.width - 150 || this.y < 150 || this.y > Hellaxy.Sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
 		if (trgt === false){
 			this.follow(central_sector.planets[0], 50);
 		}

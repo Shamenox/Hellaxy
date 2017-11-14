@@ -1,9 +1,9 @@
-﻿planets = {};
-
-class Planet{
+﻿class Planet{
 	constructor(designation, x, y){   //designation, x, y
 	this.designation = designation;
 	this.skin = SPRITE[designation];
+	this.width = this.skin.naturalWidth;
+	this.height = this.skin.naturalHeight;
 	this.x = x;
 	this.y = y;
 	this.angle = 0;
@@ -29,6 +29,25 @@ class Planet{
 		return 0;
 	}
 }
+
+
+
+class Location{
+	constructor(designation, inSector, x, y, width, height){
+		this.designation = designation;
+		this.sector = inSector;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+}
+
+function createLocation(designation, inSector, x, y, width, height){
+	Hellaxy.locations[designation] = new Location(designation, inSector, x, y, width, height);
+}
+
+
 
 class Sector{
 	constructor(ID, width, height){                //ID, width, height
@@ -69,7 +88,12 @@ class Sector{
 			if (this.planets[pla].designation === neuerPlanet.designation) return;
 		}
 		this.planets.push(neuerPlanet);
-		planets[designation] = neuerPlanet;
+		Hellaxy.planets[designation] = neuerPlanet;
+	}
+	
+	
+	addLocation(designation, x, y, width, height){
+		createLocation(designation, this, x, x, width, height);
 	}
 	
 	
@@ -79,6 +103,21 @@ class Sector{
 				Hellaxy.asteroid["v" + Math.floor((Math.random() * 3) + 1)].spawn(this, posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
 			}
 		}
+	}
+	
+	
+	spawnShip(designation, atX, atY, atAngle, ctrl, abgang){ //designation, atX, atY, atAngle, ctrl, abgang
+		if (ctrl === undefined) ctrl = "none";
+		if (atAngle === undefined) atAngle = 0;
+		var neuerSpawn = Hellaxy.ships[designation].clone();
+		neuerSpawn.x = atX;
+		neuerSpawn.y = atY;
+		neuerSpawn.angle = atAngle;
+		neuerSpawn.aim = atAngle;
+		neuerSpawn.ctrl = ctrl;
+		neuerSpawn.abgang = abgang;
+		neuerSpawn.sector = this;
+		this.ships.push(neuerSpawn);
 	}
 
 	

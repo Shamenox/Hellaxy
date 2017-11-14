@@ -19,19 +19,21 @@ class Campaign {
 
 
 
+
+
 function campaignManager(){
-	Hellaxy.Campaign.act();
-	Hellaxy.Sector.act();
+	Hellaxy.campaign.act();
+	Hellaxy.sector.act();
 	 if (LEVEL.target !== undefined) cursor.pointAt({
 		x : LEVEL.target.x - Hellaxy.Sector.offset.x,
 		y : LEVEL.target.y - Hellaxy.Sector.offset.y,
 	});
 	if (intervalReact(key.esc, 500, "esc")){
-		Hellaxy.Screen = paused;
+		Hellaxy.screen = paused;
 		Hellaxy.task = screenManager;
 	}
-	if (Hellaxy.Msgs.length !== 0){
-		Hellaxy.Screen = messager;
+	if (Hellaxy.msgs.length !== 0){
+		Hellaxy.screen = messager;
 		Hellaxy.task = screenManager;
 	}
 	for (var cond in LEVEL.conditions){
@@ -42,6 +44,15 @@ function campaignManager(){
 	Helon.ctx.fillText("Press 'E' to continue", 450, 250);
 	if (intervalReact(key.e, 500, "msgDelay")) LEVEL.end();
 }
+
+
+function start(at, withShip){
+	Hellaxy.sector = at.sector;
+	spawnShip(withShip, at.x + 100, at.y + 100, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+	central_sector.ships[central_sector.ships.length - 1].mass++;
+}
+
+
 
 class Level {
 	constructor(belong, setup, conditions, events){
@@ -54,13 +65,13 @@ class Level {
 	
 	
 	cancel(){
-		if (typeof Hellaxy.Sector.theme.play === "function") Hellaxy.Sector.theme.pause();
+		if (typeof Hellaxy.sector.theme.play === "function") Hellaxy.sector.theme.pause();
 		projectile.splice(0, projectile.length);
-		Hellaxy.Msgs.splice(0, Hellaxy.Msgs.length);
+		Hellaxy.msgs.splice(0, Hellaxy.msgs.length);
 		this.target = "none";
 		this.isSetup = false;
-		Hellaxy.Sector.ships = [];
-		Hellaxy.Screen = menue;
+		Hellaxy.sector.ships = [];
+		Hellaxy.screen = menue;
 		Hellaxy.task = screenManager;
 		for (var cond in this.conditions){
 			this.conditions[cond] = false;
@@ -83,8 +94,8 @@ qubanian = new Campaign();                                                      
 
 function setupLevels(){
 	quicktest.addLevel(function(){
-			Hellaxy.Sector = testmap;
-			humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+			Hellaxy.sector = testmap;
+			spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
 			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender);
 			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender);
 			testarrow.spawn(testmap, 100, 100, 0, "none", function(){addMsg("Test123");});
@@ -98,7 +109,7 @@ function setupLevels(){
 	);
 	
 	freeroaming.addLevel(function(){
-			Hellaxy.Sector = central_sector;
+			Hellaxy.sector = central_sector;
 			humanian_shuttle.spawn(omar_sector, 1050, 1100, 0, npc.defender);
 		},
 		{
@@ -107,7 +118,7 @@ function setupLevels(){
 	);
 	
 	humanian.addLevel(function(){
-			Hellaxy.Sector = central_sector;
+			Hellaxy.sector = central_sector;
 			central_sector.addPlanet("humania", 1000, 1000);
 			central_sector.addPlanet("pontes", 1420, 2550);
 			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
@@ -142,7 +153,7 @@ function setupLevels(){
 	
 	
 	humanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
+		Hellaxy.sector = central_sector;
 		central_sector.addPlanet("haufen1", 600, 1800);
 		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
@@ -219,7 +230,7 @@ function setupLevels(){
 	
 	
 	humanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
+		Hellaxy.sector = central_sector;
 		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		ophianic_annectorstar.spawn(central_sector, 2000, 1100, 270, npc.ophianian_annector);
 		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
@@ -255,10 +266,9 @@ function setupLevels(){
 	);
 	
 	qubanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
 		central_sector.addPlanet("quba", 444, 444);
-		central_sector.addPlanet("blank", 2550, 2100);
-		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		central_sector.addLocation("quba2", 2400, 2000, 500, 500);
+		start(Hellaxy.planets.quba, "qubanian_colonizer");
 		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
 		addMsg("Attention! This is mission-control!");
 		addMsg("We are proud to have finally made it into space!");
@@ -266,13 +276,13 @@ function setupLevels(){
 		addMsg("to the recently discoverd habitable zone without a scratch.");
 		addMsg("We updated its coordinates into your cursor-interface.");
 		addMsg("Best of luck, commander!");
-		LEVEL.target = planets["blank"];
+		LEVEL.target = Hellaxy.locations.quba2;
 		},
 		{
 			colonized : false,
 		},
 		function(){
-			if (!this.conditions.colonized && player1ship.collidesWith(planets["blank"])){
+			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.locations.quba2)){
 				qubanian_colony.spawn(central_sector, 2378, 2078, 0, "none");
 				addMsg("Congratulations Commander!");
 				addMsg("We are recieving first transmissions from our new colony.");
@@ -284,8 +294,8 @@ function setupLevels(){
 	
 	
 	qubanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
-		qubanian_colony.spawn(central_sector, 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
+		Hellaxy.sector = central_sector;
+		spawnShip("qubanian_colony", 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
 		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
 		addMsg("Attention! This is Qubanian HQ!");
 		addMsg("We just recieved a dread from an alien-lifeform!");
@@ -316,28 +326,19 @@ function setupLevels(){
 	
 	
 	qubanian.addLevel(function(){
-		Hellaxy.Sector = central_sector;
-		central_sector.addPlanet("quba", 444, 444);
-		central_sector.addPlanet("blank", 2200, 1900);
-		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		central_sector.ships[central_sector.ships.length - 1].mass++;
-		qubanian_colonizer.spawn(central_sector, 550, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 500, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 600, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		qubanian_colonizer.spawn(central_sector, 550, 600, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		start(Hellaxy.planets.quba, "qubanian_colonizer");
+		spawnShip("qubanian_colonizer", 550, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		spawnShip("qubanian_colonizer", 550, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		spawnShip("qubanian_colonizer", 500, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 150;  Super Colonization ID:217");
 		addMsg("Attention! This is mission-control!");
 		addMsg("What the Birchanians have done so arrogantly is unforgivable!");
 		addMsg("We cant coexist with them for any longer.");
-		addMsg("To prove our superiority once and for all we build another 9");
+		addMsg("To prove our superiority once and for all we build another four");
 		addMsg("Colonizators to errect a gigantic cluster-colony.");
 		addMsg("Guide our colonizator squadron again into the habitable zone.");
 		addMsg("But be carefull, The Birchanians are constantly sending warships!");
-		LEVEL.target = planets["blank"];
+		LEVEL.target = Hellaxy.locations.quba2;
 		},
 		{
 			colonized : false,
@@ -345,22 +346,17 @@ function setupLevels(){
 			defended : false,
 		},
 		function(){
-			if (!this.conditions.colonized && player1ship.collidesWith(planets["blank"])){
-				qubanian_colony.spawn(central_sector, 2250, 1950, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2378, 1950, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2506, 1950, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2250, 2078, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2378, 2078, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2506, 2078, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2250, 2206, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2378, 2206, 0, npc.turret);
-				qubanian_colony.spawn(central_sector, 2506, 2206, 0, npc.turret);
+			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.locations.quba2)){
+				spawnShip("qubanian_colony", 2250, 1950, 0, npc.turret);
+				spawnShip("qubanian_colony", 2378, 1950, 0, npc.turret);
+				spawnShip("qubanian_colony", 2250, 2078, 0, npc.turret);
+				spawnShip("qubanian_colony", 2378, 2078, 0, npc.turret);
 				LEVEL.conditions.colonized = true;
 				addMsg("We made it! The super cluster colony");
 				addMsg("and all of its anti-spacecraft cannons are online.");
 				addMsg("Now we´ll show them!");
 			}
-			if (intervalReact(!this.conditions.colonized, 20000, "attackrate")){
+			if (intervalReact(!this.conditions.colonized, 10000, "attackrate")){
 				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
 				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
 				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
@@ -381,7 +377,7 @@ function setupLevels(){
 				birchanian_glider.spawn(central_sector, 2750, 2750, 315, npc.rammer);
 				LEVEL.conditions.send = true;
 			}
-			if (LEVEL.conditions.send === true && central_sector.ships.length < 23 && !LEVEL.conditions.defended){
+			if (LEVEL.conditions.send === true && central_sector.ships.length < 10 && !LEVEL.conditions.defended){
 				addMsg("Most of the Birchanian units are destroyed.");
 				addMsg("Space superiority is ours. Well done commander!");
 				LEVEL.conditions.defended = true;
@@ -389,10 +385,12 @@ function setupLevels(){
 		}
 	);
 	
+
+	
 	
 	
 	chestanian.addLevel(function(){
-		Hellaxy.Sector = outer_sector;
+		Hellaxy.sector = outer_sector;
 		outer_sector.addPlanet("chestanian_fortress", 1625, 18000);
 		chestanian_colonizer.spawn(outer_sector, 1800, 18500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
