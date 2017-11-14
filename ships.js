@@ -295,6 +295,10 @@ function collide(a, b){
 	b.hp -= collision.potDmg * (a.mass / collision.potM) * 8;
 	a.hp = Math.round(a.hp);
 	b.hp = Math.round(b.hp);
+	a.y -= a.vy;
+	a.x += a.vx;
+	b.y -= b.vy;
+	b.x += b.vx;
 }
 
 	

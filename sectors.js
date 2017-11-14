@@ -33,9 +33,9 @@
 
 
 class Location{
-	constructor(designation, inSector, x, y){
+	constructor(designation, inSector, x, y, width, height){
 		this.designation = designation;
-		this.sector = insector;
+		this.sector = inSector;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -89,6 +89,11 @@ class Sector{
 		}
 		this.planets.push(neuerPlanet);
 		Hellaxy.planets[designation] = neuerPlanet;
+	}
+	
+	
+	addLocation(designation, x, y, width, height){
+		createLocation(designation, this, x, x, width, height);
 	}
 	
 	

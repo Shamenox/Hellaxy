@@ -19,6 +19,8 @@ class Campaign {
 
 
 
+
+
 function campaignManager(){
 	Hellaxy.campaign.act();
 	Hellaxy.sector.act();
@@ -257,7 +259,7 @@ function setupLevels(){
 	qubanian.addLevel(function(){
 		Hellaxy.sector = central_sector;
 		central_sector.addPlanet("quba", 444, 444);
-		central_sector.addPlanet("blank", 2550, 2100);
+		central_sector.addLocation("quba2", 2400, 2000, 500, 500);
 		qubanian_colonizer.spawn(central_sector, 500, 500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
 		addMsg("Attention! This is mission-control!");
@@ -266,13 +268,13 @@ function setupLevels(){
 		addMsg("to the recently discoverd habitable zone without a scratch.");
 		addMsg("We updated its coordinates into your cursor-interface.");
 		addMsg("Best of luck, commander!");
-		LEVEL.target = Hellaxy.planets["blank"];
+		LEVEL.target = Hellaxy.locations.quba2;
 		},
 		{
 			colonized : false,
 		},
 		function(){
-			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.planets["blank"])){
+			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.locations.quba2)){
 				qubanian_colony.spawn(central_sector, 2378, 2078, 0, "none");
 				addMsg("Congratulations Commander!");
 				addMsg("We are recieving first transmissions from our new colony.");
