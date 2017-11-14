@@ -21,6 +21,8 @@ class Weapon {
 		var neuesProjektil = {};
 		neuesProjektil.skin = this.skin;
 		neuesProjektil.mass = this.skin.naturalHeight * this.skin.naturalWidth;
+		neuesProjektil.width = this.skin.naturalWidth;
+		neuesProjektil.height = this.skin.naturalHeight;
 		neuesProjektil.pen = this.pen;
 		neuesProjektil.alpha = this.alpha;
 		neuesProjektil.angle = this.ship.angle
@@ -31,8 +33,8 @@ class Weapon {
 		neuesProjektil.hits = function (obj) {
 			if (this.emitter === obj) return false; //Prüfen ob Ziel das eigene Schiff ist
 			if (obj.fraction !== "none" && obj.fraction === this.emitter.fraction) return false;
-			if (this.x.between(obj.x - this.skin.naturalWidth/2 - obj.skin.naturalWidth/2, obj.x + this.skin.naturalWidth/2 + obj.skin.naturalWidth/2)){
-				if (this.y.between(obj.y - this.skin.naturalHeight/2 - obj.skin.naturalHeight/2, obj.y + this.skin.naturalHeight/2 + obj.skin.naturalHeight/2)) return true;
+			if (this.x.between(obj.x - this.width/2 - obj.width/2, obj.x + this.width/2 + obj.width/2)){
+				if (this.y.between(obj.y - this.height/2 - obj.height/2, obj.y + this.height/2 + obj.height/2)) return true;
 			}
 			return false;
 		}

@@ -9,6 +9,7 @@ var Hellaxy = {
 	campaigns : {},
 	planets : {},
 	weapons : {},
+	locations : {},
 };
 
 Hellaxy.loop = function(){
@@ -49,7 +50,7 @@ function display(obj){
 	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Drehung
 	Helon.ctx.rotate(obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-(obj.x - Hellaxy.sector.offset.x), -(obj.y - Hellaxy.sector.offset.y));
-	Helon.ctx.drawImage(obj.skin, obj.x - Hellaxy.sector.offset.x - obj.skin.width/2, obj.y - Hellaxy.sector.offset.y - obj.skin.height/2); // Display
+	Helon.ctx.drawImage(obj.skin, obj.x - Hellaxy.sector.offset.x - obj.width/2, obj.y - Hellaxy.sector.offset.y - obj.height/2); // Display
 	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Rückdrehung
 	Helon.ctx.rotate(- obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-(obj.x - Hellaxy.sector.offset.x), -(obj.y - Hellaxy.sector.offset.y));

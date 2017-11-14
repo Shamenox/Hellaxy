@@ -84,7 +84,6 @@ qubanian = new Campaign();                                                      
 function setupLevels(){
 	quicktest.addLevel(function(){
 			Hellaxy.sector = testmap;
-			//humanian_protobaseship_helonia.spawn(testmap, 200, 250, 180, player1); //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 			spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
 			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender);
 			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender);

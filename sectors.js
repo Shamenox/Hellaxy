@@ -2,6 +2,8 @@
 	constructor(designation, x, y){   //designation, x, y
 	this.designation = designation;
 	this.skin = SPRITE[designation];
+	this.width = this.skin.naturalWidth;
+	this.height = this.skin.naturalHeight;
 	this.x = x;
 	this.y = y;
 	this.angle = 0;
@@ -27,6 +29,25 @@
 		return 0;
 	}
 }
+
+
+
+class Location{
+	constructor(designation, inSector, x, y){
+		this.designation = designation;
+		this.sector = insector;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+}
+
+function createLocation(designation, inSector, x, y, width, height){
+	Hellaxy.locations[designation] = new Location(designation, inSector, x, y, width, height);
+}
+
+
 
 class Sector{
 	constructor(ID, width, height){                //ID, width, height

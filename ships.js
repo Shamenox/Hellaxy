@@ -5,7 +5,7 @@ function createShip(specs){
 }
 
 class Ship {
-	constructor(specs){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
+	constructor(specs){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4, skin
 		this.x = 0;
 		this.y = 0;
 		this.vx = 0;
@@ -31,7 +31,11 @@ class Ship {
 		}
 		this.mass = this.hp;
 		this.maxshield = this.shield;
-		this.skin = Helon.ress.images[this.fraction + "_" + this.designation];
+		if (Helon.ress.images[this.fraction + "_" + this.designation] !== undefined){
+			this.skin = Helon.ress.images[this.fraction + "_" + this.designation];
+			this.width = this.skin.naturalWidth;
+			this.height = this.skin.naturalHeight;
+		}
 		Ships.push(this);
 	}
 	
@@ -140,24 +144,20 @@ class Ship {
 	collidesWith(Suspect) {
 		if (this.skin === undefined || Suspect === undefined || this.fraction === Suspect.fraction) return false;
 		if (Suspect.fraction === "portal"){
-			if (this.x.between(Suspect.x - this.skin.naturalWidth/2, Suspect.x + this.skin.naturalWidth/2 + Suspect.width)){
-				if (this.y.between(Suspect.y - this.skin.naturalHeight/2, Suspect.y + this.skin.naturalHeight/2 + Suspect.height)) return true;
+			if (this.x.between(Suspect.x - this.skin.width/2, Suspect.x + this.skin.width/2 + Suspect.width)){
+				if (this.y.between(Suspect.y - this.height/2, Suspect.y + this.height/2 + Suspect.height)) return true;
 			}
 			return false;
 		}
-		if (this.x.between(Suspect.x - this.skin.naturalWidth/2 - Suspect.skin.naturalWidth/2, Suspect.x + this.skin.naturalWidth/2 + Suspect.skin.naturalWidth/2)){
-			if (this.y.between(Suspect.y - this.skin.naturalHeight/2 - Suspect.skin.naturalHeight/2, Suspect.y + this.skin.naturalHeight/2 + Suspect.skin.naturalHeight/2)) return true;
+		if (this.x.between(Suspect.x - this.width/2 - Suspect.width/2, Suspect.x + this.width/2 + Suspect.width/2)){
+			if (this.y.between(Suspect.y - this.height/2 - Suspect.height/2, Suspect.y + this.height/2 + Suspect.height/2)) return true;
 		}
 		return false;
 	}
 	
 	
 	explode(){
-		var spanX = this.skin.naturalWidth;
-		var spanY = this.skin.naturalHeight;
 		this.skin = Helon.ress.images.explosion;
-		this.skin.width = spanX;
-		this.skin.height = spanY;
 		this.ctrl = function(){};
 		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
