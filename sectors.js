@@ -49,6 +49,26 @@ function createLocation(designation, inSector, x, y, width, height){
 
 
 
+function createSector(ID, width, height){
+	Hellaxy.sectors[ID] = new Sector(ID, width, height);
+}
+
+
+function setSector(ID){
+	Hellaxy.sector = Hellaxy.sectors[ID];
+}
+
+
+function spawnAsteroids(posX, posY, width, height, inSector){
+	if (inSector === undefined) inSector = Hellaxy.sector;
+		for (var i = 0; i < width / 80; i++){
+			for (var h = 0; h < height / 80; h++){
+				inSector.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
+			}
+		}
+}
+
+
 class Sector{
 	constructor(ID, width, height){                //ID, width, height
 		this.ID = ID;
@@ -212,27 +232,33 @@ class Sector{
 
 
 function setupSectors () {
+	
+	createSector("testmap", 2200, 2200);
+	Hellaxy.sectors.testmap.addPlanet("testmoon", 900, 400);
 
-	testmap = new Sector("testmap", 2200, 2200);
-	testmap.addPlanet("testmoon", 900, 400);
-
-	central_sector = new Sector("central", 4500, 3700);
+	createSector("central", 4500, 3700);
 	
-	omar_sector = new Sector("omar", 4500, 2000);
+	createSector("omar", 4500, 2000);
 	
-	outer_sector = new Sector("outer", 7500, 20000);
+	createSector("outer", 7500, 20000);
 	
-	imperial_sector = new Sector("imperial", 7500, 20000);
+	createSector("imperial", 7500, 20000);
 	
 	
-	central_sector.addPortal(0, 2500, 100, 350, omar_sector, 4200, 780, 270);
-	omar_sector.addPortal(4400, 600, 100, 350, central_sector, 250, 2750, 90);
+	var testmap = Hellaxy.sectors["testmap"];
+	var central_sector = Hellaxy.sectors["central"];
+	var omar_sector = Hellaxy.sectors["omar"];
+	var outer_sector = Hellaxy.sectors["outer"];
+	var imperial_sector = Hellaxy.sectors["imperial"];
 	
-	omar_sector.addPortal(2100, 0, 350, 100, outer_sector, 5250, 19500, 0);
-	outer_sector.addPortal(5150, 19700, 350, 300, omar_sector, 2250, 300, 180);
 	
-	central_sector.addPortal(2000, 0, 400, 100, imperial_sector, 3000, 19500, 0);
-	imperial_sector.addPortal(2800, 19700, 400, 300, central_sector, 2200, 300, 180);
+	Hellaxy.sectors.central.addPortal(0, 2500, 100, 350, "omar", 4200, 780, 270);
+	Hellaxy.sectors.omar.addPortal(4400, 600, 100, 350, "central", 250, 2750, 90);
 	
+	Hellaxy.sectors.omar.addPortal(2100, 0, 350, 100, "outer", 5250, 19500, 0);
+	Hellaxy.sectors.outer.addPortal(5150, 19700, 350, 300, "omar", 2250, 300, 180);
+	
+	Hellaxy.sectors.central.addPortal(2000, 0, 400, 100, "imperial", 3000, 19500, 0);
+	Hellaxy.sectors.imperial.addPortal(2800, 19700, 400, 300, "central", 2200, 300, 180);
 }// No touchy!
 // :p hehe ~miterosan

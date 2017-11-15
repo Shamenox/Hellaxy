@@ -3,7 +3,6 @@ var Hellaxy = {
 	screen : {},
 	campaign : {},
 	sector : {},
-	asteroid : {},
 	ships : {},
 	sectors : {},
 	campaigns : {},
@@ -16,6 +15,11 @@ Hellaxy.loop = function(){
 	Hellaxy.Campaign = Hellaxy.campaign;  // Übergangslösung für neue groß-klein-Schreibung
 	Hellaxy.Sector = Hellaxy.sector;
 	Hellaxy.Screen = Hellaxy.screen;
+	var testmap = Hellaxy.sectors["testmap"];
+	var central_sector = Hellaxy.sectors["central"];
+	var omar_sector = Hellaxy.sectors["omar"];
+	var outer_sector = Hellaxy.sectors["outer"];
+	var imperial_sector = Hellaxy.sectors["imperial"];
 	
 	
 	Hellaxy.task();

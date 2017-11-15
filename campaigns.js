@@ -94,14 +94,14 @@ qubanian = new Campaign();                                                      
 
 function setupLevels(){
 	quicktest.addLevel(function(){
-			Hellaxy.sector = testmap;
+			setSector("testmap");
 			spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
-			humanian_shuttle.spawn(testmap, 300, 100, 0, npc.defender);
-			humanian_shuttle.spawn(testmap, 400, 100, 0, npc.defender);
-			testarrow.spawn(testmap, 100, 100, 0, "none", function(){addMsg("Test123");});
-			testarrow.spawn(testmap, 400, 400, 0, npc.simpleRoamer);
-			fatman.spawn(testmap, 700, 1300, 90, npc.simpleRoamer);
-			testmap.spawnAsteroids(600, 600, 400, 400);
+			spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
+			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
+			spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
+			spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
+			spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
+			spawnAsteroids(600, 600, 400, 400);
 		},
 		{
 			no : false
@@ -109,8 +109,7 @@ function setupLevels(){
 	);
 	
 	freeroaming.addLevel(function(){
-			Hellaxy.sector = central_sector;
-			humanian_shuttle.spawn(omar_sector, 1050, 1100, 0, npc.defender);
+			setSector("central");
 		},
 		{
 			no : false

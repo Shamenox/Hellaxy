@@ -144,17 +144,17 @@ function setupScreens(){
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillText("Freeroam Mode", 540, 50);
 		Helon.ctx.fillText("Select your ship:", 490, 80);
-		for (var i = 2; i < Ships.length; i++){
-			Helon.ctx.drawImage(Ships[i].skin, hor*70, ver*70 + 50, 64, 64);
-			if (cursor.x.between(hor*70, hor*70 + 64) && cursor.y.between(ver*70 + 50, ver*70 + 114)){
-				Helon.ctx.strokeRect(hor*70 - 4, ver*70 + 46, 70, 70);
-				if (click){
-					Ships[i].spawn(central_sector, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-					startCampaign(freeroaming);
+		for (var shiptype in Hellaxy.ships){
+				Helon.ctx.drawImage(Hellaxy.ships[shiptype].skin, hor*70, ver*70 + 50, 64, 64);
+				if (cursor.x.between(hor*70, hor*70 + 64) && cursor.y.between(ver*70 + 50, ver*70 + 114)){
+					Helon.ctx.strokeRect(hor*70 - 4, ver*70 + 46, 70, 70);
+					if (click){
+						Hellaxy.sectors.central.spawnShip(Hellaxy.ships[shiptype].fraction + "_" + Hellaxy.ships[shiptype].designation, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+						startCampaign(freeroaming);
+					}
 				}
-			}
-			hor++;
-			if (hor > 16) hor = 1, ver++;
+				hor++;
+				if (hor > 16) hor = 1, ver++;
 		}
 		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.screen = menue;})
 	});
