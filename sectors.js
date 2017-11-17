@@ -59,13 +59,19 @@ function setSector(ID){
 }
 
 
+function addPlanet(designation, x, y, inSector){
+	if (inSector === undefined) inSector = Hellaxy.sector;
+	inSector.addPlanet(designation, x, y);
+}
+
+
 function spawnAsteroids(posX, posY, width, height, inSector){
 	if (inSector === undefined) inSector = Hellaxy.sector;
-		for (var i = 0; i < width / 80; i++){
-			for (var h = 0; h < height / 80; h++){
-				inSector.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
-			}
+	for (var i = 0; i < width / 80; i++){
+		for (var h = 0; h < height / 80; h++){
+			inSector.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
 		}
+	}
 }
 
 
@@ -172,7 +178,7 @@ class Sector{
 		for (var h = 0; h < this.portals.length; h++){
 			for (var i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
 				for (var j = this.portals[h].y; j < this.portals[h].y + this.portals[h].height; j += 100){
-				 Helon.ctx.drawImage(this.portals[h].dest.bg, i - this.offset.x, j - this.offset.y);
+				 Helon.ctx.drawImage(Hellaxy.sectors[this.portals[h].dest].bg, i - this.offset.x, j - this.offset.y);
 				}
 			}
 		}

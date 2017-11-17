@@ -42,18 +42,14 @@ class Ship {
 	
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		if (inSector === undefined) inSector = Hellaxy.sector;
+		if (inSector !== undefined) {
+			inSector = Hellaxy.sectors[inSector.designation];
+		} else {
+			inSector = Hellaxy.sector;
+		}
 		if (ctrl === undefined) ctrl = "none";
 		if (atAngle === undefined) atAngle = 0;
-		var neuerSpawn = this.clone();
-		neuerSpawn.x = atX;
-		neuerSpawn.y = atY;
-		neuerSpawn.angle = atAngle;
-		neuerSpawn.aim = atAngle;
-		neuerSpawn.ctrl = ctrl;
-		neuerSpawn.abgang = abgang;
-		neuerSpawn.sector = inSector;
-		inSector.ships.push(neuerSpawn);
+		inSector.spawnShip(this.fraction + "_" + this.designation, atX, atY, atAngle, ctrl, abgang);
 	}
 	
 	
@@ -239,6 +235,7 @@ class Ship {
 	
 	transferTo(sector, atX, atY, atAngle, place){
 		var neuerTransfer = this.clone();
+		sector = Hellaxy.sectors[sector];
 		neuerTransfer.sector = sector;
 		neuerTransfer.x = atX + Math.floor((Math.random() * 20) - 10);
 		neuerTransfer.y = atY + Math.floor((Math.random() * 20) - 10);
@@ -276,7 +273,7 @@ class Ship {
 		}
 		for (var h = 0; h < SECTOR.portals.length; h++){
 			if (this.collidesWith(SECTOR.portals[h])){
-				this.transferTo(Hellaxy.sectors[SECTOR.portals[h].dest], SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle, place);
+				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle, place);
 			}
 		}
 	}
@@ -313,7 +310,6 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	qubanian_colonizer = new Ship({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.008});
 	qubanian_colonizerMk2 = new Ship({designation : "colonizer", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : triangle_beam});
 	qubanian_colony = new Ship({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : machinegun_5nm, sp1 : flak_around});
-	ophianic_annectorstar = new Ship({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : ophianian_beam, sp1 : spawn_ophianianChunk});
 	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
 	chestanian_colonizer = new Ship({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : spike_artillery});
 	chestanian_spiketank = new Ship({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : spike_artillery});

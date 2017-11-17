@@ -46,8 +46,29 @@ function startCampaign(campaign){
 	Hellaxy.sector.act();
 }
 
-function spawnShip(designation, atX, atY, atAngle, ctrl, abgang){
-	Hellaxy.sector.spawnShip(designation, atX, atY, atAngle, ctrl, abgang);
+function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
+	if (inSector === undefined){
+		inSector = Hellaxy.sector;
+	} else {
+		inSector = Hellaxy.sectors[inSector];
+	}
+	inSector.spawnShip(designation, atX, atY, atAngle, ctrl, abgang);
+}
+
+
+function spawnSquad(designation, atX, atY, atAngle, quantity, ctrl, abgang, inSector){
+	var hor = 0;
+	var ver = 0;
+	var spawned = 0;
+	while (spawned < quantity){
+		spawnShip(designation, atX + hor * Hellaxy.ships[designation].width * 2, atY + ver * Hellaxy.ships[designation].height * 2, atAngle, ctrl, abgang, inSector);
+		spawned++;
+		hor++;
+		if (hor >= Math.sqrt(quantity)){
+			hor = 0;
+			ver++;
+		}
+	}
 }
 
 function display(obj){

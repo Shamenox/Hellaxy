@@ -19,7 +19,6 @@ function createSpecial(designation, reload, ammo, act){
 }
 
 function setupSpecials(){
-	spawn_ophianianChunk = new Special( 6000, 66, function(){ophianic_chunk.spawn(this.ship.sector, this.ship.x, this.ship.y, this.ship.angle, npc.rammer)});
 	flak_around = new Special( 1000, 10, function(){
 		this.reload = this.ship.wp1.reload;
 		this.ammo = this.ship.wp1.ammo;
@@ -31,8 +30,7 @@ function setupSpecials(){
 		projectile[projectile.length - 1].sound("fire");
 	})
 	
-	
-	createSpecial("spawn_ophianianChunk", 6000, 66, function(){ophianic_chunk.spawn(this.ship.sector, this.ship.x, this.ship.y, this.ship.angle, npc.rammer)});
+	createSpecial("spawn_ophianianChunk", 6000, 66, function(){spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation)});
 	createSpecial("flak_around", 1000, 10, function(){
 		this.reload = this.ship.wp1.reload;
 		this.ammo = this.ship.wp1.ammo;

@@ -47,9 +47,10 @@ function campaignManager(){
 
 
 function start(at, withShip){
+	console.log(at);
 	Hellaxy.sector = at.sector;
 	spawnShip(withShip, at.x + 100, at.y + 100, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-	central_sector.ships[central_sector.ships.length - 1].mass++;
+	Hellaxy.sector.ships[Hellaxy.sector.ships.length - 1].mass++;
 }
 
 
@@ -113,21 +114,16 @@ function setupLevels(){
 		},
 		{
 			no : false
-		}
+		},
 	);
 	
 	humanian.addLevel(function(){
-			Hellaxy.sector = central_sector;
-			central_sector.addPlanet("humania", 1000, 1000);
-			central_sector.addPlanet("pontes", 1420, 2550);
-			humanian_shuttle.spawn(central_sector, 1000, 1000, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-			central_sector.ships[0].mass++;
-			humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
-			humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender);
-			humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender);
-			humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender);
-			humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender);
-			qubanian_colonizer.spawn(central_sector, 200, 200, 135, function(){this.follow(central_sector.planets[0], 200);}, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
+			setSector("central");
+			addPlanet("humania", 1000, 1000);
+			addPlanet("pontes", 1420, 2550);
+			start(Hellaxy.planets.humania, "humanian_shuttle");
+			spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
+			spawnShip("qubanian_colonizer", 200, 200, 135, function(){this.follow(Hellaxy.planets.humania, 200);}, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
 			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
 			addMsg("Humanian HQ: Attention!");
 			addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
@@ -152,16 +148,10 @@ function setupLevels(){
 	
 	
 	humanian.addLevel(function(){
-		Hellaxy.sector = central_sector;
-		central_sector.addPlanet("haufen1", 600, 1800);
-		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender);
-		humanian_satalite.spawn(central_sector, 1100, 1100);
+		start(Hellaxy.planets.humania, "humanian_protobaseship_helonia");
+		addPlanet("haufen1", 600, 1800);
+		spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
+		spawnShip("humanian_satalite", 1100, 1100);
 		addMsg("Log in: 2008. Cycle; 43; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Admire your new flagship commander!");
@@ -177,7 +167,7 @@ function setupLevels(){
 		addMsg("If you have a defined target location your cursor will now");
 		addMsg("turn into a direction indicator by clicking.");
 		addMsg("Good luck!");
-		this.target = central_sector.planets[2];
+		this.target = Hellaxy.planets.haufen1;
 		},
 		{
 			gotback : false,
@@ -186,39 +176,37 @@ function setupLevels(){
 			pile3 : false
 		},
 		function(){
-			if (!LEVEL.conditions.pile1 && player1ship.collidesWith(central_sector.planets[2])){
-				central_sector.addPlanet("haufen2", 4000, 2000);
+			if (!LEVEL.conditions.pile1 && player1ship.collidesWith(Hellaxy.planets.haufen1)){
+				addPlanet("haufen2", 4000, 2000);
 				addMsg("Great!");
 				addMsg("Interesting, the sample seems to contain some kind of ");
 				addMsg("matter-changing substance...");
 				addMsg("We just registered two more signals of same specifications.");
 				addMsg("They are both located right from you.");
 				addMsg("Please get us samples from both new anomalies for comparasion.");
-				this.target = central_sector.planets[3];
+				this.target = Hellaxy.planets.haufen2;
 				LEVEL.conditions.pile1 = true;
 			}
-			if (!LEVEL.conditions.pile2 && player1ship.collidesWith(central_sector.planets[3])){
-				central_sector.addPlanet("haufen3", 4150, 1300);
+			if (!LEVEL.conditions.pile2 && player1ship.collidesWith(Hellaxy.planets.haufen2)){
+				addPlanet("haufen3", 4150, 1300);
 				addMsg("We were rigth, this celestial body consists of the exactly ");
 				addMsg("same material as the first one.");
 				addMsg("Get a sample from the last signal for final confirmation!");
-				this.target = central_sector.planets[4];
+				this.target = Hellaxy.planets.haufen3;
 				LEVEL.conditions.pile2 = true;
 			}
-			if (!LEVEL.conditions.pile3 && player1ship.collidesWith(central_sector.planets[4])){
+			if (!LEVEL.conditions.pile3 && player1ship.collidesWith(Hellaxy.planets.haufen3)){
 				addMsg("Yes, its the exactly same structure as the other ones.");
 				addMsg("But this 'planet' emmits some kind of a live-signal.");
 				addMsg("Alert, the samples we already gathered changed their structure ");
 				addMsg("to something very radical attacking the testtubes!");
 				addMsg("There is also something ascending from the 'planet´s' core.");
 				addMsg("Eliminate it if neccessary and return home ASAP!");
-				ophianic_chunk.spawn(central_sector, 4120, 1310, 270, npc.simpleRoamer);
-				ophianic_chunk.spawn(central_sector, 4150, 1300, 270, npc.simpleRoamer);
-				ophianic_chunk.spawn(central_sector, 3190, 1320, 270, npc.simpleRoamer);
-				this.target = this.target = central_sector.planets[0];
+				spawnSquad("ophianic_chunk", 4120, 1310, 270, 4, npc.simpleRoamer);
+				this.target = this.target = Hellaxy.planets.humania;
 				LEVEL.conditions.pile3 = true;
 			}
-			if (LEVEL.conditions.pile3 && !LEVEL.conditions.gotback && player1ship.collidesWith(central_sector.planets[0])) {
+			if (LEVEL.conditions.pile3 && !LEVEL.conditions.gotback && player1ship.collidesWith(Hellaxy.planets.humania)) {
 				addMsg("This shapeshifting substance seems to be oozing out of these");
 				addMsg("'erupting' protoplanets all over the System...");
 				addMsg("However this is a mystery for our scientists to figure out.");
@@ -229,16 +217,10 @@ function setupLevels(){
 	
 	
 	humanian.addLevel(function(){
-		Hellaxy.sector = central_sector;
-		humanian_protobaseship_helonia.spawn(central_sector, 1200, 1000, 180, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		ophianic_annectorstar.spawn(central_sector, 2000, 1100, 270, npc.ophianian_annector);
-		humanian_shuttle.spawn(central_sector, 1050, 1100, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 1000, 1000, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 950, 1100, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 1050, 1050, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 1000, 1050, 0, npc.defender);
-		humanian_shuttle.spawn(central_sector, 950, 1050, 0, npc.defender);
-		humanian_satalite.spawn(central_sector, 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
+		start(Hellaxy.planets.humania, "humanian_protobaseship_helonia");
+		spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
+		spawnShip("humanian_satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
+		spawnShip("ophianic_annector", 2000, 1100, 270, npc.ophianian_annector);
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		addMsg("Humanian HQ: Attention!");
 		addMsg("Something enormously huge as appeared on our Radars.");
@@ -254,11 +236,11 @@ function setupLevels(){
 			escaped : false,
 		},
 		function(){
-			if (central_sector.ships[0].hp < 2400 && this.conditions.dmgd === false ){
+			if (player1ship.hp < 2400 && this.conditions.dmgd === false ){
 				addMsg("Thats it, there is no hope for the Planet...");
 				addMsg("We have no other choice, please forgive us.");
 				addMsg("Start the FTL-engines!");
-				central_sector.ships[0].ctrl = function(){this.pointFrom(this.sector.ships[1]); this.a = 1; this.turn(); this.acc(); if (this.y < central_sector.offset.y || this.x > central_sector.offset.x) LEVEL.conditions.escaped = true;};
+				player1ship.ctrl = function(){this.pointFrom(this.nextShip("ophianic")); this.a = 1; this.turn(); this.acc(); if (this.y < Hellaxy.sector.offset.y || this.x > Hellaxy.sector.offset.x) LEVEL.conditions.escaped = true;};
 				this.conditions.dmgd = true;
 			}
 		}
