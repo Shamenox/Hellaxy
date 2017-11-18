@@ -140,4 +140,6 @@ function setupWeapons(){  //skin, alpha, pen, reload, ammo
 	createWeapon("emp_director_1", "emp_1", 50, 3, 1000, 100);
 	createWeapon("emp_director_2", "emp_1", 50, 3, 200, 500);
 	createWeapon("emp_director_small", "emp_2", 3, 2, 100, 400);
+	
+	console.log(Hellaxy.weapons);
 }
