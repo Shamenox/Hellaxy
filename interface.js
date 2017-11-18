@@ -21,6 +21,15 @@ class Screen{
 }
 
 
+function createScreen(ID, bg, theme, action){
+	Hellaxy.screens[ID] = new Screen(ID, bg, theme, action);
+}
+
+
+function setScreen(ID){
+	Hellaxy.screen = Hellaxy.screens[ID];
+}
+
 function screenManager(){
 	Hellaxy.screen.display();
 }
@@ -35,25 +44,25 @@ function addMsg(content){
 
 function setupScreens(){
 
-	title = new Screen("title", "blackscreen", "theme1", function(){
+	createScreen("title", "blackscreen", "theme1", function(){
 		Helon.ctx.font = "144px Consolas";
 		Helon.ctx.fillText("Hellaxy", 350, 240);
 		Helon.ctx.font = "24px Consolas";
 		if (!intervalReact(true, 500, "title")) Helon.ctx.fillText("> Press Space <", 540, 540);
 		Helon.ctx.fillText("developed by Shamenox", 44, 680);
-		if (key.space) Hellaxy.screen = menue;
+		if (key.space) setScreen("menue");
 	});
 
 	
-	menue = new Screen("menue", "blackscreen", "theme1", function(){
-		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){startCampaign(quicktest)})
-		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){Hellaxy.screen = campaigns})
-		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){Hellaxy.screen = freeroam})
-		button(400, 550, 480, 100, "Controls", "yellow", function(){Hellaxy.screen = controls})
+	createScreen("menue", "blackscreen", "theme1", function(){
+		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){startCampaign("quicktest")})
+		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){setScreen("campaign");})
+		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){setScreen("freeroam");})
+		button(400, 550, 480, 100, "Controls", "yellow", function(){setScreen("controls");})
 	});
 
 	
-	controls = new Screen("controls", "blackscreen", "theme1", function(){
+	createScreen("controls", "blackscreen", "theme1", function(){
 		Helon.ctx.fillText("Accelerate forwards = W", 100,100);
 		Helon.ctx.fillText("Turn Left = A", 100,150);
 		Helon.ctx.fillText("Turn Right = D", 100,200);
@@ -63,14 +72,15 @@ function setupScreens(){
 		Helon.ctx.fillText("Heavy Weapon = Q", 100,400);
 		Helon.ctx.fillText("Special Abilities = 1 - 3", 100,450);
 		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,500);
-		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.screen = menue;});
+		Helon.ctx.fillText("Point at cursor / Show targets direction = Left mouse button", 100,550);
+		button(400, 650, 480, 50, "Back", "yellow", function(){setScreen("menue");});
 	});
 	
 	
-	paused = new Screen("paused", "blank", "none", function(){
+	createScreen("paused", "blank", "none", function(){
 		Hellaxy.sector.display();
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
-		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.campaign.levels[Hellaxy.campaign.at].cancel(); Hellaxy.screen = menue});
+		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.campaign.levels[Hellaxy.campaign.at].cancel(); setScreen("menue");});
 		Helon.ctx.lineWidth = 4;
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.font = "128px Consolas";
@@ -80,7 +90,7 @@ function setupScreens(){
 	});
 	
 	
-	messager = new Screen("messager", "blank", "none", function(){
+	createScreen("messager", "blank", "none", function(){
 		if (Hellaxy.msgs.length === 0){
 			Hellaxy.task = campaignManager;
 		}
@@ -116,29 +126,30 @@ function setupScreens(){
 	
 	
 	function campaignLine(of, designation, posy){
+		of = Hellaxy.campaigns[of];
 		Helon.ctx.fillText(designation + ":   Lvl " + of.at, 200, posy);
 		if (of.at !== 0){
 			if (of.at !== of.levels.length){
-				{button(500, posy - 25, 150, 26, "Continue", "yellow", function(){startCampaign(of)});};
+				{button(500, posy - 25, 150, 26, "Continue", "yellow", function(){startCampaign(of.designation)});};
 			}
 			else {
 				Helon.ctx.fillText("Complete!", 500, posy);
 			}
 		}
-		button(700, posy -25, 150, 26, "New", "yellow", function(){of.at = 0; startCampaign(of)});
+		button(700, posy -25, 150, 26, "New", "yellow", function(){of.at = 0; startCampaign(of.designation)});
 	}
 	
-	campaigns = new Screen("campaign", "blackscreen", "theme1", function(){
+	createScreen("campaign", "blackscreen", "theme1", function(){
 		Helon.ctx.fillText("Campaign Mode", 540, 50);
 		Helon.ctx.fillText("Select your campaign:", 490, 80);
-		campaignLine(humanian, "Humanian", 150);
-		campaignLine(qubanian, "Qubanian", 200);
-		campaignLine(chestanian, "Chestanian", 250);
-		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.screen = menue;})
+		campaignLine("humanian", "Humanian", 150);
+		campaignLine("qubanian", "Qubanian", 200);
+		//campaignLine("chestanian", "Chestanian", 250);
+		button(400, 650, 480, 50, "Back", "yellow", function(){setScreen("menue");})
 	});
 	
 	
-	freeroam = new Screen("freeroam", "blackscreen", "theme1", function(){
+	createScreen("freeroam", "blackscreen", "theme1", function(){
 		var hor = 1;
 		var ver = 1;
 		Helon.ctx.strokeStyle = "yellow";
@@ -150,13 +161,13 @@ function setupScreens(){
 					Helon.ctx.strokeRect(hor*70 - 4, ver*70 + 46, 70, 70);
 					if (click){
 						Hellaxy.sectors.central.spawnShip(Hellaxy.ships[shiptype].fraction + "_" + Hellaxy.ships[shiptype].designation, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-						startCampaign(freeroaming);
+						startCampaign("freeroaming");
 					}
 				}
 				hor++;
 				if (hor > 16) hor = 1, ver++;
 		}
-		button(400, 650, 480, 50, "Back", "yellow", function(){Hellaxy.screen = menue;})
+		button(400, 650, 480, 50, "Back", "yellow", function(){setScreen("menue");})
 	});
 }
 

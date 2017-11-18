@@ -1,7 +1,8 @@
 ﻿var LEVEL;
 
 class Campaign {
-	constructor(){
+	constructor(designation){
+		this.designation = designation;
 		this.levels = [];
 		this.at = 0;
 	}
@@ -18,6 +19,55 @@ class Campaign {
 }
 
 
+function createCampaign(designation){
+	Hellaxy.campaigns[designation] = new Campaign(designation);
+}
+
+function setCampaign(designation){
+	Hellaxy.campaign = Hellaxy.campaigns[designation];
+}
+
+
+class Level {
+	constructor(belong, setup, conditions, events){
+		this.campaign = belong;
+		this.setup = setup;
+		this.isSetup = false;
+		this.conditions = conditions;
+		if (events !== undefined) this.events = events;
+	}
+	
+	
+	cancel(){
+		if (typeof Hellaxy.sector.theme.play === "function") Hellaxy.sector.theme.pause();
+		projectile.splice(0, projectile.length);
+		Hellaxy.msgs.splice(0, Hellaxy.msgs.length);
+		this.target = "none";
+		this.isSetup = false;
+		Hellaxy.sector.ships = [];
+		setScreen("menue");
+		Hellaxy.task = screenManager;
+		for (var cond in this.conditions){
+			this.conditions[cond] = false;
+		}
+	}
+	
+	
+	end(){
+		this.cancel()
+		this.campaign.at += 1;
+	}
+
+}
+
+
+function createLevel(belong, setup, conditions, events){
+	Hellaxy.campaigns[belong].levels.push(new Level(Hellaxy.campaigns[belong], setup, conditions, events));
+}
+
+
+
+
 
 
 
@@ -29,11 +79,11 @@ function campaignManager(){
 		y : LEVEL.target.y - Hellaxy.Sector.offset.y,
 	});
 	if (intervalReact(key.esc, 500, "esc")){
-		Hellaxy.screen = paused;
+		setScreen("paused");;
 		Hellaxy.task = screenManager;
 	}
 	if (Hellaxy.msgs.length !== 0){
-		Hellaxy.screen = messager;
+		setScreen("messager");
 		Hellaxy.task = screenManager;
 	}
 	for (var cond in LEVEL.conditions){
@@ -55,46 +105,17 @@ function start(at, withShip){
 
 
 
-class Level {
-	constructor(belong, setup, conditions, events){
-		this.campaign = belong;
-		this.setup = setup;
-		this.isSetup = false;
-		this.conditions = conditions;
-		if (events !== undefined) this.events = events;
-	}
-	
-	
-	cancel(){
-		if (typeof Hellaxy.sector.theme.play === "function") Hellaxy.sector.theme.pause();
-		projectile.splice(0, projectile.length);
-		Hellaxy.msgs.splice(0, Hellaxy.msgs.length);
-		this.target = "none";
-		this.isSetup = false;
-		Hellaxy.sector.ships = [];
-		Hellaxy.screen = menue;
-		Hellaxy.task = screenManager;
-		for (var cond in this.conditions){
-			this.conditions[cond] = false;
-		}
-	}
-	
-	
-	end(){
-		this.cancel()
-		this.campaign.at += 1;
-	}
 
-}
+function setupLevels(){				//<-- Kampagnendeklarierung
+	createCampaign("humanian");
+	createCampaign("quicktest");
+	createCampaign("freeroaming");
+	createCampaign("chestanian");
+	createCampaign("qubanian");
 
-humanian = new Campaign();  
-quicktest = new Campaign();  
-freeroaming = new Campaign(); 
-chestanian = new Campaign();  
-qubanian = new Campaign();                                                                                                //<-- Kampagnendeklarierung
+	
 
-function setupLevels(){
-	quicktest.addLevel(function(){
+	Hellaxy.campaigns.quicktest.addLevel(function(){
 			setSector("testmap");
 			spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
 			spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
@@ -109,7 +130,7 @@ function setupLevels(){
 		}
 	);
 	
-	freeroaming.addLevel(function(){
+	Hellaxy.campaigns.freeroaming.addLevel(function(){
 			setSector("central");
 		},
 		{
@@ -117,7 +138,7 @@ function setupLevels(){
 		},
 	);
 	
-	humanian.addLevel(function(){
+	Hellaxy.campaigns.humanian.addLevel(function(){
 			setSector("central");
 			addPlanet("humania", 1000, 1000);
 			addPlanet("pontes", 1420, 2550);
@@ -147,7 +168,7 @@ function setupLevels(){
 	);
 	
 	
-	humanian.addLevel(function(){
+	Hellaxy.campaigns.humanian.addLevel(function(){
 		start(Hellaxy.planets.humania, "humanian_protobaseship_helonia");
 		addPlanet("haufen1", 600, 1800);
 		spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
@@ -216,7 +237,7 @@ function setupLevels(){
 	);
 	
 	
-	humanian.addLevel(function(){
+	Hellaxy.campaigns.humanian.addLevel(function(){
 		start(Hellaxy.planets.humania, "humanian_protobaseship_helonia");
 		spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
 		spawnShip("humanian_satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
@@ -246,10 +267,10 @@ function setupLevels(){
 		}
 	);
 	
-	qubanian.addLevel(function(){
-		central_sector.addPlanet("quba", 444, 444);
-		central_sector.addLocation("quba2", 2400, 2000, 500, 500);
+	Hellaxy.campaigns.qubanian.addLevel(function(){
+		addPlanet("quba", 444, 444, "central");
 		start(Hellaxy.planets.quba, "qubanian_colonizer");
+		addLocation("quba2", 2550, 2300, 500, 500);
 		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
 		addMsg("Attention! This is mission-control!");
 		addMsg("We are proud to have finally made it into space!");
@@ -264,7 +285,7 @@ function setupLevels(){
 		},
 		function(){
 			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.locations.quba2)){
-				qubanian_colony.spawn(central_sector, 2378, 2078, 0, "none");
+				spawnShip("qubanian_colony", 2378, 2078, 0, "none");
 				addMsg("Congratulations Commander!");
 				addMsg("We are recieving first transmissions from our new colony.");
 				addMsg("Let´s begin upgrading its infrastructure!");
@@ -274,8 +295,8 @@ function setupLevels(){
 	);
 	
 	
-	qubanian.addLevel(function(){
-		Hellaxy.sector = central_sector;
+	Hellaxy.campaigns.qubanian.addLevel(function(){
+		setSector("central");
 		spawnShip("qubanian_colony", 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
 		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
 		addMsg("Attention! This is Qubanian HQ!");
@@ -294,23 +315,16 @@ function setupLevels(){
 			destroyed : false,
 		},
 		function(){
-			if (central_sector.ships.length < 4){
-				birchanian_glider.spawn(central_sector, 3050, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3100, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3150, 3150, 315, npc.rammer);
+			if (Hellaxy.sectors.central.ships.length < 4){
+				spawnSquad("birchanian_glider", 3050, 3000, 315, 5, npc.rammer);
 			}
 		}
 	);
 	
 	
-	qubanian.addLevel(function(){
+	Hellaxy.campaigns.qubanian.addLevel(function(){
 		start(Hellaxy.planets.quba, "qubanian_colonizer");
-		spawnShip("qubanian_colonizer", 550, 500, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		spawnShip("qubanian_colonizer", 550, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
-		spawnShip("qubanian_colonizer", 500, 550, 90, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+		spawnSquad("qubanian_colonizer", 550, 500, 90, 3, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 150;  Super Colonization ID:217");
 		addMsg("Attention! This is mission-control!");
 		addMsg("What the Birchanians have done so arrogantly is unforgivable!");
@@ -337,28 +351,14 @@ function setupLevels(){
 				addMsg("and all of its anti-spacecraft cannons are online.");
 				addMsg("Now we´ll show them!");
 			}
-			if (intervalReact(!this.conditions.colonized, 10000, "attackrate")){
-				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3150, 3150, 315, npc.rammer);
+			if (intervalReact(!this.conditions.colonized, 9000, "attackrate")){
+				spawnSquad("birchanian_glider", 3150, 3000, 315, 4, npc.rammer);
 			}
 			if (LEVEL.conditions.colonized === true && !LEVEL.conditions.send){
-				birchanian_glider.spawn(central_sector, 3050, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3100, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3150, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3050, 3050, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3100, 3100, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 3150, 3150, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 2950, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 2800, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 2750, 3000, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 2950, 2950, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 2800, 2800, 315, npc.rammer);
-				birchanian_glider.spawn(central_sector, 2750, 2750, 315, npc.rammer);
+				spawnSquad("birchanian_glider", 3300, 3150, 315, 15, npc.aggressor);
 				LEVEL.conditions.send = true;
 			}
-			if (LEVEL.conditions.send === true && central_sector.ships.length < 10 && !LEVEL.conditions.defended){
+			if (LEVEL.conditions.send === true && Hellaxy.sectors.central.ships.length < 10 && !LEVEL.conditions.defended){
 				addMsg("Most of the Birchanian units are destroyed.");
 				addMsg("Space superiority is ours. Well done commander!");
 				LEVEL.conditions.defended = true;
@@ -370,7 +370,7 @@ function setupLevels(){
 	
 	
 	
-	chestanian.addLevel(function(){
+	Hellaxy.campaigns.chestanian.addLevel(function(){
 		Hellaxy.sector = outer_sector;
 		outer_sector.addPlanet("chestanian_fortress", 1625, 18000);
 		chestanian_colonizer.spawn(outer_sector, 1800, 18500, 90, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
@@ -380,6 +380,6 @@ function setupLevels(){
 			colonized : false,
 		},
 		function(){}
-	);
+	); 
 	
 }

@@ -1,6 +1,7 @@
 var Hellaxy = {
 	msgs : [],
 	screen : {},
+	screens : {},
 	campaign : {},
 	sector : {},
 	ships : {},
@@ -33,7 +34,7 @@ function addMsg(content){
 
 function startCampaign(campaign){
 	Hellaxy.screen.theme.pause();
-	Hellaxy.campaign = campaign;
+	Hellaxy.campaign = Hellaxy.campaigns[campaign];
 	Hellaxy.task = campaignManager;
 	player1ship.x = 0;
 	player1ship.y = 0;
@@ -75,7 +76,7 @@ function display(obj){
 	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Drehung
 	Helon.ctx.rotate(obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-(obj.x - Hellaxy.sector.offset.x), -(obj.y - Hellaxy.sector.offset.y));
-	Helon.ctx.drawImage(obj.skin, obj.x - Hellaxy.sector.offset.x - obj.width/2, obj.y - Hellaxy.sector.offset.y - obj.height/2); // Display
+	Helon.ctx.drawImage(obj.skin, obj.x - Hellaxy.sector.offset.x - obj.width/2, obj.y - Hellaxy.sector.offset.y - obj.height/2, obj.width, obj.height); // Display
 	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Rückdrehung
 	Helon.ctx.rotate(- obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-(obj.x - Hellaxy.sector.offset.x), -(obj.y - Hellaxy.sector.offset.y));
@@ -89,8 +90,8 @@ function Appstart(){
 	setupShips();
 	setupSectors();
 	setupLevels();
-	Hellaxy.screen = title;
-	Hellaxy.campaign = quicktest;
+	setScreen("title");
+	setCampaign("quicktest");
 	Hellaxy.task = screenManager;
 	Helon.app = Hellaxy.loop;
 }

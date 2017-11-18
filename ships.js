@@ -1,9 +1,3 @@
-var Ships = [];
-
-function createShip(specs){
-	Hellaxy.ships[specs.fraction + "_" + specs.designation] = new Ship(specs);
-}
-
 class Ship {
 	constructor(specs){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4, skin
 		this.x = 0;
@@ -26,7 +20,6 @@ class Ship {
 				}
 				if (property == ["sp" + i] && specs["sp" + i].reload === undefined){
 					this["sp" + i] = Hellaxy.weapons[specs[property]];
-					console.log(Hellaxy.weapons[specs[property]]);
 				}
 			}
 		}
@@ -37,25 +30,50 @@ class Ship {
 			this.width = this.skin.naturalWidth;
 			this.height = this.skin.naturalHeight;
 		}
-		Ships.push(this);
 	}
 	
 	
-	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		if (inSector !== undefined) {
-			inSector = Hellaxy.sectors[inSector.designation];
-		} else {
-			inSector = Hellaxy.sector;
+	acc(){
+		this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
+		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+	}
+	
+	
+	act(place){
+		var SECTOR = this.sector;
+		if (this.hp < 1) this.explode();
+		if (this.ctrl !== "none") this.ctrl();
+		this.y -= this.vy;
+		this.x += this.vx;
+		if (this.vx > this.a * 80) this.vx = this.a * 80;
+		if (this.vy > this.a * 80) this.vy = this.a * 80;
+		if (this.vx < this.a * -80) this.vx = this.a * -80;
+		if (this.vy < this.a * -80) this.vy = this.a * -80;
+		this.angle = get360(this.angle);
+		if (this.x < this.skin.naturalWidth/2) this.x = this.skin.naturalWidth/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
+		if (this.y < this.skin.naturalHeight/2) this.y = this.skin.naturalHeight/2, this.vy = 0;
+		if (this.x > SECTOR.width - this.skin.naturalWidth/2) this.x = SECTOR.width - this.skin.naturalWidth/2 , this.vx = 0;
+		if (this.y > SECTOR.height - this.skin.naturalHeight/2 - 120) this.y = SECTOR.height - this.skin.naturalHeight/2 - 120, this.vy = 0;
+		for (var h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
+			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
 		}
-		if (ctrl === undefined) ctrl = "none";
-		if (atAngle === undefined) atAngle = 0;
-		inSector.spawnShip(this.fraction + "_" + this.designation, atX, atY, atAngle, ctrl, abgang);
+		for (var h = 0; h < SECTOR.portals.length; h++){
+			if (this.collidesWith(SECTOR.portals[h])){
+				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle, place);
+			}
+		}
+	}
+	
+	
+	angleTowards(angled){
+		if (this.x === angled.x && this.y === angled.y) return 0;
+		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
+		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
 	}
 	
 	
 	clone(){
 		var clone = new Ship();
-		Ships.pop();
 		for (var property in this){
 			clone[property] = this[property];
 			for (var i = 1; i < 3; i++){
@@ -73,6 +91,60 @@ class Ship {
 	}
 	
 	
+	collidesWith(Suspect) {
+		if (this.skin === undefined || Suspect === undefined || this.fraction === Suspect.fraction) return false;
+		if (Suspect.fraction === "portal"){
+			if (this.x.between(Suspect.x - this.skin.width/2, Suspect.x + this.skin.width/2 + Suspect.width)){
+				if (this.y.between(Suspect.y - this.height/2, Suspect.y + this.height/2 + Suspect.height)) return true;
+			}
+			return false;
+		}
+		if (this.x.between(Suspect.x - this.width/2 - Suspect.width/2, Suspect.x + this.width/2 + Suspect.width/2)){
+			if (this.y.between(Suspect.y - this.height/2 - Suspect.height/2, Suspect.y + this.height/2 + Suspect.height/2)) return true;
+		}
+		return false;
+	}
+	
+	
+	dec(){
+		if (this.angle < 180 && this.vx > 0 || this.angle > 180 && this.vx < 0) this.vx -= Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+		if (this.angle.between(90, 270) && this.vy < 0 || !this.angle.between(90, 270) && this.vy > 0) this.vy -= Math.cos(this.angle * Math.PI / 180) * this.a;
+	}
+	
+	
+	distanceTo(distanced){
+		return Math.sqrt((distanced.x - this.x)*(distanced.x - this.x) + (distanced.y - this.y)*(distanced.y - this.y));
+	}
+	
+	
+	explode(){
+		this.skin = Helon.ress.images.explosion;
+		this.ctrl = function(){};
+		Helon.ress.audio.explosion1.play();
+		if (this.abgang !== undefined) this.abgang();
+		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);
+		this.explode = function(){};
+	}
+	
+	
+	fire(slot){
+		if (this["wp" + slot] === undefined || this.skin === Helon.ress.explosion) return;
+		this["wp" + slot].fire();
+	}
+	
+	
+	follow(toFollow, atDistance){
+		this.pointAt (toFollow);
+		this.turn();
+		if (this.distanceTo(toFollow) > atDistance) {
+			if (this.pointsAt(toFollow)) this.acc();
+		}
+		else {
+			this.dec();
+		}
+	}
+	
+	
 	ID(){
 		for (var id = 0; id < this.sector.ships.length; id++){
 			if (this.sector.ships[id] === this) return id;
@@ -82,15 +154,78 @@ class Ship {
 	}
 	
 	
-	acc(){
-		this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
-		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+	nextShip(search, range){
+		if (range === undefined) range = 1000;
+		for (var h = 0; h <= range; h +=5){
+			for (var k = 0; k < this.sector.ships.length; k++){
+				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID() && this.sector.ships[k].fraction !== "asteroid"){
+					if (search === undefined) return Hellaxy.sector.ships[k];
+					if (search === "anythingElse"){
+						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.sector.ships[k];
+					}
+					else {
+						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) return Hellaxy.sector.ships[k];
+						if (search !== this.fraction && search === this.sector.ships[k].fraction) return Hellaxy.sector.ships[k];
+					}
+				}
+			}
+		}
+		return false
 	}
 	
 	
-	dec(){
-		if (this.angle < 180 && this.vx > 0 || this.angle > 180 && this.vx < 0) this.vx -= Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
-		if (this.angle.between(90, 270) && this.vy < 0 || !this.angle.between(90, 270) && this.vy > 0) this.vy -= Math.cos(this.angle * Math.PI / 180) * this.a;
+	pointAt(toPointAt){ // Festlegen eines Zielwinkels
+		this.aim = this.angleTowards(toPointAt);
+	}
+	
+	
+	pointsAt(Suspect){
+		if (this.angle.between(this.angleTowards(Suspect) + 5, this.angleTowards(Suspect) - 5)) return true;
+		return false;
+	}
+	
+	
+	pointsFrom(Suspect){
+		if (this.angle.between(this.angleTowards(Suspect) + 175, this.angleTowards(Suspect) - 175)) return true;
+		return false;
+	}
+	
+	
+	pointFrom(toPointFrom){ // Festlegen eines Zielwinkels
+		this.aim = get360(this.angleTowards(toPointFrom) + 180);
+	}
+	
+	
+	
+	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
+		if (inSector !== undefined) {
+			inSector = Hellaxy.sectors[inSector.designation];
+		} else {
+			inSector = Hellaxy.sector;
+		}
+		if (ctrl === undefined) ctrl = "none";
+		if (atAngle === undefined) atAngle = 0;
+		inSector.spawnShip(this.fraction + "_" + this.designation, atX, atY, atAngle, ctrl, abgang);
+	}
+	
+	
+	transferTo(sector, atX, atY, atAngle, place){
+		var neuerTransfer = this.clone();
+		sector = Hellaxy.sectors[sector];
+		neuerTransfer.sector = sector;
+		neuerTransfer.x = atX + Math.floor((Math.random() * 20) - 10);
+		neuerTransfer.y = atY + Math.floor((Math.random() * 20) - 10);
+		neuerTransfer.angle = atAngle;
+		sector.ships.push(neuerTransfer);
+		if (this.ctrl === player1){
+			if (typeof Hellaxy.sector.theme.pause === "function") Hellaxy.sector.theme.pause();
+			Hellaxy.sector = sector;
+			projectile.splice(0, projectile.length);
+		}
+		console.log(this.ID(), place);
+		if (place !== undefined) place--;
+		this.sector.ships.splice(this.ID(), 1);
+		console.log(this.ID(), place);
 	}
 	
 	
@@ -127,157 +262,23 @@ class Ship {
 	}
 	
 	
-	fire(slot){
-		if (this["wp" + slot] === undefined || this.skin === Helon.ress.explosion) return;
-		this["wp" + slot].fire();
-	}
-	
-	useSpecial(slot){
-		if (this["sp" + slot] === undefined) return;
-		this["sp" + slot].exe();
-	}
-	
-	
-	collidesWith(Suspect) {
-		if (this.skin === undefined || Suspect === undefined || this.fraction === Suspect.fraction) return false;
-		if (Suspect.fraction === "portal"){
-			if (this.x.between(Suspect.x - this.skin.width/2, Suspect.x + this.skin.width/2 + Suspect.width)){
-				if (this.y.between(Suspect.y - this.height/2, Suspect.y + this.height/2 + Suspect.height)) return true;
-			}
-			return false;
-		}
-		if (this.x.between(Suspect.x - this.width/2 - Suspect.width/2, Suspect.x + this.width/2 + Suspect.width/2)){
-			if (this.y.between(Suspect.y - this.height/2 - Suspect.height/2, Suspect.y + this.height/2 + Suspect.height/2)) return true;
-		}
-		return false;
-	}
-	
-	
-	explode(){
-		this.skin = Helon.ress.images.explosion;
-		this.ctrl = function(){};
-		Helon.ress.audio.explosion1.play();
-		if (this.abgang !== undefined) this.abgang();
-		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);
-		this.explode = function(){};
-	}
-	
-	
-	distanceTo(distanced){
-		return Math.sqrt((distanced.x - this.x)*(distanced.x - this.x) + (distanced.y - this.y)*(distanced.y - this.y));
-	}
-	
-	
-	angleTowards(angled){
-		if (this.x === angled.x && this.y === angled.y) return 0;
-		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
-		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
-	}
-	
-	
-	pointAt(toPointAt){ // Festlegen eines Zielwinkels
-		this.aim = this.angleTowards(toPointAt);
-	}
-	
-	
-	pointsAt(Suspect){
-		if (this.angle.between(this.angleTowards(Suspect) + 5, this.angleTowards(Suspect) - 5)) return true;
-		return false;
-	}
-	
-	pointsFrom(Suspect){
-		if (this.angle.between(this.angleTowards(Suspect) + 175, this.angleTowards(Suspect) - 175)) return true;
-		return false;
-	}
-	
-	
-	pointFrom(toPointFrom){ // Festlegen eines Zielwinkels
-		this.aim = get360(this.angleTowards(toPointFrom) + 180);
-	}
-	
-	
 	turnArround(){ // Initialisieren einer 180° Drehung
 		this.aim = get360(this.angle - 180);
 	}
 	
 	
-	nextShip(search, range){
-		if (range === undefined) range = 1000;
-		for (var h = 0; h <= range; h +=5){
-			for (var k = 0; k < this.sector.ships.length; k++){
-				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID() && this.sector.ships[k].fraction !== "asteroid"){
-					if (search === undefined) return Hellaxy.sector.ships[k];
-					if (search === "anythingElse"){
-						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.sector.ships[k];
-					}
-					else {
-						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) return Hellaxy.sector.ships[k];
-						if (search !== this.fraction && search === this.sector.ships[k].fraction) return Hellaxy.sector.ships[k];
-					}
-				}
-			}
-		}
-		return false
-	}
-	
-	
-	follow(toFollow, atDistance){
-		this.pointAt (toFollow);
-		this.turn();
-		if (this.distanceTo(toFollow) > atDistance) {
-			if (this.pointsAt(toFollow)) this.acc();
-		}
-		else {
-			this.dec();
-		}
-	}
-	
-	
-	transferTo(sector, atX, atY, atAngle, place){
-		var neuerTransfer = this.clone();
-		sector = Hellaxy.sectors[sector];
-		neuerTransfer.sector = sector;
-		neuerTransfer.x = atX + Math.floor((Math.random() * 20) - 10);
-		neuerTransfer.y = atY + Math.floor((Math.random() * 20) - 10);
-		neuerTransfer.angle = atAngle;
-		sector.ships.push(neuerTransfer);
-		if (this.ctrl === player1){
-			if (typeof Hellaxy.sector.theme.pause === "function") Hellaxy.sector.theme.pause();
-			Hellaxy.sector = sector;
-			projectile.splice(0, projectile.length);
-		}
-		console.log(this.ID(), place);
-		if (place !== undefined) place--;
-		this.sector.ships.splice(this.ID(), 1);
-		console.log(this.ID(), place);
-	}
-	
-	
-	act(place){
-		var SECTOR = this.sector;
-		if (this.hp < 1) this.explode();
-		if (this.ctrl !== "none") this.ctrl();
-		this.y -= this.vy;
-		this.x += this.vx;
-		if (this.vx > this.a * 80) this.vx = this.a * 80;
-		if (this.vy > this.a * 80) this.vy = this.a * 80;
-		if (this.vx < this.a * -80) this.vx = this.a * -80;
-		if (this.vy < this.a * -80) this.vy = this.a * -80;
-		this.angle = get360(this.angle);
-		if (this.x < this.skin.naturalWidth/2) this.x = this.skin.naturalWidth/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
-		if (this.y < this.skin.naturalHeight/2) this.y = this.skin.naturalHeight/2, this.vy = 0;
-		if (this.x > SECTOR.width - this.skin.naturalWidth/2) this.x = SECTOR.width - this.skin.naturalWidth/2 , this.vx = 0;
-		if (this.y > SECTOR.height - this.skin.naturalHeight/2 - 120) this.y = SECTOR.height - this.skin.naturalHeight/2 - 120, this.vy = 0;
-		for (var h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
-			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
-		}
-		for (var h = 0; h < SECTOR.portals.length; h++){
-			if (this.collidesWith(SECTOR.portals[h])){
-				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle, place);
-			}
-		}
+	useSpecial(slot){
+		if (this["sp" + slot] === undefined) return;
+		this["sp" + slot].exe();
 	}
 }
+
+
+function createShip(specs){
+	Hellaxy.ships[specs.fraction + "_" + specs.designation] = new Ship(specs);
+}
+
+
 
 function collide(a, b){
 	var collision = {};
@@ -335,7 +336,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	createShip({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : "spike_artillery"});
 	createShip({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : "emp_director_1"});
 	createShip({designation : "quintalglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : "emp_director_2"});
-	createShip({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.12, wp1 : "emp_director_small"});
+	createShip({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.11, wp1 : "emp_director_small"});
 	
 	console.log(Hellaxy.ships);
 }

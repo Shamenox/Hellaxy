@@ -46,6 +46,21 @@ function setupControls(){
 		}
 	}
 	
+	npc.aggressor = function(){ 
+		this.acc();
+		this.turn();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		var trgt = this.nextShip("anythingElse", 600);
+		if (trgt !== false){
+			this.follow(trgt, 400);
+			if (this.pointsAt(trgt)){
+				this.fire(1);
+				this.fire(2);
+				this.fire(3);
+			}
+		}
+	}
+	
 	npc.asteroid1 = function(){
 		this.turn("left");
 	}

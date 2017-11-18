@@ -43,11 +43,6 @@ class Location{
 	}
 }
 
-function createLocation(designation, inSector, x, y, width, height){
-	Hellaxy.locations[designation] = new Location(designation, inSector, x, y, width, height);
-}
-
-
 
 function createSector(ID, width, height){
 	Hellaxy.sectors[ID] = new Sector(ID, width, height);
@@ -60,8 +55,18 @@ function setSector(ID){
 
 
 function addPlanet(designation, x, y, inSector){
-	if (inSector === undefined) inSector = Hellaxy.sector;
+	if (inSector === undefined) {
+		inSector = Hellaxy.sector;
+	} else {
+		inSector = Hellaxy.sectors[inSector];
+	}
 	inSector.addPlanet(designation, x, y);
+}
+
+
+function addLocation(designation, x, y, width, height, inSector){
+	if (inSector === undefined) inSector = Hellaxy.sector;
+	inSector.addLocation(designation, x, y, width, height);
 }
 
 
@@ -83,7 +88,8 @@ class Sector{
 		this.bg = SPRITE[ID];
 		this.ships = [];
 		this.planets = [];
-		this.portals = []; 
+		this.portals = [];
+		this.locations = [];
 		this.offset = {x : 0, y : 0};
 		if (Helon.ress.audio["theme_"+ID] !== undefined){
 			this.theme = Helon.ress.audio["theme_"+ID];
@@ -119,7 +125,9 @@ class Sector{
 	
 	
 	addLocation(designation, x, y, width, height){
-		createLocation(designation, this, x, x, width, height);
+		var neueLocation = new Location(designation, this, x, y, width, height);
+		this.locations.push(neueLocation);
+		Hellaxy.locations[designation] = neueLocation;
 	}
 	
 	
