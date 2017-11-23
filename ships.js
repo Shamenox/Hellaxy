@@ -9,6 +9,7 @@ class Ship {
 		this.shield = 0;
 		this.armour = 1;
 		this.aim = 0;
+		this.ID = 0;
 		this.sector = {ships : []};
 		this.ctrl = "none";
 		this.active = true;
@@ -122,7 +123,8 @@ class Ship {
 		this.ctrl = function(){};
 		Helon.ress.audio.explosion1.play();
 		if (this.abgang !== undefined) this.abgang();
-		setTimeout(function(ship){ship.sector.ships.splice(ship.ID(), 1);}, 2000, this);
+		setTimeout(function(ship){ship.sector.ships.splice(ship.ID, 1);}, 2000, this);
+		this.sector.refreshIDs();
 		this.explode = function(){};
 	}
 	
@@ -145,20 +147,11 @@ class Ship {
 	}
 	
 	
-	ID(){
-		for (var id = 0; id < this.sector.ships.length; id++){
-			if (this.sector.ships[id] === this) return id;
-		}
-		console.log("ID not found");
-		return 0;
-	}
-	
-	
 	nextShip(search, range){
 		if (range === undefined) range = 1000;
 		for (var h = 0; h <= range; h +=5){
 			for (var k = 0; k < this.sector.ships.length; k++){
-				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID() && this.sector.ships[k].fraction !== "asteroid"){
+				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
 					if (search === undefined) return Hellaxy.sector.ships[k];
 					if (search === "anythingElse"){
 						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.sector.ships[k];
@@ -196,6 +189,10 @@ class Ship {
 	}
 	
 	
+	refreshID(){
+		this.sector.refreshIDs();
+	}
+	
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
 		if (inSector !== undefined) {
@@ -222,10 +219,9 @@ class Ship {
 			Hellaxy.sector = sector;
 			projectile.splice(0, projectile.length);
 		}
-		console.log(this.ID(), place);
 		if (place !== undefined) place--;
-		this.sector.ships.splice(this.ID(), 1);
-		console.log(this.ID(), place);
+		this.sector.ships.splice(this.ID, 1);
+		this.sector.refreshIDs();
 	}
 	
 	
@@ -302,26 +298,10 @@ function collide(a, b){
 
 	
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
-	testarrow = new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.5, wp1 : machinegun_5nm});
-	humanian_shuttle = new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : machinegun_5nm});
-	humanian_protobaseship_helonia = new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : kolexialgun_14nm});
-	humanian_satalite = new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
-	fatman = new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : machinegun_5nm});
-	republic_hq = new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
-	qubanian_colonizer = new Ship({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.008});
-	qubanian_colonizerMk2 = new Ship({designation : "colonizer", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : triangle_beam});
-	qubanian_colony = new Ship({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : machinegun_5nm, sp1 : flak_around});
-	ophianic_chunk = new Ship({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
-	chestanian_colonizer = new Ship({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : spike_artillery});
-	chestanian_spiketank = new Ship({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : spike_artillery});
-	chestanian_glider = new Ship({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : emp_director_1});
-	chestanian_quintalglider = new Ship({designation : "quintalglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : emp_director_2});
-	birchanian_glider = new Ship({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.12, wp1 : emp_director_small});
-	
 	createShip({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.5, wp1 : "machinegun_5nm"});
-	createShip({designation : "asteroid1", fraction : "asteroid", hp : 10000, shield : 0, armour : 1, a : 0.025});
-	createShip({designation : "asteroid2", fraction : "asteroid", hp : 5000, shield : 0, armour : 1, a : 0.037});
-	createShip({designation : "asteroid3", fraction : "asteroid", hp : 2500, shield : 0, armour : 1, a : 0.05});
+	createShip({designation : "asteroid1", fraction : "asteroid", hp : 4000, shield : 0, armour : 1, a : 0.025});
+	createShip({designation : "asteroid2", fraction : "asteroid", hp : 3000, shield : 0, armour : 1, a : 0.037});
+	createShip({designation : "asteroid3", fraction : "asteroid", hp : 2000, shield : 0, armour : 1, a : 0.05});
 	createShip({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : "machinegun_5nm"});
 	createShip({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : "kolexialgun_14nm"});
 	createShip({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});

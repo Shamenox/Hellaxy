@@ -244,7 +244,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		spawnShip("ophianic_annector", 2000, 1100, 270, npc.ophianian_annector);
 		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
 		addMsg("Humanian HQ: Attention!");
-		addMsg("Something enormously huge as appeared on our Radars.");
+		addMsg("Something enormously huge has appeared on our Radars.");
 		addMsg("It is located right from you nearing at alarming speed");
 		addMsg("From what we experienced last time");
 		addMsg("Armed Combat is inevidable.");
@@ -362,6 +362,38 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 				addMsg("Most of the Birchanian units are destroyed.");
 				addMsg("Space superiority is ours. Well done commander!");
 				LEVEL.conditions.defended = true;
+			}
+		}
+	);
+	
+	
+	Hellaxy.campaigns.qubanian.addLevel(function(){
+		start(Hellaxy.planets.quba, "qubanian_colonizer_mkii");
+		addLocation("imperialentrace",2000, 0, 400, 100);
+		addMsg("Log in: 2007. Cycle; 203;  Interstellar seismic activity ID:234");
+		addMsg("Attention! This is mission-control!");
+		addMsg("We upgraded this particular colonizer to perform better");
+		addMsg("in combat. It is faster and fitted with a triangular front-beam.");
+		addMsg("If it turns out to be effective we will adapt these changes to");
+		addMsg("our standart class-colonizer.");
+		addMsg("Our interstellar seismographs percieved massive space interfrences");
+		addMsg("in the sector above us. In fact they were so huge,");
+		addMsg("they exceeded the scale. So be alarmed.");
+		addMsg("Your job Commander is to gather data of wahtever happened up there.");
+		addMsg("Mission control out!");
+		LEVEL.target = Hellaxy.locations.imperialentrace;
+		},
+		{
+			inImperial : false,
+			foundFour : false,
+			gotBack : false,
+		},
+		function(){
+			if (Hellaxy.sector.ID === "imperial" && !this.conditions.inImperial){
+				spawnAsteroids(2100, 18900, 1900, 400);
+				spawnAsteroids(1900, 19100, 500, 1550);
+				spawnAsteroids(3600, 19100, 500, 1550);
+				this.conditions.inImperial = true;
 			}
 		}
 	);
