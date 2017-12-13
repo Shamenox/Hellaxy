@@ -51,10 +51,10 @@ class Ship {
 		if (this.vx < this.a * -80) this.vx = this.a * -80;
 		if (this.vy < this.a * -80) this.vy = this.a * -80;
 		this.angle = get360(this.angle);
-		if (this.x < this.skin.naturalWidth/2) this.x = this.skin.naturalWidth/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
-		if (this.y < this.skin.naturalHeight/2) this.y = this.skin.naturalHeight/2, this.vy = 0;
-		if (this.x > SECTOR.width - this.skin.naturalWidth/2) this.x = SECTOR.width - this.skin.naturalWidth/2 , this.vx = 0;
-		if (this.y > SECTOR.height - this.skin.naturalHeight/2 - 120) this.y = SECTOR.height - this.skin.naturalHeight/2 - 120, this.vy = 0;
+		if (this.x < this.width/2) this.x = this.width/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
+		if (this.y < this.height/2) this.y = this.height/2, this.vy = 0;
+		if (this.x > SECTOR.width - this.width/2) this.x = SECTOR.width - this.width/2 , this.vx = 0;
+		if (this.y > SECTOR.height - this.height/2 - 120) this.y = SECTOR.height - this.height/2 - 120, this.vy = 0;
 		for (var h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
 			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
 		}
@@ -290,10 +290,12 @@ function collide(a, b){
 	b.hp -= collision.potDmg * (a.mass / collision.potM) * 8;
 	a.hp = Math.round(a.hp);
 	b.hp = Math.round(b.hp);
-	a.y -= a.vy;
-	a.x += a.vx;
-	b.y -= b.vy;
-	b.x += b.vx;
+	while(a.collidesWith(b)){
+		a.y -= a.vy;
+		a.x += a.vx;
+		b.y -= b.vy;
+		b.x += b.vx;
+	}
 }
 
 	
