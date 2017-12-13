@@ -6,7 +6,7 @@ class Special {
 	}
 	
 	exe(){
-		if (intervalReact(this.ammo > 0, this.reload, "special" + this.ship.ID())){
+		if (intervalReact(this.ammo > 0, this.reload, "special" + this.ship.ID)){
 			this.ammo --;
 			this.action();
 		}
@@ -30,7 +30,12 @@ function setupSpecials(){
 		projectile[projectile.length - 1].sound("fire");
 	})
 	
+	
+	
+	
 	createSpecial("spawn_ophianianChunk", 6000, 66, function(){spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation)});
+	
+	
 	createSpecial("flak_around", 1000, 10, function(){
 		this.reload = this.ship.wp1.reload;
 		this.ammo = this.ship.wp1.ammo;
@@ -47,4 +52,10 @@ function setupSpecials(){
 		this.ship.wp1.ammo -= 2;
 		projectile[projectile.length - 1].sound("fire");
 	})
+	
+	
+	createSpecial("asteroidBreak", 1000, 1, function(){
+		if (chance(10)) spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
+		if (chance(10)) spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
+	});
 }

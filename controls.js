@@ -4,6 +4,7 @@ var player1ship = new Ship();
 
 function setupControls(){
 	
+	
 	player1 = function(){
 		player1ship = this;
 		Hellaxy.sector.focus(this);

@@ -4,6 +4,11 @@
   return this > min && this < max;
 }
 
+function chance(per){
+	if (Math.floor(Math.random() * 100) <= per) return true;
+	return false;
+}
+
 function get360(input){
 	if (input === 0 || input === 360) return input;
 	while (!input.between(0, 360)){
