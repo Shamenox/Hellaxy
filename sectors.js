@@ -145,8 +145,9 @@ class Sector{
 		neuerSpawn.angle = atAngle;
 		neuerSpawn.aim = atAngle;
 		neuerSpawn.ctrl = ctrl;
-		neuerSpawn.abgang = abgang;
+		if (abgang !== undefined)neuerSpawn.abgang = abgang;
 		neuerSpawn.sector = this;
+		neuerSpawn.staticID = this.ships.length + Helon.tics;
 		this.ships.push(neuerSpawn);
 		this.refreshIDs();
 	}

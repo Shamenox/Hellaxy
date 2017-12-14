@@ -108,7 +108,7 @@ class Weapon {
 	
 	
 	fire(){
-		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.ID)){
+		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.staticID)){
 			this.ammo --;
 			this.spawnProjectile();
 		} 

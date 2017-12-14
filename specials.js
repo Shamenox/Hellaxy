@@ -6,7 +6,7 @@ class Special {
 	}
 	
 	exe(){
-		if (intervalReact(this.ammo > 0, this.reload, "special" + this.ship.ID)){
+		if (intervalReact(this.ammo > 0, this.reload, "special" + this.ship.staticID)){
 			this.ammo --;
 			this.action();
 		}
@@ -56,6 +56,7 @@ function setupSpecials(){
 	
 	createSpecial("asteroidBreak", 1000, 1, function(){
 		if (chance(10)) spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
-		if (chance(10)) spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
+		if (chance(10)) spawnShip("tonium_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
+		console.log(this.ship.sector.ships[this.ship.sector.ships.length - 1]);
 	});
 }

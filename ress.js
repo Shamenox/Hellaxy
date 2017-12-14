@@ -50,7 +50,7 @@ images = {
 	none_testarrow : "ships",
 	ophianic_annector : "ships",
 	ophianic_chunk : "ships",
-	ophianic_chunk : "ships",
+	tonium_chunk : "ships",
 	qubanian_colonizer : "ships",
 	qubanian_colonizer_mkii : "ships",
 	republic_hq : "ships",

@@ -10,6 +10,7 @@ class Ship {
 		this.armour = 1;
 		this.aim = 0;
 		this.ID = 0;
+		this.staticID = 0;
 		this.sector = {ships : []};
 		this.ctrl = "none";
 		this.active = true;
@@ -291,20 +292,18 @@ function collide(a, b){
 	b.hp -= collision.potDmg * (a.mass / collision.potM) * 8;
 	a.hp = Math.round(a.hp);
 	b.hp = Math.round(b.hp);
-	while(a.collidesWith(b)){
-		a.y -= a.vy;
-		a.x += a.vx;
-		b.y -= b.vy;
-		b.x += b.vx;
-	}
+		a.y -= 2*a.vy;
+		a.x += 2*a.vx;
+		b.y -= 2*b.vy;
+		b.x += 2*b.vx;
 }
 
 	
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 	createShip({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.5, wp1 : "machinegun_5nm"});
-	createShip({designation : "asteroid1", fraction : "asteroid", hp : 4000, shield : 0, armour : 1, a : 0.025, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
-	createShip({designation : "asteroid2", fraction : "asteroid", hp : 3000, shield : 0, armour : 1, a : 0.037, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
-	createShip({designation : "asteroid3", fraction : "asteroid", hp : 2000, shield : 0, armour : 1, a : 0.05, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
+	createShip({designation : "asteroid1", fraction : "asteroid", hp : 600, shield : 0, armour : 1, a : 0.025, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
+	createShip({designation : "asteroid2", fraction : "asteroid", hp : 400, shield : 0, armour : 1, a : 0.037, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
+	createShip({designation : "asteroid3", fraction : "asteroid", hp : 200, shield : 0, armour : 1, a : 0.05, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
 	createShip({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : "machinegun_5nm"});
 	createShip({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : "kolexialgun_14nm"});
 	createShip({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
@@ -315,6 +314,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	createShip({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : "machinegun_5nm", sp1 : "flak_around"});
 	createShip({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : "ophianian_beam", sp1 : "spawn_ophianianChunk"});
 	createShip({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09});
+	createShip({designation : "chunk", fraction : "tonium", hp : 300, armour : 1, a : 0.09});
 	createShip({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : "spike_artillery"});
 	createShip({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : "spike_artillery"});
 	createShip({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : "emp_director_1"});

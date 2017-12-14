@@ -9,6 +9,10 @@ function chance(per){
 	return false;
 }
 
+function mark(){
+	console.log("got here!");
+}
+
 function get360(input){
 	if (input === 0 || input === 360) return input;
 	while (!input.between(0, 360)){

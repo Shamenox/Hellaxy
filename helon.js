@@ -1,5 +1,6 @@
 var Helon = {};
 Helon.ress = {};
+Helon.tics = 0;
 Helon.ress.audio = {};
 Helon.ress.images = {
 	quantity : 0,
@@ -16,6 +17,7 @@ Helon.app = function(){
 Helon.loop = function(){
 	Helon.app();
 	cursor.display();
+	Helon.tics++;
 	requestAnimationFrame(Helon.loop);
 }
 
