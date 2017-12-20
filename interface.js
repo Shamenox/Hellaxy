@@ -15,7 +15,7 @@ class Screen{
 	
 	display(){
 		Helon.ctx.drawImage(this.bg, 0, 0);
-		if (this.theme !== "none") this.theme.play();
+		if (this.theme !== "none") loop(this.theme);
 		this.act();
 	}
 }
@@ -59,6 +59,17 @@ function setupScreens(){
 		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){setScreen("campaign");})
 		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){setScreen("freeroam");})
 		button(400, 550, 480, 100, "Controls", "yellow", function(){setScreen("controls");})
+		button(1200, 0, 80, 80, " ", "yellow", function(){if (intervalReact(true)){
+			if (Helon.muted){
+				Helon.muted = false;
+			} else{
+				Helon.muted = true;
+				Hellaxy.screen.theme.pause();
+				Hellaxy.screen.theme.currentTime = 0;
+			}
+		}})
+		Helon.ctx.drawImage(Helon.ress.images.speaker, 1204, 4, 72, 72);
+		if (Helon.muted) Helon.ctx.drawImage(Helon.ress.images.cross, 1204, 4, 72, 72);
 	});
 
 	
@@ -81,6 +92,17 @@ function setupScreens(){
 		Hellaxy.sector.display();
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
 		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.campaign.levels[Hellaxy.campaign.at].cancel(); setScreen("menue");});
+		button(1200, 0, 80, 80, " ", "yellow", function(){if (intervalReact(true)){
+			if (Helon.muted){
+				Helon.muted = false;
+			} else{
+				Helon.muted = true;
+				resetAudio();
+			}
+		}})
+		Helon.ctx.drawImage(Helon.ress.images.speaker, 1204, 4, 72, 72);
+		if (Helon.muted) Helon.ctx.drawImage(Helon.ress.images.cross, 1204, 4, 72, 72);
+		
 		Helon.ctx.lineWidth = 4;
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.font = "128px Consolas";

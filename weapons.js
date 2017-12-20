@@ -53,7 +53,7 @@ class Weapon {
 			if (of === "bounce"){
 				if (this.mass.between(645, 2049)) currentSound = Helon.ress.audio.bounce_1;
 			}
-			if (currentSound !== undefined && intervalReact(true, 100, currentSound.src + "delay")) currentSound.play();
+			play(currentSound);
 		}
 		
 		
@@ -108,7 +108,7 @@ class Weapon {
 	
 	
 	fire(){
-		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.ID())){
+		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.staticID)){
 			this.ammo --;
 			this.spawnProjectile();
 		} 

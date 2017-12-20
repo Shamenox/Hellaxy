@@ -4,6 +4,7 @@ var player1ship = new Ship();
 
 function setupControls(){
 	
+	
 	player1 = function(){
 		player1ship = this;
 		Hellaxy.sector.focus(this);
@@ -30,7 +31,7 @@ function setupControls(){
 	npc.simpleRoamer = function(){ 
 		this.acc();
 		this.turn();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		if (this.nextShip("anythingElse", 400) !== false){
 			if (this.hp >= this.mass / 2){
 				this.pointAt(this.nextShip("anythingElse", 400));
@@ -49,7 +50,7 @@ function setupControls(){
 	npc.aggressor = function(){ 
 		this.acc();
 		this.turn();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		var trgt = this.nextShip("anythingElse", 600);
 		if (trgt !== false){
 			this.follow(trgt, 400);
@@ -75,7 +76,7 @@ function setupControls(){
 	npc.rammer = function(){ 
 		this.acc();
 		this.turn();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		var trgt = this.nextShip("anythingElse", 900);
 		if (trgt !== false){
 			this.pointAt(trgt);
@@ -120,13 +121,13 @@ function setupControls(){
 	npc.patrol = function(){
 		this.acc();
 		this.turn();
-		if (intervalReact(true, 3000, this.ID()))this.turnArround();
+		if (intervalReact(true, 3000, this.ID))this.turnArround();
 	}
 
 	npc.ophianian_annector = function(){
 		this.turn();
 		var trgt = this.nextShip("humanian", 500);
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID())) this.turnArround();
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		if (trgt === false){
 			this.follow(Hellaxy.planets.humania, 50);
 		}

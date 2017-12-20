@@ -1,8 +1,19 @@
-﻿Number.prototype.between = function(a, b) {
+﻿//Methoden:
+
+Number.prototype.between = function(a, b) {
   var min = Math.min.apply(Math, [a, b]),
     max = Math.max.apply(Math, [a, b]);
   return this > min && this < max;
 }
+
+
+
+function chance(per){
+	if (Math.floor(Math.random() * 100) <= per) return true;
+	return false;
+}
+
+
 
 function get360(input){
 	if (input === 0 || input === 360) return input;
@@ -12,6 +23,8 @@ function get360(input){
 	}
 	return input;
 }
+
+
 
 function button(posx, posy, width, height, tag, colour, action){
 	Helon.ctx.lineWidth = 4;
@@ -29,6 +42,8 @@ function button(posx, posy, width, height, tag, colour, action){
 	Helon.ctx.fillStyle = "yellow";
 }
 
+
+
 function bar(from){
 	Helon.ctx.fillStyle = "yellow";
 	Helon.ctx.strokeStyle = "yellow";
@@ -37,6 +52,39 @@ function bar(from){
 	Helon.ctx.fillRect(50,410,1180*(from.loaded/from.quantity),80);
 	Helon.ctx.strokeRect(50,410,1180*(from.loaded/from.quantity),80);
 }
+
+
+
+function play(sound){
+	if (Helon.muted || sound === undefined || sound === "none") return;
+	if (typeof sound !== "object") sound = Helon.ress.audio[sound];
+	if (sound.currentTime === 0 || sound.ended){
+		sound.play();
+	} else{
+		sound.currentTime = 0;
+	}
+}
+
+
+
+function loop(track){
+	if (Helon.muted || track === undefined || track === "none") return;
+	if (typeof track !== "object") track = Helon.ress.audio[track];
+	if (track.currentTime === 0 || track.ended){
+		track.play();
+	}
+}
+
+
+
+function resetAudio(){
+	for (var audio in Helon.ress.audio){
+		Helon.ress.audio[audio].pause();
+		Helon.ress.audio[audio].currentTime = 0;
+	}
+}
+
+
 
 var queue = {};
 function intervalReact(trigger, delay, ID){
@@ -54,7 +102,8 @@ function intervalReact(trigger, delay, ID){
 	}
 	return false;
 }
-	
+
+
 
 var Animation = function(){
   this.isRunning = false;

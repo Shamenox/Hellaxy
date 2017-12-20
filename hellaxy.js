@@ -12,6 +12,7 @@ var Hellaxy = {
 	locations : {},
 };
 
+
 Hellaxy.loop = function(){
 	Hellaxy.Campaign = Hellaxy.campaign;  // Übergangslösung für neue groß-klein-Schreibung
 	Hellaxy.Sector = Hellaxy.sector;
@@ -26,11 +27,34 @@ Hellaxy.loop = function(){
 	Hellaxy.task();
 }
 
+
+function Appstart(){
+	setupScreens();
+	setupWeapons();
+	setupSpecials();
+	setupControls();
+	setupShips();
+	setupSectors();
+	setupLevels();
+	setScreen("title");
+	setCampaign("quicktest");
+	Hellaxy.task = screenManager;
+	Helon.app = Hellaxy.loop;
+}
+
+
+
+
+//Methoden:
+
+
 function addMsg(content){
 	neueMsg = {};
 	neueMsg.content = content;
 	Hellaxy.msgs.push(neueMsg);
 }
+
+
 
 function startCampaign(campaign){
 	Hellaxy.screen.theme.pause();
@@ -47,6 +71,8 @@ function startCampaign(campaign){
 	Hellaxy.sector.act();
 }
 
+
+
 function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
 	if (inSector === undefined){
 		inSector = Hellaxy.sector;
@@ -55,6 +81,7 @@ function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
 	}
 	inSector.spawnShip(designation, atX, atY, atAngle, ctrl, abgang);
 }
+
 
 
 function spawnSquad(designation, atX, atY, atAngle, quantity, ctrl, abgang, inSector){
@@ -72,6 +99,8 @@ function spawnSquad(designation, atX, atY, atAngle, quantity, ctrl, abgang, inSe
 	}
 }
 
+
+
 function display(obj){
 	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Drehung
 	Helon.ctx.rotate(obj.angle * Math.PI / 180);
@@ -81,18 +110,3 @@ function display(obj){
 	Helon.ctx.rotate(- obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-(obj.x - Hellaxy.sector.offset.x), -(obj.y - Hellaxy.sector.offset.y));
 }
-
-function Appstart(){
-	setupScreens();
-	setupWeapons();
-	setupSpecials();
-	setupControls();
-	setupShips();
-	setupSectors();
-	setupLevels();
-	setScreen("title");
-	setCampaign("quicktest");
-	Hellaxy.task = screenManager;
-	Helon.app = Hellaxy.loop;
-}
-

@@ -72,11 +72,7 @@ function addLocation(designation, x, y, width, height, inSector){
 
 function spawnAsteroids(posX, posY, width, height, inSector){
 	if (inSector === undefined) inSector = Hellaxy.sector;
-	for (var i = 0; i < width / 80; i++){
-		for (var h = 0; h < height / 80; h++){
-			inSector.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
-		}
-	}
+	inSector.spawnAsteroids(posX, posY, width, height);
 }
 
 
@@ -134,7 +130,7 @@ class Sector{
 	spawnAsteroids(posX, posY, width, height){
 		for (var i = 0; i < width / 80; i++){
 			for (var h = 0; h < height / 80; h++){
-				Hellaxy.asteroid["v" + Math.floor((Math.random() * 3) + 1)].spawn(this, posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
+				this.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
 			}
 		}
 	}
@@ -149,9 +145,11 @@ class Sector{
 		neuerSpawn.angle = atAngle;
 		neuerSpawn.aim = atAngle;
 		neuerSpawn.ctrl = ctrl;
-		neuerSpawn.abgang = abgang;
+		if (abgang !== undefined)neuerSpawn.abgang = abgang;
 		neuerSpawn.sector = this;
+		neuerSpawn.staticID = this.ships.length + Helon.tics;
 		this.ships.push(neuerSpawn);
+		this.refreshIDs();
 	}
 
 	
@@ -201,6 +199,13 @@ class Sector{
 	}
 	
 	
+	refreshIDs(){
+		for (var id = 0; id < this.ships.length; id++){
+			this.ships[id].ID = id;
+		}
+	}
+	
+	
 	displayPlanets(){
 		for (var i = 0; i < this.planets.length; i++){
 			display(this.planets[i]);
@@ -238,7 +243,6 @@ class Sector{
 			this.ships[i].act(i);
 		}
 		if (this.events !== undefined) this.events();
-		if (this.theme !== "none") this.theme.play();
 	}
 }
 
