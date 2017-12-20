@@ -4,6 +4,8 @@ images = {
 	blackscreen : "sys",
 	whitescreen : "sys",
 	blank : "sys",
+	speaker : "sys",
+	cross : "sys",
 	
 	central : "bgs",
 	omar : "bgs",
@@ -57,16 +59,16 @@ images = {
 	samus_ship : "ships",
 }
 
-function loadAudio(){
-	Helon.ress.audio.theme1 = new Audio("ress/audio/theme1.mp3");
-	Helon.ress.audio.shot_1 = new Audio("ress/audio/shot_1.mp3");
-	Helon.ress.audio.hit_1 = new Audio("ress/audio/hit_1.mp3");
-	Helon.ress.audio.bounce_1 = new Audio("ress/audio/bounce_1.mp3");
-	Helon.ress.audio.shot_2 = new Audio("ress/audio/shot_2.mp3");
-	Helon.ress.audio.hit_2 = new Audio("ress/audio/hit_2.mp3");
-	Helon.ress.audio.engine1 = new Audio("ress/audio/engine1.mp3");
-	Helon.ress.audio.theme1 = new Audio("ress/audio/theme1.mp3");
-	Helon.ress.audio.theme_central = new Audio("ress/audio/theme_central.mp3");
-	Helon.ress.audio.theme_omar = new Audio("ress/audio/theme_omar.mp3");
-	Helon.ress.audio.explosion1 = new Audio("ress/audio/explosion1.mp3");
-}
+
+
+audibles = [
+	"theme1",
+	"shot_1",
+	"shot_2",
+	"hit_1",
+	"hit_2",
+	"bounce_1",
+	"theme_central",
+	"theme_omar",
+	"explosion1"
+]

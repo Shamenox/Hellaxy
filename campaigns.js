@@ -74,6 +74,7 @@ function createLevel(belong, setup, conditions, events){
 function campaignManager(){
 	Hellaxy.campaign.act();
 	Hellaxy.sector.act();
+	loop(Hellaxy.sector.theme);
 	 if (LEVEL.target !== undefined) cursor.pointAt({
 		x : LEVEL.target.x - Hellaxy.Sector.offset.x,
 		y : LEVEL.target.y - Hellaxy.Sector.offset.y,

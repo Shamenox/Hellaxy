@@ -217,7 +217,7 @@ class Ship {
 		neuerTransfer.angle = atAngle;
 		sector.ships.push(neuerTransfer);
 		if (this.ctrl === player1){
-			if (typeof Hellaxy.sector.theme.pause === "function") Hellaxy.sector.theme.pause();
+			if (typeof Hellaxy.sector.theme === "object") resetAudio();
 			Hellaxy.sector = sector;
 			projectile.splice(0, projectile.length);
 		}

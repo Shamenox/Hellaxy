@@ -243,7 +243,6 @@ class Sector{
 			this.ships[i].act(i);
 		}
 		if (this.events !== undefined) this.events();
-		if (this.theme !== "none") this.theme.play();
 	}
 }
 

@@ -1,6 +1,7 @@
 var Helon = {};
 Helon.ress = {};
 Helon.tics = 0;
+Helon.muted = false;
 Helon.ress.audio = {};
 Helon.ress.images = {
 	quantity : 0,
@@ -31,6 +32,10 @@ window.onload = function(){
 	Helon.ctx.fillText("Running on Helon Engine", 200, 400);
 	setTimeout(Helon.loop, 2000);
 	
+	
+	for (var i = 0; i < audibles.length; i++){
+		Helon.ress.audio[audibles[i]] = new Audio("ress/audio/" + audibles[i] + ".mp3");
+	}
 	for (var a in images){
 		Helon.ress.images.quantity += 1;
 		Helon.ress.images[a] = new Image();
@@ -49,5 +54,4 @@ window.onload = function(){
 			}
 		})
 	}
-	loadAudio();
 }
