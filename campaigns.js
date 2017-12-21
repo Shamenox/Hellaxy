@@ -23,9 +23,6 @@ function createCampaign(designation){
 	Hellaxy.campaigns[designation] = new Campaign(designation);
 }
 
-function setCampaign(designation){
-	Hellaxy.campaign = Hellaxy.campaigns[designation];
-}
 
 
 class Level {

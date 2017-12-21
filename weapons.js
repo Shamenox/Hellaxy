@@ -122,6 +122,9 @@ function displayProjectiles(){
 	}
 }
 
+
+
+
 function setupWeapons(){  //skin, alpha, pen, reload, ammo
 	machinegun_5nm = new Weapon("machinegun_5nm", "shot_light_1", 4, 2, 100, 300);
 	kolexialgun_14nm = new Weapon ("kolexialgun_14nm", "shot_medium_tripple", 36, 10, 200, 600);
