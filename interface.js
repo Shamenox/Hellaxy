@@ -55,21 +55,16 @@ function setupScreens(){
 
 	
 	createScreen("menue", "blackscreen", "theme1", function(){
-		button(400, 100, 480, 100, "Quicktest Mode", "yellow", function(){startCampaign("quicktest")})
-		button(400, 250, 480, 100, "Campaign Mode", "yellow", function(){setScreen("campaign");})
-		button(400, 400, 480, 100, "Free-Roam Mode", "yellow", function(){setScreen("freeroam");})
-		button(400, 550, 480, 100, "Controls", "yellow", function(){setScreen("controls");})
-		button(1200, 0, 80, 80, " ", "yellow", function(){if (intervalReact(true)){
-			if (Helon.muted){
-				Helon.muted = false;
-			} else{
-				Helon.muted = true;
-				Hellaxy.screen.theme.pause();
-				Hellaxy.screen.theme.currentTime = 0;
-			}
-		}})
-		Helon.ctx.drawImage(Helon.ress.images.speaker, 1204, 4, 72, 72);
-		if (Helon.muted) Helon.ctx.drawImage(Helon.ress.images.cross, 1204, 4, 72, 72);
+		Helon.ctx.font = "44px Consolas";
+		Helon.ctx.fillText("Hellaxy", 550, 50);
+		Helon.ctx.fillText("Main Menue", 520, 100);
+		Helon.ctx.font = "24px Consolas";
+		if (intervalReact(key.esc)) setScreen("title");
+		button(400, 200, 480, 80, "Quicktest Mode", "yellow", function(){startCampaign("quicktest")})
+		button(400, 300, 480, 80, "Campaign Mode", "yellow", function(){setScreen("campaign");})
+		button(400, 400, 480, 80, "Free-Roam Mode", "yellow", function(){setScreen("freeroam");})
+		button(400, 500, 480, 80, "Controls", "yellow", function(){setScreen("controls");})
+		muteButton();
 	});
 
 	
@@ -92,21 +87,14 @@ function setupScreens(){
 		Hellaxy.sector.display();
 		button(400, 350, 480, 50, "Resume to game", "yellow", function(){Hellaxy.task = campaignManager;});
 		button(400, 500, 480, 50, "Return to menue", "yellow", function(){Hellaxy.campaign.levels[Hellaxy.campaign.at].cancel(); setScreen("menue");});
-		button(1200, 0, 80, 80, " ", "yellow", function(){if (intervalReact(true)){
-			if (Helon.muted){
-				Helon.muted = false;
-			} else{
-				Helon.muted = true;
-				resetAudio();
-			}
-		}})
-		Helon.ctx.drawImage(Helon.ress.images.speaker, 1204, 4, 72, 72);
-		if (Helon.muted) Helon.ctx.drawImage(Helon.ress.images.cross, 1204, 4, 72, 72);
-		
+		muteButton();
+
 		Helon.ctx.lineWidth = 4;
-		Helon.ctx.strokeStyle = "yellow";
+		Helon.ctx.strokeStyle = "black";
 		Helon.ctx.font = "128px Consolas";
 		Helon.ctx.strokeText("- Game Paused -", 100, 180);
+		Helon.ctx.fillStyle = "yellow";
+		Helon.ctx.fillText("- Game Paused -", 100, 180);
 		Helon.ctx.font = "24px Consolas";
 		Helon.ctx.lineWidth = 1;
 	});
@@ -152,13 +140,13 @@ function setupScreens(){
 		Helon.ctx.fillText(designation + ":   Lvl " + of.at, 200, posy);
 		if (of.at !== 0){
 			if (of.at !== of.levels.length){
-				{button(500, posy - 25, 150, 26, "Continue", "yellow", function(){startCampaign(of.designation)});};
+				{button(500, posy - 30, 150, 34, "Continue", "yellow", function(){startCampaign(of.designation)});};
 			}
 			else {
 				Helon.ctx.fillText("Complete!", 500, posy);
 			}
 		}
-		button(700, posy -25, 150, 26, "New", "yellow", function(){of.at = 0; startCampaign(of.designation)});
+		button(700,posy - 30, 150, 34, "New", "yellow", function(){of.at = 0; startCampaign(of.designation)});
 	}
 	
 	createScreen("campaign", "blackscreen", "theme1", function(){

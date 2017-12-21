@@ -29,13 +29,23 @@ function get360(input){
 function button(posx, posy, width, height, tag, colour, action){
 	Helon.ctx.lineWidth = 4;
 	var textY = parseInt(Helon.ctx.font.split('p')[0]) + posy + 0.4*((height - 2*Helon.ctx.lineWidth) - parseInt(Helon.ctx.font.split('p')[0]));
+	
+	Helon.ctx.fillStyle = "black";
 	Helon.ctx.fillRect(posx , posy, width, height);
+	
+	Helon.ctx.fillStyle = "white";
+	Helon.ctx.fillRect(posx + 2, posy + 2, width - 4, height - 4);
+	
+	Helon.ctx.fillStyle = "black";
+	Helon.ctx.fillRect(posx + 4, posy + 4, width - 8, height - 8);
+	
 	Helon.ctx.fillStyle = colour;
-	Helon.ctx.fillRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);
+	Helon.ctx.fillRect(posx + 2 * Helon.ctx.lineWidth, posy + 2 * Helon.ctx.lineWidth, width - Helon.ctx.lineWidth * 4, height - Helon.ctx.lineWidth * 4);
 	Helon.ctx.strokeStyle = "black";
+	
 	if (cursor.x.between(posx, posx + width) && cursor.y.between(posy, posy + height)){
 		if (click) action();
-		Helon.ctx.strokeRect(posx + Helon.ctx.lineWidth, posy + Helon.ctx.lineWidth, width - Helon.ctx.lineWidth*2, height - Helon.ctx.lineWidth*2);
+		Helon.ctx.strokeRect(posx + Helon.ctx.lineWidth * 3, posy + Helon.ctx.lineWidth * 3, width - Helon.ctx.lineWidth * 6, height - Helon.ctx.lineWidth * 6);
 	}
 	Helon.ctx.fillStyle = "black";
 	Helon.ctx.fillText(tag, posx + ((width - Helon.ctx.measureText(tag).width)*0.5), textY);
@@ -60,8 +70,8 @@ function play(sound){
 	if (typeof sound !== "object") sound = Helon.ress.audio[sound];
 	if (sound.currentTime === 0 || sound.ended){
 		sound.play();
-	} else{
-		sound.currentTime = 0;
+	} else {
+		if (sound.currentTime > 0.2) sound.currentTime = 0;
 	}
 }
 
@@ -82,6 +92,21 @@ function resetAudio(){
 		Helon.ress.audio[audio].pause();
 		Helon.ress.audio[audio].currentTime = 0;
 	}
+}
+
+
+
+function muteButton(){
+	button(1200, 0, 80, 80, " ", "yellow", function(){if (intervalReact(true)){
+		if (Helon.muted){
+			Helon.muted = false;
+		} else{
+			Helon.muted = true;
+			resetAudio();
+		}
+	}})
+	Helon.ctx.drawImage(Helon.ress.images.speaker, 1206, 6, 68, 68);
+	if (Helon.muted) Helon.ctx.drawImage(Helon.ress.images.cross, 1206, 6, 68, 68);
 }
 
 

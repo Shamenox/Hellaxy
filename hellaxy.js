@@ -9,6 +9,7 @@ var Hellaxy = {
 	campaigns : {},
 	planets : {},
 	weapons : {},
+	projectiles : projectile,
 	locations : {},
 };
 
@@ -56,9 +57,15 @@ function addMsg(content){
 
 
 
+function setCampaign(designation){
+	Hellaxy.campaign = Hellaxy.campaigns[designation];
+}
+
+
+
 function startCampaign(campaign){
-	Hellaxy.screen.theme.pause();
-	Hellaxy.campaign = Hellaxy.campaigns[campaign];
+	resetAudio()
+	setCampaign(campaign);
 	Hellaxy.task = campaignManager;
 	player1ship.x = 0;
 	player1ship.y = 0;
