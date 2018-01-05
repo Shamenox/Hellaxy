@@ -106,6 +106,27 @@ function setupControls(){
 		} else {this.ctrl = npc.simpleRoamer;}
 	}
 	
+	npc.fairy = function (){
+		var nearby = this.nextShips(this.fraction);
+		if (nearby.length >= 5){
+			
+		} else{
+			nearby = this.nextShip("anythingElse");
+			if (nearby !== false){
+				if (nearby.fraction === "ophianic"){
+					this.pointAt(nearby);
+					this.acc();
+				} else{
+					this.follow(nearby, 200);
+				}
+			} else{
+				this.acc();
+				if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+			}
+		}
+		this.turn();
+	}
+	
 	npc.turret = function(){
 		if (this.nextShip("anythingElse", 500) !== false){
 			this.pointAt(this.nextShip("anythingElse", 400));

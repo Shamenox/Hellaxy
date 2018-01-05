@@ -49,6 +49,8 @@ addEventListener("keydown", function(w) {
 	if (w.keyCode === 32) key.space = true;
     if (w.keyCode === 27) key.esc = true;
 	if (w.keycode === 13) key.enter = true;
+	if (w.keyCode === 187) key.plus = true;
+	if (w.keyCode === 189) key.minus = true;
 
     w.preventDefault();
     w.stopPropagation();
@@ -67,6 +69,8 @@ addEventListener("keyup", function(w) {
 	if (w.keyCode === 32) key.space = false;
     if (w.keyCode === 27) key.esc = false;
 	if (w.keycode === 13) key.enter = false;
+	if (w.keyCode === 187) key.plus = false;
+	if (w.keyCode === 189) key.minus = false;
 }, false);
 
 document.onmousedown = function(trigger) {
