@@ -121,4 +121,28 @@ function display(obj){
 	Helon.ctx.translate(x, y); // Rückdrehung
 	Helon.ctx.rotate(-obj.angle * Math.PI / 180);
 	Helon.ctx.translate(-x, -y);
+	
+	if (obj.hp !== undefined && obj.hp > 0){
+		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
+		Helon.ctx.fillStyle = "green";
+		x -= obj.width/2 * Hellaxy.scale;
+		y -= (obj.height/2 * Hellaxy.scale) + 14;
+		Helon.ctx.strokeRect(x, y, obj.width * Hellaxy.scale, 6);
+		Helon.ctx.fillRect(x, y, obj.width * (obj.hp / obj.mass) * Hellaxy.scale, 6);
+		Helon.ctx.fillStyle = "blue";
+		Helon.ctx.fillRect(x, y, obj.width * (obj.shield / obj.maxshield) * Hellaxy.scale, 6);
+		Helon.ctx.strokeStyle = "yellow";
+		Helon.ctx.fillStyle = "yellow";
+	}
+}
+
+
+
+function zoomIn(){
+	if (intervalReact(Hellaxy.scale > 0.25, 250, "zoom")) Hellaxy.scale -= 0.25;
+}
+
+
+function zoomOut(){
+	if (intervalReact(Hellaxy.scale < 2, 250, "zoom")) Hellaxy.scale += 0.25;
 }

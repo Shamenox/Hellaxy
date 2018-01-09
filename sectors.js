@@ -157,18 +157,6 @@ class Sector{
 		for (var i = 0; i < this.ships.length; i++){
 			var SHIP = this.ships[i];
 			display(SHIP);
-			if (SHIP.ctrl !== player1 && SHIP.hp > 0){
-				Helon.ctx.strokeStyle = "red";  //infotafel
-				Helon.ctx.fillStyle = "green";
-				var x = (SHIP.x - this.offset.x - SHIP.width/2) * Hellaxy.scale;
-				var y = (SHIP.y - this.offset.y - SHIP.height) * Hellaxy.scale;
-				Helon.ctx.strokeRect(x, y, SHIP.width * Hellaxy.scale, 6);
-				Helon.ctx.fillRect(x, y, SHIP.width * (SHIP.hp / SHIP.mass) * Hellaxy.scale, 6);
-				Helon.ctx.fillStyle = "blue";
-				Helon.ctx.fillRect(x, y, SHIP.width * (SHIP.shield / SHIP.maxshield) * Hellaxy.scale, 6);
-				Helon.ctx.strokeStyle = "yellow";
-				Helon.ctx.fillStyle = "yellow";
-			}
 		}
 	}
 	

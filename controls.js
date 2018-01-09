@@ -12,7 +12,7 @@ function setupControls(){
 			if (key.a) this.turn("left"); //Drehung
 			if (key.d) this.turn("right");
 		} else {
-			this.pointAt({x : cursor.x + Hellaxy.sector.offset.x, y : cursor.y + Hellaxy.sector.offset.y});
+			this.pointAt({x : cursor.x / Hellaxy.scale + Hellaxy.sector.offset.x, y : cursor.y / Hellaxy.scale + Hellaxy.sector.offset.y});
 			this.turn("target");
 		}
 		if (key.w) {
@@ -24,6 +24,8 @@ function setupControls(){
 		if (key.space) this.fire(1);
 		if (key.e) this.fire(2);
 		if (key.q) this.fire(3);
+		if (key.minus) zoomIn();
+		if (key.plus) zoomOut();
 		if (key.one) this.useSpecial(1);
 		GUI(this);
 	}
