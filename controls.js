@@ -12,7 +12,7 @@ function setupControls(){
 			if (key.a) this.turn("left"); //Drehung
 			if (key.d) this.turn("right");
 		} else {
-			this.pointAt({x : cursor.x + Hellaxy.sector.offset.x, y : cursor.y + Hellaxy.sector.offset.y});
+			this.pointAt({x : cursor.x / Hellaxy.scale + Hellaxy.sector.offset.x, y : cursor.y / Hellaxy.scale + Hellaxy.sector.offset.y});
 			this.turn("target");
 		}
 		if (key.w) {
@@ -24,6 +24,8 @@ function setupControls(){
 		if (key.space) this.fire(1);
 		if (key.e) this.fire(2);
 		if (key.q) this.fire(3);
+		if (key.minus) zoomIn();
+		if (key.plus) zoomOut();
 		if (key.one) this.useSpecial(1);
 		GUI(this);
 	}
@@ -104,6 +106,27 @@ function setupControls(){
 				}
 			}
 		} else {this.ctrl = npc.simpleRoamer;}
+	}
+	
+	npc.fairy = function (){
+		var nearby = this.nextShips(this.fraction);
+		if (nearby.length >= 5){
+			
+		} else{
+			nearby = this.nextShip("anythingElse");
+			if (nearby !== false){
+				if (nearby.fraction === "ophianic"){
+					this.pointAt(nearby);
+					this.acc();
+				} else{
+					this.follow(nearby, 200);
+				}
+			} else{
+				this.acc();
+				if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+			}
+		}
+		this.turn();
 	}
 	
 	npc.turret = function(){

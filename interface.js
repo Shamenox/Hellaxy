@@ -57,7 +57,7 @@ function setupScreens(){
 	createScreen("menue", "blackscreen", "theme1", function(){
 		Helon.ctx.font = "44px Consolas";
 		Helon.ctx.fillText("Hellaxy", 550, 50);
-		Helon.ctx.fillText("Main Menue", 520, 100);
+		Helon.ctx.fillText("Main Menu", 520, 100);
 		Helon.ctx.font = "24px Consolas";
 		if (intervalReact(key.esc)) setScreen("title");
 		button(400, 200, 480, 80, "Quicktest Mode", "yellow", function(){startCampaign("quicktest")})

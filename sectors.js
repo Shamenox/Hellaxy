@@ -144,8 +144,8 @@ class Sector{
 		neuerSpawn.y = atY;
 		neuerSpawn.angle = atAngle;
 		neuerSpawn.aim = atAngle;
-		neuerSpawn.ctrl = ctrl;
-		if (abgang !== undefined)neuerSpawn.abgang = abgang;
+		if (ctrl !== undefined) neuerSpawn.ctrl = ctrl;
+		if (abgang !== undefined) neuerSpawn.abgang = abgang;
 		neuerSpawn.sector = this;
 		neuerSpawn.staticID = this.ships.length + Helon.tics;
 		this.ships.push(neuerSpawn);
@@ -157,24 +157,14 @@ class Sector{
 		for (var i = 0; i < this.ships.length; i++){
 			var SHIP = this.ships[i];
 			display(SHIP);
-			if (SHIP.ctrl !== player1 && SHIP.hp > 0){
-				Helon.ctx.strokeStyle = "red";  //infotafel
-				Helon.ctx.fillStyle = "green";
-				Helon.ctx.strokeRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth, 6);
-				Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.hp / SHIP.mass), 6);
-				Helon.ctx.fillStyle = "blue";
-				Helon.ctx.fillRect(SHIP.x - this.offset.x - SHIP.skin.naturalWidth/2, SHIP.y - 12 - this.offset.y - SHIP.skin.naturalHeight/2, SHIP.skin.naturalWidth * (SHIP.shield / SHIP.maxshield), 6);
-				Helon.ctx.strokeStyle = "yellow";
-				Helon.ctx.fillStyle = "yellow";
-			}
 		}
 	}
 	
 	
 	displayBg(){
-		for (var posY = 0; posY < 730; posY += 100){
-			for (var posX = 0; posX < 1380; posX += 100){
-				Helon.ctx.drawImage(this.bg, posX - (this.offset.x % 100), posY - (this.offset.y % 100));
+		for (var posY = 0; posY < 730; posY += 100 * Hellaxy.scale){
+			for (var posX = 0; posX < 1380; posX += 100 * Hellaxy.scale){
+				Helon.ctx.drawImage(this.bg, posX - (this.offset.x * Hellaxy.scale % 100), posY - (this.offset.y * Hellaxy.scale % 100), 100 * Hellaxy.scale, 100 * Hellaxy.scale);
 			}
 		}
 	}
@@ -223,16 +213,16 @@ class Sector{
 	
 	
 	adjustOffset(){
+		if (this.offset.x > this.width - 1280 / Hellaxy.scale) this.offset.x = this.width - 1280 / Hellaxy.scale;
+		if (this.offset.y > this.height - 720 / Hellaxy.scale) this.offset.y = this.height - 720 / Hellaxy.scale;
 		if (this.offset.x < 0) this.offset.x = 0;
 		if (this.offset.y < 0) this.offset.y = 0;
-		if (this.offset.x > this.width - 1280) this.offset.x = this.width - 1280;
-		if (this.offset.y > this.height - 720) this.offset.y = this.height - 720;
 	}
 	
 	
 	focus(on){
-		this.offset.x = on.x - 640;
-		this.offset.y = on.y - 360;
+		this.offset.x = on.x - 640 / Hellaxy.scale;
+		this.offset.y = on.y - 360 / Hellaxy.scale;
 		this.adjustOffset();
 	}
 	

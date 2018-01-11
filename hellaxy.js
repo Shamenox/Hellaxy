@@ -11,6 +11,7 @@ var Hellaxy = {
 	weapons : {},
 	projectiles : projectile,
 	locations : {},
+	scale : 1,
 };
 
 
@@ -42,6 +43,8 @@ function Appstart(){
 	Hellaxy.task = screenManager;
 	Helon.app = Hellaxy.loop;
 }
+
+
 
 
 
@@ -109,11 +112,37 @@ function spawnSquad(designation, atX, atY, atAngle, quantity, ctrl, abgang, inSe
 
 
 function display(obj){
-	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Drehung
+	var x = (obj.x - Hellaxy.sector.offset.x) * Hellaxy.scale;
+	var y = (obj.y - Hellaxy.sector.offset.y) * Hellaxy.scale;
+	Helon.ctx.translate(x, y); // Drehung
 	Helon.ctx.rotate(obj.angle * Math.PI / 180);
-	Helon.ctx.translate(-(obj.x - Hellaxy.sector.offset.x), -(obj.y - Hellaxy.sector.offset.y));
-	Helon.ctx.drawImage(obj.skin, obj.x - Hellaxy.sector.offset.x - obj.width/2, obj.y - Hellaxy.sector.offset.y - obj.height/2, obj.width, obj.height); // Display
-	Helon.ctx.translate(obj.x - Hellaxy.sector.offset.x, obj.y - Hellaxy.sector.offset.y); // Rückdrehung
-	Helon.ctx.rotate(- obj.angle * Math.PI / 180);
-	Helon.ctx.translate(-(obj.x - Hellaxy.sector.offset.x), -(obj.y - Hellaxy.sector.offset.y));
+	Helon.ctx.translate(-x, -y);
+	Helon.ctx.drawImage(obj.skin, (x - obj.width/2 * Hellaxy.scale), (y - obj.height/2 * Hellaxy.scale), obj.width * Hellaxy.scale, obj.height * Hellaxy.scale); // Display
+	Helon.ctx.translate(x, y); // Rückdrehung
+	Helon.ctx.rotate(-obj.angle * Math.PI / 180);
+	Helon.ctx.translate(-x, -y);
+	
+	if (obj.hp !== undefined && obj.hp > 0){
+		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
+		Helon.ctx.fillStyle = "green";
+		x -= obj.width/2 * Hellaxy.scale;
+		y -= (obj.height/2 * Hellaxy.scale) + 14;
+		Helon.ctx.strokeRect(x, y, obj.width * Hellaxy.scale, 6);
+		Helon.ctx.fillRect(x, y, obj.width * (obj.hp / obj.mass) * Hellaxy.scale, 6);
+		Helon.ctx.fillStyle = "blue";
+		Helon.ctx.fillRect(x, y, obj.width * (obj.shield / obj.maxshield) * Hellaxy.scale, 6);
+		Helon.ctx.strokeStyle = "yellow";
+		Helon.ctx.fillStyle = "yellow";
+	}
+}
+
+
+
+function zoomIn(){
+	if (intervalReact(Hellaxy.scale > 0.25, 250, "zoom")) Hellaxy.scale -= 0.25;
+}
+
+
+function zoomOut(){
+	if (intervalReact(Hellaxy.scale < 2, 250, "zoom")) Hellaxy.scale += 0.25;
 }
