@@ -3,6 +3,7 @@ var Hellaxy = {
 	screen : {},
 	screens : {},
 	campaign : {},
+	level : {},
 	sector : {},
 	ships : {},
 	sectors : {},
@@ -41,7 +42,7 @@ function Appstart(){
 	setScreen("title");
 	setCampaign("quicktest");
 	Hellaxy.task = screenManager;
-	//skipTo("qubanian", 2);
+	skipTo("qubanian", 3);
 	Helon.app = Hellaxy.loop;
 }
 
@@ -51,6 +52,36 @@ function Appstart(){
 
 
 //Methoden:
+
+function report(){
+	console.log("Campaign:", Hellaxy.campaign);
+	console.log("Level:", Hellaxy.level);
+	console.log("Screen:", Hellaxy.screen);
+	console.log("Sector:", Hellaxy.sector);
+	if (exists(player1ship)) console.log("Player:", player1ship);
+}
+
+
+
+
+function skipTo(designation, at){
+	if (at > Hellaxy.campaigns[designation].levels.length){
+		console.log("Level Number out of Bounds");
+		return;
+	} 
+	setCampaign(designation);
+	if (Hellaxy.campaign.at > at) Hellaxy.campaign.at = 0;
+	for (var lvl = Hellaxy.campaign.at; lvl < at; lvl++){
+		startCampaign(designation);
+		for (var cond in Hellaxy.level.conditions){
+			Hellaxy.level.conditions[cond] = true;
+			if (exists(Hellaxy.level.events)) Hellaxy.level.events();
+		}
+		Hellaxy.level.end();
+	}
+	startCampaign(designation);
+}
+
 
 
 function addMsg(content){
@@ -63,6 +94,7 @@ function addMsg(content){
 
 function setCampaign(designation){
 	Hellaxy.campaign = Hellaxy.campaigns[designation];
+	Hellaxy.level = Hellaxy.campaigns[designation].levels[Hellaxy.campaigns[designation].at];
 }
 
 

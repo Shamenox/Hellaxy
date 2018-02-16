@@ -101,21 +101,6 @@ function start(at, withShip){
 }
 
 
-function skipTo(campaign, at){
-	Hellaxy.campaign = Hellaxy.campaigns[campaign];
-	for (var lvl = Hellaxy.campaign.at; lvl < Hellaxy.campaign.at; lvl++){
-		console.log(Hellaxy.campaign.at, LEVEL);
-		LEVEL = Hellaxy.campaign.levels[Hellaxy.campaign.at];
-		for (var cond in LEVEL.conditions){
-			LEVEL.conditions[cond] = true;
-			LEVEL.events();
-		}
-		LEVEL.end();
-	}
-	startCampaign(campaign);
-}
-
-
 
 
 function setupLevels(){				//<-- Kampagnendeklarierung
