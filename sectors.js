@@ -162,7 +162,7 @@ class Sector{
 	
 	
 	displayBg(){
-		for (var posY = 0; posY < 730; posY += 100 * Hellaxy.scale){
+		for (var posY = 0; posY < 800; posY += 100 * Hellaxy.scale){
 			for (var posX = 0; posX < 1380; posX += 100 * Hellaxy.scale){
 				Helon.ctx.drawImage(this.bg, posX - (this.offset.x * Hellaxy.scale % 100), posY - (this.offset.y * Hellaxy.scale % 100), 100 * Hellaxy.scale, 100 * Hellaxy.scale);
 			}
@@ -172,9 +172,9 @@ class Sector{
 	
 	displayPortals(){
 		for (var h = 0; h < this.portals.length; h++){
-			for (var i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
-				for (var j = this.portals[h].y; j < this.portals[h].y + this.portals[h].height; j += 100){
-				 Helon.ctx.drawImage(Hellaxy.sectors[this.portals[h].dest].bg, i - this.offset.x, j - this.offset.y);
+			for (var i = this.portals[h].x * Hellaxy.scale; i < (this.portals[h].x + this.portals[h].width) * Hellaxy.scale; i += 100){
+				for (var j = this.portals[h].y * Hellaxy.scale; j < (this.portals[h].y + this.portals[h].height) * Hellaxy.scale; j += 100){
+				 Helon.ctx.drawImage(Hellaxy.sectors[this.portals[h].dest].bg, i - this.offset.x * Hellaxy.scale, j - this.offset.y * Hellaxy.scale);
 				}
 			}
 		}
@@ -232,6 +232,7 @@ class Sector{
 		for (var i = 0; i < this.ships.length; i++){
 			this.ships[i].act(i);
 		}
+		actProjectiles();
 		if (this.events !== undefined) this.events();
 	}
 }

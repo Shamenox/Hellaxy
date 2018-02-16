@@ -41,6 +41,7 @@ function Appstart(){
 	setScreen("title");
 	setCampaign("quicktest");
 	Hellaxy.task = screenManager;
+	//skipTo("qubanian", 2);
 	Helon.app = Hellaxy.loop;
 }
 
@@ -144,5 +145,5 @@ function zoomIn(){
 
 
 function zoomOut(){
-	if (intervalReact(Hellaxy.scale < 2, 250, "zoom")) Hellaxy.scale += 0.25;
+	if (intervalReact(Hellaxy.scale < 1.75, 250, "zoom")) Hellaxy.scale += 0.25;
 }

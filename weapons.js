@@ -118,6 +118,11 @@ class Weapon {
 function displayProjectiles(){
 	for (var i = 0; i < projectile.length; i++){
 		display(projectile[i]);
+	}
+}
+
+function actProjectiles(){
+	for (var i = 0; i < projectile.length; i++){
 		projectile[i].act();
 	}
 }

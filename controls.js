@@ -14,6 +14,8 @@ function setupControls(){
 		} else {
 			this.pointAt({x : cursor.x / Hellaxy.scale + Hellaxy.sector.offset.x, y : cursor.y / Hellaxy.scale + Hellaxy.sector.offset.y});
 			this.turn("target");
+			if (key.a) this.acc("left");
+			if (key.d) this.acc("right");
 		}
 		if (key.w) {
 			this.acc();
@@ -105,7 +107,11 @@ function setupControls(){
 					this.fire(3);
 				}
 			}
-		} else {this.ctrl = npc.simpleRoamer;}
+		} else {
+			this.acc();
+			this.turn();
+			if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+		}
 	}
 	
 	npc.fairy = function (){

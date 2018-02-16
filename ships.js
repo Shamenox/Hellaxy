@@ -35,9 +35,20 @@ class Ship {
 	}
 	
 	
-	acc(){
-		this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
-		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+	acc(dir){
+		if (dir === undefined) dir = "frontal";
+		if (dir === "frontal"){
+			this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
+			this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+		}
+		if (dir === "left"){
+			this.vy += Math.cos((this.angle - 90) * Math.PI / 180) * this.a * 0.2;
+			this.vx += Math.cos((this.angle - 180) * Math.PI / 180) * this.a * 0.2;
+		}
+		if (dir === "right"){
+			this.vy += Math.cos((this.angle + 90) * Math.PI / 180) * this.a * 0.2;
+			this.vx += Math.cos((this.angle + 180) * Math.PI / 180) * this.a * 0.2;
+		}
 	}
 	
 	
