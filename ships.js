@@ -35,9 +35,20 @@ class Ship {
 	}
 	
 	
-	acc(){
-		this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
-		this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+	acc(dir){
+		if (dir === undefined) dir = "frontal";
+		if (dir === "frontal"){
+			this.vy += Math.cos(this.angle * Math.PI / 180) * this.a;
+			this.vx += Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
+		}
+		if (dir === "left"){
+			this.vy += Math.cos((this.angle - 90) * Math.PI / 180) * this.a * 0.2;
+			this.vx += Math.cos((this.angle - 180) * Math.PI / 180) * this.a * 0.2;
+		}
+		if (dir === "right"){
+			this.vy += Math.cos((this.angle + 90) * Math.PI / 180) * this.a * 0.2;
+			this.vx += Math.cos((this.angle + 180) * Math.PI / 180) * this.a * 0.2;
+		}
 	}
 	
 	
@@ -172,20 +183,15 @@ class Ship {
 	nextShips(search, range){
 		var matches = [];
 		if (range === undefined) range = 1000;
-		for (var h = 0; h <= range; h +=5){
 			for (var k = 0; k < this.sector.ships.length; k++){
-				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
+				if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
 					if (search === undefined) matches.push(Hellaxy.sector.ships[k]);
 					if (search === "anythingElse"){
 						if (this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
 					}
-					else {
-						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) matches.push(Hellaxy.sector.ships[k]);
-						if (search !== this.fraction && search === this.sector.ships[k].fraction) matches.push(Hellaxy.sector.ships[k]);
-					}
+					if (search === this.sector.ships[k].fraction  && this.sector.ships[k].designation === this.designation) matches.push(Hellaxy.sector.ships[k]);
 				}
 			}
-		}
 		return matches;
 	}
 	
@@ -290,6 +296,11 @@ class Ship {
 		if (this["sp" + slot] === undefined) return;
 		this["sp" + slot].exe();
 	}
+	
+	
+	vanish(){
+		this.sector.ships.splice(this.ID, 1);
+	}
 }
 
 
@@ -335,7 +346,8 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	createShip({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : "machinegun_5nm", sp1 : "flak_around"});
 	createShip({designation : "annector", fraction : "ophianic", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : "ophianian_beam", sp1 : "spawn_ophianianChunk"});
 	createShip({designation : "chunk", fraction : "ophianic", hp : 300, armour : 1, a : 0.09, ctrl : npc.rammer});
-	createShip({designation : "chunk", fraction : "tonium", hp : 300, armour : 1, a : 0.09, ctrl : npc.fairy});
+	createShip({designation : "chunk", fraction : "tonium", hp : 300, armour : 1, a : 0.09, ctrl : npc.fairy, mergeTo : "star"});
+	createShip({designation : "star", fraction : "tonium", hp : 17777, armour : 1, a : 0.05, ctrl : npc.fairy, mergeTo : "star", wp1 : "star_beam"});
 	createShip({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : "spike_artillery"});
 	createShip({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : "spike_artillery"});
 	createShip({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : "emp_director_1"});

@@ -15,6 +15,13 @@ function chance(per){
 
 
 
+function exists(obj){
+	if (obj !== undefined) return true;
+	return false;
+}
+
+
+
 function get360(input){
 	if (input === 0 || input === 360) return input;
 	while (!input.between(0, 360)){

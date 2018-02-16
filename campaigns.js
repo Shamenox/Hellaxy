@@ -15,6 +15,13 @@ class Campaign {
 	
 	act(){
 		if (LEVEL.events !== undefined) LEVEL.events();
+		for (var cond in LEVEL.conditions){
+			if (LEVEL.conditions[cond] === false) return;
+		}
+		Helon.ctx.fillStyle = "yellow";
+		Helon.ctx.fillText("Mission completed!!!", 450, 200);
+		Helon.ctx.fillText("Press 'E' to continue", 450, 250);
+		if (intervalReact(key.e, 500, "msgDelay")) LEVEL.end();
 	}
 }
 
@@ -69,8 +76,8 @@ function createLevel(belong, setup, conditions, events){
 
 
 function campaignManager(){
-	Hellaxy.campaign.act();
 	Hellaxy.sector.act();
+	Hellaxy.campaign.act();
 	loop(Hellaxy.sector.theme);
 	 if (LEVEL.target !== undefined) cursor.pointAt({
 		x : LEVEL.target.x - Hellaxy.Sector.offset.x,
@@ -84,18 +91,10 @@ function campaignManager(){
 		setScreen("messager");
 		Hellaxy.task = screenManager;
 	}
-	for (var cond in LEVEL.conditions){
-			if (LEVEL.conditions[cond] === false) return;
-		}
-	Helon.ctx.fillStyle = "yellow";
-	Helon.ctx.fillText("Mission completed!!!", 450, 200);
-	Helon.ctx.fillText("Press 'E' to continue", 450, 250);
-	if (intervalReact(key.e, 500, "msgDelay")) LEVEL.end();
 }
 
 
 function start(at, withShip){
-	console.log(at);
 	Hellaxy.sector = at.sector;
 	spawnShip(withShip, at.x + 100, at.y + 100, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 	Hellaxy.sector.ships[Hellaxy.sector.ships.length - 1].mass++;
@@ -116,11 +115,13 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 	Hellaxy.campaigns.quicktest.addLevel(function(){
 			setSector("testmap");
 			spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
-			spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
-			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
-			spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
-			spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
-			spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
+			//spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
+			//spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
+			//spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
+			//spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
+			//spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
+			spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
+			spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			spawnAsteroids(600, 600, 400, 400);
 		},
 		{
@@ -259,7 +260,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 				addMsg("Thats it, there is no hope for the Planet...");
 				addMsg("We have no other choice, please forgive us.");
 				addMsg("Start the FTL-engines!");
-				player1ship.ctrl = function(){this.pointFrom(this.nextShip("ophianic")); this.a = 1; this.turn(); this.acc(); if (this.y < Hellaxy.sector.offset.y || this.x > Hellaxy.sector.offset.x) LEVEL.conditions.escaped = true;};
+				player1ship.ctrl = function(){this.pointFrom(this.nextShip("ophianic")); this.a = 1; this.turn(); this.acc(); setTimeout(function (){LEVEL.conditions.escaped = true;}, 1000);};
 				this.conditions.dmgd = true;
 			}
 		}
@@ -269,11 +270,11 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		addPlanet("quba", 444, 444, "central");
 		start(Hellaxy.planets.quba, "qubanian_colonizer");
 		addLocation("quba2", 2550, 2300, 500, 500);
-		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Msission ID:214");
+		addMsg("Log in: 2007. Cycle; 143; 1.Colonization Mission ID:214");
 		addMsg("Attention! This is mission-control!");
 		addMsg("We are proud to have finally made it into space!");
 		addMsg("Your task, commander, is to guide our new colonization-vessel");
-		addMsg("to the recently discoverd habitable zone without a scratch.");
+		addMsg("to the recently discovered habitable zone without a scratch.");
 		addMsg("We updated its coordinates into your cursor-interface.");
 		addMsg("Best of luck, commander!");
 		LEVEL.target = Hellaxy.locations.quba2;
@@ -285,7 +286,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			if (!this.conditions.colonized && player1ship.collidesWith(Hellaxy.locations.quba2)){
 				spawnShip("qubanian_colony", 2378, 2078, 0, "none");
 				addMsg("Congratulations Commander!");
-				addMsg("We are recieving first transmissions from our new colony.");
+				addMsg("We are receiving first transmissions from our new colony.");
 				addMsg("Let´s begin upgrading its infrastructure!");
 				LEVEL.conditions.colonized = true;
 			}
@@ -296,14 +297,14 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 	Hellaxy.campaigns.qubanian.addLevel(function(){
 		setSector("central");
 		spawnShip("qubanian_colony", 2378, 2078, 0, player1, function(){LEVEL.conditions.destroyed = true});
-		addMsg("Log in: 2007. Cycle; 144; Colony Defence Act ID:214");
+		addMsg("Log in: 2007. Cycle; 144; Colony Defense Act ID:214");
 		addMsg("Attention! This is Qubanian HQ!");
-		addMsg("We just recieved a dread from an alien-lifeform!");
+		addMsg("We just received a dread from an alien-lifeform!");
 		addMsg("They call themselves Birchanians and announced that they");
 		addMsg("will destroy our newly errected colony, as it is within ther territory.");
 		addMsg("We tried to negotiate with them on a friendly basis,");
 		addMsg("But they wont change their mind...");
-		addMsg("Unfortunatly our only weaponary in this colony");
+		addMsg("Unfortunately our only weaponary in this colony");
 		addMsg("is a light antispacecraft firescreen.");
 		addMsg("As the commander you can order to fire all cannons with your '1'-key.");
 		addMsg("Birchanian warships are on their way.");
@@ -328,9 +329,9 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		addMsg("What the Birchanians have done so arrogantly is unforgivable!");
 		addMsg("We cant coexist with them for any longer.");
 		addMsg("To prove our superiority once and for all we build another four");
-		addMsg("Colonizators to errect a gigantic cluster-colony.");
-		addMsg("Guide our colonizator squadron again into the habitable zone.");
-		addMsg("But be carefull, The Birchanians are constantly sending warships!");
+		addMsg("Colonisators to build a gigantic cluster-colony.");
+		addMsg("Guide our colonisator squadron again into the habitable zone.");
+		addMsg("But be careful, The Birchanians are constantly sending warships!");
 		LEVEL.target = Hellaxy.locations.quba2;
 		},
 		{
@@ -374,24 +375,44 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		addMsg("in combat. It is faster and fitted with a triangular front-beam.");
 		addMsg("If it turns out to be effective we will adapt these changes to");
 		addMsg("our standart class-colonizer.");
-		addMsg("Our interstellar seismographs percieved massive space interfrences");
+		addMsg("Our interstellar seismographs perceived massive space interferences");
 		addMsg("in the sector above us. In fact they were so huge,");
 		addMsg("they exceeded the scale. So be alarmed.");
-		addMsg("Your job Commander is to gather data of wahtever happened up there.");
+		addMsg("Your job Commander is to gather data of whatever happened up there.");
 		addMsg("Mission control out!");
 		LEVEL.target = Hellaxy.locations.imperialentrace;
 		},
 		{
 			inImperial : false,
-			foundFour : false,
+			foundFive : false,
 			gotBack : false,
 		},
 		function(){
 			if (Hellaxy.sector.ID === "imperial" && !this.conditions.inImperial){
 				spawnAsteroids(2100, 18900, 1900, 400);
-				spawnAsteroids(1900, 19100, 500, 1550);
-				spawnAsteroids(3600, 19100, 500, 1550);
+				spawnAsteroids(1800, 19100, 500, 850);
+				spawnAsteroids(3800, 19100, 500, 850);
 				this.conditions.inImperial = true;
+				addMsg("According to your intruments, you should be in the");
+				addMsg("nothern sector by now.");
+				addMsg("You hopefully went through the portal without any trouble.");
+				addMsg("As we expected something really impacting influenced the space arround here.");
+				addMsg("Appearently this caused the spawning of a lot of matter that chunked");
+				addMsg("together to form asteroids.");
+				addMsg("Your triangular beam should be able to splice them open.");
+				addMsg("Try break up as many of them as you can!");
+			}
+			if (!player1ship.nextShip("tonium") && !this.conditions.gotBack){
+				for (var e = 0; e < player1ship.nextShip("tonium"); e++){
+					if (player1ship.nextShips("tonium")[e].designation === "star"){
+						addMsg("The energetic matter from the asteroids seems to");
+						addMsg("have merged into one gigantic, powerful organism!");
+						addMsg("It seems to follow you...");
+						addMsg("Commander! Your objective is to take this organism");
+						addMsg("and lead it back to our home planet!");
+						LEVEL.target = Hellaxy.planets.quba;
+					}
+				}
 			}
 		}
 	);

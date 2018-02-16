@@ -15,7 +15,7 @@ class Screen{
 	
 	display(){
 		Helon.ctx.drawImage(this.bg, 0, 0);
-		if (this.theme !== "none") loop(this.theme);
+		loop(this.theme);
 		this.act();
 	}
 }
@@ -105,7 +105,6 @@ function setupScreens(){
 			Hellaxy.task = campaignManager;
 		}
 		else{
-			if (typeof Hellaxy.sector.theme.play === "function") Hellaxy.sector.theme.play();
 			Hellaxy.sector.display();
 			Helon.ctx.fillStyle = "grey";
 			Helon.ctx.fillRect(0,0,1280,80);

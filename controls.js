@@ -14,6 +14,8 @@ function setupControls(){
 		} else {
 			this.pointAt({x : cursor.x / Hellaxy.scale + Hellaxy.sector.offset.x, y : cursor.y / Hellaxy.scale + Hellaxy.sector.offset.y});
 			this.turn("target");
+			if (key.a) this.acc("left");
+			if (key.d) this.acc("right");
 		}
 		if (key.w) {
 			this.acc();
@@ -105,21 +107,30 @@ function setupControls(){
 					this.fire(3);
 				}
 			}
-		} else {this.ctrl = npc.simpleRoamer;}
+		} else {
+			this.acc();
+			this.turn();
+			if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+		}
 	}
 	
 	npc.fairy = function (){
-		var nearby = this.nextShips(this.fraction);
+		var nearby = this.nextShips(this.fraction, 400);
 		if (nearby.length >= 5){
-			
+			for (var e = 0; e < nearby.length; e++){
+				nearby[e].vanish();
+			}
+			spawnShip(this.fraction + "_" + this.mergeTo, this.x, this.y, this.angle, npc.fairy);
+			this.vanish();
 		} else{
 			nearby = this.nextShip("anythingElse");
 			if (nearby !== false){
 				if (nearby.fraction === "ophianic"){
 					this.pointAt(nearby);
 					this.acc();
+					this.fire(1);
 				} else{
-					this.follow(nearby, 200);
+					this.follow(nearby, 350);
 				}
 			} else{
 				this.acc();

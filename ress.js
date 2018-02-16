@@ -28,6 +28,7 @@ images = {
 	testmoon : "planets",
 	
 	beam_ophianian : "projectiles",
+	beam_star : "projectiles",
 	explosion : "projectiles",
 	shot_light_1 : "projectiles",
 	shot_medium_tripple : "projectiles",
@@ -53,6 +54,7 @@ images = {
 	ophianic_annector : "ships",
 	ophianic_chunk : "ships",
 	tonium_chunk : "ships",
+	tonium_star : "ships",
 	qubanian_colonizer : "ships",
 	qubanian_colonizer_mkii : "ships",
 	republic_hq : "ships",
