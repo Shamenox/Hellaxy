@@ -384,7 +384,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		},
 		{
 			inImperial : false,
-			foundFour : false,
+			foundFive : false,
 			gotBack : false,
 		},
 		function(){
@@ -393,6 +393,26 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 				spawnAsteroids(1800, 19100, 500, 850);
 				spawnAsteroids(3800, 19100, 500, 850);
 				this.conditions.inImperial = true;
+				addMsg("According to your intruments, you should be in the");
+				addMsg("nothern sector by now.");
+				addMsg("You hopefully went through the portal without any trouble.");
+				addMsg("As we expected something really impacting influenced the space arround here.");
+				addMsg("Appearently this caused the spawning of a lot of matter that chunked");
+				addMsg("together to form asteroids.");
+				addMsg("Your triangular beam should be able to splice them open.");
+				addMsg("Try break up as many of them as you can!");
+			}
+			if (!player1ship.nextShip("tonium") && !this.conditions.gotBack){
+				for (var e = 0; e < player1ship.nextShip("tonium"); e++){
+					if (player1ship.nextShips("tonium")[e].designation === "star"){
+						addMsg("The energetic matter from the asteroids seems to");
+						addMsg("have merged into one gigantic, powerful organism!");
+						addMsg("It seems to follow you...");
+						addMsg("Commander! Your objective is to take this organism");
+						addMsg("and lead it back to our home planet!");
+						LEVEL.target = Hellaxy.planets.quba;
+					}
+				}
 			}
 		}
 	);
