@@ -80,6 +80,8 @@ document.onmouseup = function(trigger) {
     click = false;
 };
 document.onmousemove = function(m) {
-    cursor.x = m.pageX - document.getElementById("Canvas").offsetLeft;
-    cursor.y = m.pageY - document.getElementById("Canvas").offsetTop;
+    let canvas = document.getElementById("Canvas")
+
+    cursor.x = (m.pageX - canvas.offsetLeft) * canvas.width / canvas.clientWidth;
+    cursor.y = (m.pageY - canvas.offsetTop) * canvas.height / canvas.clientHeight;
 };
