@@ -115,11 +115,13 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 	Hellaxy.campaigns.quicktest.addLevel(function(){
 			setSector("testmap");
 			spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
-			spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
-			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
-			spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
-			spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
-			spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
+			//spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
+			//spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
+			//spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
+			//spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
+			//spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
+			spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
+			spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			spawnAsteroids(600, 600, 400, 400);
 		},
 		{
@@ -388,8 +390,8 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		function(){
 			if (Hellaxy.sector.ID === "imperial" && !this.conditions.inImperial){
 				spawnAsteroids(2100, 18900, 1900, 400);
-				spawnAsteroids(1900, 19100, 500, 1550);
-				spawnAsteroids(3600, 19100, 500, 1550);
+				spawnAsteroids(1800, 19100, 500, 850);
+				spawnAsteroids(3800, 19100, 500, 850);
 				this.conditions.inImperial = true;
 			}
 		}

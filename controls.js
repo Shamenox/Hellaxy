@@ -115,17 +115,22 @@ function setupControls(){
 	}
 	
 	npc.fairy = function (){
-		var nearby = this.nextShips(this.fraction);
+		var nearby = this.nextShips(this.fraction, 400);
 		if (nearby.length >= 5){
-			
+			for (var e = 0; e < nearby.length; e++){
+				nearby[e].vanish();
+			}
+			spawnShip(this.fraction + "_" + this.mergeTo, this.x, this.y, this.angle, npc.fairy);
+			this.vanish();
 		} else{
 			nearby = this.nextShip("anythingElse");
 			if (nearby !== false){
 				if (nearby.fraction === "ophianic"){
 					this.pointAt(nearby);
 					this.acc();
+					this.fire(1);
 				} else{
-					this.follow(nearby, 200);
+					this.follow(nearby, 350);
 				}
 			} else{
 				this.acc();

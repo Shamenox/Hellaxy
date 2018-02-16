@@ -42,7 +42,7 @@ function Appstart(){
 	setScreen("title");
 	setCampaign("quicktest");
 	Hellaxy.task = screenManager;
-	skipTo("qubanian", 3);
+	//skipTo("qubanian", 3);
 	Helon.app = Hellaxy.loop;
 }
 

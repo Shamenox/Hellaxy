@@ -55,7 +55,7 @@ function setupSpecials(){
 	
 	
 	createSpecial("asteroidBreak", 1000, 1, function(){
-		if (chance(10)) spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
-		if (chance(10)) spawnShip("tonium_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
+		if (chance(15)) spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation);
+		if (chance(15)) spawnShip("tonium_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.fairy, function(){},this.ship.sector.designation);
 	});
 }

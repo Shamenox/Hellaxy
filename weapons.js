@@ -143,7 +143,8 @@ function setupWeapons(){  //skin, alpha, pen, reload, ammo
 	createWeapon("machinegun_5nm", "shot_light_1", 4, 2, 100, 300);
 	createWeapon("kolexialgun_14nm", "shot_medium_tripple", 36, 10, 200, 600);
 	createWeapon("ophianian_beam", "beam_ophianian", 1000, 5, 4000, 66);
-	createWeapon("triangle_beam", "triangle", 100, 3, 1000, 100);
+	createWeapon("triangle_beam", "triangle", 150, 3, 1000, 100);
+	createWeapon("star_beam", "beam_star", 777, 7, 2000, 777);
 	createWeapon("spike_artillery", "spikes_1", 120, 3, 1000, 100);
 	createWeapon("emp_director_1", "emp_1", 50, 3, 1000, 100);
 	createWeapon("emp_director_2", "emp_1", 50, 3, 200, 500);
