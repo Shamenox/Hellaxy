@@ -122,7 +122,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			//spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
 			spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
 			spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
-			spawnAsteroids(600, 600, 400, 400);
+			//spawnAsteroids(600, 600, 400, 400);
 		},
 		{
 			no : false
@@ -393,17 +393,19 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 				spawnAsteroids(1800, 19100, 500, 850);
 				spawnAsteroids(3800, 19100, 500, 850);
 				this.conditions.inImperial = true;
-				addMsg("According to your intruments, you should be in the");
-				addMsg("nothern sector by now.");
-				addMsg("You hopefully went through the portal without any trouble.");
-				addMsg("As we expected something really impacting influenced the space arround here.");
-				addMsg("Appearently this caused the spawning of a lot of matter that chunked");
-				addMsg("together to form asteroids.");
-				addMsg("Your triangular beam should be able to splice them open.");
-				addMsg("Try break up as many of them as you can!");
+				setTimeout(function(){
+					addMsg("According to your intruments, you should be in the");
+					addMsg("nothern sector by now.");
+					addMsg("You hopefully went through the portal without any trouble.");
+					addMsg("As we expected something really impacting influenced the space arround here.");
+					addMsg("Appearently this caused the spawning of a lot of matter that chunked");
+					addMsg("together to form asteroids.");
+					addMsg("Your triangular beam should be able to splice them open.");
+					addMsg("Try break up as many of them as you can!");
+				}, 500);
 			}
-			if (!player1ship.nextShip("tonium") && !this.conditions.gotBack){
-				for (var e = 0; e < player1ship.nextShip("tonium"); e++){
+			if (!player1ship.nextShips("tonium") && !this.conditions.foundFive){
+				for (var e = 0; e < player1ship.nextShips("tonium").length; e++){
 					if (player1ship.nextShips("tonium")[e].designation === "star"){
 						addMsg("The energetic matter from the asteroids seems to");
 						addMsg("have merged into one gigantic, powerful organism!");
@@ -413,6 +415,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 						LEVEL.target = Hellaxy.planets.quba;
 					}
 				}
+				this.conditions.foundFive = true;
 			}
 		}
 	);

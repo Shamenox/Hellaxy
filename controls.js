@@ -116,12 +116,13 @@ function setupControls(){
 	
 	npc.fairy = function (){
 		var nearby = this.nextShips(this.fraction, 400);
-		if (nearby.length >= 5){
-			for (var e = 0; e < nearby.length; e++){
+		if (nearby.length > 4){
+			for (var e = 0; e < 5; e++){
 				nearby[e].vanish();
 			}
 			spawnShip(this.fraction + "_" + this.mergeTo, this.x, this.y, this.angle, npc.fairy);
 			this.vanish();
+			console.log("Stern erschienen!");
 		} else{
 			nearby = this.nextShip("anythingElse");
 			if (nearby !== false){

@@ -73,5 +73,6 @@ audibles = [
 	"bounce_1",
 	"theme_central",
 	"theme_omar",
+	"theme_imperial",
 	"explosion1"
 ]
