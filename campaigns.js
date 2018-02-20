@@ -404,18 +404,20 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 					addMsg("Try break up as many of them as you can!");
 				}, 500);
 			}
-			if (!player1ship.nextShips("tonium") && !this.conditions.foundFive){
-				for (var e = 0; e < player1ship.nextShips("tonium").length; e++){
-					if (player1ship.nextShips("tonium")[e].designation === "star"){
+			var potentialStars = player1ship.nextShips("tonium");
+			console.log(potentialStars, this.conditions.foundFive);
+			if (potentialStars !== false && !this.conditions.foundFive){
+				for (var e = 0; e < potentialStars.length; e++){
+					if (potentialStars[e].designation === "star"){
 						addMsg("The energetic matter from the asteroids seems to");
 						addMsg("have merged into one gigantic, powerful organism!");
 						addMsg("It seems to follow you...");
 						addMsg("Commander! Your objective is to take this organism");
 						addMsg("and lead it back to our home planet!");
 						LEVEL.target = Hellaxy.planets.quba;
+						this.conditions.foundFive = true;
 					}
 				}
-				this.conditions.foundFive = true;
 			}
 		}
 	);

@@ -185,12 +185,11 @@ class Ship {
 			for (var k = 0; k < this.sector.ships.length; k++){
 				if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
 					if (search === undefined) matches.push(Hellaxy.sector.ships[k]);
-					if (search === "anythingElse"){
-						if (this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
-					}
-					if (search === this.sector.ships[k].fraction  && this.sector.ships[k].designation === this.designation) matches.push(Hellaxy.sector.ships[k]);
+					if (search === "anythingElse" && this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
+					if (search === this.sector.ships[k].fraction) matches.push(Hellaxy.sector.ships[k]);
 				}
 			}
+		if (matches.length === 0) return false;
 		return matches;
 	}
 	

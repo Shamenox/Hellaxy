@@ -116,8 +116,8 @@ function setupControls(){
 	
 	npc.fairy = function (){
 		var nearby = this.nextShips(this.fraction, 400);
-		if (nearby.length > 4){
-			for (var e = 0; e < 5; e++){
+		if (nearby.length > 3){
+			for (var e = 0; e < 4; e++){
 				nearby[e].vanish();
 			}
 			spawnShip(this.fraction + "_" + this.mergeTo, this.x, this.y, this.angle, npc.fairy);
