@@ -14,6 +14,7 @@ images = {
 	imperial : "bgs",
 	
 	chestanian_fortress : "planets",
+	birchanian_fortress : "planets",
 	haufen1 : "planets",
 	haufen2 : "planets",
 	haufen3 : "planets",

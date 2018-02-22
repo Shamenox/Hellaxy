@@ -117,6 +117,7 @@ class Sector{
 		}
 		this.planets.push(neuerPlanet);
 		Hellaxy.planets[designation] = neuerPlanet;
+		Hellaxy.locations[designation] = neuerPlanet;
 	}
 	
 	

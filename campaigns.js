@@ -323,6 +323,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 	
 	Hellaxy.campaigns.qubanian.addLevel(function(){
 		start(Hellaxy.planets.quba, "qubanian_colonizer");
+		addPlanet("birchanian_fortress", 4000, 3200);
 		spawnSquad("qubanian_colonizer", 550, 500, 90, 3, npc.defender, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
 		addMsg("Log in: 2007. Cycle; 150;  Super Colonization ID:217");
 		addMsg("Attention! This is mission-control!");
@@ -384,6 +385,9 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		},
 		{
 			inImperial : false,
+			foundTonium : false,
+			foundOphian : false,
+			foundBoth : false,
 			foundFive : false,
 			gotBack : false,
 		},
@@ -400,28 +404,61 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 					addMsg("As we expected something really impacting influenced the space arround here.");
 					addMsg("Appearently this caused the spawning of a lot of matter that chunked");
 					addMsg("together to form asteroids.");
+					addMsg("Hold on! These Asteroids seem to emit some kind of life signal.");
 					addMsg("Your triangular beam should be able to splice them open.");
-					addMsg("Try break up as many of them as you can!");
+					addMsg("Try break up some of them to find the source!");
 				}, 500);
 			}
+			if (player1ship.nextShip("tonium") !== false && !this.conditions.foundTonium){
+				addMsg("Interesting! The Asteroid you just destroyed contained some");
+				addMsg("kind of living, energetic matter.");
+				addMsg("It even seems to follow you around...");
+				addMsg("Your task remains breaking up more asteroids.");
+				addMsg("Try to be passive and only shoot the life form, if it gets hostile!");
+				this.conditions.foundTonium = true;
+			}
+			if (player1ship.nextShip("ophianic") !== false && !this.conditions.foundOphian){
+				addMsg("This is mission control!");
+				addMsg("The last Asteroid you broke up contained a living but very radical");
+				addMsg("life form. This is not the source of life we first received.");
+				addMsg("Defend yourself, if neccessary!");
+				this.conditions.foundOphian = true;
+			}
+			if (this.conditions.foundOphian && this.conditions.foundTonium && !this.conditions.foundBoth){
+				addMsg("Wait a second... This is odd.");
+				addMsg("Appearently the energetic life form is attacking the radical one.");
+				addMsg("It seems like they are neutralizing each other.");
+				this.conditions.foundBoth = true;
+			}
 			var potentialStars = player1ship.nextShips("tonium");
-			console.log(potentialStars, this.conditions.foundFive);
 			if (potentialStars !== false && !this.conditions.foundFive){
 				for (var e = 0; e < potentialStars.length; e++){
 					if (potentialStars[e].designation === "star"){
 						addMsg("The energetic matter from the asteroids seems to");
 						addMsg("have merged into one gigantic, powerful organism!");
-						addMsg("It seems to follow you...");
+						addMsg("It also seems to follow you...");
 						addMsg("Commander! Your objective is to take this organism");
 						addMsg("and lead it back to our home planet!");
+						addMsg("Be aware that it probably wont follow you, after you passed the portal.");
+						addMsg("Try to lead it through the portal first!");
 						LEVEL.target = Hellaxy.planets.quba;
 						this.conditions.foundFive = true;
 					}
 				}
 			}
+			if (this.conditions.foundFive && !this.conditions.gotBack && player1ship.collidesWith(Hellaxy.planets.quba)){
+				addMsg("Well done Commander!");
+				addMsg("This was a very succesful exploration!");
+				addMsg("Our scientists suggest to call the energetic matter you found in the");
+				addMsg("asteroids 'Tonium' as it emmits an unique high frequency tone.");
+				addMsg("They also discovered that only the 'Tonium Star', as they call it");
+				addMsg("is really alive. They other substances do not act on their own will.");
+				addMsg("Appearently the 'Tonium Star' could be used as an infinite power supply!");
+				this.conditions.gotBack = true;
+			}
 		}
 	);
-	
+			// 1.großer Krieg Cuba vs Birch 2. Tonium Farming + Ophian Krieg 3. Untergang Quba 4. Birchians finish cluster colony
 
 	
 	
