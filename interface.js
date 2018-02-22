@@ -105,6 +105,7 @@ function setupScreens(){
 			Hellaxy.task = campaignManager;
 		}
 		else{
+			loop(Hellaxy.sector.theme);
 			Hellaxy.sector.display();
 			Helon.ctx.fillStyle = "grey";
 			Helon.ctx.fillRect(0,0,1280,80);

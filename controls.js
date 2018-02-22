@@ -116,12 +116,13 @@ function setupControls(){
 	
 	npc.fairy = function (){
 		var nearby = this.nextShips(this.fraction, 400);
-		if (nearby.length >= 5){
-			for (var e = 0; e < nearby.length; e++){
+		if (nearby.length > 3){
+			for (var e = 0; e < 4; e++){
 				nearby[e].vanish();
 			}
 			spawnShip(this.fraction + "_" + this.mergeTo, this.x, this.y, this.angle, npc.fairy);
 			this.vanish();
+			console.log("Stern erschienen!");
 		} else{
 			nearby = this.nextShip("anythingElse");
 			if (nearby !== false){
@@ -141,9 +142,11 @@ function setupControls(){
 	}
 	
 	npc.turret = function(){
-		if (this.nextShip("anythingElse", 500) !== false){
-			this.pointAt(this.nextShip("anythingElse", 400));
-			if (this.pointsAt(this.nextShip("anythingElse", 400)) || this.a === 0) {
+		var trgt = this.nextShip("anythingElse");
+		if (trgt !== false){
+			this.pointAt(trgt);
+			this.turn();
+			if (this.pointsAt(trgt)) {
 				this.fire(1);
 				this.fire(2);
 				this.fire(3);

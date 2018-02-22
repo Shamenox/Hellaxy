@@ -14,6 +14,7 @@ images = {
 	imperial : "bgs",
 	
 	chestanian_fortress : "planets",
+	birchanian_fortress : "planets",
 	haufen1 : "planets",
 	haufen2 : "planets",
 	haufen3 : "planets",
@@ -43,6 +44,7 @@ images = {
 	chestanian_glider : "ships",
 	chestanian_quintalglider : "ships",
 	birchanian_glider : "ships",
+	birchanian_fortress_ai : "ships",
 	cylon_basestar : "ships",
 	helon_baseship_mkii : "ships",
 	helon_raider_mkiii : "ships",
@@ -73,5 +75,6 @@ audibles = [
 	"bounce_1",
 	"theme_central",
 	"theme_omar",
+	"theme_imperial",
 	"explosion1"
 ]

@@ -172,10 +172,10 @@ function display(obj){
 
 
 function zoomIn(){
-	if (intervalReact(Hellaxy.scale > 0.25, 250, "zoom")) Hellaxy.scale -= 0.25;
+	if (intervalReact(Hellaxy.scale > 0.5, 250, "zoom")) Hellaxy.scale -= 0.25;
 }
 
 
 function zoomOut(){
-	if (intervalReact(Hellaxy.scale < 1.75, 250, "zoom")) Hellaxy.scale += 0.25;
+	if (intervalReact(Hellaxy.scale < 1.5, 250, "zoom")) Hellaxy.scale += 0.25;
 }

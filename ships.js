@@ -135,8 +135,7 @@ class Ship {
 		this.ctrl = function(){};
 		play("explosion1");
 		if (this.abgang !== undefined) this.abgang();
-		setTimeout(function(ship){ship.sector.ships.splice(ship.ID, 1);}, 2000, this);
-		this.sector.refreshIDs();
+		setTimeout(function(ship){ship.sector.ships.splice(ship.ID, 1); ship.sector.refreshIDs();}, 2000, this);
 		this.explode = function(){};
 		this.abgang = function(){};
 	}
@@ -186,12 +185,11 @@ class Ship {
 			for (var k = 0; k < this.sector.ships.length; k++){
 				if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
 					if (search === undefined) matches.push(Hellaxy.sector.ships[k]);
-					if (search === "anythingElse"){
-						if (this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
-					}
-					if (search === this.sector.ships[k].fraction  && this.sector.ships[k].designation === this.designation) matches.push(Hellaxy.sector.ships[k]);
+					if (search === "anythingElse" && this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
+					if (search === this.sector.ships[k].fraction) matches.push(Hellaxy.sector.ships[k]);
 				}
 			}
+		if (matches.length === 0) return false;
 		return matches;
 	}
 	
@@ -300,6 +298,7 @@ class Ship {
 	
 	vanish(){
 		this.sector.ships.splice(this.ID, 1);
+		this.sector.refreshIDs();
 	}
 }
 
@@ -333,8 +332,8 @@ function collide(a, b){
 	
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 	createShip({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.5, wp1 : "machinegun_5nm"});
-	createShip({designation : "asteroid1", fraction : "asteroid", hp : 600, shield : 0, armour : 1, a : 0.025, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
-	createShip({designation : "asteroid2", fraction : "asteroid", hp : 400, shield : 0, armour : 1, a : 0.037, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
+	createShip({designation : "asteroid1", fraction : "asteroid", hp : 500, shield : 0, armour : 1, a : 0.025, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
+	createShip({designation : "asteroid2", fraction : "asteroid", hp : 350, shield : 0, armour : 1, a : 0.037, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
 	createShip({designation : "asteroid3", fraction : "asteroid", hp : 200, shield : 0, armour : 1, a : 0.05, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
 	createShip({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : "machinegun_5nm"});
 	createShip({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : "kolexialgun_14nm"});
@@ -353,6 +352,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	createShip({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : "emp_director_1"});
 	createShip({designation : "quintalglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : "emp_director_2"});
 	createShip({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.11, wp1 : "emp_director_small"});
+	createShip({designation : "fortress_ai", fraction : "birchanian", hp : 200000, armour : 1, a : 0});
 	
 	console.log(Hellaxy.ships);
 }
