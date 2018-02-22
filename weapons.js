@@ -72,6 +72,15 @@ class Weapon {
 						if (SHIP.shield <= 0) SHIP.hp -= this.alpha;
 						if (SHIP.shield > 1) SHIP.shield -= this.alpha;
 						if (SHIP.maxShield > 0 && SHIP.maxShield < 1) SHIP.hp -= this.alpha * SHIP.shield;
+						for (var m = 0; m < Hellaxy.sector.ships.length; m++){
+							if (this.hits(Hellaxy.sector.ships[m])) {
+								if (this.pen >= Hellaxy.sector.ships[m].armour){
+									if (Hellaxy.sector.ships[m].shield <= 0) Hellaxy.sector.ships[m].hp -= this.alpha;
+									if (Hellaxy.sector.ships[m].shield > 1) Hellaxy.sector.ships[m].shield -= this.alpha;
+									if (Hellaxy.sector.ships[m].maxShield > 0 && Hellaxy.sector.ships[m].maxShield < 1) Hellaxy.sector.ships[m].hp -= this.alpha * Hellaxy.sector.ships[m].shield;
+								}
+							}
+						}
 						this.sound("pen");
 						projectile.splice(this.ID(),1);
 						return;
@@ -144,7 +153,7 @@ function setupWeapons(){  //skin, alpha, pen, reload, ammo
 	createWeapon("kolexialgun_14nm", "shot_medium_tripple", 36, 10, 200, 600);
 	createWeapon("ophianian_beam", "beam_ophianian", 1000, 5, 4000, 66);
 	createWeapon("triangle_beam", "triangle", 150, 3, 1000, 100);
-	createWeapon("star_beam", "beam_star", 777, 7, 2000, 777);
+	createWeapon("star_beam", "beam_star", 7777, 7, 2000, 777);
 	createWeapon("spike_artillery", "spikes_1", 120, 3, 1000, 100);
 	createWeapon("emp_director_1", "emp_1", 50, 3, 1000, 100);
 	createWeapon("emp_director_2", "emp_1", 50, 3, 200, 500);

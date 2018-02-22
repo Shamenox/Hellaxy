@@ -458,6 +458,45 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			}
 		}
 	);
+	
+	
+	Hellaxy.campaigns.qubanian.addLevel(function(){
+		start(Hellaxy.locations.quba2, "tonium_star");
+		Hellaxy.sector.ships[Hellaxy.sector.ships.length -1].fraction = "qubanian";
+		spawnShip("birchanian_fortress_ai", 4000, 3200, 0, "none", function(){addMsg("It´s over! The Birchanians surrendered!"); LEVEL.conditions.destroyed = true;});
+		spawnShip("qubanian_colonizer_mkii", 2300, 2300, 90, npc.turret);
+		spawnShip("qubanian_colonizer_mkii", 2500, 2300, 90, npc.turret);
+		spawnShip("qubanian_colonizer_mkii", 2600, 2200, 90, npc.turret);
+		spawnShip("qubanian_colonizer_mkii", 2600, 2000, 90, npc.turret);
+		spawnShip("qubanian_colony", 2250, 1950, 0, npc.turret);
+		spawnShip("qubanian_colony", 2378, 1950, 0, npc.turret);
+		spawnShip("qubanian_colony", 2250, 2078, 0, npc.turret);
+		spawnShip("qubanian_colony", 2378, 2078, 0, npc.turret);
+		addMsg("Log in: 2007. Cycle; 224; The war begins ID:S1");
+		addMsg("Attention! This is the colonys terminal!");
+		addMsg("Since our research now allows us to communicate with the");
+		addMsg("Tonium Star, we will launch a devestating military mission");
+		addMsg("To once and for all defeat the pesky Birchanians.");
+		addMsg("Our own ships cannot withstand the waves of hostile spacecraft.");
+		addMsg("But you, the Tonium Star, can and will ripp their base apart!");
+		addMsg("Our ships and colony will provide defending fire.");
+		addMsg("You are to destroy their base!");
+		addMsg("As you are pretty big, we suggest you to zoom out a little");
+		addMsg("By pressing the '-'key.");
+		addMsg("The heat is on!");
+		LEVEL.target = Hellaxy.planets.birchanian_fortress;
+		},
+		{
+			destroyed : false,
+		},
+		function(){
+			if (Hellaxy.sector.ships.length < 15 && !this.conditions.destroyed){
+				spawnSquad("birchanian_glider", 4000, 3200, 310, 5, npc.rammer);
+				spawnSquad("birchanian_glider", 4200, 3200, 310, 5, npc.rammer);
+				spawnSquad("birchanian_glider", 3900, 3300, 310, 5, npc.rammer);
+			}
+		}
+	);
 			// 1.großer Krieg Cuba vs Birch 2. Tonium Farming + Ophian Krieg 3. Untergang Quba 4. Birchians finish cluster colony
 
 	

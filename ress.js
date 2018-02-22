@@ -44,6 +44,7 @@ images = {
 	chestanian_glider : "ships",
 	chestanian_quintalglider : "ships",
 	birchanian_glider : "ships",
+	birchanian_fortress_ai : "ships",
 	cylon_basestar : "ships",
 	helon_baseship_mkii : "ships",
 	helon_raider_mkiii : "ships",

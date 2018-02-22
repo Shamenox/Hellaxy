@@ -142,9 +142,11 @@ function setupControls(){
 	}
 	
 	npc.turret = function(){
-		if (this.nextShip("anythingElse", 500) !== false){
-			this.pointAt(this.nextShip("anythingElse", 400));
-			if (this.pointsAt(this.nextShip("anythingElse", 400)) || this.a === 0) {
+		var trgt = this.nextShip("anythingElse");
+		if (trgt !== false){
+			this.pointAt(trgt);
+			this.turn();
+			if (this.pointsAt(trgt)) {
 				this.fire(1);
 				this.fire(2);
 				this.fire(3);
