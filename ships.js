@@ -52,7 +52,7 @@ class Ship {
 	}
 	
 	
-	act(place){
+	act(){
 		var SECTOR = this.sector;
 		if (this.hp < 1) this.explode();
 		if (this.ctrl !== "none") this.ctrl();
@@ -72,7 +72,7 @@ class Ship {
 		}
 		for (var h = 0; h < SECTOR.portals.length; h++){
 			if (this.collidesWith(SECTOR.portals[h])){
-				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle, place);
+				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle);
 			}
 		}
 	}
@@ -120,8 +120,8 @@ class Ship {
 	
 	
 	dec(){
-		if (this.angle < 180 && this.vx > 0 || this.angle > 180 && this.vx < 0) this.vx -= Math.cos((this.angle - 90) * Math.PI / 180) * this.a;
-		if (this.angle.between(90, 270) && this.vy < 0 || !this.angle.between(90, 270) && this.vy > 0) this.vy -= Math.cos(this.angle * Math.PI / 180) * this.a;
+		if (this.vx !== 0) this.vx = this.vx * 0.982;
+		if (this.vy !== 0) this.vy = this.vy * 0.982;
 	}
 	
 	
@@ -233,12 +233,12 @@ class Ship {
 	}
 	
 	
-	transferTo(sector, atX, atY, atAngle, place){
+	transferTo(sector, atX, atY, atAngle){
 		var neuerTransfer = this.clone();
 		sector = Hellaxy.sectors[sector];
 		neuerTransfer.sector = sector;
-		neuerTransfer.x = atX + Math.floor((Math.random() * 20) - 10);
-		neuerTransfer.y = atY + Math.floor((Math.random() * 20) - 10);
+		neuerTransfer.x = atX;
+		neuerTransfer.y = atY;
 		neuerTransfer.angle = atAngle;
 		sector.ships.push(neuerTransfer);
 		if (this.ctrl === player1){
@@ -246,9 +246,30 @@ class Ship {
 			Hellaxy.sector = sector;
 			projectile.splice(0, projectile.length);
 		}
-		if (place !== undefined) place--;
 		this.sector.ships.splice(this.ID, 1);
 		this.sector.refreshIDs();
+		var klon = sector.ships[sector.ships.length - 1];
+		for (var r = 0; r < sector.ships.length -1; r++){
+			if (klon.collidesWith(sector.ships[r])){
+				while (klon.collidesWith(sector.ships[r])){
+					klon.x -= 50;
+				}
+			}
+		}
+		for (var p = 0; p < sector.portals.length; p++){
+			if (klon.collidesWith(sector.portals[p])){
+				while (klon.collidesWith(sector.ships[r])){
+					klon.x += 50;
+				}
+				for (var r = 0; r < sector.ships.length -1; r++){
+					if (klon.collidesWith(sector.ships[r])){
+						while (klon.collidesWith(sector.ships[r])){
+							klon.x += 50;
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	

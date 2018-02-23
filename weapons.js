@@ -28,7 +28,7 @@ class Weapon {
 		neuesProjektil.angle = this.ship.angle
 		neuesProjektil.x = this.ship.x;
 		neuesProjektil.y = this.ship.y;
-		neuesProjektil.v = this.pen * 10;
+		neuesProjektil.v = this.pen * 5;
 		neuesProjektil.emitter = this.ship;
 		neuesProjektil.hits = function (obj) {
 			if (this.emitter === obj) return false; //Prüfen ob Ziel das eigene Schiff ist
