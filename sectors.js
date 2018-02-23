@@ -129,9 +129,9 @@ class Sector{
 	
 	
 	spawnAsteroids(posX, posY, width, height){
-		for (var i = 0; i < width / 80; i++){
-			for (var h = 0; h < height / 80; h++){
-				this.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
+		for (var i = 0; i < width / 90; i++){
+			for (var h = 0; h < height / 90; h++){
+				this.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 90 + Math.floor((Math.random() * 50) - 25), posY + h * 90 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
 			}
 		}
 	}

@@ -79,6 +79,7 @@ function setupScreens(){
 		Helon.ctx.fillText("Special Abilities = 1 - 3", 100,450);
 		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,500);
 		Helon.ctx.fillText("Point at cursor / Show targets direction = Left mouse button", 100,550);
+		Helon.ctx.fillText("Zoom in / out = + / -", 100,600);
 		button(400, 650, 480, 50, "Back", "yellow", function(){setScreen("menue");});
 	});
 	
