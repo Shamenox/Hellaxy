@@ -14,7 +14,7 @@ html, body {
 }
 
 .updatesLink {
-    font-size: calc(1vw + 3vh);
+    font-size: calc(1vw + 1vh);
     color: #ffff00;
     font-family: "Consolas";
     position: absolute;
