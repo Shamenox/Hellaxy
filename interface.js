@@ -186,46 +186,46 @@ function setupScreens(){
 
 
 function GUI(of) {
-	if (of !== undefined){
+	if (exists(of)){
 		Helon.ctx.fillStyle = "grey";
-		Helon.ctx.fillRect(0,600,1280,120);
+		Helon.ctx.fillRect(0,960,1920,120);
 		Helon.ctx.fillStyle = "white";
-		Helon.ctx.fillRect(9,609,102,102);
+		Helon.ctx.fillRect(9,969,102,102);
 		Helon.ctx.strokeStyle = "black";
 		Helon.ctx.lineWidth = 10;
-		Helon.ctx.strokeRect(9,609,1262,102);
-		Helon.ctx.strokeRect(9,609,102,102);
-		Helon.ctx.drawImage(of.skin, 14, 614, 92, 92);
+		Helon.ctx.strokeRect(9,969,1902,102);
+		Helon.ctx.strokeRect(9,969,102,102);
+		Helon.ctx.drawImage(of.skin, 14, 974, 92, 92);
 		Helon.ctx.fillStyle = "black";
-		if (of.maxshield !== 0) Helon.ctx.fillText("Shield:", 120, 645);
-		Helon.ctx.fillText("Structure:", 120, 685);
+		if (of.maxshield !== 0) Helon.ctx.fillText("Shield:", 120, 1005);
+		Helon.ctx.fillText("Structure:", 120, 1045);
 		Helon.ctx.fillStyle = "red";
-		if (of.maxshield !== 0) Helon.ctx.fillRect(260, 625, 200, 24);
-		Helon.ctx.fillRect(260, 665, 200, 24);
+		if (of.maxshield !== 0) Helon.ctx.fillRect(300, 985, 200, 24);
+		Helon.ctx.fillRect(300, 1025, 200, 24);
 		Helon.ctx.fillStyle = "blue";
-		if (of.shield !== 0) Helon.ctx.fillRect(260, 625, 200 * (of.shield / of.maxshield), 24);
+		if (of.shield !== 0) Helon.ctx.fillRect(300, 985, 200 * (of.shield / of.maxshield), 24);
 		Helon.ctx.fillStyle = "green";
-		Helon.ctx.fillRect(260, 665, 200 * (of.hp / of.mass), 24);
+		Helon.ctx.fillRect(300, 1025, 200 * (of.hp / of.mass), 24);
 		Helon.ctx.lineWidth = 4;
-		if (of.shield !== 0) Helon.ctx.strokeRect(260, 625, 200, 24);
-		Helon.ctx.strokeRect(260, 665, 200, 24);
+		if (of.shield !== 0) Helon.ctx.strokeRect(300, 985, 200, 24);
+		Helon.ctx.strokeRect(300, 1025, 200, 24);
 		Helon.ctx.lineWidth = 2;
 		Helon.ctx.fillStyle = "black";
-		if (of.shield !== 0) Helon.ctx.fillText(of.shield, 270, 645);
-		Helon.ctx.fillText(of.hp, 270, 685);
-		Helon.ctx.fillText("=>" + Hellaxy.sector.ID + " Sector", 1050 , 635);
-		Helon.ctx.fillText("  X:" + Math.round(of.x) + " Y:" + Math.round(of.y), 1050 , 665);
+		if (of.shield !== 0) Helon.ctx.fillText(of.shield, 310, 1005);
+		Helon.ctx.fillText(of.hp, 310, 1045);
+		Helon.ctx.fillText("=>" + Hellaxy.sector.ID + " Sector", 1050 , 995);
+		Helon.ctx.fillText("  X:" + Math.round(of.x) + " Y:" + Math.round(of.y), 1050 , 1025);
 		if (of.wp1 !== undefined) {
-			Helon.ctx.fillText(of.wp1.designation + ":", 470, 635);
-			Helon.ctx.fillText(of.wp1.ammo, 490 + Helon.ctx.measureText(of.wp1.designation).width, 635);
+			Helon.ctx.fillText(of.wp1.designation + ":", 470, 995);
+			Helon.ctx.fillText(of.wp1.ammo, 490 + Helon.ctx.measureText(of.wp1.designation).width, 995);
 		}
 		if (of.wp2 !== undefined) {
-			Helon.ctx.fillText(of.wp2.designation + ":", 470, 665);
-			Helon.ctx.fillText(of.wp2.ammo, 490 + Helon.ctx.measureText(of.wp2.designation).width, 665);
+			Helon.ctx.fillText(of.wp2.designation + ":", 470, 1025);
+			Helon.ctx.fillText(of.wp2.ammo, 490 + Helon.ctx.measureText(of.wp2.designation).width, 1025);
 		}
 		if (of.wp3 !== undefined) {
-			Helon.ctx.fillText(of.wp3.designation + ":", 470, 695);
-			Helon.ctx.fillText(of.wp3.ammo, 490 + Helon.ctx.measureText(of.wp3.designation).width, 695);
+			Helon.ctx.fillText(of.wp3.designation + ":", 470, 1335);
+			Helon.ctx.fillText(of.wp3.ammo, 490 + Helon.ctx.measureText(of.wp3.designation).width, 1335);
 		}
 		Helon.ctx.strokeStyle = "yellow";
 	} 

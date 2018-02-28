@@ -163,8 +163,8 @@ class Sector{
 	
 	
 	displayBg(){
-		for (var posY = 0; posY < 800; posY += 100 * Hellaxy.scale){
-			for (var posX = 0; posX < 1380; posX += 100 * Hellaxy.scale){
+		for (var posY = 0; posY < 1200; posY += 100 * Hellaxy.scale){
+			for (var posX = 0; posX < 2000; posX += 100 * Hellaxy.scale){
 				Helon.ctx.drawImage(this.bg, posX - (this.offset.x * Hellaxy.scale % 100), posY - (this.offset.y * Hellaxy.scale % 100), 100 * Hellaxy.scale, 100 * Hellaxy.scale);
 			}
 		}
@@ -214,16 +214,16 @@ class Sector{
 	
 	
 	adjustOffset(){
-		if (this.offset.x > this.width - 1280 / Hellaxy.scale) this.offset.x = this.width - 1280 / Hellaxy.scale;
-		if (this.offset.y > this.height - 720 / Hellaxy.scale) this.offset.y = this.height - 720 / Hellaxy.scale;
+		if (this.offset.x > this.width - 1920 / Hellaxy.scale) this.offset.x = this.width - 1920 / Hellaxy.scale;
+		if (this.offset.y > this.height - 980 / Hellaxy.scale) this.offset.y = this.height - 980 / Hellaxy.scale;
 		if (this.offset.x < 0) this.offset.x = 0;
 		if (this.offset.y < 0) this.offset.y = 0;
 	}
 	
 	
 	focus(on){
-		this.offset.x = on.x - 640 / Hellaxy.scale;
-		this.offset.y = on.y - 360 / Hellaxy.scale;
+		this.offset.x = on.x - 860 / Hellaxy.scale;
+		this.offset.y = on.y - 540 / Hellaxy.scale;
 		this.adjustOffset();
 	}
 	
