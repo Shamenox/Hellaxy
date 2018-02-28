@@ -145,7 +145,7 @@ function setupScreens(){
 				{button(600, posy - 36, 180, 48, "Continue", "yellow", function(){startCampaign(of.designation)});};
 			}
 			else {
-				Helon.ctx.fillText("Complete!", 500, posy);
+				Helon.ctx.fillText("Complete!", 600, posy);
 			}
 		}
 		button(900,posy - 36, 180, 48, "New", "yellow", function(){of.at = 0; startCampaign(of.designation)});

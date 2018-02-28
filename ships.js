@@ -212,6 +212,7 @@ class Ship {
 	
 	
 	pointFrom(toPointFrom){ // Festlegen eines Zielwinkels
+		if (typeof toPointfrom !== "object") return;
 		this.aim = get360(this.angleTowards(toPointFrom) + 180);
 	}
 	

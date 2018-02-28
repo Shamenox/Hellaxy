@@ -156,12 +156,18 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			dmgd : false,
 		},
 		function(){
-			if (player1ship.hp < 2400 && this.conditions.dmgd === false ){
+			if (player1ship.hp < 2400 && this.conditions.dmgd === false){
+				this.conditions.dmgd = true;
 				addMsg("Thats it, there is no hope for the Planet...");
 				addMsg("We have no other choice, please forgive us.");
 				addMsg("Start the FTL-engines!");
-				player1ship.ctrl = function(){this.pointFrom(this.nextShip("ophianic")); this.a = 1; this.turn(); this.acc();};
-				this.conditions.dmgd = true;
+				player1ship.ctrl = function(){
+					this.pointFrom(this.nextShip("ophianic"));
+					this.a = 1;
+					this.turn();
+					this.hp = 3000;
+					this.acc();
+				}
 			}
 		}
 	);
@@ -397,10 +403,9 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			destroyed : false,
 		},
 		function(){
-			if (Hellaxy.sector.ships.length < 15 && !this.conditions.destroyed){
-				spawnSquad("birchanian_glider", 4000, 3200, 310, 5, npc.rammer);
-				spawnSquad("birchanian_glider", 4200, 3200, 310, 5, npc.rammer);
-				spawnSquad("birchanian_glider", 3900, 3300, 310, 5, npc.rammer);
+			if (Hellaxy.sector.ships.length < 18 && !this.conditions.destroyed){
+				spawnFront("y", "birchanian_glider", 4000, 3200, 310, 5, npc.rammer);
+				spawnFront("x", "birchanian_glider", 4050, 3200, 310, 8, npc.rammer);
 			}
 		}
 	);

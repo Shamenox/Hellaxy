@@ -222,7 +222,7 @@ class Sector{
 	
 	
 	focus(on){
-		this.offset.x = on.x - 860 / Hellaxy.scale;
+		this.offset.x = on.x - 960 / Hellaxy.scale;
 		this.offset.y = on.y - 540 / Hellaxy.scale;
 		this.adjustOffset();
 	}

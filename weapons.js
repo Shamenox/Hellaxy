@@ -74,7 +74,7 @@ class Weapon {
 						if (SHIP.maxShield > 0 && SHIP.maxShield < 1) SHIP.hp -= this.alpha * SHIP.shield;
 						for (var m = 0; m < Hellaxy.sector.ships.length; m++){
 							if (this.hits(Hellaxy.sector.ships[m])) {
-								if (this.pen >= Hellaxy.sector.ships[m].armour){
+								if (this.pen >= Hellaxy.sector.ships[m].armour && m !== h){
 									if (Hellaxy.sector.ships[m].shield <= 0) Hellaxy.sector.ships[m].hp -= this.alpha;
 									if (Hellaxy.sector.ships[m].shield > 1) Hellaxy.sector.ships[m].shield -= this.alpha;
 									if (Hellaxy.sector.ships[m].maxShield > 0 && Hellaxy.sector.ships[m].maxShield < 1) Hellaxy.sector.ships[m].hp -= this.alpha * Hellaxy.sector.ships[m].shield;
