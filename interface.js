@@ -109,19 +109,20 @@ function setupScreens(){
 			loop(Hellaxy.sector.theme);
 			Hellaxy.sector.display();
 			Helon.ctx.fillStyle = "grey";
-			Helon.ctx.fillRect(0,0,1280,80);
+			Helon.ctx.fillRect(0,0,1920,130);
 			Helon.ctx.fillStyle = "white";
-			Helon.ctx.fillRect(130,10,1140,60);
+			Helon.ctx.fillRect(170,10,1740,110);
 			Helon.ctx.strokeStyle = "black";
 			Helon.ctx.lineWidth = 10;
-			Helon.ctx.strokeRect(10,10,1255,60);
-			Helon.ctx.strokeRect(10,10,120,60);
+			Helon.ctx.strokeRect(10,10,1895,110);
+			Helon.ctx.strokeRect(10,10,160,110);
 			Helon.ctx.lineWidth = 2;
 			Helon.ctx.fillStyle = "black";
-			Helon.ctx.fillText("Intercom", 15, 50);
-			Helon.ctx.fillText("Continue(E)", 1115, 50);
+			Helon.ctx.fillText("Intercom", 18, 70);
+			Helon.ctx.fillText("Continue(E)", 1700, 100);
 			
-			Helon.ctx.fillText(Hellaxy.msgs[0].content, 145, 50);
+			if (Hellaxy.msgs.length > 1) Helon.ctx.fillText(Hellaxy.msgs[1].content, 190, 100);
+			Helon.ctx.fillText(Hellaxy.msgs[0].content, 190, 50);
 			
 			Helon.ctx.strokeStyle = "yellow";
 			Helon.ctx.fillStyle = "yellow";
@@ -141,20 +142,20 @@ function setupScreens(){
 		Helon.ctx.fillText(designation + ":   Lvl " + of.at, 200, posy);
 		if (of.at !== 0){
 			if (of.at !== of.levels.length){
-				{button(500, posy - 30, 150, 34, "Continue", "yellow", function(){startCampaign(of.designation)});};
+				{button(600, posy - 36, 180, 48, "Continue", "yellow", function(){startCampaign(of.designation)});};
 			}
 			else {
 				Helon.ctx.fillText("Complete!", 500, posy);
 			}
 		}
-		button(700,posy - 30, 150, 34, "New", "yellow", function(){of.at = 0; startCampaign(of.designation)});
+		button(900,posy - 36, 180, 48, "New", "yellow", function(){of.at = 0; startCampaign(of.designation)});
 	}
 	
 	createScreen("campaign", "blackscreen", "theme1", function(){
 		Helon.ctx.fillText("Campaign Mode", 850, 50);
 		Helon.ctx.fillText("Select your campaign:", 810, 80);
 		campaignLine("humanian", "Humanian", 150);
-		campaignLine("qubanian", "Qubanian", 200);
+		campaignLine("qubanian", "Qubanian", 220);
 		//campaignLine("chestanian", "Chestanian", 250);
 		button(660, 900, 600, 100, "Back", "yellow", function(){setScreen("menue");});
 	});
@@ -200,32 +201,47 @@ function GUI(of) {
 		if (of.maxshield !== 0) Helon.ctx.fillText("Shield:", 120, 1005);
 		Helon.ctx.fillText("Structure:", 120, 1045);
 		Helon.ctx.fillStyle = "red";
-		if (of.maxshield !== 0) Helon.ctx.fillRect(300, 985, 200, 24);
-		Helon.ctx.fillRect(300, 1025, 200, 24);
-		Helon.ctx.fillStyle = "blue";
-		if (of.shield !== 0) Helon.ctx.fillRect(300, 985, 200 * (of.shield / of.maxshield), 24);
+		if (of.maxshield !== 0) Helon.ctx.fillRect(300, 980, 200, 30);
+		Helon.ctx.fillRect(300, 1020, 200, 30);
+		Helon.ctx.fillStyle = "cyan";
+		if (of.shield !== 0) Helon.ctx.fillRect(300, 980, 200 * (of.shield / of.maxshield), 30);
 		Helon.ctx.fillStyle = "green";
-		Helon.ctx.fillRect(300, 1025, 200 * (of.hp / of.mass), 24);
+		Helon.ctx.fillRect(300, 1020, 200 * (of.hp / of.mass), 30);
 		Helon.ctx.lineWidth = 4;
-		if (of.shield !== 0) Helon.ctx.strokeRect(300, 985, 200, 24);
-		Helon.ctx.strokeRect(300, 1025, 200, 24);
+		if (of.shield !== 0) Helon.ctx.strokeRect(300, 980, 200, 30);
+		Helon.ctx.strokeRect(300, 1020, 200, 30);
 		Helon.ctx.lineWidth = 2;
 		Helon.ctx.fillStyle = "black";
 		if (of.shield !== 0) Helon.ctx.fillText(of.shield, 310, 1005);
 		Helon.ctx.fillText(of.hp, 310, 1045);
-		Helon.ctx.fillText("=>" + Hellaxy.sector.ID + " Sector", 1050 , 995);
-		Helon.ctx.fillText("  X:" + Math.round(of.x) + " Y:" + Math.round(of.y), 1050 , 1025);
+		Helon.ctx.fillText("=>" + Hellaxy.sector.ID + " Sector", 1600 , 1000);
+		Helon.ctx.fillText("  X:" + Math.round(of.x) + " Y:" + Math.round(of.y), 1600 , 1040);
 		if (of.wp1 !== undefined) {
-			Helon.ctx.fillText(of.wp1.designation + ":", 470, 995);
-			Helon.ctx.fillText(of.wp1.ammo, 490 + Helon.ctx.measureText(of.wp1.designation).width, 995);
+			Helon.ctx.fillText(of.wp1.designation + ":", 550, 1000);
+			Helon.ctx.fillText(of.wp1.ammo, 580 + Helon.ctx.measureText(of.wp1.designation).width, 1000);
+			if (!queue[of.wp1.designation + of.staticID]){
+				Helon.ctx.strokeStyle = "green";
+				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(of.wp1.designation).width, 1000);
+				Helon.ctx.strokeStyle = "black";
+			}
 		}
 		if (of.wp2 !== undefined) {
-			Helon.ctx.fillText(of.wp2.designation + ":", 470, 1025);
-			Helon.ctx.fillText(of.wp2.ammo, 490 + Helon.ctx.measureText(of.wp2.designation).width, 1025);
+			Helon.ctx.fillText(of.wp2.designation + ":", 550, 1030);
+			Helon.ctx.fillText(of.wp2.ammo, 580 + Helon.ctx.measureText(of.wp2.designation).width, 1030);
+			if (!queue[of.wp1.designation + of.staticID]){
+				Helon.ctx.strokeStyle = "green";
+				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(of.wp1.designation).width, 1030);
+				Helon.ctx.strokeStyle = "black";
+			}
 		}
 		if (of.wp3 !== undefined) {
-			Helon.ctx.fillText(of.wp3.designation + ":", 470, 1335);
-			Helon.ctx.fillText(of.wp3.ammo, 490 + Helon.ctx.measureText(of.wp3.designation).width, 1335);
+			Helon.ctx.fillText(of.wp3.designation + ":", 550, 1340);
+			Helon.ctx.fillText(of.wp3.ammo, 580 + Helon.ctx.measureText(of.wp3.designation).width, 1060);
+			if (!queue[of.wp1.designation + of.staticID]){
+				Helon.ctx.strokeStyle = "green";
+				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(of.wp1.designation).width, 1060);
+				Helon.ctx.strokeStyle = "black";
+			}
 		}
 		Helon.ctx.strokeStyle = "yellow";
 	} 

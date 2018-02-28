@@ -162,7 +162,7 @@ function display(obj){
 		y -= (obj.height/2 * Hellaxy.scale) + 14;
 		Helon.ctx.strokeRect(x, y, obj.width * Hellaxy.scale, 6);
 		Helon.ctx.fillRect(x, y, obj.width * (obj.hp / obj.mass) * Hellaxy.scale, 6);
-		Helon.ctx.fillStyle = "blue";
+		Helon.ctx.fillStyle = "cyan";
 		Helon.ctx.fillRect(x, y, obj.width * (obj.shield / obj.maxshield) * Hellaxy.scale, 6);
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillStyle = "yellow";

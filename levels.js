@@ -109,7 +109,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			}
 			if (!LEVEL.conditions.pile2 && player1ship.collidesWith(Hellaxy.planets.haufen2)){
 				addPlanet("haufen3", 4150, 1300);
-				addMsg("We were rigth, this celestial body consists of the exactly ");
+				addMsg("We were right, this celestial body consists of the exactly ");
 				addMsg("same material as the first one.");
 				addMsg("Get a sample from the last signal for final confirmation!");
 				this.target = Hellaxy.planets.haufen3;
@@ -154,14 +154,13 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		},
 		{
 			dmgd : false,
-			escaped : false,
 		},
 		function(){
 			if (player1ship.hp < 2400 && this.conditions.dmgd === false ){
 				addMsg("Thats it, there is no hope for the Planet...");
 				addMsg("We have no other choice, please forgive us.");
 				addMsg("Start the FTL-engines!");
-				player1ship.ctrl = function(){this.pointFrom(this.nextShip("ophianic")); this.a = 1; this.turn(); this.acc(); setTimeout(function (){LEVEL.conditions.escaped = true;}, 1000);};
+				player1ship.ctrl = function(){this.pointFrom(this.nextShip("ophianic")); this.a = 1; this.turn(); this.acc();};
 				this.conditions.dmgd = true;
 			}
 		}
