@@ -64,10 +64,10 @@ function button(posx, posy, width, height, tag, colour, action){
 function bar(from){
 	Helon.ctx.fillStyle = "yellow";
 	Helon.ctx.strokeStyle = "yellow";
-	Helon.ctx.fillText("Loading... please wait", 200, 200);
-	Helon.ctx.strokeRect(40,400,1200,100);
-	Helon.ctx.fillRect(50,410,1180*(from.loaded/from.quantity),80);
-	Helon.ctx.strokeRect(50,410,1180*(from.loaded/from.quantity),80);
+	Helon.ctx.fillText("Loading... please wait", 400, 300);
+	Helon.ctx.strokeRect(80,400,1760,120);
+	Helon.ctx.fillRect(90,410,1750*(from.loaded/from.quantity),100);
+	Helon.ctx.strokeRect(90,410,1750*(from.loaded/from.quantity),100);
 }
 
 
@@ -104,7 +104,7 @@ function resetAudio(){
 
 
 function muteButton(){
-	button(1200, 0, 80, 80, " ", "yellow", function(){if (intervalReact(true)){
+	button(1840, 0, 80, 80, " ", "yellow", function(){if (intervalReact(true)){
 		if (Helon.muted){
 			Helon.muted = false;
 		} else{
@@ -112,8 +112,8 @@ function muteButton(){
 			resetAudio();
 		}
 	}})
-	Helon.ctx.drawImage(Helon.ress.images.speaker, 1206, 6, 68, 68);
-	if (Helon.muted) Helon.ctx.drawImage(Helon.ress.images.cross, 1206, 6, 68, 68);
+	Helon.ctx.drawImage(Helon.ress.images.speaker, 1846, 6, 68, 68);
+	if (Helon.muted) Helon.ctx.drawImage(Helon.ress.images.cross, 1846, 6, 68, 68);
 }
 
 

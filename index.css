@@ -1,0 +1,26 @@
+.canvas {
+    cursor: none;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.updatesLink {
+    font-size: calc(1vw + 1vh);
+    color: #ffff00;
+    font-family: "Consolas";
+    position: absolute;
+    bottom: 0;
+    /* remove comment for center
+    left: 0;
+    right: 0;
+    */
+}

@@ -144,7 +144,21 @@ function spawnSquad(designation, atX, atY, atAngle, quantity, ctrl, abgang, inSe
 
 
 
+function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, abgang, inSector){
+	for (var q = 0; q < quantity; q++){
+		spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector);
+		if (dimension === "x") atX += Hellaxy.ships[designation].width * 2;
+		if (dimension === "y") atY += Hellaxy.ships[designation].height * 2;
+	}
+}
+
+
+
 function display(obj){
+	if (obj.x < Hellaxy.sector.offset.x - 100  / Hellaxy.scale) return;
+	if (obj.x > Hellaxy.sector.offset.x + 2200  / Hellaxy.scale) return;
+	if (obj.y < Hellaxy.sector.offset.y - 100  / Hellaxy.scale) return;
+	if (obj.y > Hellaxy.sector.offset.y + 1200  / Hellaxy.scale) return;
 	var x = (obj.x - Hellaxy.sector.offset.x) * Hellaxy.scale;
 	var y = (obj.y - Hellaxy.sector.offset.y) * Hellaxy.scale;
 	Helon.ctx.translate(x, y); // Drehung
@@ -162,7 +176,7 @@ function display(obj){
 		y -= (obj.height/2 * Hellaxy.scale) + 14;
 		Helon.ctx.strokeRect(x, y, obj.width * Hellaxy.scale, 6);
 		Helon.ctx.fillRect(x, y, obj.width * (obj.hp / obj.mass) * Hellaxy.scale, 6);
-		Helon.ctx.fillStyle = "blue";
+		Helon.ctx.fillStyle = "cyan";
 		Helon.ctx.fillRect(x, y, obj.width * (obj.shield / obj.maxshield) * Hellaxy.scale, 6);
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillStyle = "yellow";

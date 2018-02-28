@@ -163,7 +163,7 @@ function setupControls(){
 
 	npc.ophianian_annector = function(){
 		this.turn();
-		var trgt = this.nextShip("humanian", 500);
+		var trgt = this.nextShip("humanian");
 		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		if (trgt === false){
 			this.follow(Hellaxy.planets.humania, 50);
