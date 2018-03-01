@@ -15,8 +15,8 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			//spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
 			//spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
 			//spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
-			spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
-			spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
+			//spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
+			//spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			//spawnAsteroids(600, 600, 400, 400);
 		},
 		{

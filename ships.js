@@ -120,8 +120,9 @@ class Ship {
 	
 	
 	dec(){
-		if (this.vx !== 0) this.vx = this.vx * 0.982;
-		if (this.vy !== 0) this.vy = this.vy * 0.982;
+		var factor = (1 - this.a * 0.5)
+		if (this.vx !== 0) this.vx = this.vx * factor;
+		if (this.vy !== 0) this.vy = this.vy * factor;
 	}
 	
 	
@@ -161,21 +162,22 @@ class Ship {
 	
 	nextShip(search, range){
 		if (range === undefined) range = 1000;
-		for (var h = 0; h <= range; h +=5){
-			for (var k = 0; k < this.sector.ships.length; k++){
-				if (this.distanceTo(this.sector.ships[k]) <= h && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
-					if (search === undefined) return Hellaxy.sector.ships[k];
+		var pot = false;
+		for (var k = 0; k < this.sector.ships.length; k++){
+			if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
+				if (pot === false || this.distanceTo(this.sector.ships[k]) < this.distanceTo(pot)){
+					if (search === undefined) pot = Hellaxy.sector.ships[k];
 					if (search === "anythingElse"){
-						if (this.sector.ships[k].fraction !== this.fraction) return Hellaxy.sector.ships[k];
+						if (this.sector.ships[k].fraction !== this.fraction) pot = Hellaxy.sector.ships[k];
 					}
 					else {
-						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) return Hellaxy.sector.ships[k];
-						if (search !== this.fraction && search === this.sector.ships[k].fraction) return Hellaxy.sector.ships[k];
+						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) pot = Hellaxy.sector.ships[k];
+						if (search !== this.fraction && search === this.sector.ships[k].fraction) pot = Hellaxy.sector.ships[k];
 					}
 				}
 			}
 		}
-		return false
+		return pot;
 	}
 	
 	
