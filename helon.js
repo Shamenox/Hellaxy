@@ -29,29 +29,26 @@ window.onload = function(){
 	Helon.ctx.fillRect(0, 0, 1920, 1080);
 	Helon.ctx.fillStyle = "yellow";
 	Helon.ctx.font = "32px Consolas";
-	Helon.ctx.fillText("Running on Helon Engine", 200, 600);
-	setTimeout(Helon.loop, 2000);
+	Helon.ctx.fillText("Helon Engine", 200, 600);
 	
-	
-	for (var i = 0; i < audibles.length; i++){
-		Helon.ress.audio[audibles[i]] = new Audio("ress/audio/" + audibles[i] + ".mp3");
-	}
-	for (var a in images){
-		Helon.ress.images.quantity += 1;
-		Helon.ress.images[a] = new Image();
-		Helon.ress.images[a].src = "ress/" + images[a] + "/" + a + ".png";
-		Helon.ress.images[a].addEventListener("load",function(e){
-			Helon.ress.images.loaded +=1;
-			if (Helon.ress.images.loaded === Helon.ress.images.quantity) {
-				console.log(Helon.ress.images);
-				SPRITE = Helon.ress.images;
-				if (typeof Appstart !== "function"){
-					alert("No executable Application found");
-				}
-				else{
+	if (typeof Appstart === "function"){
+		setTimeout(Helon.loop, 2000);
+		for (var i = 0; i < audibles.length; i++){
+			Helon.ress.audio[audibles[i]] = new Audio("ress/audio/" + audibles[i] + ".mp3");
+		}
+		for (var a in images){
+			Helon.ress.images.quantity += 1;
+			Helon.ress.images[a] = new Image();
+			Helon.ress.images[a].src = "ress/" + images[a] + "/" + a + ".png";
+			Helon.ress.images[a].addEventListener("load",function(e){
+				Helon.ress.images.loaded +=1;
+				if (Helon.ress.images.loaded === Helon.ress.images.quantity) {
+					console.log(Helon.ress.images);
+					SPRITE = Helon.ress.images;
 					Appstart();
 				}
-			}
-		})
+			})
+		}
 	}
+	else alert("No executable Application found");
 }
