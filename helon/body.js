@@ -25,27 +25,39 @@ class Body{
 	
 	
 	draw(){
-
-		Helon.ctx.translate(this.x, this.y); // Drehung
+		
+		if (this.x < this.screen.offsetX - 100  / this.screen.scale) return;
+		if (this.x > this.screen.offsetX + 2200  / this.screen.scale) return;
+		if (this.y < this.screen.offsetY - 100  / this.screen.scale) return;
+		if (this.y >this.screen.offsetY + 1200  / this.screen.scale) return;
+		var x = (this.x - this.screen.offsetX) * this.screen.scale;
+		var y = (this.y - this.screen.offsetY) * this.screen.scale;
+		Helon.ctx.translate(x, y); // Drehung
 		Helon.ctx.rotate(this.angle * Math.PI / 180);
-		Helon.ctx.translate(-this.x, -this.y);
-		Helon.ctx.drawImage(this.skin, this.x - 0.5*this.width, this.y - 0.5*this.height, this.width, this.height); // Display
-		Helon.ctx.translate(this.x, this.y); // Rückdrehung
+		Helon.ctx.translate(-x, -y);
+		Helon.ctx.drawImage(this.skin, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
+		Helon.ctx.translate(x, y); // Rückdrehung
 		Helon.ctx.rotate(-this.angle * Math.PI / 180);
-		Helon.ctx.translate(-this.x, -this.y);
+		Helon.ctx.translate(-x, -y);
 	}
 	
 	
 	
 	drawAs(that){
-
-		Helon.ctx.translate(this.x, this.y); // Drehung
+		
+		if (this.x < this.screen.offsetX - 100  / this.screen.scale) return;
+		if (this.x > this.screen.offsetX + 2200  / this.screen.scale) return;
+		if (this.y < this.screen.offsetY - 100  / this.screen.scale) return;
+		if (this.y >this.screen.offsetY + 1200  / this.screen.scale) return;
+		var x = (this.x - this.screen.offsetX) * this.screen.scale;
+		var y = (this.y - this.screen.offsetY) * this.screen.scale;
+		Helon.ctx.translate(x, y); // Drehung
 		Helon.ctx.rotate(this.angle * Math.PI / 180);
-		Helon.ctx.translate(-this.x, -this.y);
-		Helon.ctx.drawImage(that, this.x - 0.5*that.width, this.y - 0.5*that.height, that.width, that.height); // Display
-		Helon.ctx.translate(this.x, this.y); // Rückdrehung
+		Helon.ctx.translate(-x, -y);
+		Helon.ctx.drawImage(this.skin, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
+		Helon.ctx.translate(x, y); // Rückdrehung
 		Helon.ctx.rotate(-this.angle * Math.PI / 180);
-		Helon.ctx.translate(-this.x, -this.y);
+		Helon.ctx.translate(-x, -y);
 	}
 	
 	

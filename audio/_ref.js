@@ -9,5 +9,6 @@ var audio_ref =		//Only use "\" to break lines or seperate arguments!
 	theme_central\
 	theme_omar\
 	theme_imperial\
+	theme_outer\
 	explosion1"
 ;

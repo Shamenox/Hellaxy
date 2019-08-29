@@ -11,6 +11,7 @@ Helon.apps = [];
 Helon.app = function(){};
 Helon.screens = [];
 Helon.screen = new Screen();
+Helon.previousScreenID = "title";
 
 
 
@@ -18,13 +19,22 @@ Helon.screen = new Screen();
 
 
 function setScreen(ID){
-	if (exists(Helon.screens[ID])) Helon.screen = Helon.screens[ID];
+	if (exists(Helon.screens[ID])){
+		Helon.previousScreenID = Helon.screen.ID;
+		Helon.screen = Helon.screens[ID];
+	}
 }
 
 
 
 Helon.createScreen = function(ID, bg, theme, action){
 	Helon.screens[ID] = new Screen(ID, bg, theme, action);
+}
+
+
+
+Helon.back = function(){
+	setScreen(Helon.previousScreenID);
 }
 
 

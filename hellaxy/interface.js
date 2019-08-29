@@ -16,7 +16,7 @@ function setupHellaxyScreens(){
 		Helon.ctx.fillText("Main Menu", 810, 160);
 		Helon.ctx.font = "32px Consolas";
 		if (intervalReact(key.esc)) setScreen("title");
-		button(660, 300, 600, 100, "Quicktest Mode", "yellow", function(){/*startCampaign("quicktest")*/})
+		button(660, 300, 600, 100, "Quicktest Mode", "yellow", function(){Hellaxy.campaigns.quicktest.start()})
 		button(660, 450, 600, 100, "Campaign Mode", "yellow", function(){/*setScreen("campaign");*/})
 		button(660, 600, 600, 100, "Free-Roam Mode", "yellow", function(){/*setScreen("freeroam");*/})
 		button(660, 750, 600, 100, "Controls", "yellow", function(){setScreen("controls");})
@@ -44,9 +44,9 @@ function setupHellaxyScreens(){
 	
 	
 	new Screen("paused", "blank", "none", function(){
-		Hellaxy.sector.display();
-		button(660, 400, 600, 100, "Resume to game", "yellow", function(){/*Hellaxy.task = campaignManager;*/});
-		button(660, 600, 600, 100, "Return to menue", "yellow", function(){/*Hellaxy.campaign.levels[Hellaxy.campaign.at].cancel(); setScreen("menue");*/});
+		Helon.screens[Helon.previousScreenID].display();
+		button(660, 400, 600, 100, "Resume to game", "yellow", function(){Helon.back()});
+		button(660, 600, 600, 100, "Return to menue", "yellow", function(){Hellaxy.level.cancel();});
 		muteButton();
 
 		Helon.ctx.lineWidth = 8;

@@ -1,8 +1,8 @@
 var Hellaxy = new App();
+	Hellaxy.sector = {};
 	Hellaxy.msgs = [];
 	Hellaxy.campaign = {};
 	Hellaxy.level = {};
-	Hellaxy.sector = {};
 	Hellaxy.ships = {};
 	Hellaxy.sectors = {};
 	Hellaxy.campaigns = {};
@@ -11,7 +11,9 @@ var Hellaxy = new App();
 	Hellaxy.locations = {};
 
 
-Hellaxy.main = function(){	
+Hellaxy.main = function(){
+	Hellaxy.sector = Helon.screen;
+	if (exists(Hellaxy.level.check)) Hellaxy.level.check();
 	//Hellaxy.task();
 }
 
@@ -23,8 +25,7 @@ Hellaxy.startUp = function(){
 	//setupControls();
 	//setupShips();
 	setupSectors();
-	//setupLevels();
-	//setScreen("title");
+	setupLevels();
 	//setCampaign("quicktest");
 	//Hellaxy.task = screenManager;
 	//skipTo("qubanian", 3);
@@ -140,19 +141,6 @@ function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, a
 
 
 function display(obj){
-	if (obj.x < Hellaxy.sector.offset.x - 100  / Hellaxy.scale) return;
-	if (obj.x > Hellaxy.sector.offset.x + 2200  / Hellaxy.scale) return;
-	if (obj.y < Hellaxy.sector.offset.y - 100  / Hellaxy.scale) return;
-	if (obj.y > Hellaxy.sector.offset.y + 1200  / Hellaxy.scale) return;
-	var x = (obj.x - Hellaxy.sector.offset.x) * Hellaxy.scale;
-	var y = (obj.y - Hellaxy.sector.offset.y) * Hellaxy.scale;
-	Helon.ctx.translate(x, y); // Drehung
-	Helon.ctx.rotate(obj.angle * Math.PI / 180);
-	Helon.ctx.translate(-x, -y);
-	Helon.ctx.drawImage(obj.skin, (x - obj.width/2 * Hellaxy.scale), (y - obj.height/2 * Hellaxy.scale), obj.width * Hellaxy.scale, obj.height * Hellaxy.scale); // Display
-	Helon.ctx.translate(x, y); // Rückdrehung
-	Helon.ctx.rotate(-obj.angle * Math.PI / 180);
-	Helon.ctx.translate(-x, -y);
 	
 	if (obj.hp !== undefined && obj.hp > 0){
 		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
