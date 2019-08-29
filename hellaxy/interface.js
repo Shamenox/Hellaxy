@@ -1,39 +1,3 @@
-class Screen{
-	constructor(ID, bg, theme, action){
-		this.ID = ID;
-		this.bg = Helon.ress.images[bg];
-		this.act = action;
-		if (theme !== undefined && theme !== "none"){
-			this.theme = Helon.ress.audio[theme];
-		}
-		else {
-			this.theme = "none";
-		}
-	}
-	
-	act(){};
-	
-	display(){
-		Helon.ctx.drawImage(this.bg, 0, 0);
-		loop(this.theme);
-		this.act();
-	}
-}
-
-
-function createScreen(ID, bg, theme, action){
-	Hellaxy.screens[ID] = new Screen(ID, bg, theme, action);
-}
-
-
-function setScreen(ID){
-	Hellaxy.screen = Hellaxy.screens[ID];
-}
-
-function screenManager(){
-	Hellaxy.screen.display();
-}
-
 
 function addMsg(content){
 	var neueMsg = {};
@@ -42,7 +6,7 @@ function addMsg(content){
 }
 
 
-function setupScreens(){
+function setupHellaxyScreens(){
 
 	createScreen("title", "blackscreen", "theme1", function(){
 		Helon.ctx.font = "244px Consolas";

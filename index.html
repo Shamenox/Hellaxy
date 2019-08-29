@@ -1,31 +1,40 @@
-
 <!DOCTYPE html>
 <html>
 
 <head>
 	<link rel="stylesheet" href="index.css">
-	<script src="tools.js"></script>
-	<script src="ress.js"></script>
-	<script src="helon.js"></script>
-	<script src="input.js"></script>
-	<script src="interface.js"></script>
-	<script src="weapons.js"></script>
-	<script src="specials.js"></script>
-	<script src="ships.js"></script>
-	<script src="controls.js"></script>
-	<script src="sectors.js"></script>
-	<script src="campaigns.js"></script>
-	<script src="levels.js"></script>
-	<script src="hellaxy.js"></script>
+	<script src="helon/tools.js"></script>
+	<script src="images/_ref.js"></script>
+	<script src="audio/_ref.js"></script>
+	<script src="helon/body.js"></script>
+	<script src="helon/screen.js"></script>
+	<script src="helon/helon.js"></script>
+	<script src="helon/input.js"></script>
+	<script src="helon/apps.js"></script>
+	<!--  Add Scripts -->
+	
+	<script src="hellaxy/hellaxy.js"></script>
+	
+	
+	
+	
+	
 </head>
 
 <body bgcolor="#222222">
 
 	<Canvas class="canvas" id="Canvas" width="1920" height="1080"></Canvas>
 
-	<a href="http://shamenox.tumblr.com/" target="blank" class="updatesLink">
+	<a href="https://github.com/Shamenox" target="blank" class="updatesLink">
 		More Info & Latest News			
 	</a>
 </body>
 
+
+<script type="text/javascript">
+		var Canvas = document.getElementById("Canvas");
+		Helon.ctx = Canvas.getContext("2d");
+		Helon.start(); 
+</script>
+	
 </html>

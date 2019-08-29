@@ -1,49 +1,33 @@
-var Hellaxy = {
-	msgs : [],
-	screen : {},
-	screens : {},
-	campaign : {},
-	level : {},
-	sector : {},
-	ships : {},
-	sectors : {},
-	campaigns : {},
-	planets : {},
-	weapons : {},
-	projectiles : projectile,
-	locations : {},
-	scale : 1,
-};
+var Hellaxy = new App();
+	Hellaxy.msgs = [];
+	Hellaxy.campaign = {};
+	Hellaxy.level = {};
+	Hellaxy.sector = {};
+	Hellaxy.ships = {};
+	Hellaxy.sectors = {};
+	Hellaxy.campaigns = {};
+	Hellaxy.planets = {};
+	Hellaxy.weapons = {};
+	Hellaxy.locations = {};
 
 
-Hellaxy.loop = function(){
-	Hellaxy.Campaign = Hellaxy.campaign;  // Übergangslösung für neue groß-klein-Schreibung
-	Hellaxy.Sector = Hellaxy.sector;
-	Hellaxy.Screen = Hellaxy.screen;
-	var testmap = Hellaxy.sectors["testmap"];
-	var central_sector = Hellaxy.sectors["central"];
-	var omar_sector = Hellaxy.sectors["omar"];
-	var outer_sector = Hellaxy.sectors["outer"];
-	var imperial_sector = Hellaxy.sectors["imperial"];
-	
-	
-	Hellaxy.task();
+Hellaxy.main = function(){	
+	//Hellaxy.task();
 }
 
 
-function Appstart(){
-	setupScreens();
-	setupWeapons();
-	setupSpecials();
-	setupControls();
-	setupShips();
-	setupSectors();
-	setupLevels();
-	setScreen("title");
-	setCampaign("quicktest");
-	Hellaxy.task = screenManager;
+Hellaxy.startUp = function(){
+	setupHellaxyScreens();
+	//setupWeapons();
+	//setupSpecials();
+	//setupControls();
+	//setupShips();
+	//setupSectors();
+	//setupLevels();
+	//setScreen("title");
+	//setCampaign("quicktest");
+	//Hellaxy.task = screenManager;
 	//skipTo("qubanian", 3);
-	Helon.app = Hellaxy.loop;
 }
 
 
@@ -52,7 +36,7 @@ function Appstart(){
 
 
 //Methoden:
-
+/*
 function report(){
 	console.log("Campaign:", Hellaxy.campaign);
 	console.log("Level:", Hellaxy.level);
@@ -192,4 +176,4 @@ function zoomIn(){
 
 function zoomOut(){
 	if (intervalReact(Hellaxy.scale < 1.5, 250, "zoom")) Hellaxy.scale += 0.25;
-}
+} */

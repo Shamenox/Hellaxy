@@ -11,29 +11,22 @@
 	enter : false,
 };
 
-var cursor = { x : 0, y : 0, angle : 0};
+
+var cursor = new Body();
 var click = false;
-cursor.display = function(){
-	if (click){ 
-		Helon.ctx.translate(cursor.x, cursor.y); // Drehung
-		Helon.ctx.rotate(cursor.angle * Math.PI / 180);
-		Helon.ctx.translate(-(cursor.x), -(cursor.y));
-		Helon.ctx.drawImage(Helon.ress.images.arrow, cursor.x, cursor.y); // Display
-		Helon.ctx.translate(cursor.x, cursor.y); // Rückdrehung
-		Helon.ctx.rotate(-cursor.angle * Math.PI / 180);
-		Helon.ctx.translate(-(cursor.x), -(cursor.y));
-	}
-	else {
-		Helon.ctx.drawImage(Helon.ress.images.cursor, cursor.x - 16, cursor.y);
+function loadCursor(){
+	cursor.setSkin("cursor");
+	cursor.display = function(){
+		if (click){ 
+			cursor.drawAs(Helon.ress.images["arrow"]);
+		}
+		else {
+			cursor.draw();
+		}
 	}
 }
-cursor.angleTowards = function(angled){
-		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
-		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
-	}
-cursor.pointAt = function(da){
-	cursor.angle = cursor.angleTowards(da);
-}
+
+
 
 addEventListener("keydown", function(w) {
 	if (w.keyCode === 49) key.one = true;

@@ -8,8 +8,25 @@ Number.prototype.between = function(a, b) {
 
 
 
-function chance(per){
-	if (Math.floor(Math.random() * 100) <= per) return true;
+function setProp(par, deflt){
+	if (exists(par)){
+		return par;
+	}
+	else{
+		if (exists(deflt)){
+			return deflt;
+		}
+		else{
+			return null;
+			console.log("Alert: Could not set property. Null was set instead");
+		}
+	}
+}
+
+
+
+function chance(percentage){
+	if (Math.floor(Math.random() * 100) <= percentage) return true;
 	return false;
 }
 
@@ -18,6 +35,42 @@ function chance(per){
 function exists(obj){
 	if (obj !== undefined) return true;
 	return false;
+}
+
+
+
+function getImg(img){
+	if (Helon.ress.images.loaded === 0){
+		console.log("Error: No images loaded yet! Returned new image");
+		return new Image();
+	}
+	if (!exists(img)) img = "cross";
+	if (!exists(img.src)){
+		for (var a in Helon.ress.images){
+			if (a === img) img = Helon.ress.images[img];
+		}
+	}
+	if (!exists(img.src)){
+		console.log("Error: Missing image reference:", img);
+		img = Helon.ress.images["cross"];
+	}
+	return img;
+}
+
+
+
+function getAudio(aud){
+	if (!exists(aud) || aud === "none") return "none";
+	if (!exists(aud.src)){
+		for (var a in Helon.ress.images){
+			if (a === aud) aud = Helon.ress.audio[aud];
+		}
+	}
+	if (!exists(aud.src)){
+		console.log("Error: Missing audio reference:", aud);
+		aud = "none";
+	}
+	return aud;
 }
 
 
@@ -61,13 +114,12 @@ function button(posx, posy, width, height, tag, colour, action){
 
 
 
-function bar(from){
+function bar(x, y, width, height, ratio){
 	Helon.ctx.fillStyle = "yellow";
 	Helon.ctx.strokeStyle = "yellow";
-	Helon.ctx.fillText("Loading... please wait", 400, 300);
-	Helon.ctx.strokeRect(80,400,1760,120);
-	Helon.ctx.fillRect(90,410,1750*(from.loaded/from.quantity),100);
-	Helon.ctx.strokeRect(90,410,1750*(from.loaded/from.quantity),100);
+	Helon.ctx.strokeRect(x,y,width,height);
+	Helon.ctx.fillRect(x+10,y+10,width*ratio,height-20);
+	Helon.ctx.strokeRect(x+10,y+10,width*ratio,height-20);
 }
 
 
@@ -122,13 +174,10 @@ var queue = {};
 function intervalReact(trigger, delay, ID){
 	if (delay === undefined) delay = 500;
 	if (ID === undefined) ID = "react";
-	function react(){
-	queue[ID] = false;
-	}
 	if (trigger){
 		if (queue[ID] === false || queue[ID] === undefined){
 		queue[ID] = true;
-		setTimeout(react,delay);
+		setTimeout(function(){queue[ID] = false;},delay);
 		return true;
 		}
 	}
@@ -136,7 +185,7 @@ function intervalReact(trigger, delay, ID){
 }
 
 
-
+ /*
 var Animation = function(){
   this.isRunning = false;
   this.frames = [];
@@ -171,7 +220,6 @@ var Animation = function(){
   }).bind(this);
   
 
-  /*
 
   Beispiel
 
@@ -191,4 +239,3 @@ var Animation = function(){
   ctx.drawImage(geileAnimation.getCurrentFrame(), 250, 130);
 
   */
-}
