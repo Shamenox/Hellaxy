@@ -1,5 +1,5 @@
 class Screen{
-	constructor(ID, bg, theme, action, scale){
+	constructor(ID, bg, theme, action, scale){	//ID, bg, theme, action, scale
 		this.ID = setProp(ID, "Nameless screen " + Helon.screens.length);
 		this.scale = setProp(scale, 1);
 		this.offsetX = 0;
@@ -11,6 +11,8 @@ class Screen{
 		
 		Helon.screens[ID] = this;
 	}
+	
+	
 	
 	act(){};
 	
@@ -25,6 +27,14 @@ class Screen{
 	
 	set(){
 		Helon.screen = this;
+	}
+	
+	
+	
+	focus(on){
+		this.offsetX = on.x - 960 / this.scale;
+		this.offsetY = on.y - 540 / this.scale;
+		this.adjustOffset();
 	}
 	
 	

@@ -22,7 +22,7 @@ Hellaxy.startUp = function(){
 	//setupSpecials();
 	//setupControls();
 	//setupShips();
-	//setupSectors();
+	setupSectors();
 	//setupLevels();
 	//setScreen("title");
 	//setCampaign("quicktest");

@@ -18,7 +18,7 @@ Helon.screen = new Screen();
 
 
 function setScreen(ID){
-	Helon.screen = Helon.screens[ID];
+	if (exists(Helon.screens[ID])) Helon.screen = Helon.screens[ID];
 }
 
 
