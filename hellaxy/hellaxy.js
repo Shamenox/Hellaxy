@@ -20,9 +20,9 @@ Hellaxy.main = function(){
 
 Hellaxy.startUp = function(){
 	setupHellaxyScreens();
-	//setupWeapons();
+	setupWeapons();
 	//setupSpecials();
-	//setupControls();
+	setupControls();
 	//setupShips();
 	setupSectors();
 	setupLevels();
