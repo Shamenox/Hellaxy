@@ -28,6 +28,7 @@ Hellaxy.startUp = function(){
 	//setCampaign("quicktest");
 	//Hellaxy.task = screenManager;
 	//skipTo("qubanian", 3);
+	setScreen("title");
 }
 
 

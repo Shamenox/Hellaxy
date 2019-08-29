@@ -62,7 +62,7 @@ function getImg(img){
 function getAudio(aud){
 	if (!exists(aud) || aud === "none") return "none";
 	if (!exists(aud.src)){
-		for (var a in Helon.ress.images){
+		for (var a in Helon.ress.audio){
 			if (a === aud) aud = Helon.ress.audio[aud];
 		}
 	}

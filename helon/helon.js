@@ -76,7 +76,7 @@ Helon.setUp = function(){
 Helon.load = function(slot){
 	Helon.apps[slot].startUp();
 	Helon.app = Helon.apps[slot].main;
-	console.log("Application " + Helon.apps[slot].name + " started");
+	console.log("Application " + (0+1) + " started");
 }
 
 
