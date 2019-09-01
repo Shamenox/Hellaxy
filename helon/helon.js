@@ -51,6 +51,7 @@ Helon.listApps = function(){
 Helon.loop = function(){
 	Helon.app();
 	Helon.screen.display();
+	Helon.screen.physics();
 	cursor.display();
 	Helon.tics++;
 	requestAnimationFrame(Helon.loop);

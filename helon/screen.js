@@ -47,4 +47,14 @@ class Screen{
 		loop(this.theme);
 		this.act();
 	}
+	
+	
+	physics(){
+		for (var i = 0; i < this.bodies.length; i++){
+			this.bodies[i].x += this.bodies[i].vx;
+			this.bodies[i].y -= this.bodies[i].vy;
+			this.bodies[i].angle = get360(this.bodies[i].angle);
+			this.bodies[i].angle += this.bodies[i].vangle;
+		}
+	}
 }

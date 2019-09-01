@@ -6,12 +6,14 @@ class Body{
 		this.y = 0;
 		this.vx = 0;
 		this.vy = 0;
+		this.a = 0;
 		this.angle = 0;
 		this.vangle = 0;
 		this.skin = new Image();
+		this.mass = 1;
 		this.width = 0;
 		this.height = 0;
-		this.screen = new Screen();
+		this.screen = {};
 	}
 	
 	
@@ -70,8 +72,8 @@ class Body{
 	
 	angleTowards(angled){
 		if (this.x === angled.x && this.y === angled.y) return 0;
-		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
-		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
+		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 90);
+		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 270);
 	}
 	
 	
@@ -103,13 +105,6 @@ class Body{
 	
 	
 	overlaps(Suspect) {
-		if (this.skin === undefined || Suspect === undefined || this.fraction === Suspect.fraction) return false;
-		if (Suspect.fraction === "portal"){
-			if (this.x.between(Suspect.x - this.skin.width/2, Suspect.x + this.skin.width/2 + Suspect.width)){
-				if (this.y.between(Suspect.y - this.height/2, Suspect.y + this.height/2 + Suspect.height)) return true;
-			}
-			return false;
-		}
 		if (this.x.between(Suspect.x - this.width/2 - Suspect.width/2, Suspect.x + this.width/2 + Suspect.width/2)){
 			if (this.y.between(Suspect.y - this.height/2 - Suspect.height/2, Suspect.y + this.height/2 + Suspect.height/2)) return true;
 		}

@@ -14,6 +14,7 @@ var Hellaxy = new App();
 Hellaxy.main = function(){
 	Hellaxy.sector = Helon.screen;
 	if (exists(Hellaxy.level.check)) Hellaxy.level.check();
+	if (exists(Hellaxy.sector.actShips)) Hellaxy.sector.actShips();
 	//Hellaxy.task();
 }
 
@@ -23,7 +24,7 @@ Hellaxy.startUp = function(){
 	setupWeapons();
 	//setupSpecials();
 	setupControls();
-	//setupShips();
+	setupShips();
 	setupSectors();
 	setupLevels();
 	//setCampaign("quicktest");
@@ -98,17 +99,6 @@ function startCampaign(campaign){
 	}
 	Hellaxy.campaign.act();
 	Hellaxy.sector.act();
-}
-
-
-
-function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
-	if (inSector === undefined){
-		inSector = Hellaxy.sector;
-	} else {
-		inSector = Hellaxy.sectors[inSector];
-	}
-	inSector.spawnShip(designation, atX, atY, atAngle, ctrl, abgang);
 }
 
 

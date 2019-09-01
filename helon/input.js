@@ -15,6 +15,7 @@
 var cursor = new Body();
 var click = false;
 function loadCursor(){
+	cursor.screen = new Screen();
 	cursor.setSkin("cursor");
 	cursor.display = function(){
 		if (click){ 

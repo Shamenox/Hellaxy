@@ -1,7 +1,8 @@
 class Weapon {
 	constructor(designation, skin, alpha, pen, reload, ammo){  //skin, alpha, pen, reload, ammo
+		if (designation === undefined) return;
 		this.designation = designation;
-		this.skin = Helon.ress.images[skin];
+		this.skin = getImg(skin);
 		this.skinName = skin;
 		this.alpha = alpha;
 		this.pen = pen;
@@ -10,6 +11,19 @@ class Weapon {
 		
 		Hellaxy.weapons[designation] = this;
 	}
+	
+	
+	
+	
+	clone(){
+		var clone = new Weapon();
+		for (var property in this){
+			clone[property] = this[property];
+		}
+		return clone;
+	}
+	
+	
 	
 	fire(){
 		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.staticID)){
@@ -31,5 +45,5 @@ function setupWeapons(){  //skin, alpha, pen, reload, ammo
 	new Weapon("emp_director_2", "emp_1", 50, 3, 200, 500);
 	new Weapon("emp_director_small", "emp_2", 3, 2, 100, 400);
 	
-	console.log(Hellaxy.weapons);
+	console.log("Weapons:", Hellaxy.weapons);
 }

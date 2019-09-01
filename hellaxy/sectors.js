@@ -20,6 +20,14 @@ class Sector extends Screen{
 	
 	
 	
+	actShips(){
+		for (var i = 0; i < this.ships.length; i++){
+			if (typeof this.ships[i].ctrl === "function") this.ships[i].ctrl();
+		}
+	}
+	
+	
+	
 	adjustOffset(){
 		if (this.offsetX > this.width - 1920 / this.scale) this.offsetX = this.width - 1920 / this.scale;
 		if (this.offsetY > this.height - 980 / this.scale) this.offsetY = this.height - 980 / this.scale;
@@ -45,12 +53,12 @@ class Sector extends Screen{
 	
 	
 	zoomIn(){
-		if (intervalReact(this.scale > 0.5, 250, "zoom")) this.scale -= 0.25;
+		if (intervalReact(this.scale < 1.5, 250, "zoom")) this.scale += 0.25;
 	}
 
 
 	zoomOut(){
-		if (intervalReact(this.scale < 1.5, 250, "zoom")) this.scale += 0.25;
+		if (intervalReact(this.scale > 0.5, 250, "zoom")) this.scale -= 0.25;
 	}
 	
 	/*

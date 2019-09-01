@@ -1,10 +1,25 @@
+var lastStat = {
+	sector : Helon.screen.ID
+}
+
 function setSector(dec){
-	if (exists(Helon.screens[dec])) setScreen(dec);
+	if (exists(Helon.screens[dec])){
+		setScreen(dec);
+		lastStat.sector = dec;
+	}
 	else console.log("Could not find sector:" + dec);
 }
 
-function setPlayer(withShip){
-	//spawnShip(withShip, at.x + 100, at.y + 100, 0, player1, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+function setPlayer(withShip, atX, atY, atAngle, inSector){
+	atX = setProp(atX, 400);
+	atY = setProp(atY, 400);
+	atAngle = setProp(atAngle, 0);
+	spawnShip(withShip, atX, atY, atAngle, player1, function(){/*addMsg("Report critical Damage");*/ LEVEL.cancel();});
+}
+
+function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
+	if (inSector === undefined) inSector = lastStat.sector;
+	Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl, abgang);
 }
 
 
@@ -29,7 +44,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 
 	Hellaxy.campaigns.quicktest.addLevel(function(){
 			setSector("testmap");
-			//spawnShip("humanian_protobaseship_helonia", 200, 250, 180, player1);
+			setPlayer("humanian_protobaseship_helonia");
 			//spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
 			//spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
 			//spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});

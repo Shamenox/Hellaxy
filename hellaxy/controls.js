@@ -9,11 +9,11 @@ function setupControls(){
 		player1ship = this;
 		Hellaxy.sector.focus(this);
 		if (!click){
-			if (key.a) this.turn("left"); //Drehung
-			if (key.d) this.turn("right");
+			if (key.a && !key.d) this.turn("left"); //Drehung
+			if (key.d && !key.a) this.turn("right");
+			if (!key.d && !key.a) this.turn("stop");
 		} else {
-			this.pointAt({x : cursor.x / this.screen.scale + this.screen.offsetX, y : cursor.y / this.screen.scale + this.screen.offsetY});
-			this.turn("target");
+			this.turn({x : cursor.x / this.screen.scale + this.screen.offsetX, y : cursor.y / this.screen.scale + this.screen.offsetY});
 			if (key.a) this.acc("left");
 			if (key.d) this.acc("right");
 		}
@@ -26,8 +26,8 @@ function setupControls(){
 		if (key.space) this.fire(1);
 		if (key.e) this.fire(2);
 		if (key.q) this.fire(3);
-		if (key.minus) this.screen.zoomIn();
-		if (key.plus) this.screen.zoomOut();
+		if (key.minus) this.screen.zoomOut();
+		if (key.plus) this.screen.zoomIn();
 		if (key.one) this.useSpecial(1);
 		GUI(this);
 	}
