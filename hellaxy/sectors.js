@@ -52,8 +52,28 @@ class Sector extends Screen{
 	
 	
 	
+	physics(){
+		for (var i = 0; i < this.bodies.length; i++){
+			this.bodies[i].x += this.bodies[i].vx;
+			this.bodies[i].y -= this.bodies[i].vy;
+			this.bodies[i].angle = get360(this.bodies[i].angle);
+			this.bodies[i].angle += this.bodies[i].vangle;
+			if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);
+		}
+	}
+	
+	
+	
+	refreshIDs(){
+		for (var id = 0; id < this.ships.length; id++){
+			this.ships[id].ID = id;
+		}
+	}
+	
+	
+	
 	zoomIn(){
-		if (intervalReact(this.scale < 1.5, 250, "zoom")) this.scale += 0.25;
+		if (intervalReact(this.scale < 1.75, 250, "zoom")) this.scale += 0.25;
 	}
 
 
@@ -147,11 +167,6 @@ class Sector extends Screen{
 	}
 	
 	
-	refreshIDs(){
-		for (var id = 0; id < this.ships.length; id++){
-			this.ships[id].ID = id;
-		}
-	}
 	*/
 	
 	

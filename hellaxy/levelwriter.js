@@ -14,7 +14,7 @@ function setPlayer(withShip, atX, atY, atAngle, inSector){
 	atX = setProp(atX, 400);
 	atY = setProp(atY, 400);
 	atAngle = setProp(atAngle, 0);
-	spawnShip(withShip, atX, atY, atAngle, player1, function(){/*addMsg("Report critical Damage");*/ LEVEL.cancel();});
+	spawnShip(withShip, atX, atY, atAngle, player1, function(){/*addMsg("Report critical Damage");*/ Hellaxy.level.cancel();});
 }
 
 function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
@@ -45,11 +45,11 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 	Hellaxy.campaigns.quicktest.addLevel(function(){
 			setSector("testmap");
 			setPlayer("humanian_protobaseship_helonia");
-			//spawnShip("humanian_shuttle", 300, 100, 0, npc.defender);
-			//spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
+			spawnShip("humanian_shuttle", 300, 100, 0);
+			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
 			//spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
 			//spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
-			//spawnShip("none_fatman", 700, 1300, 90, npc.simpleRoamer);
+			spawnShip("none_fatman", 700, 1300, 90, /*npc.simpleRoamer*/);
 			//spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
 			//spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			//spawnAsteroids(600, 600, 400, 400);

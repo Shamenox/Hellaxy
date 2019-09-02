@@ -4,6 +4,8 @@ class Screen{
 		this.scale = setProp(scale, 1);
 		this.offsetX = 0;
 		this.offsetY = 0;
+		this.height = 1080;
+		this.width = 1920;
 		this.bg = getImg(bg);
 		this.theme = getAudio(theme);
 		this.act = setProp(action, function(){});
@@ -19,8 +21,33 @@ class Screen{
 	
 	
 	add(bod){
+		if (!exists(bod)){
+			console.log("Alert: Tried to add missing body to:" + this.ID);
+			return;
+		}
 		bod.screen = this;
 		this.bodies.push(bod);
+		if (bod.constructor.name !== "Body") this[bod.constructor.name.toLowerCase() + "s"].push(bod);
+	}
+	
+	
+	
+	drop(bod){
+		if (!exists(bod)){
+			console.log("Alert: Tried to drop missing body from:" + this.ID);
+			return;
+		}
+		for (var i = 0; i < this.bodies.length; i++){
+			if (bod === this.bodies[i]){
+				this.bodies.splice(i, 1);
+				if (bod.constructor.name !== "Body"){
+					for (var h = 0; h < this[bod.constructor.name.toLowerCase() + "s"].length; h++){
+						this[bod.constructor.name.toLowerCase() + "s"].splice(h, 1);
+					}
+				}
+				break;
+			}
+		}
 	}
 	
 	

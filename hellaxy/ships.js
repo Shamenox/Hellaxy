@@ -78,6 +78,18 @@ class Ship extends Body{
 	
 	
 	
+	explode(){
+		this.skin = Helon.ress.images.proj_explosion;
+		this.ctrl = function(){};
+		play("explosion1");
+		if (exists(this.abgang)) this.abgang();
+		setTimeout(function(wreck){wreck.vanish()}, 2000, this);
+		this.explode = function(){};
+		this.abgang = function(){};
+	}
+	
+	
+	
 	turn(dir){
 		if (dir === "stop"){
 			this.vangle = 0;
@@ -117,6 +129,14 @@ class Ship extends Body{
 	
 	
 	
+	fire(slot){
+		if (!exists(slot)) slot = 1;
+		if (!exists(this["wp" + slot])|| this.skin === Helon.ress.explosion) return;
+		this["wp" + slot].fire();
+	}
+	
+	
+	
 	follow(toFollow, atDistance){
 		this.turn(toFollow);
 		if (this.distanceTo(toFollow) > atDistance) {
@@ -125,6 +145,28 @@ class Ship extends Body{
 		else {
 			this.dec();
 		}
+	}
+	
+	
+	
+	nextShip(search, range){
+		if (range === undefined) range = 1000;
+		var pot = false;
+		for (var k = 0; k < this.sector.ships.length; k++){
+			if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
+				if (pot === false || this.distanceTo(this.sector.ships[k]) < this.distanceTo(pot)){
+					if (search === undefined) pot = Hellaxy.sector.ships[k];
+					if (search === "anythingElse"){
+						if (this.sector.ships[k].fraction !== this.fraction) pot = Hellaxy.sector.ships[k];
+					}
+					else {
+						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) pot = Hellaxy.sector.ships[k];
+						if (search !== this.fraction && search === this.sector.ships[k].fraction) pot = Hellaxy.sector.ships[k];
+					}
+				}
+			}
+		}
+		return pot;
 	}
 	
 	
@@ -141,8 +183,16 @@ class Ship extends Body{
 		neuerSpawn.ctrl = setProp(ctrl, "none");
 		neuerSpawn.abgang = setProp(abgang, "none");
 		neuerSpawn.sector = Hellaxy.sectors[inSector];
+		neuerSpawn.ID = neuerSpawn.sector.ships.length;
+		neuerSpawn.staticID = neuerSpawn.sector.ships.length + Helon.tics;
 		neuerSpawn.sector.add(neuerSpawn);
-		neuerSpawn.sector.ships.push(neuerSpawn);
+	}
+	
+	
+	
+	vanish(){
+		this.drop();
+		this.sector.refreshIDs();
 	}
 	
 	/*
@@ -194,22 +244,6 @@ class Ship extends Body{
 	
 	
 	
-	
-	explode(){
-		this.skin = Helon.ress.images.explosion;
-		this.ctrl = function(){};
-		play("explosion1");
-		if (this.abgang !== undefined) this.abgang();
-		setTimeout(function(ship){ship.sector.ships.splice(ship.ID, 1); ship.sector.refreshIDs();}, 2000, this);
-		this.explode = function(){};
-		this.abgang = function(){};
-	}
-	
-	
-	fire(slot){
-		if (this["wp" + slot] === undefined || this.skin === Helon.ress.explosion) return;
-		this["wp" + slot].fire();
-	}
 	
 	
 	
@@ -316,44 +350,7 @@ class Ship extends Body{
 			}
 		}
 	}
-	
-	
-	turn(dir){
-		if (dir === "left"){
-			this.angle -= 60 * this.a;
-		}
-		if (dir === "right"){
-			this.angle += 60 * this.a;
-		}
-		
-		if (dir === undefined || dir === "target"){ 
-			if (Math.abs(this.aim - this.angle) <= this.a * 60){
-				this.angle = this.aim;
-				return;
-			}
-			if (this.angle <= 180){
-				if (this.aim.between(this.angle, this.angle + 180)){
-						this.angle += this.a * 60;
-					}
-				else {
-					this.angle -= this.a * 60;
-				}
-			}
-			else {
-				if (this.aim.between(this.angle, this.angle - 180)){ 
-					this.angle -= this.a * 60;
-				} 
-				else{
-					this.angle += this.a * 60;
-				}
-			}
-		}
-	}
-	
-	
-	turnArround(){ // Initialisieren einer 180° Drehung
-		this.aim = get360(this.angle - 180);
-	}
+
 	
 	
 	useSpecial(slot){
@@ -361,11 +358,6 @@ class Ship extends Body{
 		this["sp" + slot].exe();
 	}
 	
-	
-	vanish(){
-		this.sector.ships.splice(this.ID, 1);
-		this.sector.refreshIDs();
-	}
 	
 	*/
 }

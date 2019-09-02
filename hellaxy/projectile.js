@@ -1,7 +1,7 @@
 class Projectile extends Body{
 	constructor(wp){
 		super();
-		setSkin(wp.skin);
+		this.setSkin(wp.skin);
 		this.mass = wp.skin.naturalHeight * wp.skin.naturalWidth;
 		this.pen = wp.pen;
 		this.alpha = wp.alpha;
@@ -9,6 +9,8 @@ class Projectile extends Body{
 		this.x = wp.ship.x;
 		this.y = wp.ship.y;
 		this.v = wp.pen * 5;
+		this.vy = Math.cos(this.angle * Math.PI / 180) * this.v;
+		this.vx = Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 		this.emitter = wp.ship;
 		this.hits = function (obj) {
 			if (this.emitter === obj) return false; //Prüfen ob Ziel das eigene Schiff ist
@@ -18,8 +20,7 @@ class Projectile extends Body{
 			}
 			return false;
 		}
-		this.ship.sector.add(neuesProjektil);
-		this.ship.sector.projectile.push(neuesProjektil);
+		this.emitter.sector.add(this);
 		this.sound("fire");
 	}
 	
@@ -29,11 +30,11 @@ class Projectile extends Body{
 		sound(of){
 			var currentSound;
 			if (of === "fire"){
-				if (this.mass.between(0, 645)) currentSound = Helon.ress.audio.shot_1;
+				currentSound = Helon.ress.audio.shot_1;
 				if (this.mass.between(645, 2049)) currentSound = Helon.ress.audio.shot_2;
 			}
 			if (of === "pen"){
-				if (this.mass.between(0, 645)) currentSound = Helon.ress.audio.hit_1;
+				currentSound = Helon.ress.audio.hit_1;
 				if (this.mass.between(645, 2049)) currentSound = Helon.ress.audio.hit_2;
 			}
 			if (of === "bounce"){
@@ -42,7 +43,7 @@ class Projectile extends Body{
 			play(currentSound);
 		}
 		
-		
+		/*
 		act(){ //	 Enthält alte Systeme!!!!!!!
 			this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
 			this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
@@ -86,7 +87,7 @@ class Projectile extends Body{
 					}
 				}
 			}
-		}
+		} */
 		
 		
 		ID(){

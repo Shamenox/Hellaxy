@@ -31,6 +31,29 @@ function setupControls(){
 		if (key.one) this.useSpecial(1);
 		GUI(this);
 	}
+	
+	
+	
+	npc.defender = function(){
+		var of = this.nextShip(this.fraction);
+		if (of !== false){
+			var trgt = of.nextShip("anythingElse", 500);
+			if (trgt === false){
+				this.follow(of, 100);
+			}
+			if (trgt !== false){
+				this.follow(trgt, 300);
+				if (this.pointsAt(trgt)){
+					this.fire(1);
+					this.fire(2);
+					this.fire(3);
+				}
+			}
+		} else {
+			this.acc();
+			//if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+		}
+	}
 }
 	/*
 	npc.simpleRoamer = function(){ 

@@ -2,6 +2,7 @@ class Body{
 	/** A movable object that can be displayed on the Canvas element
 	*/
 	constructor(){
+		this.category = "none";
 		this.x = 0;
 		this.y = 0;
 		this.vx = 0;
@@ -100,6 +101,12 @@ class Body{
 	pointsFrom(Suspect){
 		if (this.angle.between(this.angleTowards(Suspect) + 175, this.angleTowards(Suspect) - 175)) return true;
 		return false;
+	}
+	
+	
+	
+	drop(){
+		this.screen.drop(this);
 	}
 	
 	
