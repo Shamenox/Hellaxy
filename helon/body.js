@@ -2,7 +2,6 @@ class Body{
 	/** A movable object that can be displayed on the Canvas element
 	*/
 	constructor(){
-		this.category = "none";
 		this.x = 0;
 		this.y = 0;
 		this.vx = 0;
@@ -75,6 +74,15 @@ class Body{
 		if (this.x === angled.x && this.y === angled.y) return 0;
 		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 90);
 		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 270);
+	}
+	
+	
+	
+	move(){
+		this.x += this.vx;
+		this.y -= this.vy;
+		this.angle += this.vangle;
+		this.angle = get360(this.angle);
 	}
 	
 	

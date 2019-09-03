@@ -54,10 +54,19 @@ class Sector extends Screen{
 	
 	physics(){
 		for (var i = 0; i < this.bodies.length; i++){
-			this.bodies[i].x += this.bodies[i].vx;
-			this.bodies[i].y -= this.bodies[i].vy;
-			this.bodies[i].angle = get360(this.bodies[i].angle);
-			this.bodies[i].angle += this.bodies[i].vangle;
+			this.bodies[i].move();
+			if (this.bodies[i] instanceof Ship){
+				for (var p = 0; p < this.projectiles.length; p++){
+					if (this.bodies[i] !== this.projectiles[p].emitter && this.bodies[i].overlaps(this.projectiles[p])){
+						var potothers = this.bodies[i].nextShips(undefined ,this.projectiles[p].size);
+						this.projectiles[p].hit(this.bodies[i]);
+						for (var n = 0; n < potothers; n++){
+							this.projectiles[p].hit(potothers[n]);
+						}
+					}
+				}
+				if (this.bodies[i].hp <= 0) this.bodies[i].explode();
+			}
 			if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);
 		}
 	}
@@ -169,16 +178,6 @@ class Sector extends Screen{
 	
 	*/
 	
-	
-	/*
-	act(){
-		this.display();
-		for (var i = 0; i < this.ships.length; i++){
-			this.ships[i].act(i);
-		}
-		actProjectiles();
-		if (this.events !== undefined) this.events();
-	} */
 }
 
 /*

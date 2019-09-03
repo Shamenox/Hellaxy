@@ -42,7 +42,7 @@ class Screen{
 				this.bodies.splice(i, 1);
 				if (bod.constructor.name !== "Body"){
 					for (var h = 0; h < this[bod.constructor.name.toLowerCase() + "s"].length; h++){
-						this[bod.constructor.name.toLowerCase() + "s"].splice(h, 1);
+						if (this[bod.constructor.name.toLowerCase() + "s"][h] === bod) this[bod.constructor.name.toLowerCase() + "s"].splice(h, 1);
 					}
 				}
 				break;
@@ -78,10 +78,7 @@ class Screen{
 	
 	physics(){
 		for (var i = 0; i < this.bodies.length; i++){
-			this.bodies[i].x += this.bodies[i].vx;
-			this.bodies[i].y -= this.bodies[i].vy;
-			this.bodies[i].angle = get360(this.bodies[i].angle);
-			this.bodies[i].angle += this.bodies[i].vangle;
+			this.bodies[i].move();
 		}
 	}
 }

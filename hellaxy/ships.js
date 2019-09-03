@@ -78,6 +78,13 @@ class Ship extends Body{
 	
 	
 	
+	draw(){
+		super.draw();
+		this.printBar();
+	}
+	
+	
+	
 	explode(){
 		this.skin = Helon.ress.images.proj_explosion;
 		this.ctrl = function(){};
@@ -171,6 +178,37 @@ class Ship extends Body{
 	
 	
 	
+	nextShips(search, range){
+		var matches = [];
+		if (range === undefined) range = 1000;
+			for (var k = 0; k < this.sector.ships.length; k++){
+				if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
+					if (search === undefined) matches.push(Hellaxy.sector.ships[k]);
+					if (search === "anythingElse" && this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
+					if (search === this.sector.ships[k].fraction) matches.push(Hellaxy.sector.ships[k]);
+				}
+			}
+		if (matches.length === 0) return false;
+		return matches;
+	}
+	
+	
+	
+	printBar(){
+		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
+		Helon.ctx.fillStyle = "green";
+		var x = (this.x - Helon.screen.offsetX) * Helon.screen.scale - this.width/2 * Helon.screen.scale;
+		var y = (this.y - Helon.screen.offsetY) * Helon.screen.scale - this.height/1.7 * Helon.screen.scale;
+		Helon.ctx.strokeRect(x, y, this.width * Helon.screen.scale, 6);
+		Helon.ctx.fillRect(x, y, this.width * (this.hp / this.mass) * Helon.screen.scale, 6);
+		Helon.ctx.fillStyle = "cyan";
+		Helon.ctx.fillRect(x, y, this.width * (this.shield / this.maxshield) * Helon.screen.scale, 6);
+		Helon.ctx.strokeStyle = "yellow";
+		Helon.ctx.fillStyle = "yellow";
+	}
+	
+	
+	
 	spawn(inSector, atX, atY, atAngle, ctrl, abgang){
 		if (!exists(Hellaxy.sectors[inSector])){
 			inSector = "testmap";
@@ -181,7 +219,7 @@ class Ship extends Body{
 		neuerSpawn.y = setProp(atY, 0);
 		neuerSpawn.angle = setProp(atAngle, 0);
 		neuerSpawn.ctrl = setProp(ctrl, "none");
-		neuerSpawn.abgang = setProp(abgang, "none");
+		neuerSpawn.abgang = setProp(abgang, function(){});
 		neuerSpawn.sector = Hellaxy.sectors[inSector];
 		neuerSpawn.ID = neuerSpawn.sector.ships.length;
 		neuerSpawn.staticID = neuerSpawn.sector.ships.length + Helon.tics;
@@ -194,6 +232,7 @@ class Ship extends Body{
 		this.drop();
 		this.sector.refreshIDs();
 	}
+}
 	
 	/*
 	
@@ -246,41 +285,6 @@ class Ship extends Body{
 	
 	
 	
-	
-	nextShip(search, range){
-		if (range === undefined) range = 1000;
-		var pot = false;
-		for (var k = 0; k < this.sector.ships.length; k++){
-			if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
-				if (pot === false || this.distanceTo(this.sector.ships[k]) < this.distanceTo(pot)){
-					if (search === undefined) pot = Hellaxy.sector.ships[k];
-					if (search === "anythingElse"){
-						if (this.sector.ships[k].fraction !== this.fraction) pot = Hellaxy.sector.ships[k];
-					}
-					else {
-						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) pot = Hellaxy.sector.ships[k];
-						if (search !== this.fraction && search === this.sector.ships[k].fraction) pot = Hellaxy.sector.ships[k];
-					}
-				}
-			}
-		}
-		return pot;
-	}
-	
-	
-	nextShips(search, range){
-		var matches = [];
-		if (range === undefined) range = 1000;
-			for (var k = 0; k < this.sector.ships.length; k++){
-				if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
-					if (search === undefined) matches.push(Hellaxy.sector.ships[k]);
-					if (search === "anythingElse" && this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
-					if (search === this.sector.ships[k].fraction) matches.push(Hellaxy.sector.ships[k]);
-				}
-			}
-		if (matches.length === 0) return false;
-		return matches;
-	}
 	
 	
 	pointAt(toPointAt){ // Festlegen eines Zielwinkels
@@ -360,7 +364,6 @@ class Ship extends Body{
 	
 	
 	*/
-}
 
 
 
