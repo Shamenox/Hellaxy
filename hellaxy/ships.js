@@ -46,6 +46,10 @@ class Ship extends Body{
 			this.vy += Math.cos((this.angle + 90) * Math.PI / 180) * this.a * 0.3;
 			this.vx += Math.cos((this.angle + 180) * Math.PI / 180) * this.a * 0.3;
 		}
+		if (this.vx > this.a * 100) this.vx = this.a * 100;
+		if (this.vy > this.a * 100) this.vy = this.a * 100;
+		if (this.vx < this.a * -100) this.vx = this.a * -100;
+		if (this.vy < this.a * -100) this.vy = this.a * -100;
 	}
 	
 	
@@ -81,6 +85,7 @@ class Ship extends Body{
 	draw(){
 		super.draw();
 		this.printBar();
+		if (this.ctrl === player1) GUI(this);
 	}
 	
 	

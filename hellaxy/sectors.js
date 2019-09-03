@@ -47,7 +47,9 @@ class Sector extends Screen{
 			this.bodies[i].draw();
 		}
 		loop(this.theme);
+		console.log("3");
 		this.act();
+		console.log("4");
 	}
 	
 	

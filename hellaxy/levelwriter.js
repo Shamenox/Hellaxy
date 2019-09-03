@@ -2,6 +2,27 @@ var lastStat = {
 	sector : Helon.screen.ID
 }
 
+function msg(content){
+	setScreen("messager");
+	var words = content.split(" ");
+	var line = "";
+	for (var i = 0; i < words.length; i++){
+		line += words[i] + " ";
+		if (Helon.ctx.measureText(line += words[i+1]) > 1900){
+			var neueMsg = {};
+			neueMsg.content = line;
+			Hellaxy.msgs.push(neueMsg);
+			line = "";
+		}
+	}
+	if (line !== ""){
+		var neueMsg = {};
+		neueMsg.content = line;
+		Hellaxy.msgs.push(neueMsg);
+		line = "";
+	}
+}
+
 function setSector(dec){
 	if (exists(Helon.screens[dec])){
 		setScreen(dec);
@@ -47,7 +68,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			setPlayer("humanian_protobaseship_helonia");
 			spawnShip("humanian_shuttle", 300, 100, 0);
 			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
-			//spawnShip("none_testarrow", 100, 100, 0, "none", function(){addMsg("Test123");});
+			spawnShip("none_testarrow", 100, 100, 0, "none", function(){msg("Test123");});
 			//spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
 			spawnShip("none_fatman", 700, 1300, 90, /*npc.simpleRoamer*/);
 			//spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);

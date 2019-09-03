@@ -40,17 +40,6 @@ Hellaxy.startUp = function(){
 
 //Methoden:
 /*
-function report(){
-	console.log("Campaign:", Hellaxy.campaign);
-	console.log("Level:", Hellaxy.level);
-	console.log("Screen:", Hellaxy.screen);
-	console.log("Sector:", Hellaxy.sector);
-	if (exists(player1ship)) console.log("Player:", player1ship);
-}
-
-
-
-
 function skipTo(designation, at){
 	if (at > Hellaxy.campaigns[designation].levels.length){
 		console.log("Level Number out of Bounds");
@@ -67,14 +56,6 @@ function skipTo(designation, at){
 		Hellaxy.level.end();
 	}
 	startCampaign(designation);
-}
-
-
-
-function addMsg(content){
-	neueMsg = {};
-	neueMsg.content = content;
-	Hellaxy.msgs.push(neueMsg);
 }
 
 
