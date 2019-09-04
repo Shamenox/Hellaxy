@@ -70,7 +70,7 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
 			spawnShip("none_testarrow", 100, 100, 0, "none", function(){msg("Test123");});
 			//spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
-			spawnShip("none_fatman", 700, 1300, 90, /*npc.simpleRoamer*/);
+			spawnShip("none_fatman", 700, 1300, 90, npc.roamer);
 			//spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
 			//spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			//spawnAsteroids(600, 600, 400, 400);

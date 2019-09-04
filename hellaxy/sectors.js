@@ -87,7 +87,7 @@ class Sector extends Screen{
 
 
 	zoomOut(){
-		if (intervalReact(this.scale > 0.5, 250, "zoom")) this.scale -= 0.25;
+		if (intervalReact(this.scale > 0.75, 250, "zoom")) this.scale -= 0.25;
 	}
 	
 	/*

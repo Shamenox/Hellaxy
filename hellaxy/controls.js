@@ -53,15 +53,13 @@ function setupControls(){
 			//if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		}
 	}
-}
-	/*
-	npc.simpleRoamer = function(){ 
-		this.acc();
-		this.turn();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		if (this.nextShip("anythingElse", 400) !== false){
+	
+	
+	
+	npc.roamer = function(){
+		if (this.nextShip("anythingElse", 450) !== false){
 			if (this.hp >= this.mass / 2){
-				this.pointAt(this.nextShip("anythingElse", 400));
+				this.follow(this.nextShip("anythingElse", 400));
 				if (this.pointsAt(this.nextShip("anythingElse", 400))) {
 					this.fire(1);
 					this.fire(2);
@@ -69,11 +67,18 @@ function setupControls(){
 				}
 			}
 			if (this.hp < this.mass / 2){
-				this.pointFrom(this.nextShip("anythingElse", 400));
+				this.turnFrom(this.nextShip("anythingElse", 400));
+				this.acc
 			}
 		}
+		else{
+			this.acc();
+			this.turnFrom("walls");
+		}
 	}
+}
 	
+	/*
 	npc.aggressor = function(){ 
 		this.acc();
 		this.turn();

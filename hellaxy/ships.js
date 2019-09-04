@@ -113,7 +113,7 @@ class Ship extends Body{
 			this.vangle = 60 * this.a;
 		}
 		
-		if (dir !== undefined && typeof dir === "object"){
+		if (exists(dir) && typeof dir === "object"){
 			this.aim = this.angleTowards(dir);
 			if (Math.abs(this.aim - this.angle) < this.a * 60){
 				this.angle = this.aim;
@@ -141,6 +141,42 @@ class Ship extends Body{
 	
 	
 	
+	turnFrom(dir){
+		if (!exists(dir)) return;
+		if (typeof dir === "object"){
+			this.aim = get360(this.angleTowards(dir) + 180);
+			if (Math.abs(this.aim - this.angle) < this.a * 60){
+				this.angle = this.aim;
+				this.vangle = 0;
+				return;
+			}
+			if (this.angle <= 180){
+				if (this.aim.between(this.angle, this.angle + 180)){
+						this.vangle = this.a * -60;
+					}
+				else {
+					this.vangle = this.a * 60;
+				}
+			}
+			else {
+				if (this.aim.between(this.angle, this.angle - 180)){ 
+					this.vangle = this.a * 60;
+				} 
+				else{
+					this.vangle = this.a * -60;
+				}
+			}
+		}
+		if (dir === "walls"){
+			if (this.x < 150) this.turn({x: this.sector.width, y: this.sector.height/2});
+			if (this.y < 150) this.turn({x: this.sector.width / 2, y: this.sector.height});
+			if (this.x > this.sector.width - 150) this.turn({x: 0, y: this.sector.height/2});
+			if (this.y > this.sector.height - 150) this.turn({x: this.sector.width, y: 0});
+		}
+	}
+	
+	
+	
 	fire(slot){
 		if (!exists(slot)) slot = 1;
 		if (!exists(this["wp" + slot])|| this.skin === Helon.ress.explosion) return;
@@ -150,6 +186,8 @@ class Ship extends Body{
 	
 	
 	follow(toFollow, atDistance){
+		if (!exists(toFollow)) toFollow = this.nextShip();
+		if (!exists(atDistance)) atDistance = 750;
 		this.turn(toFollow);
 		if (this.distanceTo(toFollow) > atDistance) {
 			if (this.pointsAt(toFollow)) this.acc();
@@ -157,6 +195,16 @@ class Ship extends Body{
 		else {
 			this.dec();
 		}
+	}
+	
+	
+	
+	move(){
+		super.move();
+		if (this.x < 0) this.x = 0;
+		if (this.y < 0) this.y = 0;
+		if (this.x > this.sector.width) this.x = this.sector.width;
+		if (this.y > this.sector.height) this.y = this.sector.height;
 	}
 	
 	
@@ -215,6 +263,12 @@ class Ship extends Body{
 		Helon.ctx.fillRect(x, y, this.width * (this.shield / this.maxshield) * Helon.screen.scale, 6);
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillStyle = "yellow";
+	}
+	
+	
+	
+	refreshID(){
+		this.sector.refreshIDs();
 	}
 	
 	
@@ -279,58 +333,6 @@ class Ship extends Body{
 				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle);
 			}
 		}
-	}
-	
-	
-	
-	
-	
-	collidesWith(Suspect) {
-		if (this.skin === undefined || Suspect === undefined || this.fraction === Suspect.fraction) return false;
-		if (Suspect.fraction === "portal"){
-			if (this.x.between(Suspect.x - this.skin.width/2, Suspect.x + this.skin.width/2 + Suspect.width)){
-				if (this.y.between(Suspect.y - this.height/2, Suspect.y + this.height/2 + Suspect.height)) return true;
-			}
-			return false;
-		}
-		if (this.x.between(Suspect.x - this.width/2 - Suspect.width/2, Suspect.x + this.width/2 + Suspect.width/2)){
-			if (this.y.between(Suspect.y - this.height/2 - Suspect.height/2, Suspect.y + this.height/2 + Suspect.height/2)) return true;
-		}
-		return false;
-	}
-	
-	
-	
-	
-	
-	
-	
-	pointAt(toPointAt){ // Festlegen eines Zielwinkels
-		this.aim = this.angleTowards(toPointAt);
-	}
-
-	
-	
-	pointFrom(toPointFrom){ // Festlegen eines Zielwinkels
-		if (typeof toPointfrom !== "object") return;
-		this.aim = get360(this.angleTowards(toPointFrom) + 180);
-	}
-	
-	
-	refreshID(){
-		this.sector.refreshIDs();
-	}
-	
-	
-	spawn(inSector, atX, atY, atAngle, ctrl, abgang){ //inSector, atX, atY, atAngle, ctrl, relationShip, abgang
-		if (inSector !== undefined) {
-			inSector = Hellaxy.sectors[inSector.designation];
-		} else {
-			inSector = Hellaxy.sector;
-		}
-		if (ctrl === undefined) ctrl = "none";
-		if (atAngle === undefined) atAngle = 0;
-		inSector.spawnShip(this.fraction + "_" + this.designation, atX, atY, atAngle, ctrl, abgang);
 	}
 	
 	

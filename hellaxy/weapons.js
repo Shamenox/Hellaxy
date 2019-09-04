@@ -1,5 +1,6 @@
 class Weapon {
 	constructor(designation, skin, alpha, pen, reload, ammo){  //skin, alpha, pen, reload, ammo
+		if (!exists(designation)) return;
 		this.designation = setProp(designation, "nameless weapon " + Hellaxy.weapons.length);
 		this.skin = getImg("proj_" + skin);
 		this.alpha = setProp(alpha, 10);
