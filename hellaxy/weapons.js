@@ -1,15 +1,13 @@
 class Weapon {
 	constructor(designation, skin, alpha, pen, reload, ammo){  //skin, alpha, pen, reload, ammo
-		if (designation === undefined) return;
-		this.designation = designation;
+		this.designation = setProp(designation, "nameless weapon " + Hellaxy.weapons.length);
 		this.skin = getImg("proj_" + skin);
-		this.skinName = skin;
-		this.alpha = alpha;
-		this.pen = pen;
-		this.reload = reload;
-		this.ammo = ammo;
+		this.alpha = setProp(alpha, 10);
+		this.pen = setProp(pen, 4);
+		this.reload = setProp(reload, 400);
+		this.ammo = setProp(ammo, 400);
 		
-		Hellaxy.weapons[designation] = this;
+		Hellaxy.weapons[this.designation] = this;
 	}
 	
 	

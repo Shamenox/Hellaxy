@@ -162,12 +162,16 @@ class Ship extends Body{
 	
 	
 	nextShip(search, range){
-		if (range === undefined) range = 1000;
+		if (!exists(search)) search = "anything";
+		if (!exists(range)) range = 1000;
 		var pot = false;
 		for (var k = 0; k < this.sector.ships.length; k++){
 			if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
 				if (pot === false || this.distanceTo(this.sector.ships[k]) < this.distanceTo(pot)){
-					if (search === undefined) pot = Hellaxy.sector.ships[k];
+					if (search === "anything"){
+						pot = Hellaxy.sector.ships[k];
+						continue;
+					}
 					if (search === "anythingElse"){
 						if (this.sector.ships[k].fraction !== this.fraction) pot = Hellaxy.sector.ships[k];
 					}
@@ -185,10 +189,11 @@ class Ship extends Body{
 	
 	nextShips(search, range){
 		var matches = [];
-		if (range === undefined) range = 1000;
+		if (!exists(search)) search = "anything";
+		if (!exists(range)) range = 1000;
 			for (var k = 0; k < this.sector.ships.length; k++){
 				if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
-					if (search === undefined) matches.push(Hellaxy.sector.ships[k]);
+					if (search === "anything") matches.push(Hellaxy.sector.ships[k]);
 					if (search === "anythingElse" && this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
 					if (search === this.sector.ships[k].fraction) matches.push(Hellaxy.sector.ships[k]);
 				}
@@ -229,6 +234,14 @@ class Ship extends Body{
 		neuerSpawn.ID = neuerSpawn.sector.ships.length;
 		neuerSpawn.staticID = neuerSpawn.sector.ships.length + Helon.tics;
 		neuerSpawn.sector.add(neuerSpawn);
+	}
+	
+	
+	
+	useSpecial(slot){
+		if (!exists(slot)) slot = 1;
+		if (!exists(this["sp" + slot])|| this.skin === Helon.ress.explosion) return;
+		this["sp" + slot].exe();
 	}
 	
 	
@@ -360,12 +373,6 @@ class Ship extends Body{
 		}
 	}
 
-	
-	
-	useSpecial(slot){
-		if (this["sp" + slot] === undefined) return;
-		this["sp" + slot].exe();
-	}
 	
 	
 	*/

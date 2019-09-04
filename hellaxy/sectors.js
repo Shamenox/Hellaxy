@@ -38,18 +38,16 @@ class Sector extends Screen{
 	
 	
 	display(){
-		for (var posY = 0; posY < 1200; posY += 100 * this.scale){
+		for (var posY = 0; posY < 1100; posY += 100 * this.scale){
 			for (var posX = 0; posX < 2000; posX += 100 * this.scale){
-				Helon.ctx.drawImage(this.bg, posX - (this.offsetX * this.scale % 100), posY - (this.offsetY * this.scale % 100), 100 * this.scale, 100 * this.scale);
+				Helon.ctx.drawImage(this.bg, posX - ((this.offsetX % 100) * this.scale), posY - ((this.offsetY % 100) * this.scale), 100 * this.scale, 100 * this.scale);
 			}
 		}
 		for (var i = 0; i < this.bodies.length; i++){
 			this.bodies[i].draw();
 		}
 		loop(this.theme);
-		console.log("3");
 		this.act();
-		console.log("4");
 	}
 	
 	

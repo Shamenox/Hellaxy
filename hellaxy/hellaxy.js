@@ -15,14 +15,13 @@ Hellaxy.main = function(){
 	Hellaxy.sector = Helon.screen;
 	if (exists(Hellaxy.level.check)) Hellaxy.level.check();
 	if (exists(Hellaxy.sector.actShips)) Hellaxy.sector.actShips();
-	//Hellaxy.task();
 }
 
 
 Hellaxy.startUp = function(){
 	setupHellaxyScreens();
 	setupWeapons();
-	//setupSpecials();
+	setupSpecials();
 	setupControls();
 	setupShips();
 	setupSectors();
@@ -108,32 +107,4 @@ function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, a
 		if (dimension === "y") atY += Hellaxy.ships[designation].height * 2;
 	}
 }
-
-
-
-function display(obj){
-	
-	if (obj.hp !== undefined && obj.hp > 0){
-		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
-		Helon.ctx.fillStyle = "green";
-		x -= obj.width/2 * Hellaxy.scale;
-		y -= (obj.height/2 * Hellaxy.scale) + 14;
-		Helon.ctx.strokeRect(x, y, obj.width * Hellaxy.scale, 6);
-		Helon.ctx.fillRect(x, y, obj.width * (obj.hp / obj.mass) * Hellaxy.scale, 6);
-		Helon.ctx.fillStyle = "cyan";
-		Helon.ctx.fillRect(x, y, obj.width * (obj.shield / obj.maxshield) * Hellaxy.scale, 6);
-		Helon.ctx.strokeStyle = "yellow";
-		Helon.ctx.fillStyle = "yellow";
-	}
-}
-
-
-
-function zoomIn(){
-	if (intervalReact(Hellaxy.scale > 0.5, 250, "zoom")) Hellaxy.scale -= 0.25;
-}
-
-
-function zoomOut(){
-	if (intervalReact(Hellaxy.scale < 1.5, 250, "zoom")) Hellaxy.scale += 0.25;
-} */
+ */

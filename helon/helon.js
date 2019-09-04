@@ -19,22 +19,20 @@ Helon.previousScreen = new Screen();
 
 
 function setScreen(ID){
-	if (exists(Helon.screens[ID])){
-		if (Helon.previousScreen !== Helon.screen) Helon.previousScreen = Helon.screen;
+	if (ID instanceof Screen && ID !== Helon.screen){
+		Helon.previousScreen = Helon.screen;
+		Helon.screen = ID;
+	}
+	if (exists(Helon.screens[ID]) && ID !== Helon.screen.ID){
+		Helon.previousScreen = Helon.screen;
 		Helon.screen = Helon.screens[ID];
 	}
 }
 
 
 
-Helon.createScreen = function(ID, bg, theme, action){
-	Helon.screens[ID] = new Screen(ID, bg, theme, action);
-}
-
-
-
 Helon.back = function(){
-	setScreen(Helon.previousScreen.ID);
+	setScreen(Helon.previousScreen);
 }
 
 
@@ -74,7 +72,7 @@ Helon.exit = function(){
 
 Helon.setUp = function(){
 	loadCursor();
-	Helon.createScreen("Lobby", "blackscreen", "none", function(){
+	new Screen("Lobby", "blackscreen", "none", function(){
 		Helon.ctx.fillStyle = "yellow";
 		Helon.ctx.fillText("There is nothing to see here...", 400, 200);
 	});
