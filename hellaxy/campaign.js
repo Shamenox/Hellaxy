@@ -115,7 +115,7 @@ class Level {
 		Hellaxy.msgs = [];
 		this.target = "none";
 		this.over = false;
-		Hellaxy.sector.ships = [];
+		Helon.screen.ships = [];
 		Hellaxy.campaign = {};
 		Hellaxy.level = {};
 		resetAudio();

@@ -289,6 +289,7 @@ class Ship extends Body{
 		neuerSpawn.ID = neuerSpawn.sector.ships.length;
 		neuerSpawn.staticID = neuerSpawn.sector.ships.length + Helon.tics;
 		neuerSpawn.sector.add(neuerSpawn);
+		lastStat.ship = neuerSpawn;
 	}
 	
 	

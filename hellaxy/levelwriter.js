@@ -1,7 +1,9 @@
 var lastStat = {			//Hässliche Funktionen für ein hübsches Leveldesign ->
 	sector : {},
 	campaign : {},
-	level : {}
+	level : {},
+	planet : {},
+	ship : {}
 }
 
 function addSetup(thingies){
@@ -25,7 +27,7 @@ function msg(content){
 	var line = "";
 	for (var i = 0; i < words.length; i++){
 		line += words[i] + " ";
-		if (Helon.ctx.measureText(line) + Helon.ctx.measureText(words[i+1]) > 1900){
+		if (Helon.ctx.measureText(line).width + Helon.ctx.measureText(words[i+1]).width > 1600){
 			var neueMsg = {};
 			neueMsg.content = line;
 			Hellaxy.msgs.push(neueMsg);
@@ -45,8 +47,15 @@ function addMsg(content){
 	}));
 }
 
+/*function setFocus(here){  Funktioniert nicht???
+	lastStat.level.add(new Event(function(){
+		lastStat.sector.focus(here);
+	}));
+} */
+
 function setSector(dec){
 	if (exists(Helon.screens[dec])){
+		lastStat.sector = Helon.screens[dec];
 		lastStat.level.add(new Event(function(){
 			setScreen(dec);
 			lastStat.sector = Helon.screen;
@@ -60,6 +69,9 @@ function setPlayer(withShip, atX, atY, atAngle, inSector){
 	atY = setProp(atY, 400);
 	atAngle = setProp(atAngle, 0);
 	spawnShip(withShip, atX, atY, atAngle, player1, function(){/*addMsg("Report critical Damage");*/ Hellaxy.level.cancel();});
+	lastStat.level.add(new Event(function(){
+		lastStat.sector.focus(lastStat.ship);
+	}));
 }
 
 function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
@@ -105,7 +117,8 @@ function setupLevels(){				//Levelscripts ->
 	
 		new Level();
 			setSector("central");
-			//addPlanet("humania", 1000, 1000);
+			new Planet("humania", 1000, 1000);
+			//setFocus(lastStat.planet);
 			//addPlanet("pontes", 1420, 2550);
 			setPlayer("humanian_shuttle", 1000, 1000);
 			//spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
@@ -123,6 +136,7 @@ function setupLevels(){				//Levelscripts ->
 				Make sure to not guide them into anything!\
 				Good luck out there!"
 			);
+			endless();
 
 	
 	
