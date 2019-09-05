@@ -1,4 +1,4 @@
-var lastStat = {
+var lastStat = {			//Hässliche Funktionen für ein hübsches Leveldesign ->
 	sector : {},
 	campaign : {},
 	level : {}
@@ -9,13 +9,23 @@ function addSetup(thingies){
 	else console.log("Levelscript error: tried to add setup function to missing level");
 }
 
+function endless(){
+	lastStat.level.add(new Event(function(){}, false));
+}
+
 function msg(content){
 	setScreen("messager");
-	var words = content.split(" ");
+	var words = [];
+	var chunks = content.split("	");
+	for (var i = 0; i < chunks.length; i++){
+		for (var c = 0; c < chunks[i].split(" ").length; c ++){
+			words.push(chunks[i].split(" ")[c]);
+		}
+	}
 	var line = "";
 	for (var i = 0; i < words.length; i++){
 		line += words[i] + " ";
-		if (Helon.ctx.measureText(line += words[i+1]) > 1900){
+		if (Helon.ctx.measureText(line) + Helon.ctx.measureText(words[i+1]) > 1900){
 			var neueMsg = {};
 			neueMsg.content = line;
 			Hellaxy.msgs.push(neueMsg);
@@ -26,8 +36,13 @@ function msg(content){
 		var neueMsg = {};
 		neueMsg.content = line;
 		Hellaxy.msgs.push(neueMsg);
-		line = "";
 	}
+}
+
+function addMsg(content){
+	lastStat.level.add(new Event(function(){
+		msg(content);
+	}));
 }
 
 function setSector(dec){
@@ -65,24 +80,53 @@ function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
 
 
 
-function setupLevels(){	
+function setupLevels(){				//Levelscripts ->
 	new Campaign("quicktest");
 	
 		new Level();
 			setSector("testmap");
 			setPlayer("humanian_protobaseship_helonia");
-			spawnShip("humanian_shuttle", 600, 600, 0);
+			spawnShip("humanian_shuttle", 600, 600);
 			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
-			spawnShip("none_testarrow", 100, 100, 0, "none", function(){msg("Test123");});
+			spawnShip("none_testarrow", 100, 100, 0, "none", function(){msg("Test 123 langes Wort");});
 			spawnShip("none_fatman", 700, 1300, 90, npc.roamer);
 			//spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
 			//spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			//spawnAsteroids(600, 600, 400, 400);
+			endless();
+	
+	
+	
+	new Campaign("freeroaming");
 	
 	
 	
 	new Campaign("humanian");
-	new Campaign("freeroaming");
+	
+		new Level();
+			setSector("central");
+			//addPlanet("humania", 1000, 1000);
+			//addPlanet("pontes", 1420, 2550);
+			setPlayer("humanian_shuttle", 1000, 1000);
+			//spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
+			//spawnShip("qubanian_colonizer", 200, 200, 135, function(){this.follow(Hellaxy.planets.humania, 200);}, function(){addMsg("Unknown Object eliminated! Return to base!");});
+			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344 Humanian HQ: Attention!\
+				Welcome to your first flight Commander\
+				According to your Intruments your squadron should be fine out there.\
+				An unknown Object appears to be heading towards our home planet.\
+				Your mission is to guard our Orbit.\
+				Eliminate said Object if necessary.\
+				Turn your Shuttle by clicking in the direction you want to head.\
+				Use WASD to maneuver.\
+				Press Space to fire.\
+				Your Squad follows you.\
+				Make sure to not guide them into anything!\
+				Good luck out there!"
+			);
+
+	
+	
+	
 	new Campaign("chestanian");
 	new Campaign("qubanian");
 
@@ -95,37 +139,6 @@ function setupLevels(){
 		{
 			no : false
 		},
-	);
-	
-	
-	
-	Hellaxy.campaigns.humanian.addLevel(function(){
-			setSector("central");
-			addPlanet("humania", 1000, 1000);
-			addPlanet("pontes", 1420, 2550);
-			start(Hellaxy.planets.humania, "humanian_shuttle");
-			spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
-			spawnShip("qubanian_colonizer", 200, 200, 135, function(){this.follow(Hellaxy.planets.humania, 200);}, function(){addMsg("Unknown Object eliminated! Return to base!"); LEVEL.conditions.ufoeliminated = true;});
-			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344");
-			addMsg("Humanian HQ: Attention!");
-			addMsg("Welcome to your first flight as our first ever Space Pilot Commander.");
-			addMsg("According to your Intruments you six should all be fine out there.");
-			addMsg("Dont get carried away. The Reason we starded the Mission early");
-			addMsg("was because that unknown trabant");
-			addMsg("that appeared on our radars one month ago");
-			addMsg("has suddenly starded to move towards Humania.");
-			addMsg("Your mission is to guard our Orbit");
-			addMsg("and eliminate said Object if necessary.");
-			addMsg("You control your Shuttle by clicking in the direction you want to head");
-			addMsg("or alternatively via the WASD interface.");
-			addMsg("The Space bar triggers your high-tech 5nm machinegun twin.");
-			addMsg("Be aware that our new shuttles are agile but fragile!");
-			addMsg("So make sure to not ram or guide them into anything!");
-			addMsg("Good luck out there!");
-		},
-		{
-			ufoeliminated : false
-		}
 	);
 	
 	

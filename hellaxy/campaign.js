@@ -37,6 +37,8 @@ class Level {
 		this.campaign = setProp(belong, lastStat.campaign);
 		this.linearEvents = [];
 		this.continousEvents = [];
+		this.currentLinearEvents = [];
+		this.currentContinousEvents = [];
 		this.over = false;
 		this.campaign.levels.push(this);
 		lastStat.level = this;
@@ -59,13 +61,20 @@ class Level {
 	
 	
 	start(){
+		resetAudio();
+		for (var i = 0; i < this.linearEvents.length; i++){
+			this.currentLinearEvents[i] = this.linearEvents[i];
+		}
+		for (var i = 0; i < this.continousEvents.length; i++){
+			this.currentContinousEvents[i] = this.continousEvents[i];
+		}
 		Hellaxy.level = this;
 	}
 	
 	
 	
 	check(){
-		if (this.linearEvents.length === 0){
+		if (this.currentLinearEvents.length === 0){
 			this.over = true;
 			msg("Level complete!!! Continue with 'E'");
 		}
@@ -80,20 +89,20 @@ class Level {
 				setScreen("messager");
 			}
 
-			if (exists(this.linearEvents[0].obj)) cursor.pointAt({
-				x : this.linearEvents[0].obj.x - Helon.screen.offsetX,
-				y : this.linearEvents[0].obj.y - Helon.screen.offsetY,
+			if (exists(this.currentLinearEvents[0].obj)) cursor.pointAt({
+				x : this.currentLinearEvents[0].obj.x - Helon.screen.offsetX,
+				y : this.currentLinearEvents[0].obj.y - Helon.screen.offsetY,
 			});
-			while (this.linearEvents.length > 0){
-				if (this.linearEvents[0].condition){
-					this.linearEvents[0].reward();
-					this.linearEvents.splice(0,1);
+			while (this.currentLinearEvents.length > 0){
+				if (this.currentLinearEvents[0].condition){
+					this.currentLinearEvents[0].reward();
+					this.currentLinearEvents.splice(0,1);
 					i--;
 				}
 				else break;
 			}
-			for (var i = 0; i < this.continousEvents.length; i++ ){
-				if (this.continousEvents[i].condition) this.continousEvents[i].reward();
+			for (var i = 0; i < this.currentContinousEvents.length; i++ ){
+				if (this.currentContinousEvents[i].condition) this.currentContinousEvents[i].reward();
 				else continue;
 			}
 		}
@@ -109,6 +118,7 @@ class Level {
 		Hellaxy.sector.ships = [];
 		Hellaxy.campaign = {};
 		Hellaxy.level = {};
+		resetAudio();
 		setScreen("menue");
 	}
 	

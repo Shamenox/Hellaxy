@@ -17,7 +17,7 @@ function setupHellaxyScreens(){
 		Helon.ctx.font = "32px Consolas";
 		if (intervalReact(key.esc)) setScreen("title");
 		button(660, 300, 600, 100, "Quicktest Mode", "yellow", function(){Hellaxy.campaigns.quicktest.start()})
-		button(660, 450, 600, 100, "Campaign Mode", "yellow", function(){/*setScreen("campaign");*/})
+		button(660, 450, 600, 100, "Campaign Mode", "yellow", function(){setScreen("campaign");})
 		button(660, 600, 600, 100, "Free-Roam Mode", "yellow", function(){/*setScreen("freeroam");*/})
 		button(660, 750, 600, 100, "Controls", "yellow", function(){setScreen("controls");})
 		muteButton();
@@ -94,32 +94,32 @@ function setupHellaxyScreens(){
 			}
 		}
 	});
-	/*
+
 	
-	function campaignLine(of, designation, posy){
-		of = Hellaxy.campaigns[of];
-		Helon.ctx.fillText(designation + ":   Lvl " + of.at, 200, posy);
-		if (of.at !== 0){
-			if (of.at !== of.levels.length){
-				{button(600, posy - 36, 180, 48, "Continue", "yellow", function(){startCampaign(of.designation)});};
+	function campaignLine(designation, posy){
+		var from = Hellaxy.campaigns[designation];
+		Helon.ctx.fillText(designation + ":   Lvl " + from.at, 200, posy);
+		if (from.at !== 0){
+			if (from.at !== from.levels.length){
+				{button(600, posy - 36, 180, 48, "Continue", "yellow", function(){from.start()});};
 			}
 			else {
 				Helon.ctx.fillText("Complete!", 600, posy);
 			}
 		}
-		button(900,posy - 36, 180, 48, "New", "yellow", function(){of.at = 0; startCampaign(of.designation)});
+		button(900,posy - 36, 180, 48, "New", "yellow", function(){from.at = 0; from.start()});
 	}
 	
 	new Screen("campaign", "blackscreen", "theme1", function(){
 		Helon.ctx.fillText("Campaign Mode", 850, 50);
 		Helon.ctx.fillText("Select your campaign:", 810, 80);
-		campaignLine("humanian", "Humanian", 150);
-		campaignLine("qubanian", "Qubanian", 220);
+		campaignLine("humanian", 150);
+		//campaignLine("qubanian", "Qubanian", 220);
 		//campaignLine("chestanian", "Chestanian", 250);
 		button(660, 900, 600, 100, "Back", "yellow", function(){setScreen("menue");});
 	});
 	
-	
+	/*
 	new Screen("freeroam", "blackscreen", "theme1", function(){
 		var hor = 1;
 		var ver = 1;
