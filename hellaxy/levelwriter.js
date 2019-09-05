@@ -1,5 +1,12 @@
 var lastStat = {
-	sector : Helon.screen.ID
+	sector : {},
+	campaign : {},
+	level : {}
+}
+
+function addSetup(thingies){
+	if (lastStat.level.constructor.name = "Level") lastStat.level.setup = thingies;
+	else console.log("Levelscript error: tried to add setup function to missing level");
 }
 
 function msg(content){
@@ -25,8 +32,10 @@ function msg(content){
 
 function setSector(dec){
 	if (exists(Helon.screens[dec])){
-		setScreen(dec);
-		lastStat.sector = dec;
+		lastStat.level.add(new Event(function(){
+			setScreen(dec);
+			lastStat.sector = Helon.screen;
+		}));
 	}
 	else console.log("Could not find sector:" + dec);
 }
@@ -39,8 +48,10 @@ function setPlayer(withShip, atX, atY, atAngle, inSector){
 }
 
 function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
-	if (inSector === undefined) inSector = lastStat.sector;
-	Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl, abgang);
+	lastStat.level.add(new Event(function(){
+		if (inSector === undefined) inSector = lastStat.sector;
+		Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl, abgang);
+	}));
 }
 
 
@@ -54,32 +65,28 @@ function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
 
 
 
-function setupLevels(){				//<-- Kampagnendeklarierung
-	new Campaign("humanian");
+function setupLevels(){	
 	new Campaign("quicktest");
-	new Campaign("freeroaming");
-	new Campaign("chestanian");
-	new Campaign("qubanian");
-
 	
-
-	Hellaxy.campaigns.quicktest.addLevel(function(){
+		new Level();
 			setSector("testmap");
 			setPlayer("humanian_protobaseship_helonia");
-			spawnShip("humanian_shuttle", 300, 100, 0);
+			spawnShip("humanian_shuttle", 600, 600, 0);
 			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
 			spawnShip("none_testarrow", 100, 100, 0, "none", function(){msg("Test123");});
-			//spawnShip("none_testarrow", 400, 400, 0, npc.simpleRoamer);
 			spawnShip("none_fatman", 700, 1300, 90, npc.roamer);
 			//spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
 			//spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			//spawnAsteroids(600, 600, 400, 400);
-		},
-		{
-			no : false
-		}
-	);
 	
+	
+	
+	new Campaign("humanian");
+	new Campaign("freeroaming");
+	new Campaign("chestanian");
+	new Campaign("qubanian");
+
+}
 	/*
 	
 	Hellaxy.campaigns.freeroaming.addLevel(function(){
@@ -480,5 +487,5 @@ function setupLevels(){				//<-- Kampagnendeklarierung
 		},
 		function(){}
 	); 
-	*/
-}
+	
+}*/

@@ -274,17 +274,18 @@ class Ship extends Body{
 	
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, abgang){
-		if (!exists(Hellaxy.sectors[inSector])){
-			inSector = "testmap";
+		var neuerSpawn = this.clone();
+		if (exists(Hellaxy.sectors[inSector])) neuerSpawn.sector = Hellaxy.sectors[inSector];
+		if (inSector.constructor.name === "Sector") neuerSpawn.sector = inSector;
+		if (!exists(neuerSpawn.sector)){
+			neuerSpawn.sector = Hellaxy.sectors["testmap"]
 			console.log("Spawnsector unknown. Moved new spawn to testmap");
 		}
-		var neuerSpawn = this.clone();
 		neuerSpawn.x = setProp(atX, 0);
 		neuerSpawn.y = setProp(atY, 0);
 		neuerSpawn.angle = setProp(atAngle, 0);
 		neuerSpawn.ctrl = setProp(ctrl, "none");
 		neuerSpawn.abgang = setProp(abgang, function(){});
-		neuerSpawn.sector = Hellaxy.sectors[inSector];
 		neuerSpawn.ID = neuerSpawn.sector.ships.length;
 		neuerSpawn.staticID = neuerSpawn.sector.ships.length + Helon.tics;
 		neuerSpawn.sector.add(neuerSpawn);

@@ -63,51 +63,6 @@ class Projectile extends Body{
 			}
 		}
 		
-		/*
-		act(){ //	 Enthält alte Systeme!!!!!!!
-			this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
-			this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
-			if (this.x < 0 || this.y < 0 || this.x > Hellaxy.sector.width || this.y > Hellaxy.sector.height){
-				this.emitter.sector.projectiles.splice(this.ID(),1);
-				return;
-			}
-			for (var h = 0; h < Hellaxy.sector.ships.length; h++){ //Prozess bei Treffer
-				var SHIP = Hellaxy.sector.ships[h];
-				if (this.hits(SHIP)) {
-					if (this.pen >= SHIP.armour){
-						this.v = 0;
-						if (SHIP.shield <= 0) SHIP.hp -= this.alpha;
-						if (SHIP.shield > 1) SHIP.shield -= this.alpha;
-						if (SHIP.maxShield > 0 && SHIP.maxShield < 1) SHIP.hp -= this.alpha * SHIP.shield;
-						for (var m = 0; m < Hellaxy.sector.ships.length; m++){
-							if (this.hits(Hellaxy.sector.ships[m])) {
-								if (this.pen >= Hellaxy.sector.ships[m].armour && m !== h){
-									if (Hellaxy.sector.ships[m].shield <= 0) Hellaxy.sector.ships[m].hp -= this.alpha;
-									if (Hellaxy.sector.ships[m].shield > 1) Hellaxy.sector.ships[m].shield -= this.alpha;
-									if (Hellaxy.sector.ships[m].maxShield > 0 && Hellaxy.sector.ships[m].maxShield < 1) Hellaxy.sector.ships[m].hp -= this.alpha * Hellaxy.sector.ships[m].shield;
-								}
-							}
-						}
-						this.sound("pen");
-						projectile.splice(this.ID(),1);
-						return;
-					}
-					if (this.pen < SHIP.armour){
-						for (var j = 180; j > 0; j--){
-							this.angle -=1;
-							if (this.angle === -1) this.angle = 359;
-						}
-						this.y -= Math.cos(this.angle * Math.PI / 180) * this.v;
-						this.x += Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
-						this.sound("bounce");
-						if (this.hits(SHIP)){
-							projectile.splice(this.ID(),1);
-							return;
-						}
-					}
-				}
-			}
-		} */
 		
 		
 		ID(){

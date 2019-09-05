@@ -4,11 +4,12 @@
 		this.levels = [];
 		this.at = 0;
 		Hellaxy.campaigns[designation] = this;
+		lastStat.campaign = this;
 	}
 	
 	
-	addLevel(setup, conditions, events){
-		new Level(this, setup, conditions, events);
+	addLevel(setup){
+		new Level(setup, this);
 	}
 	
 	
@@ -32,41 +33,70 @@
 
 
 class Level {
-	constructor(belong, setup, conditions, events){
-		this.campaign = belong;
-		this.setup = setup;
-		this.isSetup = false;
-		this.conditions = conditions;
-		if (events !== undefined) this.events = events;
-		belong.levels.push(this);
+	constructor(belong){
+		this.campaign = setProp(belong, lastStat.campaign);
+		this.linearEvents = [];
+		this.continousEvents = [];
+		this.over = false;
+		this.campaign.levels.push(this);
+		lastStat.level = this;
+	}
+	
+	
+	
+	add(event){
+		if (event.constructor.name !== "Event") return;
+		this.linearEvents.push(event);
+	}
+	
+	
+	
+	addPermanent(event){
+		if (event.constructor.name !== "Event") return;
+		this.continuosEvents.push(event);
 	}
 	
 	
 	
 	start(){
-		if (!this.isSetup) this.setup();
+		Hellaxy.level = this;
 	}
 	
 	
 	
 	check(){
-		if (intervalReact(key.esc, 500, "esc")){
-			setScreen("paused");
+		if (this.linearEvents.length === 0){
+			this.over = true;
+			msg("Level complete!!! Continue with 'E'");
 		}
-		if (Hellaxy.msgs.length !== 0){
-			setScreen("messager");
+		if (this.over){
+			if (intervalReact(key.e, 500, "msgDelay")) this.end();
 		}
-		if (this.target !== undefined) cursor.pointAt({
-			x : this.target.x - Helon.screen.offsetX,
-			y : this.target.y - Helon.screen.offsetY,
-		});
-		for (var cond in this.conditions){
-			if (this.conditions[cond] === false) return;
+		else{
+			if (intervalReact(key.esc, 500, "esc")){
+				setScreen("paused");
+			}
+			if (Hellaxy.msgs.length !== 0){
+				setScreen("messager");
+			}
+
+			if (exists(this.linearEvents[0].obj)) cursor.pointAt({
+				x : this.linearEvents[0].obj.x - Helon.screen.offsetX,
+				y : this.linearEvents[0].obj.y - Helon.screen.offsetY,
+			});
+			while (this.linearEvents.length > 0){
+				if (this.linearEvents[0].condition){
+					this.linearEvents[0].reward();
+					this.linearEvents.splice(0,1);
+					i--;
+				}
+				else break;
+			}
+			for (var i = 0; i < this.continousEvents.length; i++ ){
+				if (this.continousEvents[i].condition) this.continousEvents[i].reward();
+				else continue;
+			}
 		}
-		Helon.ctx.fillStyle = "yellow";
-		Helon.ctx.fillText("Mission completed!!!", 450, 200);
-		Helon.ctx.fillText("Press 'E' to continue", 450, 250);
-		if (intervalReact(key.e, 500, "msgDelay")) this.end();
 	}
 	
 	
@@ -75,11 +105,8 @@ class Level {
 		Helon.screen.projectiles = [];
 		Hellaxy.msgs = [];
 		this.target = "none";
-		this.isSetup = false;
+		this.over = false;
 		Hellaxy.sector.ships = [];
-		for (var cond in this.conditions){
-			this.conditions[cond] = false;
-		}
 		Hellaxy.campaign = {};
 		Hellaxy.level = {};
 		setScreen("menue");
@@ -88,7 +115,37 @@ class Level {
 	
 	
 	end(){
+		console.log("Ending level");
 		this.cancel()
 		this.campaign.at += 1;
 	}
 }
+
+
+
+class Event{
+	constructor(reward, condition){
+		if (!exists(reward) || typeof reward !== "function") return;
+		this.reward = reward;
+		this.condition = setProp(condition, true);
+	}
+	
+	reward(){}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
