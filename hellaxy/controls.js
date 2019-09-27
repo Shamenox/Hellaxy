@@ -50,7 +50,7 @@ function setupControls(){
 			}
 		} else {
 			this.acc();
-			//if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+			this.turnFrom("walls");
 		}
 	}
 	

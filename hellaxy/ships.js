@@ -187,7 +187,7 @@ class Ship extends Body{
 	
 	follow(toFollow, atDistance){
 		if (!exists(toFollow)) toFollow = this.nextShip();
-		if (!exists(atDistance)) atDistance = 750;
+		if (!exists(atDistance)) atDistance = 4 * this.width;
 		this.turn(toFollow);
 		if (this.distanceTo(toFollow) > atDistance) {
 			if (this.pointsAt(toFollow)) this.acc();
@@ -211,7 +211,7 @@ class Ship extends Body{
 	
 	nextShip(search, range){
 		if (!exists(search)) search = "anything";
-		if (!exists(range)) range = 1000;
+		if (!exists(range)) range = 1400;
 		var pot = false;
 		for (var k = 0; k < this.sector.ships.length; k++){
 			if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
@@ -224,7 +224,7 @@ class Ship extends Body{
 						if (this.sector.ships[k].fraction !== this.fraction) pot = Hellaxy.sector.ships[k];
 					}
 					else {
-						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].mass > this.mass) pot = Hellaxy.sector.ships[k];
+						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].ctrl !== this.ctrl) pot = Hellaxy.sector.ships[k];
 						if (search !== this.fraction && search === this.sector.ships[k].fraction) pot = Hellaxy.sector.ships[k];
 					}
 				}
@@ -241,9 +241,9 @@ class Ship extends Body{
 		if (!exists(range)) range = 1000;
 			for (var k = 0; k < this.sector.ships.length; k++){
 				if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
-					if (search === "anything") matches.push(Hellaxy.sector.ships[k]);
-					if (search === "anythingElse" && this.sector.ships[k].fraction !== this.fraction) matches.push(Hellaxy.sector.ships[k]);
-					if (search === this.sector.ships[k].fraction) matches.push(Hellaxy.sector.ships[k]);
+					if (search === "anything") matches.push(this.sector.ships[k]);
+					if (search === "anythingElse" && this.sector.ships[k].fraction !== this.fraction) matches.push(this.sector.ships[k]);
+					if (search === this.sector.ships[k].fraction) matches.push(this.sector.ships[k]);
 				}
 			}
 		if (matches.length === 0) return false;
@@ -255,12 +255,12 @@ class Ship extends Body{
 	printBar(){
 		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
 		Helon.ctx.fillStyle = "green";
-		var x = (this.x - Helon.screen.offsetX) * Helon.screen.scale - this.width/2 * Helon.screen.scale;
-		var y = (this.y - Helon.screen.offsetY) * Helon.screen.scale - this.height/1.7 * Helon.screen.scale;
-		Helon.ctx.strokeRect(x, y, this.width * Helon.screen.scale, 6);
-		Helon.ctx.fillRect(x, y, this.width * (this.hp / this.mass) * Helon.screen.scale, 6);
+		var x = (this.x - this.sector.offsetX) * this.sector.scale - this.width/2 * this.sector.scale;
+		var y = (this.y - this.sector.offsetY) * this.sector.scale - this.height/1.7 * this.sector.scale;
+		Helon.ctx.strokeRect(x, y, this.width * this.sector.scale, 6);
+		Helon.ctx.fillRect(x, y, this.width * (this.hp / this.mass) * this.sector.scale, 6);
 		Helon.ctx.fillStyle = "cyan";
-		Helon.ctx.fillRect(x, y, this.width * (this.shield / this.maxshield) * Helon.screen.scale, 6);
+		Helon.ctx.fillRect(x, y, this.width * (this.shield / this.maxshield) * this.sector.scale, 6);
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillStyle = "yellow";
 	}
@@ -409,7 +409,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	new Ship({designation : "asteroid1", fraction : "asteroid", hp : 500, shield : 0, armour : 1, a : 0.025, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
 	new Ship({designation : "asteroid2", fraction : "asteroid", hp : 350, shield : 0, armour : 1, a : 0.037, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
 	new Ship({designation : "asteroid3", fraction : "asteroid", hp : 200, shield : 0, armour : 1, a : 0.05, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
-	new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.1, wp1 : "machinegun_5nm"});
+	new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.08, wp1 : "machinegun_5nm"});
 	new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : "kolexialgun_14nm"});
 	new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
 	new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : "machinegun_5nm"});

@@ -10,6 +10,7 @@ class Sector extends Screen{
 		this.scale = 1;
 		this.ships = [];
 		this.planets = [];
+		this.player = {};
 		this.projectiles = [];
 		this.portals = [];
 		this.locations = [];

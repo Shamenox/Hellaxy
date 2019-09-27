@@ -3,7 +3,8 @@ var lastStat = {			//Hässliche Funktionen für ein hübsches Leveldesign ->
 	campaign : {},
 	level : {},
 	planet : {},
-	ship : {}
+	ship : {},
+	event : {}
 }
 
 function addSetup(thingies){
@@ -12,7 +13,7 @@ function addSetup(thingies){
 }
 
 function endless(){
-	lastStat.level.add(new Event(function(){}, false));
+	lastStat.level.add(new Event(function(){}, function(){return false;}));
 }
 
 function msg(content){
@@ -21,13 +22,13 @@ function msg(content){
 	var chunks = content.split("	");
 	for (var i = 0; i < chunks.length; i++){
 		for (var c = 0; c < chunks[i].split(" ").length; c ++){
-			words.push(chunks[i].split(" ")[c]);
+			if (chunks[i].split(" ")[c] !== "") words.push(chunks[i].split(" ")[c]);
 		}
 	}
 	var line = "";
 	for (var i = 0; i < words.length; i++){
 		line += words[i] + " ";
-		if (Helon.ctx.measureText(line).width + Helon.ctx.measureText(words[i+1]).width > 1600){
+		if (Helon.ctx.measureText(line).width + Helon.ctx.measureText(words[i+1]).width > 1700){
 			var neueMsg = {};
 			neueMsg.content = line;
 			Hellaxy.msgs.push(neueMsg);
@@ -42,9 +43,25 @@ function msg(content){
 }
 
 function addMsg(content){
-	lastStat.level.add(new Event(function(){
+	new Event(function(){
 		msg(content);
-	}));
+	});
+}
+
+function getTo(destination, potY){
+	new Event(function(){}, function(){
+		if (exists(Helon.screen.player)) return (Helon.screen.player.overlaps(this.obj));
+		else return false;
+	});
+	if (typeof destination === "number"){
+		var newDest = new Body();
+		newDest.x = destination;
+		newDest.y = potY;
+		newDest.width = 220;
+		newDest.height = 220;
+		lastStat.event.obj = newDest;
+	}
+	else lastStat.event.obj = destination;
 }
 
 /*function setFocus(here){  Funktioniert nicht???
@@ -56,10 +73,10 @@ function addMsg(content){
 function setSector(dec){
 	if (exists(Helon.screens[dec])){
 		lastStat.sector = Helon.screens[dec];
-		lastStat.level.add(new Event(function(){
+		new Event(function(){
 			setScreen(dec);
 			lastStat.sector = Helon.screen;
-		}));
+		});
 	}
 	else console.log("Could not find sector:" + dec);
 }
@@ -68,17 +85,59 @@ function setPlayer(withShip, atX, atY, atAngle, inSector){
 	atX = setProp(atX, 400);
 	atY = setProp(atY, 400);
 	atAngle = setProp(atAngle, 0);
-	spawnShip(withShip, atX, atY, atAngle, player1, function(){/*addMsg("Report critical Damage");*/ Hellaxy.level.cancel();});
-	lastStat.level.add(new Event(function(){
+	spawnShip(withShip, atX, atY, atAngle, player1, function(){msg("Report critical Damage"); Hellaxy.level.cancel();});
+	new Event(function(){
 		lastStat.sector.focus(lastStat.ship);
-	}));
+		lastStat.sector.player = lastStat.ship;
+	});
 }
 
+function spawnBoss(designation, atX, atY, atAngle, ctrl, inSector){
+	new Event(function(){
+		if (inSector === undefined) inSector = lastStat.sector;
+		Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl);
+		this.obj = lastStat.ship;
+	}, function(){
+		return !(this.obj.hp > 0);
+	});
+}
+/*
+function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, abgang, inSector){
+	for (var q = 0; q < quantity; q++){
+		spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector);
+		if (dimension === "x") atX += Hellaxy.ships[designation].width * 2;
+		if (dimension === "y") atY += Hellaxy.ships[designation].height * 2;
+	}
+} */
+
 function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
-	lastStat.level.add(new Event(function(){
+	new Event(function(){
 		if (inSector === undefined) inSector = lastStat.sector;
 		Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl, abgang);
-	}));
+	});
+}
+
+function spawnSquad(designation, atX, atY, quantity, ctrl, abgang, inSector){
+	var hor = 0;
+	var ver = 0;
+	var spawned = 0;
+	while (spawned < quantity){
+		spawnShip(designation, atX + hor * Hellaxy.ships[designation].width * 2, atY + ver * Hellaxy.ships[designation].height * 2, 0, ctrl, abgang, inSector);
+		spawned++;
+		hor++;
+		if (hor >= Math.sqrt(quantity)){
+			hor = 0;
+			ver++;
+		}
+	}
+}
+
+function wait(duration){
+	new Event(function(){}, function(){
+		this.timer--;
+		return (this.timer <= 0)
+	});
+	lastStat.event.timer = duration;
 }
 
 
@@ -102,6 +161,10 @@ function setupLevels(){				//Levelscripts ->
 			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
 			spawnShip("none_testarrow", 100, 100, 0, "none", function(){msg("Test 123 langes Wort");});
 			spawnShip("none_fatman", 700, 1300, 90, npc.roamer);
+			getTo(1200, 1200);
+			addMsg("gotThere");
+			wait(500);
+			addMsg("waitet 500");
 			//spawnSquad("tonium_chunk", 1000, 1000, 270, 3, npc.fairy);
 			//spawnSquad("tonium_chunk", 100, 100, 270, 4, npc.fairy);
 			//spawnAsteroids(600, 600, 400, 400);
@@ -115,28 +178,29 @@ function setupLevels(){				//Levelscripts ->
 	
 	new Campaign("humanian");
 	
-		new Level();
+		new Level();	//2007. Cycle; 236
 			setSector("central");
 			new Planet("humania", 1000, 1000);
-			//setFocus(lastStat.planet);
-			//addPlanet("pontes", 1420, 2550);
+			new Planet("pontes", 1420, 2550);
 			setPlayer("humanian_shuttle", 1000, 1000);
-			//spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
-			//spawnShip("qubanian_colonizer", 200, 200, 135, function(){this.follow(Hellaxy.planets.humania, 200);}, function(){addMsg("Unknown Object eliminated! Return to base!");});
-			addMsg("Log in: 2007. Cycle; 236; 1.Humanian Squadron Commander Blue ID:29344 Humanian HQ: Attention!\
-				Welcome to your first flight Commander\
-				According to your Intruments your squadron should be fine out there.\
-				An unknown Object appears to be heading towards our home planet.\
-				Your mission is to guard our Orbit.\
-				Eliminate said Object if necessary.\
+			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
+			addMsg("Attention! Welcome to your first flight Commander!\
 				Turn your Shuttle by clicking in the direction you want to head.\
-				Use WASD to maneuver.\
-				Press Space to fire.\
-				Your Squad follows you.\
+				Use WASD to maneuver. Press Space to fire. Your Squad follows you.\
 				Make sure to not guide them into anything!\
+			");
+			wait(2000);
+			addMsg("Great! We send you coordinates. Your cursor will point towards your target, when you click. Please get there ASAP");
+			getTo(2300, 2000);
+			addMsg("Great! Now please return to our home Planet Humania");
+			getTo(1000, 1000);
+			addMsg("An unknown Object appeared on our radar!\
+				Commander! Your mission is to guard our Orbit. \
+				Press Space to fire.\
 				Good luck out there!"
 			);
-			endless();
+			spawnBoss("qubanian_colonizer", 0, 200, 135, function(){this.follow();});
+			addMsg("Unknown Object eliminated! Return to base!");
 
 	
 	

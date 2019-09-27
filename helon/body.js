@@ -11,8 +11,8 @@ class Body{
 		this.vangle = 0;
 		this.skin = new Image();
 		this.mass = 1;
-		this.width = 0;
-		this.height = 0;
+		this.width = 1;
+		this.height = 1;
 		this.screen = {};
 	}
 	
@@ -56,7 +56,7 @@ class Body{
 		Helon.ctx.translate(x, y); // Drehung
 		Helon.ctx.rotate(this.angle * Math.PI / 180);
 		Helon.ctx.translate(-x, -y);
-		Helon.ctx.drawImage(this.skin, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
+		Helon.ctx.drawImage(that, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
 		Helon.ctx.translate(x, y); // Rückdrehung
 		Helon.ctx.rotate(-this.angle * Math.PI / 180);
 		Helon.ctx.translate(-x, -y);

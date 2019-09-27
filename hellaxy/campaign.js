@@ -68,7 +68,6 @@ class Level {
 		for (var i = 0; i < this.continousEvents.length; i++){
 			this.currentContinousEvents[i] = this.continousEvents[i];
 		}
-		Hellaxy.level = this;
 	}
 	
 	
@@ -82,7 +81,7 @@ class Level {
 			if (intervalReact(key.e, 500, "msgDelay")) this.end();
 		}
 		else{
-			if (intervalReact(key.esc, 500, "esc")){
+			if (intervalReact(key.esc && Helon.screen.ID !== "messager", 500, "esc")){
 				setScreen("paused");
 			}
 			if (Hellaxy.msgs.length !== 0){
@@ -94,23 +93,34 @@ class Level {
 				y : this.currentLinearEvents[0].obj.y - Helon.screen.offsetY,
 			});
 			while (this.currentLinearEvents.length > 0){
-				if (this.currentLinearEvents[0].condition){
-					this.currentLinearEvents[0].reward();
-					this.currentLinearEvents.splice(0,1);
-					i--;
+				console.log("while begonnen");
+				if (!this.currentLinearEvents[0].isSetup){
+					this.currentLinearEvents[0].effect();
+					this.currentLinearEvents[0].isSetup = true;
 				}
-				else break;
+				if (this.currentLinearEvents[0].condition()){
+					this.currentLinearEvents.splice(0,1);
+				}
+				else{
+					console.log("while verlassen");
+					break;
+				}
 			}
+			/*
 			for (var i = 0; i < this.currentContinousEvents.length; i++ ){
-				if (this.currentContinousEvents[i].condition) this.currentContinousEvents[i].reward();
+				if (this.currentContinousEvents[i].condition) this.currentContinousEvents[i].effect();
 				else continue;
-			}
+			} */
 		}
 	}
 	
 	
 	
 	cancel(){
+		console.log("Ending level");
+		for (var i = 0; i < this.linearEvents.length; i++){
+			this.linearEvents[i].isSetup = false;
+		}
 		Helon.screen.projectiles = [];
 		Hellaxy.msgs = [];
 		this.target = "none";
@@ -125,7 +135,7 @@ class Level {
 	
 	
 	end(){
-		console.log("Ending level");
+		console.log("Level complete");
 		this.cancel()
 		this.campaign.at += 1;
 	}
@@ -134,13 +144,17 @@ class Level {
 
 
 class Event{
-	constructor(reward, condition){
-		if (!exists(reward) || typeof reward !== "function") return;
-		this.reward = reward;
-		this.condition = setProp(condition, true);
+	constructor(effect, condition){
+		if (!exists(effect) || typeof effect !== "function") return;
+		this.effect = effect;
+		this.condition = setProp(condition, function(){return true;});
+		this.obj = false;
+		this.isSetup = false;
+		lastStat.event = this;
+		lastStat.level.add(this);
 	}
 	
-	reward(){}
+	effect(){}
 }
 
 

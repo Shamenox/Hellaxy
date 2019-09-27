@@ -75,21 +75,20 @@ function setupHellaxyScreens(){
 			Helon.ctx.lineWidth = 10;
 			Helon.ctx.strokeRect(10,10,1895,110);
 			Helon.ctx.strokeRect(10,10,160,110);
-			Helon.ctx.lineWidth = 2;
 			Helon.ctx.fillStyle = "black";
 			Helon.ctx.fillText("Intercom", 18, 70);
-			Helon.ctx.fillText("Continue(E)", 1700, 100);
 			
 			if (Hellaxy.msgs.length > 1) Helon.ctx.fillText(Hellaxy.msgs[1].content, 190, 100);
 			Helon.ctx.fillText(Hellaxy.msgs[0].content, 190, 50);
 			
 			Helon.ctx.strokeStyle = "yellow";
 			Helon.ctx.fillStyle = "yellow";
+			Helon.ctx.fillText("Continue(E)", 1700, 170);
 			Helon.ctx.lineWidth = 1;
 			if (intervalReact(key.e, 500, "msgDelay")){
-				Hellaxy.msgs.splice(0,1);
+				Hellaxy.msgs.splice(0,2);
 			}
-			if (intervalReact(intervalReact(key.esc, 500, "esc"))){
+			if (intervalReact(key.esc, 500, "esc")){
 				Hellaxy.msgs.splice(0, Hellaxy.msgs.length);
 			}
 		}

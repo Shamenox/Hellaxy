@@ -9,9 +9,7 @@ class Planet extends Body{
 		this.setSkin("planet_" + designation);
 		this.x = setProp(x, 0);
 		this.y = setProp(y, 0);
-		console.log(sector);
 		if (!exists(sector)) sector = lastStat.sector;
-		console.log(sector);
 		sector.add(this);
 	}
 }

@@ -60,48 +60,4 @@ function setCampaign(designation){
 	Hellaxy.campaign = Hellaxy.campaigns[designation];
 	Hellaxy.level = Hellaxy.campaigns[designation].levels[Hellaxy.campaigns[designation].at];
 }
-
-
-
-function startCampaign(campaign){
-	resetAudio()
-	setCampaign(campaign);
-	Hellaxy.task = campaignManager;
-	player1ship.x = 0;
-	player1ship.y = 0;
-	LEVEL = Hellaxy.campaign.levels[Hellaxy.campaign.at];
-	if (!LEVEL.isSetup) {
-		LEVEL.setup();
-		LEVEL.isSetup = true;
-	}
-	Hellaxy.campaign.act();
-	Hellaxy.sector.act();
-}
-
-
-
-function spawnSquad(designation, atX, atY, atAngle, quantity, ctrl, abgang, inSector){
-	var hor = 0;
-	var ver = 0;
-	var spawned = 0;
-	while (spawned < quantity){
-		spawnShip(designation, atX + hor * Hellaxy.ships[designation].width * 2, atY + ver * Hellaxy.ships[designation].height * 2, atAngle, ctrl, abgang, inSector);
-		spawned++;
-		hor++;
-		if (hor >= Math.sqrt(quantity)){
-			hor = 0;
-			ver++;
-		}
-	}
-}
-
-
-
-function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, abgang, inSector){
-	for (var q = 0; q < quantity; q++){
-		spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector);
-		if (dimension === "x") atX += Hellaxy.ships[designation].width * 2;
-		if (dimension === "y") atY += Hellaxy.ships[designation].height * 2;
-	}
-}
  */
