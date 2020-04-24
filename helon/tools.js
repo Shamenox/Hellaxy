@@ -7,10 +7,10 @@ Number.prototype.between = function(a, b) {
 }
 
 
-
-function setProp(par, deflt){
-	if (exists(par)){
-		return par;
+//Fuer init von Objektparametern
+function trySet(setTo, deflt){
+	if (exists(setTo)){
+		return setTo;
 	}
 	else{
 		if (exists(deflt)){
@@ -18,9 +18,15 @@ function setProp(par, deflt){
 		}
 		else{
 			return null;
-			console.log("Alert: Could not set property. Null was set instead");
+			console.log("Alert: Could not set property. Null was set instead!");
 		}
 	}
+}
+
+
+//Alter Name - ergibt wenig Sinn
+function setProp(par, deflt){
+	return trySet(par, deflt);
 }
 
 

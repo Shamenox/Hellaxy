@@ -4,16 +4,19 @@ var lastStat = {			//Hässliche Funktionen für ein hübsches Leveldesign ->
 	level : {},
 	planet : {},
 	ship : {},
-	event : {}
+	event : {},
+	levelStep : {},
+	player : {}
 }
 
+/* Useless?
 function addSetup(thingies){
 	if (lastStat.level.constructor.name = "Level") lastStat.level.setup = thingies;
 	else console.log("Levelscript error: tried to add setup function to missing level");
-}
+}*/
 
 function endless(){
-	lastStat.level.add(new Event(function(){}, function(){return false;}));
+	lastStat.level.addStep(new LevelStep(function(){}, function(){return false;}));
 }
 
 function msg(content){
@@ -43,15 +46,14 @@ function msg(content){
 }
 
 function addMsg(content){
-	new Event(function(){
+	new LevelStep(function(){
 		msg(content);
 	});
 }
 
 function getTo(destination, potY){
-	new Event(function(){}, function(){
-		if (exists(Helon.screen.player)) return (Helon.screen.player.overlaps(this.obj));
-		else return false;
+	new LevelStep(function(){}, function(){
+		if (exists(Helon.screen.player)) return (Helon.screen.player.overlaps(this.target));
 	});
 	if (typeof destination === "number"){
 		var newDest = new Body();
@@ -59,9 +61,9 @@ function getTo(destination, potY){
 		newDest.y = potY;
 		newDest.width = 220;
 		newDest.height = 220;
-		lastStat.event.obj = newDest;
+		lastStat.levelStep = newDest;
 	}
-	else lastStat.event.obj = destination;
+	else lastStat.levelStep.target = destination;
 }
 
 /*function setFocus(here){  Funktioniert nicht???
@@ -70,10 +72,12 @@ function getTo(destination, potY){
 	}));
 } */
 
+
+
 function setSector(dec){
 	if (exists(Helon.screens[dec])){
 		lastStat.sector = Helon.screens[dec];
-		new Event(function(){
+		new LevelStep(function(){
 			setScreen(dec);
 			lastStat.sector = Helon.screen;
 		});
@@ -81,26 +85,40 @@ function setSector(dec){
 	else console.log("Could not find sector:" + dec);
 }
 
-function setPlayer(withShip, atX, atY, atAngle, inSector){
-	atX = setProp(atX, 400);
-	atY = setProp(atY, 400);
-	atAngle = setProp(atAngle, 0);
+
+
+function setPlayer(withShip, atX, atY, atAngle){
+	if (!exists(withShip) || withShip.constructor.name != "Ship" && Hellaxy.ships[withShip] == undefined){
+		console.log("Error: Tried setting up Player with undefined ship!");
+		new LevelStep(function(){
+			console.log("Error: Could not set Player!\nEnding Level!");
+			lastStat.level.cancel();
+		});
+	}
+	atX = trySet(atX, 400);
+	atY = trySet(atY, 400);
+	atAngle = trySet(atAngle, 0);
 	spawnShip(withShip, atX, atY, atAngle, player1, function(){msg("Report critical Damage"); Hellaxy.level.cancel();});
-	new Event(function(){
+	new LevelStep(function(){
 		lastStat.sector.focus(lastStat.ship);
 		lastStat.sector.player = lastStat.ship;
+		lastStat.player = lastStat.ship;
 	});
 }
 
+
+
 function spawnBoss(designation, atX, atY, atAngle, ctrl, inSector){
-	new Event(function(){
+	new LevelStep(function(){
 		if (inSector === undefined) inSector = lastStat.sector;
 		Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl);
-		this.obj = lastStat.ship;
+		lastStat.LevelStep.target = lastStat.ship;
 	}, function(){
-		return !(this.obj.hp > 0);
+		return !(this.target.hp > 0);
 	});
 }
+
+
 /*
 function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, abgang, inSector){
 	for (var q = 0; q < quantity; q++){
@@ -111,11 +129,13 @@ function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, a
 } */
 
 function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
-	new Event(function(){
+	new LevelStep(function(){
 		if (inSector === undefined) inSector = lastStat.sector;
 		Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl, abgang);
 	});
 }
+
+
 
 function spawnSquad(designation, atX, atY, quantity, ctrl, abgang, inSector){
 	var hor = 0;
@@ -132,12 +152,15 @@ function spawnSquad(designation, atX, atY, quantity, ctrl, abgang, inSector){
 	}
 }
 
+
+
 function wait(duration){
-	new Event(function(){}, function(){
+	new LevelStep(function(){}, function(){
 		this.timer--;
+		//Helon.ctx.fillText(this.timer, 4, 24); Wird dann vom Secotr überlappt... Neue Text Helon Klasse für alle Screens?
 		return (this.timer <= 0)
 	});
-	lastStat.event.timer = duration;
+	lastStat.LevelStep.timer = duration;
 }
 
 
@@ -189,7 +212,7 @@ function setupLevels(){				//Levelscripts ->
 				Use WASD to maneuver. Press Space to fire. Your Squad follows you.\
 				Make sure to not guide them into anything!\
 			");
-			wait(2000);
+			wait(1200);
 			addMsg("Great! We send you coordinates. Your cursor will point towards your target, when you click. Please get there ASAP");
 			getTo(2300, 2000);
 			addMsg("Great! Now please return to our home Planet Humania");
