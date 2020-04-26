@@ -1,6 +1,6 @@
 function setupHellaxyScreens(){
 
-	new Screen("title", "blackscreen", "theme1", function(){
+	new Screen("title", "blackscreen", "none", function(){
 		Helon.ctx.font = "244px Consolas";
 		Helon.ctx.fillText("Hellaxy", 480, 320);
 		Helon.ctx.font = "32px Consolas";

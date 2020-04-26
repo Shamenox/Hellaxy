@@ -15,9 +15,6 @@ var image_ref =		//Only use "\" to break lines or seperate arguments!
 	bg_imperial2\
 	bg_central\
 	\
-	planet_asteroid_asteroid1\
-	planet_asteroid_asteroid2\
-	planet_asteroid_asteroid3\
 	planet_birchanian_fortress\
 	planet_blank\
 	planet_chestanian_fortress\
@@ -40,7 +37,11 @@ var image_ref =		//Only use "\" to break lines or seperate arguments!
 	proj_spikes1\
 	proj_triangle\
 	\
+	ship_asteroid_asteroid1\
+	ship_asteroid_asteroid2\
+	ship_asteroid_asteroid3\
 	ship_birchanian_glider\
+	ship_birchanian_fortress_ai\
 	ship_chestanian_colonizer\
 	ship_chestanian_glider\
 	ship_chestanian_quintglider\

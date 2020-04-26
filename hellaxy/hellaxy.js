@@ -1,4 +1,5 @@
 var Hellaxy = new App();
+	Hellaxy.name = "Hellaxy";
 	Hellaxy.sector = {};
 	Hellaxy.msgs = [];
 	Hellaxy.campaign = {};
@@ -27,6 +28,7 @@ Hellaxy.startUp = function(){
 	setupSectors();
 	setupLevels();
 	setScreen("title");
+	console.log("HINT: If something is UNDEFINED and you cant find why, check for THIS. !!!");
 }
 
 

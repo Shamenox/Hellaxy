@@ -4,7 +4,6 @@ var lastStat = {			//Hässliche Funktionen für ein hübsches Leveldesign ->
 	level : {},
 	planet : {},
 	ship : {},
-	event : {},
 	levelStep : {},
 	player : {}
 }
@@ -30,8 +29,8 @@ function msg(content){
 	}
 	var line = "";
 	for (var i = 0; i < words.length; i++){
-		line += words[i] + " ";
-		if (Helon.ctx.measureText(line).width + Helon.ctx.measureText(words[i+1]).width > 1700){
+		if (words[i] != "ABSATZ") line += words[i] + " ";
+		if (Helon.ctx.measureText(line).width + Helon.ctx.measureText(words[i+1]).width > 1700 || words[i] === "ABSATZ"){
 			var neueMsg = {};
 			neueMsg.content = line;
 			Hellaxy.msgs.push(neueMsg);
@@ -49,21 +48,24 @@ function addMsg(content){
 	new LevelStep(function(){
 		msg(content);
 	});
+	lastStat.levelStep.description = "Display Message";
 }
 
 function getTo(destination, potY){
-	new LevelStep(function(){}, function(){
-		if (exists(Helon.screen.player)) return (Helon.screen.player.overlaps(this.target));
-	});
 	if (typeof destination === "number"){
 		var newDest = new Body();
 		newDest.x = destination;
 		newDest.y = potY;
-		newDest.width = 220;
-		newDest.height = 220;
-		lastStat.levelStep = newDest;
+		newDest.width = 300;
+		newDest.height = 300;
+		destination = newDest;
 	}
-	else lastStat.levelStep.target = destination;
+
+	new LevelStep(function(){}, function(){
+		if (exists(Helon.screen.player)) return (Helon.screen.player.overlaps(this.target));
+	});
+	lastStat.levelStep.target = destination;
+	lastStat.levelStep.description = "Get to target";
 }
 
 /*function setFocus(here){  Funktioniert nicht???
@@ -109,13 +111,17 @@ function setPlayer(withShip, atX, atY, atAngle){
 
 
 function spawnBoss(designation, atX, atY, atAngle, ctrl, inSector){
+	if (inSector === undefined) inSector = lastStat.sector;
+	
 	new LevelStep(function(){
-		if (inSector === undefined) inSector = lastStat.sector;
 		Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl);
-		lastStat.LevelStep.target = lastStat.ship;
+		this.target = lastStat.ship;
 	}, function(){
-		return !(this.target.hp > 0);
+		//console.log(this.target);
+		return (this.target.hp <= 0);
 	});
+	lastStat.levelStep.description = "Fight Boss";
+	
 }
 
 
@@ -157,10 +163,12 @@ function spawnSquad(designation, atX, atY, quantity, ctrl, abgang, inSector){
 function wait(duration){
 	new LevelStep(function(){}, function(){
 		this.timer--;
+		console.log(this.timer);
 		//Helon.ctx.fillText(this.timer, 4, 24); Wird dann vom Secotr überlappt... Neue Text Helon Klasse für alle Screens?
 		return (this.timer <= 0)
 	});
-	lastStat.LevelStep.timer = duration;
+	lastStat.levelStep.timer = duration;
+	lastStat.levelStep.description = "Wait";
 }
 
 
@@ -207,7 +215,7 @@ function setupLevels(){				//Levelscripts ->
 			new Planet("pontes", 1420, 2550);
 			setPlayer("humanian_shuttle", 1000, 1000);
 			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
-			addMsg("Attention! Welcome to your first flight Commander!\
+			addMsg("Attention! ABSATZ Welcome to your first flight Commander! ABSATZ\
 				Turn your Shuttle by clicking in the direction you want to head.\
 				Use WASD to maneuver. Press Space to fire. Your Squad follows you.\
 				Make sure to not guide them into anything!\
@@ -216,7 +224,7 @@ function setupLevels(){				//Levelscripts ->
 			addMsg("Great! We send you coordinates. Your cursor will point towards your target, when you click. Please get there ASAP");
 			getTo(2300, 2000);
 			addMsg("Great! Now please return to our home Planet Humania");
-			getTo(1000, 1000);
+			getTo(Hellaxy.planets["humania"]);
 			addMsg("An unknown Object appeared on our radar!\
 				Commander! Your mission is to guard our Orbit. \
 				Press Space to fire.\
@@ -224,6 +232,7 @@ function setupLevels(){				//Levelscripts ->
 			);
 			spawnBoss("qubanian_colonizer", 0, 200, 135, function(){this.follow();});
 			addMsg("Unknown Object eliminated! Return to base!");
+			getTo(Hellaxy.planets["humania"]);
 
 	
 	
