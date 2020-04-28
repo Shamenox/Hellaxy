@@ -74,6 +74,20 @@ class Sector extends Screen{
 	
 	
 	
+	clear(){
+		this.ships = [];
+		this.projectiles = [];
+		for (let i = 0; i < this.bodies.length; i++){
+			console.log(this.bodies[i].constructor.name == "Ship");
+			if (this.bodies[i].constructor.name == "Ship"){
+				this.bodies.splice(i, 1);
+				i--;
+			}
+		}
+	}
+	
+	
+	
 	refreshIDs(){
 		for (var id = 0; id < this.ships.length; id++){
 			this.ships[id].ID = id;

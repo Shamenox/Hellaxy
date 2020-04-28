@@ -46,7 +46,7 @@ function setupHellaxyScreens(){
 	new Screen("paused", "blank", "none", function(){
 		Helon.previousScreen.display();
 		button(660, 400, 600, 100, "Resume to game", "yellow", function(){Helon.back()});
-		button(660, 600, 600, 100, "Return to menue", "yellow", function(){Hellaxy.level.cancel();});
+		button(660, 600, 600, 100, "Return to menue", "yellow", function(){Helon.back(); Hellaxy.level.cancel();});
 		muteButton();
 
 		Helon.ctx.lineWidth = 8;

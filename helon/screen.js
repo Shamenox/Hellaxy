@@ -32,6 +32,14 @@ class Screen{
 	
 	
 	
+	clear(){
+		for (var i = 0; i < this.bodies.length; i++){
+			drop(this.bodies[i]);
+		}
+	}
+	
+	
+	
 	drop(bod){
 		if (!exists(bod)){
 			console.log("Alert: Tried to drop missing body from:" + this.ID);
@@ -41,6 +49,7 @@ class Screen{
 			if (bod === this.bodies[i]){
 				this.bodies.splice(i, 1);
 				if (bod.constructor.name !== "Body"){
+					if (this[bod.constructor.name.toLowerCase() + "s"] == undefined) continue;
 					for (var h = 0; h < this[bod.constructor.name.toLowerCase() + "s"].length; h++){
 						if (this[bod.constructor.name.toLowerCase() + "s"][h] === bod) this[bod.constructor.name.toLowerCase() + "s"].splice(h, 1);
 					}

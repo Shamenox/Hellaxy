@@ -3,10 +3,14 @@ class Special {
 		this.designation = setProp(designation, "nameless Special" + Hellaxy.weapons.length);
 		this.reload = setProp(reload, 1000);
 		this.ammo = setProp(ammo, 20);
-		this.action = setProp(act, function(){});
+		this.action = setProp(act, function(){console.log("Triggered empty special move")});
 		
 		Hellaxy.weapons[designation] = this;
 	}
+	
+	
+	
+	
 	
 	exe(){
 		if (intervalReact(this.ammo > 0, this.reload, "special" + this.ship.staticID)){
@@ -14,13 +18,23 @@ class Special {
 			this.action();
 		}
 	}
+	
+	
+	
+	clone(){
+		var clone = new Special();
+		for (var property in this){
+			clone[property] = this[property];
+		}
+		return clone;
+	}
 }
 
 
 
 function setupSpecials(){
 
-	new Special("spawn_ophianianChunk", 6000, 66, function(){/*spawnShip("ophianic_chunk", this.ship.x, this.ship.y, this.ship.angle, npc.rammer, function(){},this.ship.sector.designation)*/});
+	new Special("spawn_ophianianChunk", 6000, 66, function(){spawnShip("ophianian_chunk", this.ship.x, this.ship.y, this.ship.angle, function(){})});
 	
 	
 	new Special("flak_around", 1000, 10, function(){ /*

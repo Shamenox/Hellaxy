@@ -97,9 +97,16 @@ function setPlayer(withShip, atX, atY, atAngle){
 			lastStat.level.cancel();
 		});
 	}
-	atX = trySet(atX, 400);
-	atY = trySet(atY, 400);
-	atAngle = trySet(atAngle, 0);
+	if (typeof atX == "object"){
+		atY = trySet(atX.y, 400);
+		atX = trySet(atX.x, 400);
+		atAngle = trySet(atAngle, 0);
+	}
+	else{
+		atX = trySet(atX, 400);
+		atY = trySet(atY, 400);
+		atAngle = trySet(atAngle, 0);
+	}
 	spawnShip(withShip, atX, atY, atAngle, player1, function(){msg("Report critical Damage"); Hellaxy.level.cancel();});
 	new LevelStep(function(){
 		lastStat.sector.focus(lastStat.ship);
@@ -133,6 +140,17 @@ function spawnFront(dimension, designation, atX, atY, atAngle, quantity, ctrl, a
 		if (dimension === "y") atY += Hellaxy.ships[designation].height * 2;
 	}
 } */
+
+
+
+function spawnPlanet(designation, x, y, sector){
+	new Planet(designation, x, y, sector);
+	new LevelStep(function(){
+		Hellaxy.planets[designation].spawn();
+	});
+}
+
+
 
 function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
 	new LevelStep(function(){
@@ -211,9 +229,9 @@ function setupLevels(){				//Levelscripts ->
 	
 		new Level();	//2007. Cycle; 236
 			setSector("central");
-			new Planet("humania", 1000, 1000);
-			new Planet("pontes", 1420, 2550);
-			setPlayer("humanian_shuttle", 1000, 1000);
+			spawnPlanet("humania", 1000, 1000);
+			spawnPlanet("pontes", 1420, 2550);
+			setPlayer("humanian_shuttle", Hellaxy.planets.humania);
 			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
 			addMsg("Attention! ABSATZ Welcome to your first flight Commander! ABSATZ\
 				Turn your Shuttle by clicking in the direction you want to head.\
@@ -224,7 +242,7 @@ function setupLevels(){				//Levelscripts ->
 			addMsg("Great! We send you coordinates. Your cursor will point towards your target, when you click. Please get there ASAP");
 			getTo(2300, 2000);
 			addMsg("Great! Now please return to our home Planet Humania");
-			getTo(Hellaxy.planets["humania"]);
+			getTo(Hellaxy.planets.humania);
 			addMsg("An unknown Object appeared on our radar!\
 				Commander! Your mission is to guard our Orbit. \
 				Press Space to fire.\
@@ -232,9 +250,71 @@ function setupLevels(){				//Levelscripts ->
 			);
 			spawnBoss("qubanian_colonizer", 0, 200, 135, function(){this.follow();});
 			addMsg("Unknown Object eliminated! Return to base!");
-			getTo(Hellaxy.planets["humania"]);
+			getTo(Hellaxy.planets.humania);
 
+		
+		
+		new Level(); //2008. Cycle 43 
+			setSector("central");
+			setPlayer("humanian_protobaseship_helonia", Hellaxy.planets.humania);
+			spawnPlanet("haufen1", 600, 1800);
+			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
+			spawnShip("humanian_satalite", 1100, 1100);
+			addMsg("Humanian HQ: Attention!");
+			addMsg("Admire your new flagship commander! Treat it with care!");
+			addMsg("Our space project was an absolute Sucess!");
+			addMsg("We also erected a Space hangar for further research in our orbit.");
+			addMsg("We registered an interesting sonar pattern not far from Humania.");
+			addMsg("Please gather samples from that location!");
+			addMsg("HINT: By cklicking the Mousebutton, your cursor will piint towards your target");
+			getTo(Hellaxy.planets.haufen1);
+			spawnPlanet("haufen2", 4000, 2000);
+			addMsg("Interesting, the sample contains some kind of matter-changing substance...");
+			addMsg("We registered two more signals in our sector");
+			addMsg("Please get us samples for comparasion!");
+			getTo(Hellaxy.planets.haufen2);
+			spawnPlanet("haufen3", 4150, 1300);
+			addMsg("This is indeed the same substance...");
+			addMsg("Get a sample from the last signal for final confirmation!");
+			getTo(Hellaxy.planets.haufen3);
+			addMsg("This 'planet' emmits a live-signal...");
+			addMsg("Alert, the samples we already gathered changed their structure and are escaping the testtubes!");
+			addMsg("There is also something ascending from the 'planet´s' core.");
+			addMsg("Eliminate it if neccessary and return home ASAP!");
+			spawnSquad("ophianian_chunk", 4120, 1310, 4, npc.roamer);
+			getTo(Hellaxy.planets.humania);
+			addMsg("This shapeshifting substance seems to be oozing out of these");
+			addMsg("'erupting' protoplanets all over the System...");
 	
+	
+	
+		new Level(); //2008. Cycle 102
+			setSector("central");
+			setPlayer("humanian_protobaseship_helonia", Hellaxy.planets.humania);
+			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
+			spawnShip("humanian_satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
+			addMsg("Humanian HQ: Attention!");
+			addMsg("A gigantic object appeared on our Radars!");
+			addMsg("It is coming at us with alarming speed");
+			addMsg("From what we experienced last time, armed combat is inevidable.");
+			addMsg("PLease protect our Planet!");
+			spawnBoss("ophianian_annector", 2000, 1100, 270, npc.ophianian_annector);
+			new LevelStep();
+			lastStat.levelStep.condition = function(){
+				return (Hellaxy.sector.player.hp < 2400);
+			}
+			addMsg("Thats it, there is no hope for the Planet...");
+			addMsg("We have no other choice, please forgive us.");
+			addMsg("Start the FTL-engines!");
+			player1ship.ctrl = function(){
+				this.pointFrom(this.nextShip("ophianian"));
+				this.a = 1;
+				this.turn();
+				this.hp = 3000;
+				this.acc();
+			}
+			
+			
 	
 	
 	new Campaign("chestanian");
@@ -250,113 +330,10 @@ function setupLevels(){				//Levelscripts ->
 			no : false
 		},
 	);
+
 	
 	
 	
-	Hellaxy.campaigns.humanian.addLevel(function(){
-		start(Hellaxy.planets.humania, "humanian_protobaseship_helonia");
-		addPlanet("haufen1", 600, 1800);
-		spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
-		spawnShip("humanian_satalite", 1100, 1100);
-		addMsg("Log in: 2008. Cycle; 43; 1.Humanian Protobaseship 'Helonia' ID:29344");
-		addMsg("Humanian HQ: Attention!");
-		addMsg("Admire your new flagship commander!");
-		addMsg("We invested a lot of ressources to build this gigantic, well armoured");
-		addMsg("piece of engineering. Treat it with care!");
-		addMsg("Our space project was an absolute Sucess!");
-		addMsg("Thats why we erected an Space hangar in our orbit");
-		addMsg("to enable further research.");
-		addMsg("We still dont know much about our interplanetary environtment.");
-		addMsg("We registered an interesting sonar pattern not far from Humania.");
-		addMsg("Your order is to gather some samples from that location");
-		addMsg("and to bring them to our orbital hangar for analysis.");
-		addMsg("If you have a defined target location your cursor will now");
-		addMsg("turn into a direction indicator by clicking.");
-		addMsg("Good luck!");
-		this.target = Hellaxy.planets.haufen1;
-		},
-		{
-			gotback : false,
-			pile1 : false,
-			pile2 : false,
-			pile3 : false
-		},
-		function(){
-			if (!LEVEL.conditions.pile1 && player1ship.collidesWith(Hellaxy.planets.haufen1)){
-				addPlanet("haufen2", 4000, 2000);
-				addMsg("Great!");
-				addMsg("Interesting, the sample seems to contain some kind of ");
-				addMsg("matter-changing substance...");
-				addMsg("We just registered two more signals of same specifications.");
-				addMsg("They are both located right from you.");
-				addMsg("Please get us samples from both new anomalies for comparasion.");
-				this.target = Hellaxy.planets.haufen2;
-				LEVEL.conditions.pile1 = true;
-			}
-			if (!LEVEL.conditions.pile2 && player1ship.collidesWith(Hellaxy.planets.haufen2)){
-				addPlanet("haufen3", 4150, 1300);
-				addMsg("We were right, this celestial body consists of the exactly ");
-				addMsg("same material as the first one.");
-				addMsg("Get a sample from the last signal for final confirmation!");
-				this.target = Hellaxy.planets.haufen3;
-				LEVEL.conditions.pile2 = true;
-			}
-			if (!LEVEL.conditions.pile3 && player1ship.collidesWith(Hellaxy.planets.haufen3)){
-				addMsg("Yes, its the exactly same structure as the other ones.");
-				addMsg("But this 'planet' emmits some kind of a live-signal.");
-				addMsg("Alert, the samples we already gathered changed their structure ");
-				addMsg("to something very radical attacking the testtubes!");
-				addMsg("There is also something ascending from the 'planet´s' core.");
-				addMsg("Eliminate it if neccessary and return home ASAP!");
-				spawnSquad("ophianic_chunk", 4120, 1310, 270, 4, npc.simpleRoamer);
-				this.target = this.target = Hellaxy.planets.humania;
-				LEVEL.conditions.pile3 = true;
-			}
-			if (LEVEL.conditions.pile3 && !LEVEL.conditions.gotback && player1ship.collidesWith(Hellaxy.planets.humania)) {
-				addMsg("This shapeshifting substance seems to be oozing out of these");
-				addMsg("'erupting' protoplanets all over the System...");
-				addMsg("However this is a mystery for our scientists to figure out.");
-				LEVEL.conditions.gotback = true;
-			}
-		}
-	);
-	
-	
-	
-	Hellaxy.campaigns.humanian.addLevel(function(){
-		start(Hellaxy.planets.humania, "humanian_protobaseship_helonia");
-		spawnSquad("humanian_shuttle", 950, 1100, 0, 5, npc.defender);
-		spawnShip("humanian_satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
-		spawnShip("ophianic_annector", 2000, 1100, 270, npc.ophianian_annector);
-		addMsg("Log in: 2008. Cycle; 102; 1.Humanian Protobaseship 'Helonia' ID:29344");
-		addMsg("Humanian HQ: Attention!");
-		addMsg("Something enormously huge has appeared on our Radars.");
-		addMsg("It is located right from you nearing at alarming speed");
-		addMsg("From what we experienced last time");
-		addMsg("Armed Combat is inevidable.");
-		addMsg("Your armour should allow you to wether the storm, but");
-		addMsg("try to take care of your Squadron.");
-		addMsg("For Humania!");
-		},
-		{
-			dmgd : false,
-		},
-		function(){
-			if (player1ship.hp < 2400 && this.conditions.dmgd === false){
-				this.conditions.dmgd = true;
-				addMsg("Thats it, there is no hope for the Planet...");
-				addMsg("We have no other choice, please forgive us.");
-				addMsg("Start the FTL-engines!");
-				player1ship.ctrl = function(){
-					this.pointFrom(this.nextShip("ophianic"));
-					this.a = 1;
-					this.turn();
-					this.hp = 3000;
-					this.acc();
-				}
-			}
-		}
-	);
 	
 	
 	

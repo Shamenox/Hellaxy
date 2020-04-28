@@ -32,8 +32,12 @@
 	
 	
 	
-	set(at){
-		this.at = at;
+	skipTo(at){
+		for (let i = 0; i < 2;i++){
+			this.start();
+			Hellaxy.level.skip();
+		}
+		this.start();
 	}
 	
 	

@@ -76,6 +76,29 @@ function setupControls(){
 			this.turnFrom("walls");
 		}
 	}
+	
+	
+	
+	npc.ophianian_annector = function(){
+		this.turn();
+		var trgt = this.nextShip("humanian");
+		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
+		if (trgt === false){
+			this.follow(Hellaxy.planets.humania, 50);
+		}
+		else {
+			this.pointAt(trgt);
+			this.sp1.exe();
+			if (trgt.designation === "satalite"){
+				if (this.pointsAt(trgt)) this.acc();
+			}
+			else{
+				if (this.pointsAt(trgt)) this.fire(1);
+			}
+		}
+	}
+	
+	
 }
 	
 	/*
@@ -189,21 +212,4 @@ function setupControls(){
 		if (intervalReact(true, 3000, this.ID))this.turnArround();
 	}
 
-	npc.ophianian_annector = function(){
-		this.turn();
-		var trgt = this.nextShip("humanian");
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		if (trgt === false){
-			this.follow(Hellaxy.planets.humania, 50);
-		}
-		else {
-			this.pointAt(trgt);
-			this.sp1.exe();
-			if (trgt.designation === "satalite"){
-				if (this.pointsAt(trgt)) this.acc();
-			}
-			else{
-				if (this.pointsAt(trgt)) this.fire(1);
-			}
-		}
 	} */

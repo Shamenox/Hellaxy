@@ -25,6 +25,7 @@ class Level {
 			this.currentStep[a] = this.script[position][a];
 		}
 		this.currentStep.effect();
+		console.log(Hellaxy.sectors.central.bodies);
 	}
 	
 	
@@ -37,6 +38,19 @@ class Level {
 		}
 		this.setStep(this.currentStep.position+1);
 		//console.log(this.currentStep.position + "/" + this.script.length + "over:" + this.over);
+	}
+	
+	
+	
+	pointAtTarget(){
+		if (this.currentStep.target == undefined){
+			console.log("Warning: LevelStep Target is undefined! Pointer will not work!");
+			return;
+		}
+		if (this.currentStep.target != false) cursor.pointAt({
+			x : this.currentStep.target.x - Helon.screen.offsetX,
+			y : this.currentStep.target.y - Helon.screen.offsetY,
+		});
 	}
 	
 	
@@ -56,8 +70,17 @@ class Level {
 	
 	
 	
+	skip(){
+		for (var i = 0 ; i < this.script.length; i++){
+			this.setStep(i);
+		}
+		this.end();
+	}
+	
+	
+	
 	check(){
-		if (this.over){
+		if (this.over && Hellaxy.msgs.length <= 0){
 			if (intervalReact(key.e, 500, "msgDelay")) this.end();
 		}
 		else{
@@ -67,10 +90,7 @@ class Level {
 			if (Hellaxy.msgs.length !== 0){
 				setScreen("messager");
 			}
-			if (this.currentStep.target != false) cursor.pointAt({
-				x : this.currentStep.target.x - Helon.screen.offsetX,
-				y : this.currentStep.target.y - Helon.screen.offsetY,
-			});
+			this.pointAtTarget();
 			while (!this.over && this.currentStep.isOver()){
 				this.nextStep();
 			}
@@ -80,12 +100,12 @@ class Level {
 	
 	
 	cancel(){
-		Helon.screen.projectiles = [];
 		Hellaxy.msgs = [];
-		this.over = false;
-		Helon.screen.ships = [];
+		if (Helon.screen.ID == "messager") Helon.back(); //Setzt Screen zurück zum Sector
+		Helon.screen.clear();
 		Hellaxy.campaign = {};
 		Hellaxy.level = {};
+		this.over = false;
 		resetAudio();
 		setScreen("menue");
 	}
@@ -93,7 +113,7 @@ class Level {
 	
 	
 	end(){
-		console.log("Level complete: " + this.campaign + " - " + this.campaign.at);
+		console.log("Level complete: " + this.campaign.designation + " - " + this.campaign.at);
 		this.campaign.at ++;
 		this.cancel()
 	}
