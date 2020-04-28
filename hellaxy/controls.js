@@ -36,7 +36,7 @@ function setupControls(){
 	npc.defender = function(){
 		var of = this.nextShip(this.fraction);
 		if (of !== false){
-			var trgt = of.nextShip("anythingElse", 500);
+			var trgt = of.nextShip("anythingElse", 600);
 			if (trgt === false){
 				this.follow(of, 100);
 			}
@@ -79,22 +79,33 @@ function setupControls(){
 	
 	
 	
+	npc.rammer = function(){ 
+		var trgt = this.nextShip("anythingElse", 1400);
+		if (trgt !== false){
+			this.follow(trgt,0);
+			if (this.pointsAt(trgt)) {
+				this.fire(1);
+				this.fire(2);
+				this.fire(3);
+			}
+		}
+		else{
+			this.acc();
+			this.turnFrom("walls");
+		}
+	}
+	
+	
+	
 	npc.ophianian_annector = function(){
-		this.turn();
+		this.sp1.exe();
 		var trgt = this.nextShip("humanian");
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
 		if (trgt === false){
 			this.follow(Hellaxy.planets.humania, 50);
 		}
 		else {
-			this.pointAt(trgt);
-			this.sp1.exe();
-			if (trgt.designation === "satalite"){
-				if (this.pointsAt(trgt)) this.acc();
-			}
-			else{
-				if (this.pointsAt(trgt)) this.fire(1);
-			}
+			this.follow(trgt);
+			if (this.pointsAt(trgt)) this.fire(1);
 		}
 	}
 	
@@ -128,20 +139,6 @@ function setupControls(){
 	npc.asteroid3 = function(){
 	}
 	
-	npc.rammer = function(){ 
-		this.acc();
-		this.turn();
-		if (intervalReact(this.x < 150 || this.x > Hellaxy.sector.width - 150 || this.y < 150 || this.y > Hellaxy.sector.height - 320, 5000, "turnarround" + this.ID)) this.turnArround();
-		var trgt = this.nextShip("anythingElse", 900);
-		if (trgt !== false){
-			this.pointAt(trgt);
-			if (this.pointsAt(trgt)) {
-				this.fire(1);
-				this.fire(2);
-				this.fire(3);
-			}
-		}
-	}
 	
 	npc.defender = function(){
 		var of = this.nextShip(this.fraction);

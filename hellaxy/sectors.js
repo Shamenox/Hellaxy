@@ -78,8 +78,7 @@ class Sector extends Screen{
 		this.ships = [];
 		this.projectiles = [];
 		for (let i = 0; i < this.bodies.length; i++){
-			console.log(this.bodies[i].constructor.name == "Ship");
-			if (this.bodies[i].constructor.name == "Ship"){
+			if (this.bodies[i].constructor.name == "Ship" || this.bodies[i].constructor.name == "Projectile" ){
 				this.bodies.splice(i, 1);
 				i--;
 			}

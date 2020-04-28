@@ -25,7 +25,6 @@ class Level {
 			this.currentStep[a] = this.script[position][a];
 		}
 		this.currentStep.effect();
-		console.log(Hellaxy.sectors.central.bodies);
 	}
 	
 	
@@ -71,7 +70,7 @@ class Level {
 	
 	
 	skip(){
-		for (var i = 0 ; i < this.script.length; i++){
+		for (let i = this.currentStep.position+1 ; i < this.script.length; i++){
 			this.setStep(i);
 		}
 		this.end();

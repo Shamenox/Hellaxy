@@ -211,7 +211,7 @@ class Ship extends Body{
 	
 	nextShip(search, range){
 		if (!exists(search)) search = "anything";
-		if (!exists(range)) range = 1400;
+		if (!exists(range)) range = 700;
 		var pot = false;
 		for (var k = 0; k < this.sector.ships.length; k++){
 			if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){

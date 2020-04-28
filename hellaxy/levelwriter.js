@@ -181,7 +181,6 @@ function spawnSquad(designation, atX, atY, quantity, ctrl, abgang, inSector){
 function wait(duration){
 	new LevelStep(function(){}, function(){
 		this.timer--;
-		console.log(this.timer);
 		//Helon.ctx.fillText(this.timer, 4, 24); Wird dann vom Secotr überlappt... Neue Text Helon Klasse für alle Screens?
 		return (this.timer <= 0)
 	});
@@ -234,9 +233,8 @@ function setupLevels(){				//Levelscripts ->
 			setPlayer("humanian_shuttle", Hellaxy.planets.humania);
 			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
 			addMsg("Attention! ABSATZ Welcome to your first flight Commander! ABSATZ\
-				Turn your Shuttle by clicking in the direction you want to head.\
+				Turn your shuttle by clicking in the direction you want to head.\
 				Use WASD to maneuver. Press Space to fire. Your Squad follows you.\
-				Make sure to not guide them into anything!\
 			");
 			wait(1200);
 			addMsg("Great! We send you coordinates. Your cursor will point towards your target, when you click. Please get there ASAP");
@@ -266,7 +264,7 @@ function setupLevels(){				//Levelscripts ->
 			addMsg("We also erected a Space hangar for further research in our orbit.");
 			addMsg("We registered an interesting sonar pattern not far from Humania.");
 			addMsg("Please gather samples from that location!");
-			addMsg("HINT: By cklicking the Mousebutton, your cursor will piint towards your target");
+			addMsg("HINT: By cklicking the Mousebutton, your cursor will point towards your target");
 			getTo(Hellaxy.planets.haufen1);
 			spawnPlanet("haufen2", 4000, 2000);
 			addMsg("Interesting, the sample contains some kind of matter-changing substance...");
@@ -298,7 +296,7 @@ function setupLevels(){				//Levelscripts ->
 			addMsg("It is coming at us with alarming speed");
 			addMsg("From what we experienced last time, armed combat is inevidable.");
 			addMsg("PLease protect our Planet!");
-			spawnBoss("ophianian_annector", 2000, 1100, 270, npc.ophianian_annector);
+			spawnBoss("ophianian_annector", 2050, 1100, 270, npc.ophianian_annector);
 			new LevelStep();
 			lastStat.levelStep.condition = function(){
 				return (Hellaxy.sector.player.hp < 2400);

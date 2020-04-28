@@ -34,7 +34,7 @@ class Special {
 
 function setupSpecials(){
 
-	new Special("spawn_ophianianChunk", 6000, 66, function(){spawnShip("ophianian_chunk", this.ship.x, this.ship.y, this.ship.angle, function(){})});
+	new Special("spawn_ophianianChunk", 6000, 66, function(){Hellaxy.ships.ophianian_chunk.spawn(this.ship.sector, this.ship.x, this.ship.y, this.ship.angle, npc.rammer)});
 	
 	
 	new Special("flak_around", 1000, 10, function(){ /*
