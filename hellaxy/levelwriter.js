@@ -62,7 +62,8 @@ function getTo(destination, potY){
 	}
 
 	new LevelStep(function(){}, function(){
-		if (exists(Helon.screen.player)) return (Helon.screen.player.overlaps(this.target));
+		if (Hellaxy.playerShip instanceof Ship) return (Hellaxy.playerShip.overlaps(this.target));
+		return false;
 	});
 	lastStat.levelStep.target = destination;
 	lastStat.levelStep.description = "Get to target";
@@ -110,8 +111,7 @@ function setPlayer(withShip, atX, atY, atAngle){
 	spawnShip(withShip, atX, atY, atAngle, player1, function(){msg("Report critical Damage"); Hellaxy.level.cancel();});
 	new LevelStep(function(){
 		lastStat.sector.focus(lastStat.ship);
-		lastStat.sector.player = lastStat.ship;
-		lastStat.player = lastStat.ship;
+		Hellaxy.playerShip = lastStat.ship;
 	});
 }
 
@@ -157,6 +157,7 @@ function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
 		if (inSector === undefined) inSector = lastStat.sector;
 		Hellaxy.ships[designation].spawn(inSector, atX, atY, atAngle, ctrl, abgang);
 	});
+	lastStat.levelStep.description = "Spawn Ship";
 }
 
 
@@ -180,8 +181,7 @@ function spawnSquad(designation, atX, atY, quantity, ctrl, abgang, inSector){
 
 function wait(duration){
 	new LevelStep(function(){}, function(){
-		this.timer--;
-		//Helon.ctx.fillText(this.timer, 4, 24); Wird dann vom Secotr überlappt... Neue Text Helon Klasse für alle Screens?
+		if (Helon.screen != "messager" && Helon.screen != "paused")this.timer--;
 		return (this.timer <= 0)
 	});
 	lastStat.levelStep.timer = duration;
@@ -207,7 +207,7 @@ function setupLevels(){				//Levelscripts ->
 			setPlayer("humanian_protobaseship_helonia");
 			spawnShip("humanian_shuttle", 600, 600);
 			spawnShip("humanian_shuttle", 400, 100, 0, npc.defender);
-			spawnShip("none_testarrow", 100, 100, 0, "none", function(){msg("Test 123 langes Wort");});
+			spawnShip("none_testarrow", 100, 100, 0, function(){this.turnFrom(this.nextShip())}, function(){msg("Test 123 langes Wort");});
 			spawnShip("none_fatman", 700, 1300, 90, npc.roamer);
 			getTo(1200, 1200);
 			addMsg("gotThere");
@@ -231,7 +231,7 @@ function setupLevels(){				//Levelscripts ->
 			spawnPlanet("humania", 1000, 1000);
 			spawnPlanet("pontes", 1420, 2550);
 			setPlayer("humanian_shuttle", Hellaxy.planets.humania);
-			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
+			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.bodyGuard);
 			addMsg("Attention! ABSATZ Welcome to your first flight Commander! ABSATZ\
 				Turn your shuttle by clicking in the direction you want to head.\
 				Use WASD to maneuver. Press Space to fire. Your Squad follows you.\
@@ -256,7 +256,7 @@ function setupLevels(){				//Levelscripts ->
 			setSector("central");
 			setPlayer("humanian_protobaseship_helonia", Hellaxy.planets.humania);
 			spawnPlanet("haufen1", 600, 1800);
-			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
+			spawnSquad("humanian_shuttle", 900, 1100, 5, npc.bodyGuard);
 			spawnShip("humanian_satalite", 1100, 1100);
 			addMsg("Humanian HQ: Attention!");
 			addMsg("Admire your new flagship commander! Treat it with care!");
@@ -289,28 +289,29 @@ function setupLevels(){				//Levelscripts ->
 		new Level(); //2008. Cycle 102
 			setSector("central");
 			setPlayer("humanian_protobaseship_helonia", Hellaxy.planets.humania);
-			spawnSquad("humanian_shuttle", 950, 1100, 5, npc.defender);
-			spawnShip("humanian_satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){addMsg("They´re invading our Planet! Please you have to stop them!!!")});
+			spawnSquad("humanian_shuttle", 900, 1100, 5, npc.bodyGuard);
+			spawnShip("humanian_satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){msg("They´re invading our Planet! Please you have to stop them!!!")});
 			addMsg("Humanian HQ: Attention!");
 			addMsg("A gigantic object appeared on our Radars!");
 			addMsg("It is coming at us with alarming speed");
 			addMsg("From what we experienced last time, armed combat is inevidable.");
 			addMsg("PLease protect our Planet!");
 			spawnBoss("ophianian_annector", 2050, 1100, 270, npc.ophianian_annector);
-			new LevelStep();
-			lastStat.levelStep.condition = function(){
-				return (Hellaxy.sector.player.hp < 2400);
+			lastStat.levelStep.isOver = function(){
+				return (Hellaxy.playerShip.hp < 2400);
 			}
 			addMsg("Thats it, there is no hope for the Planet...");
 			addMsg("We have no other choice, please forgive us.");
 			addMsg("Start the FTL-engines!");
-			player1ship.ctrl = function(){
-				this.pointFrom(this.nextShip("ophianian"));
-				this.a = 1;
-				this.turn();
-				this.hp = 3000;
-				this.acc();
-			}
+			new LevelStep(function(){
+				Hellaxy.playerShip.ctrl = function(){
+					this.turnFrom(this.nextShip("ophianian"));
+					this.a = 1;
+					this.hp = 3000;
+					this.acc();
+				}
+			})
+			wait (100);
 			
 			
 	

@@ -98,8 +98,7 @@ function getAudio(aud){
 
 
 function get360(input){
-	if (input === 0 || input === 360) return input;
-	while (!input.between(0, 360)){
+	while (input > 360 || input < 0){
 		if (input < 0) input += 360;
 		if (input > 360) input -= 360;
 	}

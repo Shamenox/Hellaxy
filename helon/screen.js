@@ -16,7 +16,8 @@ class Screen{
 	
 	
 	
-	act(){};
+	act(){
+	};
 	
 	
 	
@@ -81,13 +82,13 @@ class Screen{
 			this.bodies[i].draw();
 		}
 		loop(this.theme);
-		this.act();
 	}
 	
 	
 	physics(){
 		for (var i = 0; i < this.bodies.length; i++){
 			this.bodies[i].move();
+			if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);
 		}
 	}
 }

@@ -14,9 +14,11 @@ class Sector extends Screen{
 		this.projectiles = [];
 		this.portals = [];
 		this.locations = [];
+		this.act = this.actShips;
 		
 		Hellaxy.sectors[ID] = this;
 	}
+	
 	
 	
 	
@@ -48,27 +50,30 @@ class Sector extends Screen{
 			this.bodies[i].draw();
 		}
 		loop(this.theme);
-		this.act();
 	}
 	
 	
 	
 	physics(){
-		for (var i = 0; i < this.bodies.length; i++){
-			this.bodies[i].move();
-			if (this.bodies[i] instanceof Ship){
-				for (var p = 0; p < this.projectiles.length; p++){
-					if (this.bodies[i] !== this.projectiles[p].emitter && this.bodies[i].overlaps(this.projectiles[p])){
-						var potothers = this.bodies[i].nextShips(undefined ,this.projectiles[p].size);
-						this.projectiles[p].hit(this.bodies[i]);
+		super.physics();
+		for (var i = 0; i < this.ships.length; i++){
+			for (var s = i+1; s < this.ships.length; s++){
+				if (this.ships[i].collidesWith(this.ships[s])) this.ships[i].collideWith(this.ships[s]);
+			}
+			for (var p = 0; p < this.projectiles.length; p++){
+					if (this.ships[i] !== this.projectiles[p].emitter && this.ships[i].overlaps(this.projectiles[p])){
+						var potothers = this.ships[i].nextShips(undefined ,this.projectiles[p].size);
+						this.projectiles[p].hit(this.ships[i]);
 						for (var n = 0; n < potothers; n++){
 							this.projectiles[p].hit(potothers[n]);
 						}
 					}
 				}
-				if (this.bodies[i].hp <= 0) this.bodies[i].explode();
+			if (this.ships[i].hp <= 0){
+				this.ships[i].explode();
+				this.ships.splice(i,1);
+				i--;
 			}
-			if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);
 		}
 	}
 	

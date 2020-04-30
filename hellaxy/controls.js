@@ -6,7 +6,6 @@ function setupControls(){
 	
 	
 	player1 = function(){
-		player1ship = this;
 		Hellaxy.sector.focus(this);
 		if (!click){
 			if (key.a && !key.d) this.turn("left"); //Drehung
@@ -34,7 +33,31 @@ function setupControls(){
 	
 	
 	npc.defender = function(){
-		var of = this.nextShip(this.fraction);
+		if (!exists(this.baseShip)) var of = this.nextShip(this.fraction);
+		else var of = this.baseShip;
+		if (of !== false){
+			var trgt = of.nextShip("anythingElse", 600);
+			if (trgt === false){
+				this.follow(of, 100);
+			}
+			if (trgt !== false){
+				this.follow(trgt, 300);
+				if (this.pointsAt(trgt)){
+					this.fire(1);
+					this.fire(2);
+					this.fire(3);
+				}
+			}
+		} else {
+			this.acc();
+			this.turnFrom("walls");
+		}
+	}
+	
+	
+	
+	npc.bodyGuard = function(){
+		var of = Hellaxy.playerShip;
 		if (of !== false){
 			var trgt = of.nextShip("anythingElse", 600);
 			if (trgt === false){

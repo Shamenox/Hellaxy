@@ -74,6 +74,34 @@ class Ship extends Body{
 	
 	
 	
+	collideWith(ship){
+	var collision = {};
+	collision.potX = this.vx - ship.vx;
+	collision.potY = this.vy - ship.vy;
+	collision.potDmg = (Math.abs(collision.potX) + Math.abs(collision.potY) * 50);
+	collision.potM = this.mass + ship.mass;
+	this.vx = -collision.potX * (ship.mass / collision.potM);
+	this.vy = -collision.potY * (ship.mass / collision.potM);
+	ship.vx = collision.potX * (this.mass / collision.potM);
+	ship.vy = collision.potY * (this.mass / collision.potM);
+	this.hp -= collision.potDmg * (ship.mass / collision.potM) + 1;
+	ship.hp -= collision.potDmg * (this.mass / collision.potM) + 1;
+	this.hp = Math.round(this.hp);
+	ship.hp = Math.round(ship.hp);
+	this.y -= this.vy;
+	this.x += this.vx;
+	ship.y -= ship.vy;
+	ship.x += ship.vx;
+	}
+	
+	
+	
+	collidesWith(ship){
+		return (this.overlaps(ship) && this.fraction != ship.fraction);
+	}
+	
+	
+	
 	dec(){
 		var factor = (1 - this.a * 0.8)
 		if (this.vx !== 0) this.vx = this.vx * factor;
@@ -92,48 +120,46 @@ class Ship extends Body{
 	
 	explode(){
 		this.skin = Helon.ress.images.proj_explosion;
-		this.ctrl = function(){};
 		play("explosion1");
 		if (exists(this.abgang)) this.abgang();
 		setTimeout(function(wreck){wreck.vanish()}, 2000, this);
-		this.explode = function(){};
-		this.abgang = function(){};
 	}
 	
 	
 	
 	turn(dir){
+		let factor = 40;
 		if (dir === "stop"){
 			this.vangle = 0;
 		}
 		if (dir === "left"){
-			this.vangle = -60 * this.a;
+			this.vangle = -factor * this.a;
 		}
 		if (dir === "right"){
-			this.vangle = 60 * this.a;
+			this.vangle = factor * this.a;
 		}
 		
 		if (exists(dir) && typeof dir === "object"){
 			this.aim = this.angleTowards(dir);
-			if (Math.abs(this.aim - this.angle) < this.a * 60){
+			if (Math.abs(this.aim - this.angle) < this.a * factor){
 				this.angle = this.aim;
 				this.vangle = 0;
 				return;
 			}
 			if (this.angle <= 180){
 				if (this.aim.between(this.angle, this.angle + 180)){
-						this.vangle = this.a * 60;
+						this.vangle = this.a * factor;
 					}
 				else {
-					this.vangle = this.a * -60;
+					this.vangle = this.a * -factor;
 				}
 			}
 			else {
 				if (this.aim.between(this.angle, this.angle - 180)){ 
-					this.vangle = this.a * -60;
+					this.vangle = this.a * -factor;
 				} 
 				else{
-					this.vangle = this.a * 60;
+					this.vangle = this.a * factor;
 				}
 			}
 		}
@@ -142,28 +168,29 @@ class Ship extends Body{
 	
 	
 	turnFrom(dir){
+		let factor = 40;
 		if (!exists(dir)) return;
 		if (typeof dir === "object"){
 			this.aim = get360(this.angleTowards(dir) + 180);
-			if (Math.abs(this.aim - this.angle) < this.a * 60){
+			if (Math.abs(this.aim - this.angle) < this.a * factor){
 				this.angle = this.aim;
 				this.vangle = 0;
 				return;
 			}
 			if (this.angle <= 180){
 				if (this.aim.between(this.angle, this.angle + 180)){
-						this.vangle = this.a * -60;
+						this.vangle = this.a * factor;
 					}
 				else {
-					this.vangle = this.a * 60;
+					this.vangle = this.a * -factor;
 				}
 			}
 			else {
 				if (this.aim.between(this.angle, this.angle - 180)){ 
-					this.vangle = this.a * 60;
+					this.vangle = this.a * -factor;
 				} 
 				else{
-					this.vangle = this.a * -60;
+					this.vangle = this.a * factor;
 				}
 			}
 		}
@@ -253,6 +280,7 @@ class Ship extends Body{
 	
 	
 	printBar(){
+		if (this.hp <=0) return;
 		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
 		Helon.ctx.fillStyle = "green";
 		var x = (this.x - this.sector.offsetX) * this.sector.scale - this.width/2 * this.sector.scale;
@@ -382,27 +410,6 @@ class Ship extends Body{
 	*/
 
 
-
-function collide(a, b){
-	var collision = {};
-	collision.potX = a.vx + b.vx;
-	collision.potY = a.vy + b.vy;
-	collision.potDmg = Math.sqrt(Math.abs(collision.potX)*Math.abs(collision.potX) + Math.abs(collision.potX)*Math.abs(collision.potX));
-	collision.potM = a.mass + b.mass;
-	a.vx = -collision.potX * (b.mass / collision.potM);
-	a.vy = -collision.potY * (b.mass / collision.potM);
-	b.vx = collision.potX * (a.mass / collision.potM);
-	b.vy = collision.potY * (a.mass / collision.potM);
-	a.hp -= collision.potDmg * (b.mass / collision.potM) * 8;
-	b.hp -= collision.potDmg * (a.mass / collision.potM) * 8;
-	a.hp = Math.round(a.hp);
-	b.hp = Math.round(b.hp);
-		a.y -= 2*a.vy;
-		a.x += 2*a.vx;
-		b.y -= 2*b.vy;
-		b.x += 2*b.vx;
-}
-
 	
 function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, sp1-4
 	new Ship({designation : "testarrow", fraction : "none", hp : 100, shield : 100, armour : 1, a : 0.5, wp1 : "machinegun_5nm"});
@@ -418,8 +425,8 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	new Ship({designation : "colonizer_mkii", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : "triangle_beam"});
 	new Ship({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : "machinegun_5nm", sp1 : "flak_around"});
 	new Ship({designation : "annector", fraction : "ophianian", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : "ophianian_beam", sp1 : "spawn_ophianianChunk"});
-	new Ship({designation : "chunk", fraction : "ophianian", hp : 300, armour : 1, a : 0.09, ctrl : npc.rammer});
-	new Ship({designation : "chunk", fraction : "tonium", hp : 300, armour : 1, a : 0.09, ctrl : npc.fairy, mergeTo : "star"});
+	new Ship({designation : "chunk", fraction : "ophianian", hp : 666, armour : 1, a : 0.09, ctrl : npc.rammer});
+	new Ship({designation : "chunk", fraction : "tonium", hp : 777, armour : 1, a : 0.09, ctrl : npc.fairy, mergeTo : "star"});
 	new Ship({designation : "star", fraction : "tonium", hp : 17777, armour : 1, a : 0.05, ctrl : npc.fairy, mergeTo : "star", wp1 : "star_beam"});
 	new Ship({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : "spike_artillery"});
 	new Ship({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : "spike_artillery"});

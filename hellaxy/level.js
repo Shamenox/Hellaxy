@@ -86,7 +86,7 @@ class Level {
 			if (intervalReact(key.esc && Helon.screen.ID !== "messager", 500, "esc")){
 				setScreen("paused");
 			}
-			if (Hellaxy.msgs.length !== 0){
+			if (Hellaxy.msgs.length !== 0 && Helon.screen.ID !== "paused"){
 				setScreen("messager");
 			}
 			this.pointAtTarget();

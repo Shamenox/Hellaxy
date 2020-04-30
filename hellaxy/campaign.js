@@ -33,7 +33,11 @@
 	
 	
 	skipTo(at){
-		for (let i = 0; i < 2;i++){
+		if (this.at >= at){
+			console.log("Camapign is already at this level!")
+			return;
+		}
+		for (let i = 0; i < at;i++){
 			this.start();
 			Hellaxy.level.skip();
 		}
