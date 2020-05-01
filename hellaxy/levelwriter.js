@@ -108,7 +108,7 @@ function setPlayer(withShip, atX, atY, atAngle){
 		atY = trySet(atY, 400);
 		atAngle = trySet(atAngle, 0);
 	}
-	spawnShip(withShip, atX, atY, atAngle, player1, function(){msg("Report critical Damage"); Hellaxy.level.cancel();});
+	spawnShip(withShip, atX, atY, atAngle, player1, function(){msg("You lost..."); setTimeout(Hellaxy.level.cancel(), 300);});
 	new LevelStep(function(){
 		lastStat.sector.focus(lastStat.ship);
 		Hellaxy.playerShip = lastStat.ship;
@@ -163,18 +163,11 @@ function spawnShip(designation, atX, atY, atAngle, ctrl, abgang, inSector){
 
 
 function spawnSquad(designation, atX, atY, quantity, ctrl, abgang, inSector){
-	var hor = 0;
-	var ver = 0;
-	var spawned = 0;
-	while (spawned < quantity){
-		spawnShip(designation, atX + hor * Hellaxy.ships[designation].width * 2, atY + ver * Hellaxy.ships[designation].height * 2, 0, ctrl, abgang, inSector);
-		spawned++;
-		hor++;
-		if (hor >= Math.sqrt(quantity)){
-			hor = 0;
-			ver++;
-		}
-	}
+	new LevelStep(function(){
+		if (inSector === undefined) inSector = lastStat.sector;
+		Hellaxy.ships[designation].spawnSquad(atX, atY, quantity, ctrl, abgang, inSector);
+	});
+	lastStat.levelStep.description = "Spawn Squad";
 }
 
 
@@ -289,19 +282,16 @@ function setupLevels(){				//Levelscripts ->
 		new Level(); //2008. Cycle 102
 			setSector("central");
 			setPlayer("humanian_protobaseship_helonia", Hellaxy.planets.humania);
-			spawnSquad("humanian_shuttle", 900, 1100, 5, npc.bodyGuard);
-			spawnShip("humanian_satalite", 1100, 1100, 0, function(){this.x = 1100; this.y = 1100;}, function(){msg("They´re invading our Planet! Please you have to stop them!!!")});
-			addMsg("Humanian HQ: Attention!");
+			spawnSquad("humanian_shuttle", 900, 1100, 10, npc.bodyGuard);
+			spawnShip("humanian_satalite", 1100, 1100,0,function(){this.follow(Hellaxy.planets.humania, 200)});
 			addMsg("A gigantic object appeared on our Radars!");
 			addMsg("It is coming at us with alarming speed");
-			addMsg("From what we experienced last time, armed combat is inevidable.");
-			addMsg("PLease protect our Planet!");
+			addMsg("Please protect our Planet!");
 			spawnBoss("ophianian_annector", 2050, 1100, 270, npc.ophianian_annector);
 			lastStat.levelStep.isOver = function(){
 				return (Hellaxy.playerShip.hp < 2400);
 			}
-			addMsg("Thats it, there is no hope for the Planet...");
-			addMsg("We have no other choice, please forgive us.");
+			addMsg("There is no hope for the Planet...");
 			addMsg("Start the FTL-engines!");
 			new LevelStep(function(){
 				Hellaxy.playerShip.ctrl = function(){
@@ -310,7 +300,10 @@ function setupLevels(){				//Levelscripts ->
 					this.hp = 3000;
 					this.acc();
 				}
+				Hellaxy.playerShip.abgang = function(){};
 			})
+			new LevelStep();
+			lastStat.levelStep.isOver = function(){return !Hellaxy.playerShip.isVisible()}
 			wait (100);
 			
 			

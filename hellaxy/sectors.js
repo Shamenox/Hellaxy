@@ -61,14 +61,19 @@ class Sector extends Screen{
 				if (this.ships[i].collidesWith(this.ships[s])) this.ships[i].collideWith(this.ships[s]);
 			}
 			for (var p = 0; p < this.projectiles.length; p++){
-					if (this.ships[i] !== this.projectiles[p].emitter && this.ships[i].overlaps(this.projectiles[p])){
-						var potothers = this.ships[i].nextShips(undefined ,this.projectiles[p].size);
-						this.projectiles[p].hit(this.ships[i]);
-						for (var n = 0; n < potothers; n++){
-							this.projectiles[p].hit(potothers[n]);
-						}
+				if (this.projectiles[p].tics <= 0){
+					this.projectiles[p].drop();
+					p--;
+					continue;
+				}
+				if (this.ships[i] !== this.projectiles[p].emitter && this.ships[i].overlaps(this.projectiles[p])){
+					var potothers = this.ships[i].nextShips(undefined ,this.projectiles[p].size);
+					this.projectiles[p].hit(this.ships[i]);
+					for (var n = 0; n < potothers; n++){
+						this.projectiles[p].hit(potothers[n]);
 					}
 				}
+			}
 			if (this.ships[i].hp <= 0){
 				this.ships[i].explode();
 				this.ships.splice(i,1);

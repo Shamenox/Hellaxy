@@ -15,23 +15,42 @@ class Body{
 		this.height = 1;
 		this.screen = {};
 	}
+		
 	
 	
 	
-	setSkin(to){
-		this.skin = getImg(to);
-		this.width = this.skin.naturalWidth;
-		this.height = this.skin.naturalHeight;
+	
+	angleTowards(angled){
+		if (this.x === angled.x && this.y === angled.y) return 0;
+		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 90);
+		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 270);
+	}
+	
+	
+	
+	collideWith(bod){
+		var v1 = this.getVges();
+		var v2 = bod.getVges();
+		var potM = this.mass + bod.mass;
+		var v1neu = ((2 * this.mass * v1 + 2 * bod.mass * v2) / potM) - v1;
+		var v2neu = ((2 * this.mass * v1 + 2 * bod.mass * v2) / potM) - v2;
+		//v1neu = v1neu * 0.75;
+		//v2neu = v2neu * 0.75;
+		this.vy = v1neu * Math.cos(bod.angleTowards(this) * Math.PI / 180);
+		this.vx = v1neu * Math.cos((bod.angleTowards(this) - 90) * Math.PI / 180);
+		bod.vy = v1neu * Math.cos(this.angleTowards(bod) * Math.PI / 180);
+		bod.vx = v1neu * Math.cos((this.angleTowards(bod) - 90) * Math.PI / 180);
+
+		this.move();
+		bod.move();
+		//this.move();
+		//bod.move();
 	}
 	
 	
 	
 	draw(){
-		
-		if (this.x < this.screen.offsetX - 100  / this.screen.scale) return;
-		if (this.x > this.screen.offsetX + 2200  / this.screen.scale) return;
-		if (this.y < this.screen.offsetY - 100  / this.screen.scale) return;
-		if (this.y >this.screen.offsetY + 1200  / this.screen.scale) return;
+		if (!this.isVisible()) return;
 		var x = (this.x - this.screen.offsetX) * this.screen.scale;
 		var y = (this.y - this.screen.offsetY) * this.screen.scale;
 		Helon.ctx.translate(x, y); // Drehung
@@ -46,11 +65,7 @@ class Body{
 	
 	
 	drawAs(that){
-		
-		if (this.x < this.screen.offsetX - 100  / this.screen.scale) return;
-		if (this.x > this.screen.offsetX + 2200  / this.screen.scale) return;
-		if (this.y < this.screen.offsetY - 100  / this.screen.scale) return;
-		if (this.y >this.screen.offsetY + 1200  / this.screen.scale) return;
+		if (!this.isVisible()) return;
 		var x = (this.x - this.screen.offsetX) * this.screen.scale;
 		var y = (this.y - this.screen.offsetY) * this.screen.scale;
 		Helon.ctx.translate(x, y); // Drehung
@@ -70,10 +85,24 @@ class Body{
 	
 	
 	
-	angleTowards(angled){
-		if (this.x === angled.x && this.y === angled.y) return 0;
-		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 90);
-		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this.x)) / Math.PI * 180) + 270);
+	drop(){
+		this.screen.drop(this);
+	}
+	
+	
+	
+	getVges(){
+		return Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+	}
+	
+	
+	
+	isVisible(){
+		if (this.x < this.screen.offsetX - 100  / this.screen.scale) return false;
+		if (this.x > this.screen.offsetX + 2200  / this.screen.scale) return false;
+		if (this.y < this.screen.offsetY - 100  / this.screen.scale) return false;
+		if (this.y >this.screen.offsetY + 1200  / this.screen.scale) return false;
+		return true;
 	}
 	
 	
@@ -113,8 +142,10 @@ class Body{
 	
 	
 	
-	drop(){
-		this.screen.drop(this);
+	setSkin(to){
+		this.skin = getImg(to);
+		this.width = this.skin.naturalWidth;
+		this.height = this.skin.naturalHeight;
 	}
 	
 	

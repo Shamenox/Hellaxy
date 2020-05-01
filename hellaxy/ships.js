@@ -75,23 +75,18 @@ class Ship extends Body{
 	
 	
 	collideWith(ship){
-	var collision = {};
-	collision.potX = this.vx - ship.vx;
-	collision.potY = this.vy - ship.vy;
-	collision.potDmg = (Math.abs(collision.potX) + Math.abs(collision.potY) * 50);
-	collision.potM = this.mass + ship.mass;
-	this.vx = -collision.potX * (ship.mass / collision.potM);
-	this.vy = -collision.potY * (ship.mass / collision.potM);
-	ship.vx = collision.potX * (this.mass / collision.potM);
-	ship.vy = collision.potY * (this.mass / collision.potM);
-	this.hp -= collision.potDmg * (ship.mass / collision.potM) + 1;
-	ship.hp -= collision.potDmg * (this.mass / collision.potM) + 1;
-	this.hp = Math.round(this.hp);
-	ship.hp = Math.round(ship.hp);
-	this.y -= this.vy;
-	this.x += this.vx;
-	ship.y -= ship.vy;
-	ship.x += ship.vx;
+		var collision = {};
+		collision.potDX = this.vx - ship.vx;
+		collision.potDY = this.vy - ship.vy;
+		collision.v = (Math.abs(collision.potDX) + Math.abs(collision.potDY) );
+		collision.mass = this.mass + ship.mass;
+		collision.dmg = collision.v * collision.mass / 50;
+		this.hp -= collision.dmg * (ship.mass / collision.mass) + 1;
+		ship.hp -= collision.dmg * (this.mass / collision.mass) + 1;
+		this.hp = Math.round(this.hp);
+		ship.hp = Math.round(ship.hp);
+		
+		super.collideWith(ship);
 	}
 	
 	
@@ -128,7 +123,7 @@ class Ship extends Body{
 	
 	
 	turn(dir){
-		let factor = 40;
+		let factor = 47;
 		if (dir === "stop"){
 			this.vangle = 0;
 		}
@@ -168,7 +163,7 @@ class Ship extends Body{
 	
 	
 	turnFrom(dir){
-		let factor = 40;
+		let factor = 47;
 		if (!exists(dir)) return;
 		if (typeof dir === "object"){
 			this.aim = get360(this.angleTowards(dir) + 180);
@@ -303,11 +298,16 @@ class Ship extends Body{
 	
 	spawn(inSector, atX, atY, atAngle, ctrl, abgang){
 		var neuerSpawn = this.clone();
-		if (exists(Hellaxy.sectors[inSector])) neuerSpawn.sector = Hellaxy.sectors[inSector];
-		if (inSector.constructor.name === "Sector") neuerSpawn.sector = inSector;
-		if (!exists(neuerSpawn.sector)){
-			neuerSpawn.sector = Hellaxy.sectors["testmap"]
-			console.log("Spawnsector unknown. Moved new spawn to testmap");
+		if (inSector == undefined){
+			inSector = "unknown";
+		}
+		if (inSector instanceof Sector) neuerSpawn.sector = inSector;
+		else{
+			if (exists(Hellaxy.sectors[inSector])) neuerSpawn.sector = Hellaxy.sectors[inSector];
+			else {
+				neuerSpawn.sector = Hellaxy.sectors["testmap"]
+				console.log("Spawnsector unknown. Moved new spawn to testmap");
+			}
 		}
 		neuerSpawn.x = setProp(atX, 0);
 		neuerSpawn.y = setProp(atY, 0);
@@ -318,6 +318,23 @@ class Ship extends Body{
 		neuerSpawn.staticID = neuerSpawn.sector.ships.length + Helon.tics;
 		neuerSpawn.sector.add(neuerSpawn);
 		lastStat.ship = neuerSpawn;
+	}
+	
+	
+	
+	spawnSquad(atX, atY, quantity, ctrl, abgang, inSector){
+		var hor = 0;
+		var ver = 0;
+		var spawned = 0;
+		while (spawned < quantity){
+			this.spawn(inSector , atX + hor * this.width * 2, atY + ver * this.height * 2, 0, ctrl, abgang, inSector);
+			spawned++;
+			hor++;
+			if (hor >= Math.sqrt(quantity)){
+				hor = 0;
+				ver++;
+			}
+		}
 	}
 	
 	
@@ -418,15 +435,15 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	new Ship({designation : "asteroid3", fraction : "asteroid", hp : 200, shield : 0, armour : 1, a : 0.05, sp1 : "asteroidBreak", abgang : function(){this.sp1.exe();}});
 	new Ship({designation : "shuttle", fraction : "humanian", hp : 100, shield : 0, armour : 1, a : 0.08, wp1 : "machinegun_5nm"});
 	new Ship({designation : "protobaseship_helonia", fraction : "humanian", hp : 12000, shield : 0, armour : 5, a : 0.03, wp1 : "kolexialgun_14nm"});
-	new Ship({designation : "satalite", fraction : "humanian", hp : 15, shield : 0, armour : 1, a : 0});
+	new Ship({designation : "satalite", fraction : "humanian", hp : 250, shield : 0, armour : 1, a : 0.04});
 	new Ship({designation : "fatman", fraction : "none", hp : 1000, shield : 500, armour : 2, a : 0.02, wp1 : "machinegun_5nm"});
 	new Ship({designation : "hq", fraction : "republic", hp : 1000000, shield : 2000000, armour : 3});
 	new Ship({designation : "colonizer", fraction : "qubanian", hp : 2000, shield : 0, armour : 1, a : 0.02});
 	new Ship({designation : "colonizer_mkii", fraction : "qubanian", hp : 1000, shield : 0, armour : 1, a : 0.05, wp1 : "triangle_beam"});
 	new Ship({designation : "colony", fraction : "qubanian", hp : 2444, shield : 444, armour : 1, a : 0, wp1 : "machinegun_5nm", sp1 : "flak_around"});
 	new Ship({designation : "annector", fraction : "ophianian", hp : 16666, shield : 0, armour : 2, a : 0.005, wp1 : "ophianian_beam", sp1 : "spawn_ophianianChunk"});
-	new Ship({designation : "chunk", fraction : "ophianian", hp : 666, armour : 1, a : 0.09, ctrl : npc.rammer});
-	new Ship({designation : "chunk", fraction : "tonium", hp : 777, armour : 1, a : 0.09, ctrl : npc.fairy, mergeTo : "star"});
+	new Ship({designation : "chunk", fraction : "ophianian", hp : 1000, armour : 1, a : 0.09, ctrl : npc.rammer});
+	new Ship({designation : "chunk", fraction : "tonium", hp : 1000, armour : 1, a : 0.09, ctrl : npc.fairy, mergeTo : "star"});
 	new Ship({designation : "star", fraction : "tonium", hp : 17777, armour : 1, a : 0.05, ctrl : npc.fairy, mergeTo : "star", wp1 : "star_beam"});
 	new Ship({designation : "colonizer", fraction : "chestanian", hp : 3600, armour : 3, a : 0.02, wp1 : "spike_artillery"});
 	new Ship({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : "spike_artillery"});

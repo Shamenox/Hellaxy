@@ -13,14 +13,7 @@ class Projectile extends Body{
 		this.vy = Math.cos(this.angle * Math.PI / 180) * this.v;
 		this.vx = Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 		this.emitter = wp.ship;
-		this.hits = function (obj) {
-			if (this.emitter === obj) return false; //Prüfen ob Ziel das eigene Schiff ist
-			if (obj.fraction !== "none" && obj.fraction === this.emitter.fraction) return false;
-			if (this.x.between(obj.x - this.width/2 - obj.width/2, obj.x + this.width/2 + obj.width/2)){
-				if (this.y.between(obj.y - this.height/2 - obj.height/2, obj.y + this.height/2 + obj.height/2)) return true;
-			}
-			return false;
-		}
+		this.tics = 50;
 		this.emitter.sector.add(this);
 		this.sound("fire");
 	}
@@ -42,6 +35,17 @@ class Projectile extends Body{
 				if (this.mass.between(645, 2049)) currentSound = "bounce1";
 			}
 			play(currentSound);
+		}
+		
+		
+		
+		hits(obj) {
+			if (this.emitter === obj) return false; //Prüfen ob Ziel das eigene Schiff ist
+			if (obj.fraction !== "none" && obj.fraction === this.emitter.fraction) return false;
+			if (this.x.between(obj.x - this.width/2 - obj.width/2, obj.x + this.width/2 + obj.width/2)){
+				if (this.y.between(obj.y - this.height/2 - obj.height/2, obj.y + this.height/2 + obj.height/2)) return true;
+			}
+			return false;
 		}
 		
 		
@@ -72,4 +76,11 @@ class Projectile extends Body{
 			console.log("Projectile ID not found");
 			return 0;
 		}
+		
+		
+		
+	move(){
+		super.move();
+		this.tics--;
+	}
 }
