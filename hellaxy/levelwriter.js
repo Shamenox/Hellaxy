@@ -229,9 +229,9 @@ function setupLevels(){				//Levelscripts ->
 				Turn your shuttle by clicking in the direction you want to head.\
 				Use WASD to maneuver. Press Space to fire. Your Squad follows you.\
 			");
-			wait(1200);
+			wait(500);
 			addMsg("Great! We send you coordinates. Your cursor will point towards your target, when you click. Please get there ASAP");
-			getTo(2300, 2000);
+			getTo(Hellaxy.planets.pontes);
 			addMsg("Great! Now please return to our home Planet Humania");
 			getTo(Hellaxy.planets.humania);
 			addMsg("An unknown Object appeared on our radar!\
@@ -272,7 +272,7 @@ function setupLevels(){				//Levelscripts ->
 			addMsg("Alert, the samples we already gathered changed their structure and are escaping the testtubes!");
 			addMsg("There is also something ascending from the 'planet´s' core.");
 			addMsg("Eliminate it if neccessary and return home ASAP!");
-			spawnSquad("ophianian_chunk", 4120, 1310, 4, npc.roamer);
+			spawnSquad("ophianian_chunk", 4120, 1310, 6, npc.rammer);
 			getTo(Hellaxy.planets.humania);
 			addMsg("This shapeshifting substance seems to be oozing out of these");
 			addMsg("'erupting' protoplanets all over the System...");

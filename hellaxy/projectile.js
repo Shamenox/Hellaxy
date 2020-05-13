@@ -4,15 +4,15 @@ class Projectile extends Body{
 		this.setSkin(wp.skin);
 		this.mass = wp.skin.naturalHeight * wp.skin.naturalWidth;
 		this.size = Math.sqrt(this.mass);
+		this.emitter = wp.ship;
 		this.pen = wp.pen;
 		this.alpha = wp.alpha;
-		this.angle = wp.ship.angle
-		this.x = wp.ship.x;
-		this.y = wp.ship.y;
-		this.v = wp.pen * 5;
-		this.vy = Math.cos(this.angle * Math.PI / 180) * this.v;
-		this.vx = Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
-		this.emitter = wp.ship;
+		this.angle = this.emitter.angle
+		this.x = this.emitter.x;
+		this.y = this.emitter.y;
+		this.v = Math.sqrt(wp.pen) * 5;
+		this.vy = this.emitter.vy + Math.cos(this.angle * Math.PI / 180) * this.v;
+		this.vx = this.emitter.vx + Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 		this.tics = 50;
 		this.emitter.sector.add(this);
 		this.sound("fire");

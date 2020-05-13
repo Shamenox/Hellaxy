@@ -16,10 +16,10 @@ function setupHellaxyScreens(){
 		Helon.ctx.fillText("Main Menu", 810, 160);
 		Helon.ctx.font = "32px Consolas";
 		if (intervalReact(key.esc)) setScreen("title");
-		button(660, 300, 600, 100, "Quicktest Mode", "yellow", function(){Hellaxy.campaigns.quicktest.start()})
-		button(660, 450, 600, 100, "Campaign Mode", "yellow", function(){setScreen("campaign");})
-		button(660, 600, 600, 100, "Free-Roam Mode", "yellow", function(){/*setScreen("freeroam");*/})
-		button(660, 750, 600, 100, "Controls", "yellow", function(){setScreen("controls");})
+		//button(660, 700, 600, 150, "Test room", "yellow", function(){Hellaxy.campaigns.quicktest.start()})
+		button(660, 300, 600, 150, "Campaign", "yellow", function(){setScreen("campaign");})
+		//button(660, 600, 600, 100, "Free-Roam Mode", "yellow", function(){/*setScreen("freeroam");*/})
+		button(660, 500, 600, 150, "Controls", "yellow", function(){setScreen("controls");})
 		muteButton();
 	});
 

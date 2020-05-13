@@ -1,6 +1,6 @@
 ﻿//Methoden:
 
-Number.prototype.between = function(a, b) {
+Number.prototype.between = function(a, b) { //funktioniert genau an den Grenzen nicht
   var min = Math.min.apply(Math, [a, b]),
     max = Math.max.apply(Math, [a, b]);
   return this > min && this < max;
@@ -22,7 +22,6 @@ function trySet(setTo, deflt){
 		}
 	}
 }
-
 
 //Alter Name - ergibt wenig Sinn
 function setProp(par, deflt){

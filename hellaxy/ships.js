@@ -80,7 +80,7 @@ class Ship extends Body{
 		collision.potDY = this.vy - ship.vy;
 		collision.v = (Math.abs(collision.potDX) + Math.abs(collision.potDY) );
 		collision.mass = this.mass + ship.mass;
-		collision.dmg = collision.v * collision.mass / 50;
+		collision.dmg = Math.sqrt(collision.v) * collision.mass / 5;
 		this.hp -= collision.dmg * (ship.mass / collision.mass) + 1;
 		ship.hp -= collision.dmg * (this.mass / collision.mass) + 1;
 		this.hp = Math.round(this.hp);
