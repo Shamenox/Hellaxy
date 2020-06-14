@@ -75,6 +75,20 @@ class Ship extends Body{
 	
 	
 	collideWith(ship){
+		super.collideWith(ship);
+		
+		/*
+		var scale = 0.3;
+		var collisionSpeed = Math.sqrt(((this.vx - ship.vx) ^ 2) + ((this.vy - ship.vy) ^ 2));
+		var damageQuote = 3 - (Math.abs(-1 / (scale * collisionSpeed + 0.5 ) - 1 ));
+		console.log(collisionSpeed, damageQuote);
+		
+		this.hp -= this.hp * damageQuote * (ship.mass / (ship.mass * this.mass)) + 1;
+		ship.hp -= ship.hp * damageQuote * (this.mass / (ship.mass * this.mass)) + 1;
+		*/
+		
+		
+		/*
 		var collision = {};
 		collision.potDX = this.vx - ship.vx;
 		collision.potDY = this.vy - ship.vy;
@@ -82,11 +96,11 @@ class Ship extends Body{
 		collision.mass = this.mass + ship.mass;
 		collision.dmg = Math.sqrt(collision.v) * collision.mass / 5;
 		this.hp -= collision.dmg * (ship.mass / collision.mass) + 1;
-		ship.hp -= collision.dmg * (this.mass / collision.mass) + 1;
+		ship.hp -= collision.dmg * (this.mass / collision.mass) + 1; */
+		
+		
 		this.hp = Math.round(this.hp);
 		ship.hp = Math.round(ship.hp);
-		
-		super.collideWith(ship);
 	}
 	
 	
@@ -354,33 +368,6 @@ class Ship extends Body{
 }
 	
 	/*
-	
-	
-	
-	act(){
-		var SECTOR = this.sector;
-		if (this.hp < 1) this.explode();
-		if (this.ctrl !== "none") this.ctrl();
-		this.y -= this.vy;
-		this.x += this.vx;
-		if (this.vx > this.a * 80) this.vx = this.a * 80;
-		if (this.vy > this.a * 80) this.vy = this.a * 80;
-		if (this.vx < this.a * -80) this.vx = this.a * -80;
-		if (this.vy < this.a * -80) this.vy = this.a * -80;
-		this.angle = get360(this.angle);
-		if (this.x < this.width/2) this.x = this.width/2, this.vx = 0; //Zurücksetzen der Pos und V bei Randkollision
-		if (this.y < this.height/2) this.y = this.height/2, this.vy = 0;
-		if (this.x > SECTOR.width - this.width/2) this.x = SECTOR.width - this.width/2 , this.vx = 0;
-		if (this.y > SECTOR.height - this.height/2 - 120) this.y = SECTOR.height - this.height/2 - 120, this.vy = 0;
-		for (var h = 0; h < SECTOR.ships.length; h++){                                                   //Kollisionsüberprüfung
-			if (this.collidesWith(SECTOR.ships[h]) && h !== this.ID) collide(this, SECTOR.ships[h]);
-		}
-		for (var h = 0; h < SECTOR.portals.length; h++){
-			if (this.collidesWith(SECTOR.portals[h])){
-				this.transferTo(SECTOR.portals[h].dest, SECTOR.portals[h].atX, SECTOR.portals[h].atY, SECTOR.portals[h].atAngle);
-			}
-		}
-	}
 	
 	
 	transferTo(sector, atX, atY, atAngle){

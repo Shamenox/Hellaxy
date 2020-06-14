@@ -28,40 +28,19 @@ class Body{
 	
 	
 	
+	/**
+	*@author Darius
+	*Berechnet einen teilelastischen Zusammenstoß zwischen diesem Body und bod;
+	*/
 	collideWith(bod){
-		var v1 = this.getVges();
-		var v2 = bod.getVges();
-		
-		
-		/*
-		var potM = this.mass + bod.mass;
-		var v1neu = (((this.mass- bod.mass)* v1 + 2 * bod.mass * v2) / potM) ;
-		var v2neu = (((bod.mass - this.mass)* v2 + 2 * this.mass * v1) / potM) ;
-		//var v1neu = ((2 * this.mass * v1 + 2 * bod.mass * v2) / potM) - v1;
-		//var v2neu = ((2 * this.mass * v1 + 2 * bod.mass * v2) / potM) - v2;
-		v1neu = v1neu * 0.75;
-		v2neu = v2neu * 0.75; */ // Mein Attempt
-		
-		//@author Darius
-		var m = 0.5; // Mischkoeffizient (0 - 1)
-		var v = 0.5; // Verlustkoeffizient (0 - 1)
-		var vabsu = (((this.mass * v1) - (bod.mass * v2)) / this.mass + bod.mass) * v * m;
-		var v1e = (((this.mass - bod.mass) * v1 + 2* bod.mass * v2) / (this.mass + bod.mass)) * (1 - m);
-		var v2e = (((bod.mass - this.mass) * v2 + 2* this.mass * v1) / (this.mass + bod.mass)) * (1 - m);
-		var v1neu = vabsu + v1e;
-		var v2neu = vabsu + v2e;
-		
-		
-		
-		this.vy = v1neu * Math.cos(bod.angleTowards(this) * Math.PI / 180);
-		this.vx = v1neu * Math.cos((bod.angleTowards(this) - 90) * Math.PI / 180);
-		bod.vy = v1neu * Math.cos(this.angleTowards(bod) * Math.PI / 180);
-		bod.vx = v1neu * Math.cos((this.angleTowards(bod) - 90) * Math.PI / 180);
+		var k = 0.6; // Stoßzahl
+		this.vx = ((this.mass * this.vx + bod.mass * bod.vx) - bod.mass * (this.vx - bod.vx) * k) / (this.mass + bod.mass);
+		this.vy = ((this.mass * this.vy + bod.mass * bod.vy) - bod.mass * (this.vy - bod.vy) * k) / (this.mass + bod.mass);
+		bod.vx = ((this.mass * this.vx + bod.mass * bod.vx) - this.mass * (bod.vx - this.vx) * k) / (this.mass + bod.mass);
+		bod.vy = ((this.mass * this.vy + bod.mass * bod.vy) - this.mass * (bod.vy - this.vy) * k) / (this.mass + bod.mass);
 
 		this.move();
 		bod.move();
-		//this.move();
-		//bod.move();
 	}
 	
 	
